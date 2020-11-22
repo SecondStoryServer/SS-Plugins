@@ -2,5 +2,6 @@ rootProject.name = "SS-Plugins"
 
 include(
     "SS-Kotlin",
-    "SS-Core"
+    "SS-Core",
+    "SS-Votifier"
 )
