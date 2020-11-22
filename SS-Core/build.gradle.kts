@@ -2,7 +2,7 @@ plugins {
     id("net.minecrell.plugin-yml.bukkit") version "0.3.0"
 }
 
-group = "com.github.syari.ss.plugins.core"
+group = Project.subgroup("core")
 version = "3.1.1"
 
 bukkit {
