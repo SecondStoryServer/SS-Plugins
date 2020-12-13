@@ -14,8 +14,8 @@ object ConfigLoader: OnEnable {
     }
 
     fun loadConfig(sender: CommandSender) {
+        val shopList = mutableMapOf<String, ShopData>()
         configDir(plugin, sender, "data") {
-            val shopList = mutableMapOf<String, ShopData>()
             section("")?.forEach { id ->
                 val name = get("$id.name", ConfigDataType.STRING, id)
                 val line = get("$id.line", ConfigDataType.INT, 3, false)
@@ -23,7 +23,9 @@ object ConfigLoader: OnEnable {
                 section("$id.list", false)?.forEach { rawSlot ->
                     val slot = rawSlot.toIntOrNull()
                     if (slot != null) {
-                        val elements = get("$id.list.$rawSlot", ConfigDataType.STRINGLIST)?.map(ShopElement::from)
+                        val elements = get("$id.list.$rawSlot", ConfigDataType.STRINGLIST)?.map {
+                            ShopElement.from(this, "$id.list.$rawSlot", it)
+                        }
                         ShopBuyAction.from(elements)?.let { list[slot] = it }
                     } else {
                         nullError("$id.list.$rawSlot", "Int")
@@ -32,8 +34,8 @@ object ConfigLoader: OnEnable {
                 val data = ShopData(name, line, list)
                 shopList[id] = data
             }
-            sender.send("&b[MA_Shop] &a${shopList.size} &f個のショップを読み込みました")
-            Shop.replace(shopList)
         }
+        sender.send("&b[MA_Shop] &a${shopList.size} &f個のショップを読み込みました")
+        Shop.replace(shopList)
     }
 }

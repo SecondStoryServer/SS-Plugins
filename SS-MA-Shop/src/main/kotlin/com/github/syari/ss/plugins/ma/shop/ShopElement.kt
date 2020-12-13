@@ -1,9 +1,13 @@
 package com.github.syari.ss.plugins.ma.shop
 
+import com.github.syari.ss.plugins.core.config.CustomFileConfig
 import com.github.syari.ss.plugins.core.item.CustomItemStack
 import com.github.syari.ss.plugins.core.item.ItemStackPlus.give
 import com.github.syari.ss.plugins.core.item.ItemStackPlus.hasItem
 import com.github.syari.ss.plugins.core.item.ItemStackPlus.removeItem
+import com.github.syari.ss.plugins.dependency.crackshot.CrackShotAPI
+import com.github.syari.ss.plugins.dependency.crackshotplus.CrackShotPlusAPI
+import com.github.syari.ss.plugins.dependency.mythicmobs.MythicMobsAPI
 import org.bukkit.Material
 import org.bukkit.entity.Player
 
@@ -53,18 +57,30 @@ sealed class ShopElement {
             override val item = CustomItemStack.create(type, amount)
             override val needsText by lazy { "${item.i18NDisplayName} × $amount" }
         }
+
+        class Custom(
+            override val item: CustomItemStack,
+            amount: Int
+        ): Item() {
+            override val needsText by lazy { "${item.display} × $amount" }
+        }
     }
 
     object UnAvailable: ShopElement()
 
     companion object {
-        fun from(line: String): ShopElement {
+        fun from(config: CustomFileConfig, path: String, line: String): ShopElement {
             val split = line.split("\\s+".toRegex())
-            return when (split[0].toLowerCase()) {
+            return when (val elementType = split[0].toLowerCase()) {
                 "jump" -> {
                     val id = split.getOrNull(1)
                     if (id != null) {
-                        val type = split.getOrNull(2)?.let { Material.getMaterial(it) } ?: Material.COMPASS
+                        val type = split.getOrNull(2)?.let {
+                            Material.getMaterial(it) ?: run {
+                                config.nullError(path, "Material(${it})")
+                                null
+                            }
+                        } ?: Material.COMPASS
                         Jump(id, type)
                     } else {
                         UnAvailable
@@ -73,9 +89,47 @@ sealed class ShopElement {
                 "mc" -> {
                     val type = split.getOrNull(1)?.let { Material.getMaterial(it) }
                     if (type != null) {
-                        val amount = split.getOrNull(2)?.toIntOrNull() ?: 1
+                        val amount = split.getOrNull(2)?.let {
+                            it.toIntOrNull() ?: run {
+                                config.nullError(path, "Int($it)")
+                                null
+                            }
+                        } ?: 1
                         Item.Minecraft(type, amount)
                     } else {
+                        config.nullError(path, "Material(${split.getOrNull(1)})")
+                        UnAvailable
+                    }
+                }
+                "cs", "csp", "mm" -> {
+                    val id = split.getOrNull(1)
+                    if (id != null) {
+                        val amount = split.getOrNull(2)?.let {
+                            it.toIntOrNull() ?: run {
+                                config.nullError(path, "Int($it)")
+                                null
+                            }
+                        } ?: 1
+                        val item = when (elementType) {
+                            "cs" -> {
+                                CrackShotAPI.getItem(id, amount)
+                            }
+                            "csp" -> {
+                                CrackShotPlusAPI.getAttachment(id, amount)
+                            }
+                            "mm" -> {
+                                MythicMobsAPI.getItem(id, amount)
+                            }
+                            else -> error("Unreachable")
+                        }
+                        if (item != null) {
+                            Item.Custom(item, amount)
+                        } else {
+                            config.nullError(path, "String($id)")
+                            UnAvailable
+                        }
+                    } else {
+                        config.nullError(path, "String(${split.getOrNull(1)})")
                         UnAvailable
                     }
                 }

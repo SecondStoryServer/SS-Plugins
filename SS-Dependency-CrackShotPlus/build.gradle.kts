@@ -2,14 +2,12 @@ plugins {
     id("net.minecrell.plugin-yml.bukkit") version "0.3.0"
 }
 
-group = Project.subgroup("ma.shop")
-version = "1.0.0"
+group = Project.subgroup("dependency.crackshotplus")
+version = "1.97"
 
 dependencies {
     implementation(project(":SS-Core"))
-    implementation(project(":SS-Dependency-CrackShot"))
-    implementation(project(":SS-Dependency-CrackShotPlus"))
-    implementation(project(":SS-Dependency-MythicMobs"))
+    implementation(files("dependencyJar/CrackShotPlus.jar"))
 }
 
 bukkit {
