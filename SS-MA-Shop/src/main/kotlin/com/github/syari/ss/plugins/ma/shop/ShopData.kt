@@ -31,6 +31,9 @@ data class ShopData(
                 item(index, item).event {
                     if (canBuy) {
                         action.buy(player)
+                        (action as? ShopBuyAction.Paid)?.needs?.forEach {
+                            it.remove(player)
+                        }
                     }
                     open(player)
                 }

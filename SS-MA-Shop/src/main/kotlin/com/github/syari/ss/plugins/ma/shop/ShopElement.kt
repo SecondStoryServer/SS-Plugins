@@ -3,12 +3,14 @@ package com.github.syari.ss.plugins.ma.shop
 import com.github.syari.ss.plugins.core.item.CustomItemStack
 import com.github.syari.ss.plugins.core.item.ItemStackPlus.give
 import com.github.syari.ss.plugins.core.item.ItemStackPlus.hasItem
+import com.github.syari.ss.plugins.core.item.ItemStackPlus.removeItem
 import org.bukkit.Material
 import org.bukkit.entity.Player
 
 sealed class ShopElement {
     open fun give(player: Player) {}
     open fun has(player: Player) = false
+    open fun remove(player: Player) {}
     open val display = CustomItemStack.create(Material.BARRIER, "&cエラー")
     open val targetText = ""
     open val needsText = ""
@@ -21,7 +23,7 @@ sealed class ShopElement {
             Shop.get(id)?.open(player)
         }
 
-        override val display by lazy { CustomItemStack.create(type, "&a${Shop.get(id)?.name}") }
+        override val display by lazy { CustomItemStack.create(type, "&6${Shop.get(id)?.name}") }
         override val targetText = "クリックで開く"
     }
 
@@ -37,6 +39,10 @@ sealed class ShopElement {
         }
 
         override fun has(player: Player) = item?.let { player.hasItem(it) } ?: false
+
+        override fun remove(player: Player) {
+            item?.let { player.removeItem(it) }
+        }
 
         class Minecraft(
             type: Material,
