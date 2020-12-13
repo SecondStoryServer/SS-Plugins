@@ -78,13 +78,11 @@ class CustomItemStack internal constructor(
 
     /**
      * アイテムの説明文を編集
-     * @param run 説明文に対して行う処理
+     * @param action 説明文に対して行う処理
      */
-    fun editLore(run: MutableList<String>.() -> Unit) {
+    inline fun editLore(action: MutableList<String>.() -> Unit) {
         editMeta {
-            val lore = this.lore ?: mutableListOf()
-            run.invoke(lore)
-            this.lore = lore.toColor
+            lore = (lore ?: mutableListOf()).apply(action).toColor
         }
     }
 
@@ -128,12 +126,11 @@ class CustomItemStack internal constructor(
 
     /**
      * アイテムメタを変更した後、再代入されます
-     * @param run アイテムメタに対して実行する処理
+     * @param action アイテムメタに対して実行する処理
      */
-    inline fun editMeta(run: ItemMeta.() -> Unit) {
+    inline fun editMeta(action: ItemMeta.() -> Unit) {
         val meta = itemMeta ?: Bukkit.getItemFactory().getItemMeta(type) ?: return
-        run.invoke(meta)
-        itemMeta = meta
+        itemMeta = meta.apply(action)
     }
 
     /**
