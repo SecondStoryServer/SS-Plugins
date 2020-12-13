@@ -58,28 +58,11 @@ sealed class ShopElement {
             override val needsText by lazy { "${item.i18NDisplayName} × $amount" }
         }
 
-        class CrackShot(
-            id: String,
+        class Custom(
+            override val item: CustomItemStack,
             amount: Int
         ): Item() {
-            override val item = CrackShotAPI.getItem(id, amount)
-            override val needsText by lazy { "${item?.display} × $amount" }
-        }
-
-        class CrackShotPlus(
-            id: String,
-            amount: Int
-        ): Item() {
-            override val item = CrackShotPlusAPI.getAttachment(id, amount)
-            override val needsText by lazy { "${item?.display} × $amount" }
-        }
-
-        class MythicMobs(
-            id: String,
-            amount: Int
-        ): Item() {
-            override val item = MythicMobsAPI.getItem(id, amount)
-            override val needsText by lazy { "${item?.display} × $amount" }
+            override val needsText by lazy { "${item.display} × $amount" }
         }
     }
 
@@ -88,7 +71,7 @@ sealed class ShopElement {
     companion object {
         fun from(config: CustomFileConfig, path: String, line: String): ShopElement {
             val split = line.split("\\s+".toRegex())
-            return when (split[0].toLowerCase()) {
+            return when (val elementType = split[0].toLowerCase()) {
                 "jump" -> {
                     val id = split.getOrNull(1)
                     if (id != null) {
@@ -106,38 +89,45 @@ sealed class ShopElement {
                 "mc" -> {
                     val type = split.getOrNull(1)?.let { Material.getMaterial(it) }
                     if (type != null) {
-                        val amount = split.getOrNull(2)?.toIntOrNull() ?: 1
+                        val amount = split.getOrNull(2)?.let {
+                            it.toIntOrNull() ?: run {
+                                config.nullError(path, "Int($it)")
+                                null
+                            }
+                        } ?: 1
                         Item.Minecraft(type, amount)
                     } else {
                         config.nullError(path, "Material(${split.getOrNull(1)})")
                         UnAvailable
                     }
                 }
-                "cs" -> {
+                "cs", "csp", "mm" -> {
                     val id = split.getOrNull(1)
                     if (id != null) {
-                        val amount = split.getOrNull(2)?.toIntOrNull() ?: 1
-                        Item.CrackShot(id, amount)
-                    } else {
-                        config.nullError(path, "String(${split.getOrNull(1)})")
-                        UnAvailable
-                    }
-                }
-                "csp" -> {
-                    val id = split.getOrNull(1)
-                    if (id != null) {
-                        val amount = split.getOrNull(2)?.toIntOrNull() ?: 1
-                        Item.CrackShotPlus(id, amount)
-                    } else {
-                        config.nullError(path, "String(${split.getOrNull(1)})")
-                        UnAvailable
-                    }
-                }
-                "mm" -> {
-                    val id = split.getOrNull(1)
-                    if (id != null) {
-                        val amount = split.getOrNull(2)?.toIntOrNull() ?: 1
-                        Item.MythicMobs(id, amount)
+                        val amount = split.getOrNull(2)?.let {
+                            it.toIntOrNull() ?: run {
+                                config.nullError(path, "Int($it)")
+                                null
+                            }
+                        } ?: 1
+                        val item = when (elementType) {
+                            "cs" -> {
+                                CrackShotAPI.getItem(id, amount)
+                            }
+                            "csp" -> {
+                                CrackShotPlusAPI.getAttachment(id, amount)
+                            }
+                            "mm" -> {
+                                MythicMobsAPI.getItem(id, amount)
+                            }
+                            else -> error("Unreachable")
+                        }
+                        if (item != null) {
+                            Item.Custom(item, amount)
+                        } else {
+                            config.nullError(path, "String($id)")
+                            UnAvailable
+                        }
                     } else {
                         config.nullError(path, "String(${split.getOrNull(1)})")
                         UnAvailable
