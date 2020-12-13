@@ -1,4 +1,4 @@
-package com.github.syari.ss.plugins.ma.assist
+package com.github.syari.ss.plugins.ma.shop
 
 import com.github.syari.ss.plugins.core.code.SSPlugin
 import com.github.syari.ss.plugins.core.command.create.CreateCommand.createCommand
