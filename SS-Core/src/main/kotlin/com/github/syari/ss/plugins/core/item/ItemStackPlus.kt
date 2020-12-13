@@ -3,6 +3,7 @@ package com.github.syari.ss.plugins.core.item
 import org.bukkit.Bukkit
 import org.bukkit.entity.HumanEntity
 import org.bukkit.event.inventory.InventoryType
+import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
 
 object ItemStackPlus {
@@ -68,10 +69,29 @@ object ItemStackPlus {
      * @return [Boolean]
      */
     fun HumanEntity.hasItem(item: CustomItemStack): Boolean {
+        return Bukkit.createInventory(null, InventoryType.PLAYER).apply {
+            this.contents = inventory.contents
+        }.removeItem(item)
+    }
+
+    /**
+     * プレイヤーからアイテムを取り除きます
+     * @param item アイテム
+     * @return [Boolean]
+     */
+    fun HumanEntity.removeItem(item: CustomItemStack): Boolean {
+        return inventory.removeItem(item)
+    }
+
+    /**
+     * プレイヤーからアイテムを取り除きます
+     * @param item アイテム
+     * @return [Boolean]
+     */
+    fun Inventory.removeItem(item: CustomItemStack): Boolean {
+        val contents = this.contents
         var amount = item.amount
-        val copyInventory = Bukkit.createInventory(null, InventoryType.PLAYER)
-        copyInventory.contents = inventory.contents
-        copyInventory.contents.forEach { i ->
+        contents.forEach { i ->
             val ci = CustomItemStack.create(i)
             if (ci.type == item.type && ci.damage == item.damage && (ci.hasItemMeta == item.hasItemMeta) && ci.display == item.display) {
                 val a = i.amount
@@ -80,6 +100,7 @@ object ItemStackPlus {
                     i.amount = 0
                 } else {
                     i.amount = a - amount
+                    this.contents = contents
                     return true
                 }
             }
