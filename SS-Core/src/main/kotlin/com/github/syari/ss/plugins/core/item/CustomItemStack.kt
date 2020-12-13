@@ -61,6 +61,12 @@ class CustomItemStack internal constructor(
         get() = itemMeta?.displayName
 
     /**
+     * アイテムの表示名を返します
+     */
+    val i18NDisplayName
+        get() = item.i18NDisplayName
+
+    /**
      * アイテムの説明文が存在するか取得します
      */
     val hasLore get() = itemMeta?.hasLore() ?: false
