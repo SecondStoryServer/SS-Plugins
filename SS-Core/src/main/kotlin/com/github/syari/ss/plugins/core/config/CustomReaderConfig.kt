@@ -17,7 +17,7 @@ class CustomReaderConfig internal constructor(
     private val output: CommandSender,
     private val uniqueName: String,
     reader: Reader
-) : CustomConfig {
+): CustomConfig {
     override val config: YamlConfiguration = YamlConfiguration.loadConfiguration(reader)
 
     /**

@@ -15,7 +15,7 @@ object CommandCreator: OnEnable {
         }) { sender, args ->
             when (args.whenIndex(0)) {
                 "reload" -> {
-                    if (sender !is ConsoleCommandSender) sendError("コンソールからのみ実行可能です")
+                    if (sender !is ConsoleCommandSender) return@createCommand sendError("コンソールからのみ実行可能です")
                     sendWithPrefix("コンフィグをリロードします")
                     reload(sender)
                 }

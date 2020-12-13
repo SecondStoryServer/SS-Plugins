@@ -2,7 +2,7 @@ plugins {
     id("net.minecrell.plugin-yml.bukkit") version "0.3.0"
 }
 
-group = "com.github.syari.ss.plugins.votifier"
+group = Project.subgroup("votifier")
 version = "1.1.3"
 
 dependencies {
@@ -18,4 +18,11 @@ bukkit {
     author = "sya_ri"
     depend = listOf("SS-Core")
     apiVersion = "1.16"
+}
+
+val jar by tasks.getting(Jar::class) {
+    from(configurations.compileOnly.get().map {
+        if (it.isDirectory) it else zipTree(it)
+    })
+    destinationDir = file("../jars")
 }

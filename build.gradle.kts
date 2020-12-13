@@ -4,9 +4,6 @@ plugins {
     kotlin("jvm") version "1.4.10"
 }
 
-group = "com.github.syari.ss.plugins"
-version = "1.0"
-
 allprojects {
     repositories {
         mavenCentral()
@@ -29,5 +26,9 @@ subprojects {
 
     tasks.withType<KotlinCompile> {
         kotlinOptions.jvmTarget = "1.8"
+    }
+
+    tasks.register<Delete>("cleanJar") {
+        delete(file("jars"))
     }
 }

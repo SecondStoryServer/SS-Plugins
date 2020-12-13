@@ -48,5 +48,5 @@ object CreateBossBar: Listener, OnDisable {
         style: BarStyle,
         public: Boolean = false
     ) =
-        CustomBossBar(title, color, style, public)
+            CustomBossBar(title, color, style, public)
 }

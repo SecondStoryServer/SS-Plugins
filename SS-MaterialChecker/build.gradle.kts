@@ -2,11 +2,11 @@ plugins {
     id("net.minecrell.plugin-yml.bukkit") version "0.3.0"
 }
 
-group = Project.subgroup("kotlin")
-version = "1.4.10"
+group = Project.subgroup("checker.material")
+version = "1.0.0"
 
 dependencies {
-    compileOnly(kotlin("stdlib-jdk8"))
+    implementation(project(":SS-Core"))
 }
 
 bukkit {
@@ -15,11 +15,7 @@ bukkit {
     main = "$group.Main"
     author = "sya_ri"
     apiVersion = "1.16"
-    commands {
-        register("ss-kotlin") {
-            description = "Display Kotlin Version & Package"
-        }
-    }
+    depend = listOf("SS-Core")
 }
 
 val jar by tasks.getting(Jar::class) {
