@@ -30,7 +30,6 @@ sealed class ShopElement {
 
         override val display by lazy { item ?: CustomItemStack.create(Material.STONE, "&cエラー") }
         override val targetText = "クリックで購入する"
-        override val needsText by lazy { "${item?.display ?: item?.type?.name} × ${item?.amount}" }
 
         override fun give(player: Player): Boolean {
             item?.let { player.give(it) }
@@ -48,6 +47,7 @@ sealed class ShopElement {
             amount: Int
         ): Item() {
             override val item = CustomItemStack.create(type, amount)
+            override val needsText by lazy { "${item.display ?: type.name} × $amount" }
         }
     }
 
