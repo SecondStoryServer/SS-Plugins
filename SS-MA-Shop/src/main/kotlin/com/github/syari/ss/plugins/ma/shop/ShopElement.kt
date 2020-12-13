@@ -1,5 +1,6 @@
 package com.github.syari.ss.plugins.ma.shop
 
+import com.github.syari.ss.plugins.core.config.CustomFileConfig
 import com.github.syari.ss.plugins.core.item.CustomItemStack
 import com.github.syari.ss.plugins.core.item.ItemStackPlus.give
 import com.github.syari.ss.plugins.core.item.ItemStackPlus.hasItem
@@ -85,13 +86,18 @@ sealed class ShopElement {
     object UnAvailable: ShopElement()
 
     companion object {
-        fun from(line: String): ShopElement {
+        fun from(config: CustomFileConfig, path: String, line: String): ShopElement {
             val split = line.split("\\s+".toRegex())
             return when (split[0].toLowerCase()) {
                 "jump" -> {
                     val id = split.getOrNull(1)
                     if (id != null) {
-                        val type = split.getOrNull(2)?.let { Material.getMaterial(it) } ?: Material.COMPASS
+                        val type = split.getOrNull(2)?.let {
+                            Material.getMaterial(it) ?: run {
+                                config.nullError(path, "Material(${it})")
+                                null
+                            }
+                        } ?: Material.COMPASS
                         Jump(id, type)
                     } else {
                         UnAvailable
@@ -103,6 +109,7 @@ sealed class ShopElement {
                         val amount = split.getOrNull(2)?.toIntOrNull() ?: 1
                         Item.Minecraft(type, amount)
                     } else {
+                        config.nullError(path, "Material(${split.getOrNull(1)})")
                         UnAvailable
                     }
                 }
@@ -112,6 +119,7 @@ sealed class ShopElement {
                         val amount = split.getOrNull(2)?.toIntOrNull() ?: 1
                         Item.CrackShot(id, amount)
                     } else {
+                        config.nullError(path, "String(${split.getOrNull(1)})")
                         UnAvailable
                     }
                 }
@@ -121,6 +129,7 @@ sealed class ShopElement {
                         val amount = split.getOrNull(2)?.toIntOrNull() ?: 1
                         Item.CrackShotPlus(id, amount)
                     } else {
+                        config.nullError(path, "String(${split.getOrNull(1)})")
                         UnAvailable
                     }
                 }
@@ -130,6 +139,7 @@ sealed class ShopElement {
                         val amount = split.getOrNull(2)?.toIntOrNull() ?: 1
                         Item.MythicMobs(id, amount)
                     } else {
+                        config.nullError(path, "String(${split.getOrNull(1)})")
                         UnAvailable
                     }
                 }

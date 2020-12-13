@@ -23,7 +23,9 @@ object ConfigLoader: OnEnable {
                 section("$id.list", false)?.forEach { rawSlot ->
                     val slot = rawSlot.toIntOrNull()
                     if (slot != null) {
-                        val elements = get("$id.list.$rawSlot", ConfigDataType.STRINGLIST)?.map(ShopElement::from)
+                        val elements = get("$id.list.$rawSlot", ConfigDataType.STRINGLIST)?.map {
+                            ShopElement.from(this, "$id.list.$rawSlot", it)
+                        }
                         ShopBuyAction.from(elements)?.let { list[slot] = it }
                     } else {
                         nullError("$id.list.$rawSlot", "Int")
