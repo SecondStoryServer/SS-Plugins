@@ -2,13 +2,19 @@ package com.github.syari.ss.plugins.ma.shop
 
 import com.github.syari.ss.plugins.core.code.OnEnable
 import com.github.syari.ss.plugins.core.command.create.CreateCommand.createCommand
+import com.github.syari.ss.plugins.core.command.create.CreateCommand.element
+import com.github.syari.ss.plugins.core.command.create.CreateCommand.tab
 import com.github.syari.ss.plugins.core.command.create.ErrorMessage
 import com.github.syari.ss.plugins.ma.shop.Main.Companion.plugin
 import org.bukkit.entity.Player
 
 object CommandCreator: OnEnable {
     override fun onEnable() {
-        createCommand(plugin, "mashop", "MA_Shop") { sender, args ->
+        createCommand(plugin, "mashop", "MA_Shop", tab { _, _ ->
+            element("open", "reload")
+        }, tab("open") { _, _ ->
+            element(Shop.getNames())
+        }) { sender, args ->
             when (args.whenIndex(0)) {
                 "open" -> {
                     if (sender !is Player) return@createCommand sendError(ErrorMessage.OnlyPlayer)

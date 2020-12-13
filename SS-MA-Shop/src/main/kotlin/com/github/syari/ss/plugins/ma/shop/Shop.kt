@@ -5,6 +5,8 @@ object Shop {
 
     fun get(id: String) = list[id]
 
+    fun getNames() = list.keys
+
     fun replace(newList: Map<String, ShopData>) {
         list = newList
     }
