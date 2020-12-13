@@ -6,5 +6,6 @@ include(
     "SS-Votifier",
     "SS-MaterialChecker",
     "SS-MA-Shop",
-    "SS-Dependency-MythicMobs"
+    "SS-Dependency-MythicMobs",
+    "SS-Dependency-CrackShot"
 )
