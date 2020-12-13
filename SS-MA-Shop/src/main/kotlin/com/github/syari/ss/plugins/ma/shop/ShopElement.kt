@@ -4,7 +4,6 @@ import com.github.syari.ss.plugins.core.item.CustomItemStack
 import com.github.syari.ss.plugins.core.item.ItemStackPlus.give
 import com.github.syari.ss.plugins.core.item.ItemStackPlus.hasItem
 import com.github.syari.ss.plugins.core.item.ItemStackPlus.removeItem
-import net.md_5.bungee.api.chat.TranslatableComponent
 import org.bukkit.Material
 import org.bukkit.entity.Player
 
@@ -29,7 +28,11 @@ sealed class ShopElement {
     sealed class Item: ShopElement() {
         open val item: CustomItemStack? = null
 
-        override val display by lazy { item ?: CustomItemStack.create(Material.STONE, "&cエラー") }
+        override val display by lazy {
+            item?.apply {
+                display = "&b" + (display?.ifEmpty { null } ?: i18NDisplayName) + " × " + amount
+            } ?: CustomItemStack.create(Material.STONE, "&cエラー")
+        }
         override val targetText = "クリックで購入する"
 
         override fun give(player: Player): Boolean {
@@ -48,7 +51,7 @@ sealed class ShopElement {
             amount: Int
         ): Item() {
             override val item = CustomItemStack.create(type, amount)
-            override val needsText by lazy { "${item.display?.ifEmpty { null } ?: item.i18NDisplayName} × $amount" }
+            override val needsText by lazy { "${item.i18NDisplayName} × $amount" }
         }
     }
 

@@ -13,7 +13,6 @@ data class ShopData(
             list.forEach { (index, action) ->
                 var canBuy = true
                 val item = action.target.display.clone {
-                    display = "&b" + (display?.ifEmpty { null } ?: i18NDisplayName) + " × " + amount
                     editLore {
                         if (action is ShopBuyAction.Paid) {
                             addAll(action.needs.map {
