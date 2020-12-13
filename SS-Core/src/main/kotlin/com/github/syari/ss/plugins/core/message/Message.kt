@@ -2,6 +2,7 @@ package com.github.syari.ss.plugins.core.message
 
 import com.github.syari.ss.plugins.core.Main.Companion.corePlugin
 import com.github.syari.ss.plugins.core.code.StringEditor.toColor
+import net.md_5.bungee.api.chat.TextComponent
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
@@ -31,10 +32,32 @@ object Message {
     }
 
     /**
+     * メッセージを複数のプレイヤーに送信します
+     * @param message 本文
+     * @param to 送信先
+     */
+    fun send(
+        message: TextComponent,
+        vararg to: CommandSender
+    ) {
+        to.forEach {
+            it.sendMessage(message)
+        }
+    }
+
+    /**
      * メッセージを送信します
      * @param message 本文
      */
     fun CommandSender.send(message: String) {
+        send(message, this)
+    }
+
+    /**
+     * メッセージを送信します
+     * @param message 本文
+     */
+    fun CommandSender.send(message: TextComponent) {
         send(message, this)
     }
 

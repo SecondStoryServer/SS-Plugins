@@ -1,6 +1,7 @@
 package com.github.syari.ss.plugins.core.command.create
 
 import com.github.syari.ss.plugins.core.message.Message.send
+import net.md_5.bungee.api.chat.TextComponent
 import org.bukkit.command.CommandSender
 
 class CommandMessage internal constructor(
@@ -31,6 +32,14 @@ class CommandMessage internal constructor(
      */
     fun sendWithPrefix(message: String) {
         sender.send("&b[$prefix] &r$message")
+    }
+
+    /**
+     * [prefix] が接頭についたメッセージを送信します
+     * @param message 本文
+     */
+    fun sendWithPrefix(message: TextComponent) {
+        sender.send(TextComponent("&b[$prefix] ").apply { addExtra(message) })
     }
 
     /**
