@@ -14,6 +14,7 @@ data class ShopData(
                 var canBuy = true
                 val item = action.target.display.clone {
                     editLore {
+                        if (isNotEmpty()) add("")
                         if (action is ShopBuyAction.Paid) {
                             addAll(action.needs.map {
                                 if (it.has(player)) {
