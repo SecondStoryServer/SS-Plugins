@@ -1,6 +1,8 @@
 package com.github.syari.ss.plugins.core.item
 
+import org.bukkit.Bukkit
 import org.bukkit.entity.HumanEntity
+import org.bukkit.event.inventory.InventoryType
 import org.bukkit.inventory.ItemStack
 
 object ItemStackPlus {
@@ -58,5 +60,30 @@ object ItemStackPlus {
      */
     fun HumanEntity.giveOrDrop(item: CustomItemStack) {
         giveOrDrop(item.toItemStack)
+    }
+
+    /**
+     * プレイヤーがアイテムを持っているか判定します
+     * @param item アイテム
+     * @return [Boolean]
+     */
+    fun HumanEntity.hasItem(item: CustomItemStack): Boolean {
+        var amount = item.amount
+        val copyInventory = Bukkit.createInventory(null, InventoryType.PLAYER)
+        copyInventory.contents = inventory.contents
+        copyInventory.contents.forEach { i ->
+            val ci = CustomItemStack.create(i)
+            if (ci.type == item.type && ci.damage == item.damage && (ci.hasItemMeta == item.hasItemMeta) && ci.display == item.display) {
+                val a = i.amount
+                if (a < amount) {
+                    amount -= a
+                    i.amount = 0
+                } else {
+                    i.amount = a - amount
+                    return true
+                }
+            }
+        }
+        return false
     }
 }
