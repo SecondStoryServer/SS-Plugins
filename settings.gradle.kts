@@ -7,5 +7,6 @@ include(
     "SS-MaterialChecker",
     "SS-MA-Shop",
     "SS-Dependency-MythicMobs",
-    "SS-Dependency-CrackShot"
+    "SS-Dependency-CrackShot",
+    "SS-Dependency-CrackShotPlus"
 )
