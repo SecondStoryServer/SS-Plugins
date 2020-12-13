@@ -4,6 +4,7 @@ import com.github.syari.ss.plugins.core.item.CustomItemStack
 import com.github.syari.ss.plugins.core.item.ItemStackPlus.give
 import com.github.syari.ss.plugins.core.item.ItemStackPlus.hasItem
 import com.github.syari.ss.plugins.core.item.ItemStackPlus.removeItem
+import net.md_5.bungee.api.chat.TranslatableComponent
 import org.bukkit.Material
 import org.bukkit.entity.Player
 
@@ -47,7 +48,7 @@ sealed class ShopElement {
             amount: Int
         ): Item() {
             override val item = CustomItemStack.create(type, amount)
-            override val needsText by lazy { "${item.display ?: type.name} × $amount" }
+            override val needsText by lazy { "${item.display?.ifEmpty { null } ?: item.i18NDisplayName} × $amount" }
         }
     }
 
