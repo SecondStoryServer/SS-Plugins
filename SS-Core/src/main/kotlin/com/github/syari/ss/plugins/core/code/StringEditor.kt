@@ -22,4 +22,14 @@ object StringEditor {
      * 文字から色を無くします
      */
     val Iterable<String>.toUncolor get() = map { it.toUncolor }
+
+    /**
+     * 文字を色付きにします
+     */
+    val Array<String>.toColor get() = map { it.toColor }
+
+    /**
+     * 文字から色を無くします
+     */
+    val Array<String>.toUncolor get() = map { it.toUncolor }
 }
