@@ -4,5 +4,6 @@ include(
     "SS-Kotlin",
     "SS-Core",
     "SS-Votifier",
-    "SS-MaterialChecker"
+    "SS-MaterialChecker",
+    "SS-MA-Shop"
 )
