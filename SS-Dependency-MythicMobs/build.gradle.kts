@@ -3,7 +3,7 @@ plugins {
 }
 
 group = Project.subgroup("dependency.mythicmobs")
-version = "1.0.0"
+version = "4.11.0-build-3527"
 
 dependencies {
     implementation(project(":SS-Core"))

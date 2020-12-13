@@ -3,7 +3,7 @@ plugins {
 }
 
 group = Project.subgroup("dependency.crackshot")
-version = "1.0.0"
+version = "0.98.9"
 
 dependencies {
     implementation(project(":SS-Core"))
