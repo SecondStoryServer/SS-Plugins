@@ -91,15 +91,14 @@ object ItemStackPlus {
     fun Inventory.removeItem(item: CustomItemStack): Boolean {
         val contents = this.contents
         var amount = item.amount
-        contents.forEach { i ->
-            val ci = CustomItemStack.create(i)
-            if (ci.type == item.type && ci.damage == item.damage && (ci.hasItemMeta == item.hasItemMeta) && ci.display == item.display) {
-                val a = i.amount
+        contents.map { CustomItemStack.create(it) }.forEach {
+            if (it.type == item.type && it.damage == item.damage && (it.hasItemMeta == item.hasItemMeta) && it.display == item.display) {
+                val a = it.amount
                 if (a < amount) {
                     amount -= a
-                    i.amount = 0
+                    it.amount = 0
                 } else {
-                    i.amount = a - amount
+                    it.amount = a - amount
                     this.contents = contents
                     return true
                 }
