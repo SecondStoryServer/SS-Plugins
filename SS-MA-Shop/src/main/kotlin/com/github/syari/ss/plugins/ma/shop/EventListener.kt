@@ -29,9 +29,7 @@ object EventListener: Listener {
         val sign = e.clickedBlock?.state as? Sign ?: return
         val lines = sign.lines.toUncolor
         if (lines[0].equals("[MA_Shop]", true)) {
-            val p = e.player
-            val id = lines[1]
-            p.sendMessage(id)
+            Shop.get(lines[1])?.open(e.player)
         }
     }
 }
