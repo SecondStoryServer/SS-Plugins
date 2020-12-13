@@ -8,13 +8,13 @@ import org.bukkit.entity.Player
 
 class Main: SSPlugin() {
     override fun onEnable() {
-        createCommand(this, "check-material", "MaterialChecker") { sender, args ->
+        createCommand(this, "cmat", "MaterialChecker") { sender, _ ->
             if (sender !is Player) return@createCommand sendError("プレイヤーからのみ実行可能です")
             if (sender.isOp) {
                 val item = sender.inventory.itemInMainHand
                 val itemTypeName = item.type.name
                 sendWithPrefix(buildJson {
-                    append(itemTypeName, click = JsonBuilder.Click.Clipboard(itemTypeName))
+                    append(itemTypeName, "&6コピー", click = JsonBuilder.Click.Clipboard(itemTypeName))
                 })
             }
         }
