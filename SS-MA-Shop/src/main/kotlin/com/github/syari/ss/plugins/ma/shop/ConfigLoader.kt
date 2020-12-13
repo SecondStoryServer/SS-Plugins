@@ -14,8 +14,8 @@ object ConfigLoader: OnEnable {
     }
 
     fun loadConfig(sender: CommandSender) {
+        val shopList = mutableMapOf<String, ShopData>()
         configDir(plugin, sender, "data") {
-            val shopList = mutableMapOf<String, ShopData>()
             section("")?.forEach { id ->
                 val name = get("$id.name", ConfigDataType.STRING, id)
                 val line = get("$id.line", ConfigDataType.INT, 3, false)
@@ -32,8 +32,8 @@ object ConfigLoader: OnEnable {
                 val data = ShopData(name, line, list)
                 shopList[id] = data
             }
-            sender.send("&b[MA_Shop] &a${shopList.size} &f個のショップを読み込みました")
-            Shop.replace(shopList)
         }
+        sender.send("&b[MA_Shop] &a${shopList.size} &f個のショップを読み込みました")
+        Shop.replace(shopList)
     }
 }
