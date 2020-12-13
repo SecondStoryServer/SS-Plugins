@@ -4,6 +4,9 @@ import com.github.syari.ss.plugins.core.item.CustomItemStack
 import com.github.syari.ss.plugins.core.item.ItemStackPlus.give
 import com.github.syari.ss.plugins.core.item.ItemStackPlus.hasItem
 import com.github.syari.ss.plugins.core.item.ItemStackPlus.removeItem
+import com.github.syari.ss.plugins.dependency.crackshot.CrackShotAPI
+import com.github.syari.ss.plugins.dependency.crackshotplus.CrackShotPlusAPI
+import com.github.syari.ss.plugins.dependency.mythicmobs.MythicMobsAPI
 import org.bukkit.Material
 import org.bukkit.entity.Player
 
@@ -53,6 +56,30 @@ sealed class ShopElement {
             override val item = CustomItemStack.create(type, amount)
             override val needsText by lazy { "${item.i18NDisplayName} × $amount" }
         }
+
+        class CrackShot(
+            id: String,
+            amount: Int
+        ): Item() {
+            override val item = CrackShotAPI.getItem(id, amount)
+            override val needsText by lazy { "${item?.display} × $amount" }
+        }
+
+        class CrackShotPlus(
+            id: String,
+            amount: Int
+        ): Item() {
+            override val item = CrackShotPlusAPI.getAttachment(id, amount)
+            override val needsText by lazy { "${item?.display} × $amount" }
+        }
+
+        class MythicMobs(
+            id: String,
+            amount: Int
+        ): Item() {
+            override val item = MythicMobsAPI.getItem(id, amount)
+            override val needsText by lazy { "${item?.display} × $amount" }
+        }
     }
 
     object UnAvailable: ShopElement()
@@ -75,6 +102,33 @@ sealed class ShopElement {
                     if (type != null) {
                         val amount = split.getOrNull(2)?.toIntOrNull() ?: 1
                         Item.Minecraft(type, amount)
+                    } else {
+                        UnAvailable
+                    }
+                }
+                "cs" -> {
+                    val id = split.getOrNull(1)
+                    if (id != null) {
+                        val amount = split.getOrNull(2)?.toIntOrNull() ?: 1
+                        Item.CrackShot(id, amount)
+                    } else {
+                        UnAvailable
+                    }
+                }
+                "csp" -> {
+                    val id = split.getOrNull(1)
+                    if (id != null) {
+                        val amount = split.getOrNull(2)?.toIntOrNull() ?: 1
+                        Item.CrackShotPlus(id, amount)
+                    } else {
+                        UnAvailable
+                    }
+                }
+                "mm" -> {
+                    val id = split.getOrNull(1)
+                    if (id != null) {
+                        val amount = split.getOrNull(2)?.toIntOrNull() ?: 1
+                        Item.MythicMobs(id, amount)
                     } else {
                         UnAvailable
                     }

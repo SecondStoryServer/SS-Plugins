@@ -7,6 +7,9 @@ version = "1.0.0"
 
 dependencies {
     implementation(project(":SS-Core"))
+    implementation(project(":SS-Dependency-CrackShot"))
+    implementation(project(":SS-Dependency-CrackShotPlus"))
+    implementation(project(":SS-Dependency-MythicMobs"))
 }
 
 bukkit {
