@@ -7,6 +7,10 @@ import net.md_5.bungee.api.chat.TextComponent
 import net.md_5.bungee.api.chat.hover.content.Text
 
 class JsonBuilder {
+    companion object {
+        inline fun buildJson(action: JsonBuilder.() -> Unit) = JsonBuilder().apply(action).toTextComponent
+    }
+
     private val message = mutableListOf<JsonMessage>()
 
     /**
