@@ -29,13 +29,14 @@ data class ShopData(
                     }
                 }
                 item(index, item).event {
+                    var isReopen = true
                     if (canBuy) {
-                        action.buy(player)
+                        isReopen = action.buy(player)
                         (action as? ShopBuyAction.Paid)?.needs?.forEach {
                             it.remove(player)
                         }
                     }
-                    open(player)
+                    if (isReopen) this@ShopData.open(player)
                 }
             }
         }.open(player)

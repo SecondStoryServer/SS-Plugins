@@ -8,7 +8,7 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 
 sealed class ShopElement {
-    open fun give(player: Player) {}
+    open fun give(player: Player) = true
     open fun has(player: Player) = false
     open fun remove(player: Player) {}
     open val display = CustomItemStack.create(Material.BARRIER, "&cエラー")
@@ -19,9 +19,7 @@ sealed class ShopElement {
         private val id: String,
         private val type: Material
     ): ShopElement() {
-        override fun give(player: Player) {
-            Shop.get(id)?.open(player)
-        }
+        override fun give(player: Player) = Shop.get(id)?.open(player)?.run { false } ?: true
 
         override val display by lazy { CustomItemStack.create(type, "&6${Shop.get(id)?.name}") }
         override val targetText = "クリックで開く"
@@ -34,8 +32,9 @@ sealed class ShopElement {
         override val targetText = "クリックで購入する"
         override val needsText by lazy { "${item?.display ?: item?.type?.name} × ${item?.amount}" }
 
-        override fun give(player: Player) {
+        override fun give(player: Player): Boolean {
             item?.let { player.give(it) }
+            return true
         }
 
         override fun has(player: Player) = item?.let { player.hasItem(it) } ?: false

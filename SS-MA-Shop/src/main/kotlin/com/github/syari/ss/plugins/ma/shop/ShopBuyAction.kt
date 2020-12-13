@@ -3,7 +3,7 @@ package com.github.syari.ss.plugins.ma.shop
 import org.bukkit.entity.Player
 
 sealed class ShopBuyAction(val target: ShopElement) {
-    fun buy(player: Player) = target.give(player)
+    fun buy(player: Player): Boolean = target.give(player)
 
     class Free(target: ShopElement): ShopBuyAction(target)
     class Paid(
