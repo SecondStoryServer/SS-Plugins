@@ -27,4 +27,8 @@ subprojects {
     tasks.withType<KotlinCompile> {
         kotlinOptions.jvmTarget = "1.8"
     }
+
+    tasks.register<Delete>("cleanJar") {
+        delete(file("jars"))
+    }
 }

@@ -19,3 +19,10 @@ bukkit {
     depend = listOf("SS-Core")
     apiVersion = "1.16"
 }
+
+val jar by tasks.getting(Jar::class) {
+    from(configurations.compileOnly.get().map {
+        if (it.isDirectory) it else zipTree(it)
+    })
+    destinationDir = file("../jars")
+}
