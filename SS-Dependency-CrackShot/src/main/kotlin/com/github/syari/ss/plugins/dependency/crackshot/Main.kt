@@ -1,4 +1,4 @@
-package com.github.syari.ss.plugins.dependency.crackshotplus
+package com.github.syari.ss.plugins.dependency.crackshot
 
 import com.github.syari.ss.plugins.core.code.SSPlugin
 
