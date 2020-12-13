@@ -1,5 +1,6 @@
 package com.github.syari.ss.plugins.core.command.create
 
+import com.github.syari.ss.plugins.core.code.StringEditor.toColor
 import com.github.syari.ss.plugins.core.message.Message.send
 import net.md_5.bungee.api.chat.TextComponent
 import org.bukkit.command.CommandSender
@@ -39,7 +40,7 @@ class CommandMessage internal constructor(
      * @param message 本文
      */
     fun sendWithPrefix(message: TextComponent) {
-        sender.send(TextComponent("&b[$prefix] ").apply { addExtra(message) })
+        sender.send(TextComponent("&b[$prefix] ".toColor).apply { addExtra(message) })
     }
 
     /**
