@@ -3,5 +3,6 @@ rootProject.name = "SS-Plugins"
 include(
     "SS-Kotlin",
     "SS-Core",
-    "SS-Votifier"
+    "SS-Votifier",
+    "SS-MaterialChecker"
 )
