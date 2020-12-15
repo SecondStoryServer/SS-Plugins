@@ -1,10 +1,10 @@
 package com.github.syari.ss.plugins.votifier.net.protocol
 
+import com.github.syari.ss.plugins.votifier.net.VotifierSession
 import io.netty.buffer.Unpooled
 import io.netty.channel.ChannelHandler.Sharable
 import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.ChannelInboundHandlerAdapter
-import com.github.syari.ss.plugins.votifier.net.VotifierSession
 import java.nio.charset.StandardCharsets
 
 @Sharable

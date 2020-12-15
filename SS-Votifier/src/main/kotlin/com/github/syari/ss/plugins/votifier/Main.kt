@@ -1,7 +1,5 @@
 package com.github.syari.ss.plugins.votifier
 
-import com.github.syari.ss.plugins.core.code.OnDisable
-import com.github.syari.ss.plugins.core.code.OnEnable
 import com.github.syari.ss.plugins.core.code.SSPlugin
 import org.bukkit.plugin.java.JavaPlugin
 

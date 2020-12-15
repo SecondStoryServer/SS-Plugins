@@ -1,5 +1,9 @@
 package com.github.syari.ss.plugins.votifier.net
 
+import com.github.syari.ss.plugins.votifier.Main.Companion.plugin
+import com.github.syari.ss.plugins.votifier.net.protocol.VoteInboundHandler
+import com.github.syari.ss.plugins.votifier.net.protocol.VotifierGreetingHandler
+import com.github.syari.ss.plugins.votifier.net.protocol.VotifierProtocolDifferentiator
 import io.netty.bootstrap.ServerBootstrap
 import io.netty.channel.Channel
 import io.netty.channel.ChannelFuture
@@ -14,10 +18,6 @@ import io.netty.channel.nio.NioEventLoopGroup
 import io.netty.channel.socket.SocketChannel
 import io.netty.channel.socket.nio.NioServerSocketChannel
 import io.netty.util.concurrent.FastThreadLocalThread
-import com.github.syari.ss.plugins.votifier.Main.Companion.plugin
-import com.github.syari.ss.plugins.votifier.net.protocol.VoteInboundHandler
-import com.github.syari.ss.plugins.votifier.net.protocol.VotifierGreetingHandler
-import com.github.syari.ss.plugins.votifier.net.protocol.VotifierProtocolDifferentiator
 import org.jetbrains.annotations.Contract
 import java.net.InetSocketAddress
 import java.util.concurrent.ThreadFactory

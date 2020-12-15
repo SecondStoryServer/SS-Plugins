@@ -1,14 +1,14 @@
 package com.github.syari.ss.plugins.votifier.net.protocol
 
+import com.github.syari.ss.plugins.votifier.net.VotifierSession
+import com.github.syari.ss.plugins.votifier.net.protocol.v1.VotifierProtocolV1Decoder
+import com.github.syari.ss.plugins.votifier.net.protocol.v2.VotifierProtocolV2Decoder
 import io.netty.buffer.ByteBuf
 import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.ByteToMessageDecoder
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder
 import io.netty.handler.codec.string.StringDecoder
 import io.netty.handler.codec.string.StringEncoder
-import com.github.syari.ss.plugins.votifier.net.VotifierSession
-import com.github.syari.ss.plugins.votifier.net.protocol.v1.VotifierProtocolV1Decoder
-import com.github.syari.ss.plugins.votifier.net.protocol.v2.VotifierProtocolV2Decoder
 import java.nio.charset.StandardCharsets
 
 class VotifierProtocolDifferentiator: ByteToMessageDecoder() {
