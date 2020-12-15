@@ -1,13 +1,19 @@
 package com.github.syari.ss.plugins.commandblocker
 
 import com.github.syari.ss.plugins.core.code.SSPlugin
-import com.github.syari.ss.plugins.core.command.create.CreateCommand.createCommand
-import com.github.syari.ss.plugins.core.message.JsonBuilder
-import com.github.syari.ss.plugins.core.message.JsonBuilder.Companion.buildJson
-import org.bukkit.entity.Player
+import org.bukkit.plugin.java.JavaPlugin
 
 class Main: SSPlugin() {
-    override fun onEnable() {
+    companion object {
+        internal lateinit var plugin: JavaPlugin
+    }
 
+    override val listeners = listOf(EventListener)
+    override val onEnables = listOf(EventListener)
+
+    override fun onEnable() {
+        plugin = this
+        registerListeners()
+        runOnEnable()
     }
 }

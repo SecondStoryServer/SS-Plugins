@@ -7,6 +7,7 @@ version = "1.0.0"
 
 dependencies {
     implementation(project(":SS-Core"))
+    implementation(project(":SS-Dependency-ProtocolLib"))
 }
 
 bukkit {
