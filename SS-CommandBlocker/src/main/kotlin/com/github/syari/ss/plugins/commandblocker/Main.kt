@@ -9,11 +9,9 @@ class Main: SSPlugin() {
     }
 
     override val listeners = listOf(EventListener)
-    override val onEnables = listOf(EventListener)
 
     override fun onEnable() {
         plugin = this
         registerListeners()
-        runOnEnable()
     }
 }
