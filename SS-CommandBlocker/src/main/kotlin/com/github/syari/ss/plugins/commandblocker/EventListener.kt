@@ -10,8 +10,10 @@ import org.bukkit.event.player.PlayerCommandSendEvent
 object EventListener: Listener {
     @EventHandler
     fun on(e: PlayerCommandSendEvent) {
+        val p = e.player
+        if (p.isOp) return
         e.commands.clear()
-        e.commands.addAll(e.player.availableCommands)
+        e.commands.addAll(p.availableCommands)
     }
 
     @EventHandler(ignoreCancelled = true)
