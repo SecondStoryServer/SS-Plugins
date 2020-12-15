@@ -1,4 +1,4 @@
-package com.github.syari.ss.plugins.votifier
+package com.github.syari.ss.plugins.commandblocker
 
 import com.github.syari.ss.plugins.core.code.SSPlugin
 import org.bukkit.plugin.java.JavaPlugin
@@ -8,20 +8,12 @@ class Main: SSPlugin() {
         internal lateinit var plugin: JavaPlugin
     }
 
-    override val onEnables = listOf(
-        CommandCreator, BootstrapBuilder
-    )
-
-    override val onDisables = listOf(
-        BootstrapBuilder
-    )
+    override val listeners = listOf(EventListener)
+    override val onEnables = listOf(EventListener)
 
     override fun onEnable() {
         plugin = this
+        registerListeners()
         runOnEnable()
-    }
-
-    override fun onDisable() {
-        runOnDisable()
     }
 }

@@ -1,7 +1,7 @@
 package com.github.syari.ss.plugins.votifier.net
 
-import io.netty.util.AttributeKey
 import com.github.syari.ss.plugins.votifier.util.TokenUtil.newToken
+import io.netty.util.AttributeKey
 
 class VotifierSession {
     var version = ProtocolVersion.UNKNOWN

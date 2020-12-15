@@ -1,16 +1,16 @@
 package com.github.syari.ss.plugins.votifier.net.protocol
 
-import com.google.gson.JsonObject
-import io.netty.channel.ChannelFutureListener
-import io.netty.channel.ChannelHandler.Sharable
-import io.netty.channel.ChannelHandlerContext
-import io.netty.channel.SimpleChannelInboundHandler
 import com.github.syari.ss.plugins.core.scheduler.CreateScheduler.run
 import com.github.syari.ss.plugins.votifier.Main.Companion.plugin
 import com.github.syari.ss.plugins.votifier.api.Vote
 import com.github.syari.ss.plugins.votifier.api.VotifierEvent
 import com.github.syari.ss.plugins.votifier.net.VotifierSession
 import com.github.syari.ss.plugins.votifier.util.JsonUtil.toJson
+import com.google.gson.JsonObject
+import io.netty.channel.ChannelFutureListener
+import io.netty.channel.ChannelHandler.Sharable
+import io.netty.channel.ChannelHandlerContext
+import io.netty.channel.SimpleChannelInboundHandler
 import java.util.concurrent.atomic.AtomicLong
 import java.util.logging.Level
 
