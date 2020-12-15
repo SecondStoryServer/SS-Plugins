@@ -2,6 +2,7 @@ package com.github.syari.ss.plugins.ma.item
 
 import com.github.syari.ss.plugins.core.code.StringEditor.toColor
 import com.github.syari.ss.plugins.core.item.CustomItemStack
+import org.bukkit.GameMode
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -27,6 +28,7 @@ object StoreItemCanceler: Listener {
 
     @EventHandler(ignoreCancelled = true)
     fun on(e: InventoryClickEvent) {
+        if (e.whoClicked.gameMode == GameMode.CREATIVE) return
         if (CustomItemStack.create(e.insertItem).lore.contains("&c受け渡し不可".toColor)) {
             e.isCancelled = true
         }
