@@ -7,7 +7,7 @@ group = project.group
 version = project.version
 
 dependencies {
-    project.addDependencyProject(this)
+    project.dependProjectName.forEach { implementation(project(":$it")) }
 }
 
 bukkit {
