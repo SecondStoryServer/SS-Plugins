@@ -17,6 +17,10 @@ interface Project {
     val dependProject: List<Project>
     val dependProjectName: List<String>
         get() = dependProject.map { it.name }
+    val dependPlugin: List<String>
+        get() = dependProjectName + extraDependPlugin
+    val extraDependPlugin: List<String>
+        get() = listOf()
 
     object Kotlin: Project {
         override val name = "SS-Kotlin"
@@ -75,6 +79,7 @@ interface Project {
             override val version = "4.11.0-build-3527"
             override val group = subgroup("dependency.mythicmobs")
             override val dependProject = listOf(Core)
+            override val extraDependPlugin = listOf("MythicMobs")
         }
 
         object CrackShot: Dependency {
@@ -82,6 +87,7 @@ interface Project {
             override val version = "0.98.9"
             override val group = subgroup("dependency.crackshot")
             override val dependProject = listOf(Core)
+            override val extraDependPlugin = listOf("CrackShot")
         }
 
         object CrackShotPlus: Dependency {
@@ -89,6 +95,7 @@ interface Project {
             override val version = "1.97"
             override val group = subgroup("dependency.crackshotplus")
             override val dependProject = listOf(Core)
+            override val extraDependPlugin = listOf("CrackShotPlus")
         }
     }
 }

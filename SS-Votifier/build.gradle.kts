@@ -18,7 +18,7 @@ bukkit {
     main = project.main
     author = project.author
     apiVersion = project.apiVersion
-    depend = project.dependProjectName
+    depend = project.dependPlugin
 }
 
 val jar by tasks.getting(Jar::class) {
