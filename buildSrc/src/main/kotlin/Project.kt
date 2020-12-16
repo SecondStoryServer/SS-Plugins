@@ -1,6 +1,3 @@
-import org.gradle.api.artifacts.dsl.DependencyHandler
-import org.gradle.kotlin.dsl.project
-
 interface Project {
     companion object {
         private const val group = "com.github.syari.ss.plugins"
@@ -20,9 +17,6 @@ interface Project {
     val dependProject: List<Project>
     val dependProjectName: List<String>
         get() = dependProject.map { it.name }
-    fun addDependentProject(dependency: DependencyHandler) = with(dependency) {
-        dependProjectName.forEach { add("implementation", project(":$it")) }
-    }
     val dependPlugin: List<String>
         get() = dependProjectName + extraDependPlugin
     val extraDependPlugin: List<String>
