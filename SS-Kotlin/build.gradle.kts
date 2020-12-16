@@ -2,8 +2,9 @@ plugins {
     id("net.minecrell.plugin-yml.bukkit") version "0.3.0"
 }
 
-group = Project.subgroup("kotlin")
-version = "1.4.10"
+val project = Project.Kotlin
+group = project.group
+version = project.version
 
 dependencies {
     compileOnly(kotlin("stdlib-jdk8"))
@@ -11,10 +12,11 @@ dependencies {
 
 bukkit {
     name = project.name
-    version = project.version.toString()
-    main = "$group.Main"
-    author = "sya_ri"
-    apiVersion = "1.16"
+    version = project.version
+    main = project.main
+    author = project.author
+    apiVersion = project.apiVersion
+    depend = project.dependProjectName
     commands {
         register("ss-kotlin") {
             description = "Display Kotlin Version & Package"
