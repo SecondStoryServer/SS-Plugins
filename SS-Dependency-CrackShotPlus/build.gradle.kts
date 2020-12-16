@@ -7,7 +7,7 @@ group = project.group
 version = project.version
 
 dependencies {
-    project.dependProjectName.forEach { implementation(project(":$it")) }
+    project.addDependencyProject(this)
     implementation(files("dependencyJar/CrackShotPlus.jar"))
 }
 
@@ -17,7 +17,7 @@ bukkit {
     main = project.main
     author = project.author
     apiVersion = project.apiVersion
-    depend = project.dependProjectName
+    depend = project.dependPlugin
 }
 
 val jar by tasks.getting(Jar::class) {
