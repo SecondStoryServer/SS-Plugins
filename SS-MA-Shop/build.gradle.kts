@@ -2,23 +2,21 @@ plugins {
     id("net.minecrell.plugin-yml.bukkit") version "0.3.0"
 }
 
-group = Project.subgroup("ma.shop")
-version = "1.0.0"
+val project = Project.MA.Shop
+group = project.group
+version = project.version
 
 dependencies {
-    implementation(project(":SS-Core"))
-    implementation(project(":SS-Dependency-CrackShot"))
-    implementation(project(":SS-Dependency-CrackShotPlus"))
-    implementation(project(":SS-Dependency-MythicMobs"))
+    project.dependProjectName.forEach { implementation(project(":$it")) }
 }
 
 bukkit {
     name = project.name
-    version = project.version.toString()
-    main = "$group.Main"
-    author = "sya_ri"
-    apiVersion = "1.16"
-    depend = listOf("SS-Core")
+    version = project.version
+    main = project.main
+    author = project.author
+    apiVersion = project.apiVersion
+    depend = project.dependProjectName
 }
 
 val jar by tasks.getting(Jar::class) {
