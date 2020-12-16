@@ -7,7 +7,7 @@ group = project.group
 version = project.version
 
 dependencies {
-    project.dependProjectName.forEach { implementation(project(":$it")) }
+    project.addDependencyProject(this)
     implementation(files("dependencyJar/CrackShotPlus.jar"))
 }
 
