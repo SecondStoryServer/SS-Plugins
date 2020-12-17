@@ -16,11 +16,11 @@ data class ShopData(
                         if (action is ShopBuyAction.Paid) {
                             addAll(action.needs.map {
                                 if (it.has(player)) {
-                                    "&a"
+                                    "&a✔"
                                 } else {
                                     canBuy = false
-                                    "&c"
-                                } + it.needsText
+                                    "&c✖"
+                                } + " &r" + it.needsText
                             })
                             add("")
                         }

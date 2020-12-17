@@ -64,6 +64,13 @@ interface Project {
         override val dependProject = listOf(Core)
     }
 
+    object PluginManager: Project {
+        override val name = "SS-PluginManager"
+        override val version = "1.0.0"
+        override val group = subgroup("pluginmanager")
+        override val dependProject = listOf(Core)
+    }
+
     interface MA: Project {
         object Shop: MA {
             override val name = "SS-MA-Shop"
