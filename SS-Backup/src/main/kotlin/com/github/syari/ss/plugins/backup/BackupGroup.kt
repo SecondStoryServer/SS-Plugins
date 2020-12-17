@@ -9,7 +9,7 @@ class BackupGroup(
     val name: String, val worldNames: MutableList<String>, val pluginNames: MutableList<String>, val otherPaths: MutableList<String>
 ) {
     companion object {
-        private val dateFormat = SimpleDateFormat("yyyy_MM_dd_HH_mm_ss")
+        private val dateFormat = SimpleDateFormat("yyyy_MMdd_HHmm")
 
         fun from(
             name: String, worldNames: List<String>, pluginNames: List<String>, otherPaths: List<String>
@@ -17,7 +17,7 @@ class BackupGroup(
     }
 
     val zipFileName
-        get() = dateFormat.format(System.currentTimeMillis()) + name + ".zip"
+        get() = dateFormat.format(System.currentTimeMillis()) + "_" + name + ".zip"
 
     val backupFiles
         get(): List<BackupFile> {
@@ -31,7 +31,6 @@ class BackupGroup(
         val files = backupFiles.map { it.file }.toTypedArray()
         if (backupDirectory.exists().not()) backupDirectory.mkdir()
         val output = File(backupDirectory, zipFileName)
-        if (output.exists().not()) output.mkdir()
         zipFiles(files, output)
     }
 }
