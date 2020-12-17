@@ -6,9 +6,7 @@ object ConfigNumberDataType: ConfigDataType<Number> {
     override val typeName = "Number"
 
     override fun get(
-        config: CustomConfig,
-        path: String,
-        notFoundError: Boolean
+        config: CustomConfig, path: String, notFoundError: Boolean
     ): Number? {
         return config.getUnsafe(path, typeName, notFoundError)
     }

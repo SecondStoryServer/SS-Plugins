@@ -24,10 +24,7 @@ object TimeScheduler: OnEnable, Listener {
      * @param run その時間に実行する処理
      */
     fun scheduleEveryWeekAt(
-        dayOfWeek: DayOfWeek,
-        hour: Int,
-        minute: Int,
-        run: () -> Unit
+        dayOfWeek: DayOfWeek, hour: Int, minute: Int, run: () -> Unit
     ) {
         everyWeekScheduler.getOrPut(ScheduleTimeEveryWeek.create(dayOfWeek, hour, minute)) { mutableSetOf() }.add(run)
     }
@@ -39,9 +36,7 @@ object TimeScheduler: OnEnable, Listener {
      * @param run その時間に実行する処理
      */
     fun scheduleEveryDayAt(
-        hour: Int,
-        minute: Int,
-        run: () -> Unit
+        hour: Int, minute: Int, run: () -> Unit
     ) {
         everyDayScheduler.getOrPut(ScheduleTimeEveryDay.create(hour, minute)) { mutableSetOf() }.add(run)
     }
@@ -52,8 +47,7 @@ object TimeScheduler: OnEnable, Listener {
      * @param run その時間に実行する処理
      */
     fun scheduleEveryHourAt(
-        minute: Int,
-        run: () -> Unit
+        minute: Int, run: () -> Unit
     ) {
         everyHourScheduler.getOrPut(ScheduleTimeEveryHour.create(minute)) { mutableSetOf() }.add(run)
     }
@@ -65,8 +59,7 @@ object TimeScheduler: OnEnable, Listener {
      * @return [String]
      */
     fun getFormatTime(
-        hour: Int,
-        minute: Int
+        hour: Int, minute: Int
     ): String {
         return "${String.format("%2d", hour)}:${String.format("%2d", minute)}"
     }

@@ -6,8 +6,7 @@ import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
 
 class CommandArgument internal constructor(
-    private val array: Array<out String>,
-    private val message: CommandMessage
+    private val array: Array<out String>, private val message: CommandMessage
 ) {
     /**
      * 指定した要素を取得します
@@ -97,16 +96,14 @@ class CommandArgument internal constructor(
      * @return [OfflinePlayer]?
      */
     fun getOfflinePlayer(
-        index: Int,
-        equalName: Boolean
+        index: Int, equalName: Boolean
     ): OfflinePlayer? {
         val rawPlayer = getOrNull(index)
         if (rawPlayer == null) {
             message.sendError(ErrorMessage.NotEnterPlayer)
             return null
         }
-        @Suppress("DEPRECATION")
-        val player = getOfflinePlayer(rawPlayer)
+        @Suppress("DEPRECATION") val player = getOfflinePlayer(rawPlayer)
         return if (!equalName || player.name.equals(rawPlayer, ignoreCase = true)) {
             player
         } else {
@@ -122,8 +119,7 @@ class CommandArgument internal constructor(
      * @return [Player]?
      */
     fun getPlayer(
-        index: Int,
-        equalName: Boolean
+        index: Int, equalName: Boolean
     ): Player? {
         val rawPlayer = getOrNull(index)
         if (rawPlayer == null) {

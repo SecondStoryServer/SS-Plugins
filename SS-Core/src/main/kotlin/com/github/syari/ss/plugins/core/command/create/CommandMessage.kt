@@ -6,8 +6,7 @@ import net.md_5.bungee.api.chat.TextComponent
 import org.bukkit.command.CommandSender
 
 class CommandMessage internal constructor(
-    private val prefix: String,
-    private val sender: CommandSender
+    private val prefix: String, private val sender: CommandSender
 ) {
     /**
      * ```
@@ -80,8 +79,7 @@ class CommandMessage internal constructor(
      * @param element リストの要素
      */
     fun sendList(
-        title: String,
-        vararg element: String
+        title: String, vararg element: String
     ) {
         sendList(title, element.toList())
     }
@@ -91,16 +89,13 @@ class CommandMessage internal constructor(
      * @param element リストの要素
      */
     fun sendList(
-        title: String = "",
-        element: Iterable<String>
+        title: String = "", element: Iterable<String>
     ) {
         if (title.isNotEmpty()) sendWithPrefix("&f$title")
-        sender.send(
-            StringBuilder().apply {
-                element.forEach {
-                    appendLine("&7- &a$it")
-                }
+        sender.send(StringBuilder().apply {
+            element.forEach {
+                appendLine("&7- &a$it")
             }
-        )
+        })
     }
 }

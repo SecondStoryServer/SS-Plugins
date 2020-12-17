@@ -14,15 +14,13 @@ object PersistentDataTypeCustomItemStack: PersistentDataType<String, CustomItemS
     }
 
     override fun toPrimitive(
-        complex: CustomItemStack,
-        context: PersistentDataAdapterContext
+        complex: CustomItemStack, context: PersistentDataAdapterContext
     ): String {
         return complex.toJson()
     }
 
     override fun fromPrimitive(
-        primitive: String,
-        context: PersistentDataAdapterContext
+        primitive: String, context: PersistentDataAdapterContext
     ): CustomItemStack {
         return CustomItemStack.fromJson(primitive)
     }

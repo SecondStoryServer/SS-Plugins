@@ -15,10 +15,7 @@ object CreateSound {
      * @return [CustomSound]
      */
     fun sound(
-        type: Sound,
-        volume: Float,
-        pitch: Float,
-        category: SoundCategory = SoundCategory.MASTER
+        type: Sound, volume: Float, pitch: Float, category: SoundCategory = SoundCategory.MASTER
     ): CustomSound {
         return CustomSound(type, volume, pitch, category)
     }
@@ -32,11 +29,7 @@ object CreateSound {
      * @param category サウンドカテゴリー default: MASTER
      */
     fun playSound(
-        location: Location,
-        type: Sound,
-        volume: Float,
-        pitch: Float,
-        category: SoundCategory = SoundCategory.MASTER
+        location: Location, type: Sound, volume: Float, pitch: Float, category: SoundCategory = SoundCategory.MASTER
     ) {
         sound(type, volume, pitch, category).play(location)
     }
@@ -50,11 +43,7 @@ object CreateSound {
      * @param category サウンドカテゴリー default: MASTER
      */
     fun playSound(
-        entity: Entity,
-        type: Sound,
-        volume: Float,
-        pitch: Float,
-        category: SoundCategory = SoundCategory.MASTER
+        entity: Entity, type: Sound, volume: Float, pitch: Float, category: SoundCategory = SoundCategory.MASTER
     ) {
         sound(type, volume, pitch, category).play(entity.location)
     }

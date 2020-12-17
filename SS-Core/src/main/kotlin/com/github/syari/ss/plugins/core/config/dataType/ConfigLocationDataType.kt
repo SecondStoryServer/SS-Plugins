@@ -8,9 +8,7 @@ object ConfigLocationDataType: ConfigDataType<Location> {
     override val typeName = "Location"
 
     override fun get(
-        config: CustomConfig,
-        path: String,
-        notFoundError: Boolean
+        config: CustomConfig, path: String, notFoundError: Boolean
     ): Location? {
         val line = config.get(path, ConfigDataType.STRING, notFoundError) ?: return null
         val split = line.split(",\\s*".toRegex())

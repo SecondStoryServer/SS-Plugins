@@ -26,9 +26,7 @@ class Main: SSPlugin() {
     }
 
     override val listeners = listOf(
-        com.github.syari.ss.plugins.core.bossBar.CreateBossBar,
-        CreateInventory,
-        TimeScheduler
+        com.github.syari.ss.plugins.core.bossBar.CreateBossBar, CreateInventory, TimeScheduler
     )
     override val onEnables = listOf(TimeScheduler)
     override val onDisables = listOf(com.github.syari.ss.plugins.core.bossBar.CreateBossBar)

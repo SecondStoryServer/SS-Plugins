@@ -13,10 +13,7 @@ import java.io.Reader
  * @param reader コンフィグの内容
  */
 class CustomReaderConfig internal constructor(
-    override val plugin: JavaPlugin,
-    private val output: CommandSender,
-    private val uniqueName: String,
-    reader: Reader
+    override val plugin: JavaPlugin, private val output: CommandSender, private val uniqueName: String, reader: Reader
 ): CustomConfig {
     override val config: YamlConfiguration = YamlConfiguration.loadConfiguration(reader)
 
@@ -29,8 +26,7 @@ class CustomReaderConfig internal constructor(
      * @param message 本文
      */
     override fun sendError(
-        path: String,
-        message: String
+        path: String, message: String
     ) {
         output.send("&6[$uniqueName|$path] &c$message")
     }

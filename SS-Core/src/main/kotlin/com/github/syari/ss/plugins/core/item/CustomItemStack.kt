@@ -21,10 +21,8 @@ import org.bukkit.plugin.java.JavaPlugin
  * [ItemStack] の拡張クラス
  */
 class CustomItemStack internal constructor(
-    private val item: ItemStack,
-    amount: Int
-): CustomPersistentDataContainer,
-        ConfigurationSerializable {
+    private val item: ItemStack, amount: Int
+): CustomPersistentDataContainer, ConfigurationSerializable {
 
     /**
      * アイテムの量
@@ -241,8 +239,7 @@ class CustomItemStack internal constructor(
      * @param level レベル
      */
     fun addEnchant(
-        enchant: Enchantment,
-        level: Int
+        enchant: Enchantment, level: Int
     ) {
         editMeta {
             addEnchant(enchant, level, true)
@@ -318,15 +315,13 @@ class CustomItemStack internal constructor(
      * @return [E]?
      */
     override fun <E> editPersistentData(
-        plugin: JavaPlugin,
-        run: CustomPersistentData.() -> E
+        plugin: JavaPlugin, run: CustomPersistentData.() -> E
     ): E? {
         var result: E? = null
         editMeta {
             result = run.invoke(
                 CustomPersistentData(
-                    plugin,
-                    persistentDataContainer
+                    plugin, persistentDataContainer
                 )
             )
         }
@@ -411,8 +406,7 @@ class CustomItemStack internal constructor(
          * @return [CustomItemStack]
          */
         fun create(
-            item: ItemStack?,
-            amount: Int? = null
+            item: ItemStack?, amount: Int? = null
         ): CustomItemStack {
             val data = if (item != null) {
                 item to (amount ?: item.amount)
@@ -428,8 +422,7 @@ class CustomItemStack internal constructor(
          * @return [CustomItemStack]
          */
         fun create(
-            material: Material?,
-            amount: Int? = 1
+            material: Material?, amount: Int? = 1
         ): CustomItemStack {
             return create(material?.let { ItemStack(it) }, amount)
         }
@@ -443,11 +436,7 @@ class CustomItemStack internal constructor(
          * @return [CustomItemStack]
          */
         fun create(
-            material: Material,
-            display: String?,
-            lore: List<String>,
-            customModelData: Int? = 0,
-            amount: Int = 1
+            material: Material, display: String?, lore: List<String>, customModelData: Int? = 0, amount: Int = 1
         ): CustomItemStack {
             return create(material, amount).apply {
                 this.display = display
@@ -465,11 +454,7 @@ class CustomItemStack internal constructor(
          * @return [CustomItemStack]
          */
         fun create(
-            material: Material,
-            display: String?,
-            vararg lore: String,
-            customModelData: Int? = 0,
-            amount: Int = 1
+            material: Material, display: String?, vararg lore: String, customModelData: Int? = 0, amount: Int = 1
         ): CustomItemStack {
             return create(material, display, lore.toList(), customModelData, amount)
         }
@@ -480,8 +465,7 @@ class CustomItemStack internal constructor(
          * @return [CustomItemStack]?
          */
         fun fromNullable(
-            item: ItemStack?,
-            amount: Int? = null
+            item: ItemStack?, amount: Int? = null
         ): CustomItemStack? {
             return if (item != null) create(item, amount) else null
         }
@@ -503,8 +487,7 @@ class CustomItemStack internal constructor(
          */
         private fun fromMap(args: Map<String, Any>): CustomItemStack {
             val item = ItemStack(
-                Material.getMaterial(args["type"] as String) ?: Material.STONE,
-                1
+                Material.getMaterial(args["type"] as String) ?: Material.STONE, 1
             )
 
             val amount = if (args.containsKey("amount")) {
@@ -515,8 +498,7 @@ class CustomItemStack internal constructor(
 
             return CustomItemStack(item, amount).apply {
                 if (args.containsKey("meta")) {
-                    @Suppress("UNCHECKED_CAST")
-                    val itemMetaMap = args["meta"] as MutableMap<String, Any>
+                    @Suppress("UNCHECKED_CAST") val itemMetaMap = args["meta"] as MutableMap<String, Any>
                     itemMetaMap["=="] = "ItemMeta"
                     itemMeta = ConfigurationSerialization.deserializeObject(itemMetaMap) as ItemMeta
                 }

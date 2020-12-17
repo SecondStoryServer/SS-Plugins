@@ -6,9 +6,7 @@ object ConfigLongDataType: ConfigDataType<Long> {
     override val typeName = "Long"
 
     override fun get(
-        config: CustomConfig,
-        path: String,
-        notFoundError: Boolean
+        config: CustomConfig, path: String, notFoundError: Boolean
     ): Long? {
         return config.get(path, ConfigDataType.NUMBER, notFoundError)?.toLong()
     }

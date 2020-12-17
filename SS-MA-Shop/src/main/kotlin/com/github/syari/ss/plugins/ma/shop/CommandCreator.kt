@@ -27,8 +27,7 @@ object CommandCreator: OnEnable {
                     ConfigLoader.loadConfig(sender)
                 }
                 else -> sendHelp(
-                    "/mashop open <ID>" to "ショップを開きます",
-                    "/mashop reload" to "コンフィグを再読み込みします"
+                    "/mashop open <ID>" to "ショップを開きます", "/mashop reload" to "コンフィグを再読み込みします"
                 )
             }
         }

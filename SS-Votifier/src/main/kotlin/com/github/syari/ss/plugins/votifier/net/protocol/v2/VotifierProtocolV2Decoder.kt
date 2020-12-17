@@ -28,9 +28,7 @@ class VotifierProtocolV2Decoder: MessageToMessageDecoder<String>() {
 
     @Throws(CorruptedFrameException::class, RuntimeException::class)
     override fun decode(
-        ctx: ChannelHandlerContext,
-        s: String,
-        list: MutableList<Any>
+        ctx: ChannelHandlerContext, s: String, list: MutableList<Any>
     ) {
         val voteMessage = fromJson(s)
         val session = ctx.channel().attr(VotifierSession.KEY).get()
@@ -43,8 +41,9 @@ class VotifierProtocolV2Decoder: MessageToMessageDecoder<String>() {
         val sigHash = voteMessage["signature"].asString
         val sigBytes = Base64.getDecoder().decode(sigHash)
         if (!hmacEqual(
-                    sigBytes, payload.toByteArray(StandardCharsets.UTF_8), key
-                )) {
+                sigBytes, payload.toByteArray(StandardCharsets.UTF_8), key
+            )
+        ) {
             throw CorruptedFrameException("Signature is not valid (invalid token?)")
         }
         val vote = Vote.from(votePayload) ?: return
@@ -54,9 +53,7 @@ class VotifierProtocolV2Decoder: MessageToMessageDecoder<String>() {
 
     @Throws(NoSuchAlgorithmException::class, InvalidKeyException::class)
     private fun hmacEqual(
-        sig: ByteArray,
-        message: ByteArray,
-        key: Key
+        sig: ByteArray, message: ByteArray, key: Key
     ): Boolean {
         val mac = Mac.getInstance("HmacSHA256")
         mac.init(key)

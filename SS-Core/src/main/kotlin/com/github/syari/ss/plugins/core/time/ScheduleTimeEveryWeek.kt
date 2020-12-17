@@ -3,9 +3,7 @@ package com.github.syari.ss.plugins.core.time
 import java.time.DayOfWeek
 
 data class ScheduleTimeEveryWeek(
-    val dayOfWeek: DayOfWeek,
-    val hour: Int,
-    val minute: Int
+    val dayOfWeek: DayOfWeek, val hour: Int, val minute: Int
 ) {
     fun getNextMinute(): ScheduleTimeEveryWeek {
         return create(dayOfWeek, hour, minute + 1)
@@ -15,9 +13,7 @@ data class ScheduleTimeEveryWeek(
 
     companion object {
         fun create(
-            dayOfWeek: DayOfWeek,
-            hour: Int,
-            minute: Int
+            dayOfWeek: DayOfWeek, hour: Int, minute: Int
         ): ScheduleTimeEveryWeek {
             var nextHour = hour
             val nextMinute = if (60 <= minute) {

@@ -6,10 +6,7 @@ import java.io.File
 import java.text.SimpleDateFormat
 
 class BackupGroup(
-    val name: String,
-    val worldNames: List<String>,
-    val pluginNames: List<String>,
-    val otherPaths: List<String>
+    val name: String, val worldNames: List<String>, val pluginNames: List<String>, val otherPaths: List<String>
 ) {
     companion object {
         private val dateFormat = SimpleDateFormat("yyyy_MM_dd_HH_mm_ss")

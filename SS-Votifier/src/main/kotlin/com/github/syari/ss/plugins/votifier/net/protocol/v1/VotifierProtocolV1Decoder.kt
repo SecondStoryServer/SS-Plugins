@@ -18,9 +18,7 @@ import java.nio.charset.StandardCharsets
 class VotifierProtocolV1Decoder: ByteToMessageDecoder() {
     @Throws(QuietException::class)
     override fun decode(
-        ctx: ChannelHandlerContext,
-        buf: ByteBuf,
-        list: MutableList<Any>
+        ctx: ChannelHandlerContext, buf: ByteBuf, list: MutableList<Any>
     ) {
         if (!ctx.channel().isActive) {
             buf.skipBytes(buf.readableBytes())
@@ -38,8 +36,7 @@ class VotifierProtocolV1Decoder: ByteToMessageDecoder() {
             decrypt(block, BootstrapBuilder.keyPair.private)
         } catch (e: Exception) {
             throw CorruptedFrameException(
-                "Could not decrypt data from ${ctx.channel().remoteAddress()}. Make sure the public key on the list is correct.",
-                e
+                "Could not decrypt data from ${ctx.channel().remoteAddress()}. Make sure the public key on the list is correct.", e
             )
         }
         val all = String(block, StandardCharsets.US_ASCII)

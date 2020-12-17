@@ -10,8 +10,7 @@ object CreateScheduler {
      * @return [CustomRunnable]
      */
     fun schedule(
-        plugin: JavaPlugin,
-        run: CustomTask.() -> Unit
+        plugin: JavaPlugin, run: CustomTask.() -> Unit
     ): CustomRunnable {
         return CustomRunnable(plugin, run)
     }
@@ -23,9 +22,7 @@ object CreateScheduler {
      * @return [CustomTask]?
      */
     fun run(
-        plugin: JavaPlugin,
-        async: Boolean = false,
-        run: CustomTask.() -> Unit
+        plugin: JavaPlugin, async: Boolean = false, run: CustomTask.() -> Unit
     ): CustomTask? {
         return schedule(plugin, run).run(async)
     }
@@ -38,10 +35,7 @@ object CreateScheduler {
      * @return [CustomTask]?
      */
     fun runLater(
-        plugin: JavaPlugin,
-        delay: Long,
-        async: Boolean = false,
-        run: CustomTask.() -> Unit
+        plugin: JavaPlugin, delay: Long, async: Boolean = false, run: CustomTask.() -> Unit
     ): CustomTask? {
         return schedule(plugin, run).runLater(delay, async)
     }
@@ -55,11 +49,7 @@ object CreateScheduler {
      * @return [CustomTask]?
      */
     fun runTimer(
-        plugin: JavaPlugin,
-        period: Long,
-        delay: Long = 0,
-        async: Boolean = false,
-        run: CustomTask.() -> Unit
+        plugin: JavaPlugin, period: Long, delay: Long = 0, async: Boolean = false, run: CustomTask.() -> Unit
     ): CustomTask? {
         return schedule(plugin, run).runTimer(period, delay, async)
     }
@@ -74,12 +64,7 @@ object CreateScheduler {
      * @return [CustomTask]?
      */
     fun runRepeatTimes(
-        plugin: JavaPlugin,
-        period: Long,
-        times: Int,
-        delay: Long = 0,
-        async: Boolean = false,
-        run: CustomTask.() -> Unit
+        plugin: JavaPlugin, period: Long, times: Int, delay: Long = 0, async: Boolean = false, run: CustomTask.() -> Unit
     ): CustomTask? {
         return schedule(plugin, run).runRepeatTimes(period, times, delay, async)
     }
@@ -90,8 +75,7 @@ object CreateScheduler {
      * @return [Set]<[CustomTask]>
      */
     fun <T> runListWithDelay(
-        listWithDelay: Map<Long, Set<T>>,
-        run: (T) -> Unit
+        listWithDelay: Map<Long, Set<T>>, run: (T) -> Unit
     ): Set<CustomTask> {
         return mutableSetOf<CustomTask>().also { taskList ->
             listWithDelay.forEach { (delay, value) ->

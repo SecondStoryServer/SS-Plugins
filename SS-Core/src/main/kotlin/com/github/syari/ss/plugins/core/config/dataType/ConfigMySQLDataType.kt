@@ -7,9 +7,7 @@ object ConfigMySQLDataType: ConfigDataType<MySQL> {
     override val typeName = "MySQL(Section)"
 
     override fun get(
-        config: CustomConfig,
-        path: String,
-        notFoundError: Boolean
+        config: CustomConfig, path: String, notFoundError: Boolean
     ): MySQL? {
         return MySQL.create(
             config.get("$path.host", ConfigDataType.STRING, notFoundError),

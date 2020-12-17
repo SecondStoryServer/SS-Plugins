@@ -32,8 +32,7 @@ class CommandTabElement internal constructor(list: Iterable<String>): Collection
      * @param element 条件に一致した場合追加する要素
      */
     fun joinIf(
-        condition: Boolean,
-        element: Iterable<String>
+        condition: Boolean, element: Iterable<String>
     ): CommandTabElement {
         return if (condition) join(element) else this
     }
@@ -44,8 +43,7 @@ class CommandTabElement internal constructor(list: Iterable<String>): Collection
      * @param element 条件に一致した場合追加する要素
      */
     fun joinIf(
-        condition: Boolean,
-        vararg element: String
+        condition: Boolean, vararg element: String
     ): CommandTabElement {
         return joinIf(condition, element.toList())
     }
@@ -56,8 +54,7 @@ class CommandTabElement internal constructor(list: Iterable<String>): Collection
      * @param element sender.isOpが真だった場合追加する要素
      */
     fun joinIfOp(
-        sender: CommandSender,
-        element: Iterable<String>
+        sender: CommandSender, element: Iterable<String>
     ): CommandTabElement {
         return joinIf(sender.isOp, element)
     }
@@ -68,8 +65,7 @@ class CommandTabElement internal constructor(list: Iterable<String>): Collection
      * @param element sender.isOpが真だった場合追加する要素
      */
     fun joinIfOp(
-        sender: CommandSender,
-        vararg element: String
+        sender: CommandSender, vararg element: String
     ): CommandTabElement {
         return joinIfOp(sender, element.toList())
     }
@@ -79,8 +75,7 @@ class CommandTabElement internal constructor(list: Iterable<String>): Collection
      * @param element sender.isOpが偽だった場合追加する要素
      */
     fun joinIfNotOp(
-        sender: CommandSender,
-        element: Iterable<String>
+        sender: CommandSender, element: Iterable<String>
     ): CommandTabElement {
         return joinIf(!sender.isOp, element)
     }
@@ -90,8 +85,7 @@ class CommandTabElement internal constructor(list: Iterable<String>): Collection
      * @param element sender.isOpが偽だった場合追加する要素
      */
     fun joinIfNotOp(
-        sender: CommandSender,
-        vararg element: String
+        sender: CommandSender, vararg element: String
     ): CommandTabElement {
         return joinIfNotOp(sender, element.toList())
     }

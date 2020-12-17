@@ -11,8 +11,7 @@ object RunCommand {
      * @param command 実行するコマンド
      */
     fun runCommand(
-        sender: CommandSender,
-        command: String
+        sender: CommandSender, command: String
     ) {
         corePlugin.server.dispatchCommand(sender, command)
     }

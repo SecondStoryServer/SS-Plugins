@@ -16,12 +16,7 @@ import java.io.IOException
  * @param deleteIfEmpty 中身が存在しなければ消去する
  */
 class CustomFileConfig internal constructor(
-    override val plugin: JavaPlugin,
-    private val output: CommandSender,
-    val fileName: String,
-    private val directory: File,
-    private val deleteIfEmpty: Boolean,
-    default: Map<String, Any> = emptyMap()
+    override val plugin: JavaPlugin, private val output: CommandSender, val fileName: String, private val directory: File, private val deleteIfEmpty: Boolean, default: Map<String, Any> = emptyMap()
 ): CustomConfig {
     private var file = File(directory, fileName)
     override val config: YamlConfiguration
@@ -65,9 +60,7 @@ class CustomFileConfig internal constructor(
      * @param save 上書き後に保存する default: false
      */
     fun set(
-        path: String,
-        value: Any?,
-        save: Boolean = false
+        path: String, value: Any?, save: Boolean = false
     ) {
         config.set(path, value)
         if (save) save()
@@ -116,8 +109,7 @@ class CustomFileConfig internal constructor(
      * @param message 本文
      */
     override fun sendError(
-        path: String,
-        message: String
+        path: String, message: String
     ) {
         output.send("&6[$filePath|$path] &c$message")
     }
