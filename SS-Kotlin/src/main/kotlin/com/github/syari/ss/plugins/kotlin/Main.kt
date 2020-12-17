@@ -22,10 +22,7 @@ class Main: JavaPlugin() {
     }
 
     override fun onCommand(
-        sender: CommandSender,
-        command: Command,
-        label: String,
-        args: Array<out String>
+        sender: CommandSender, command: Command, label: String, args: Array<out String>
     ): Boolean {
         return if (sender.isOp) {
             sender.sendMessage(kotlinDescription)

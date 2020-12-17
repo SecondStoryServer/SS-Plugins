@@ -13,15 +13,13 @@ object PersistentDataTypeBoolean: PersistentDataType<Byte, Boolean> {
     }
 
     override fun toPrimitive(
-        complex: Boolean,
-        context: PersistentDataAdapterContext
+        complex: Boolean, context: PersistentDataAdapterContext
     ): Byte {
         return if (complex) 1 else 0
     }
 
     override fun fromPrimitive(
-        primitive: Byte,
-        context: PersistentDataAdapterContext
+        primitive: Byte, context: PersistentDataAdapterContext
     ): Boolean {
         return primitive == 1.toByte()
     }

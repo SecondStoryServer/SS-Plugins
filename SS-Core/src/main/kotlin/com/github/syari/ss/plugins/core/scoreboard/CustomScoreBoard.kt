@@ -10,9 +10,7 @@ import org.bukkit.scoreboard.DisplaySlot
  * @see CreateScoreBoard.createScoreBoard
  */
 data class CustomScoreBoard internal constructor(
-    private val plugin: JavaPlugin,
-    private val title: String,
-    val priority: ScoreBoardPriority
+    private val plugin: JavaPlugin, private val title: String, val priority: ScoreBoardPriority
 ): CustomScoreBoardEdit {
     private val lineList = mutableMapOf<Int, ScoreBoardLine>()
 

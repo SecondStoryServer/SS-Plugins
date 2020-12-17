@@ -14,8 +14,7 @@ object CreateCommand {
      * @return [CommandTab.Base]
      */
     fun tab(
-        vararg arg: String,
-        tab: (CommandSender, CommandArgument) -> CommandTabElement?
+        vararg arg: String, tab: (Pair<CommandSender, CommandArgument>) -> CommandTabElement?
     ): CommandTab.Base {
         return CommandTab.Base(arg.toList(), tab)
     }
@@ -27,8 +26,7 @@ object CreateCommand {
      * @return [CommandTab.Flag]
      */
     fun flag(
-        arg: String,
-        vararg flag: Pair<String, CommandTabElement>
+        arg: String, vararg flag: Pair<String, CommandTabElement>
     ): CommandTab.Flag {
         return CommandTab.Flag(arg, flag.toMap())
     }
@@ -59,9 +57,7 @@ object CreateCommand {
      * @return [CommandTabElement]
      */
     fun elementIf(
-        condition: Boolean,
-        element: Iterable<String>?,
-        unlessElement: Iterable<String>? = listOf()
+        condition: Boolean, element: Iterable<String>?, unlessElement: Iterable<String>? = listOf()
     ): CommandTabElement {
         return element(if (condition) element else unlessElement)
     }
@@ -74,9 +70,7 @@ object CreateCommand {
      * @return [CommandTabElement]
      */
     fun elementIf(
-        condition: Boolean,
-        vararg element: String,
-        unlessElement: Iterable<String>? = listOf()
+        condition: Boolean, vararg element: String, unlessElement: Iterable<String>? = listOf()
     ): CommandTabElement {
         return elementIf(condition, element.toList(), unlessElement)
     }
@@ -89,9 +83,7 @@ object CreateCommand {
      * @return [CommandTabElement]
      */
     fun elementIfOp(
-        sender: CommandSender,
-        element: Iterable<String>?,
-        unlessElement: Iterable<String>? = listOf()
+        sender: CommandSender, element: Iterable<String>?, unlessElement: Iterable<String>? = listOf()
     ): CommandTabElement {
         return elementIf(sender.isOp, element, unlessElement)
     }
@@ -104,9 +96,7 @@ object CreateCommand {
      * @return [CommandTabElement]
      */
     fun elementIfOp(
-        sender: CommandSender,
-        vararg element: String,
-        unlessElement: Iterable<String>? = listOf()
+        sender: CommandSender, vararg element: String, unlessElement: Iterable<String>? = listOf()
     ): CommandTabElement {
         return elementIfOp(sender, element.toList(), unlessElement)
     }
@@ -123,105 +113,95 @@ object CreateCommand {
      * @see CommandArgument
      */
     fun createCommand(
-        plugin: JavaPlugin,
-        label: String,
-        messagePrefix: String,
-        vararg tab: CommandTab,
-        alias: Iterable<String> = listOf(),
-        execute: CommandMessage.(CommandSender, CommandArgument) -> Unit
+        plugin: JavaPlugin, label: String, messagePrefix: String, vararg tab: CommandTab, alias: Iterable<String> = listOf(), execute: CommandMessage.(CommandSender, CommandArgument) -> Unit
     ) {
-        registerCommand(
-            plugin,
-            object: Command(label, "", "/", alias.toList()) {
-                override fun execute(
-                    sender: CommandSender,
-                    commandLabel: String,
-                    args: Array<out String>
-                ): Boolean {
-                    val message = CommandMessage(messagePrefix, sender)
-                    execute.invoke(
-                        message, sender,
-                        CommandArgument(args, message)
-                    )
-                    return true
-                }
+        registerCommand(plugin, object: Command(label, "", "/", alias.toList()) {
+            override fun execute(
+                sender: CommandSender, commandLabel: String, args: Array<out String>
+            ): Boolean {
+                val message = CommandMessage(messagePrefix, sender)
+                execute.invoke(
+                    message, sender, CommandArgument(args, message)
+                )
+                return true
+            }
 
-                override fun tabComplete(
-                    sender: CommandSender,
-                    alias: String,
-                    args: Array<out String>
-                ): List<String> {
-                    val message = CommandMessage(messagePrefix, sender)
-                    val tabList = mutableListOf<String>()
-                    val joinArg = args.joinToString(separator = " ").toLowerCase()
-                    val size = args.size - 1
-                    tab.forEach { eachTab ->
-                        when (eachTab) {
-                            is CommandTab.Base -> {
-                                val element = eachTab.tab.invoke(
-                                    sender,
-                                    CommandArgument(args, message)
-                                )?.element ?: return@forEach
-                                if (eachTab.arg.isEmpty()) {
-                                    if (size == 0) tabList.addAll(element.filter {
-                                        it.toLowerCase().startsWith(joinArg)
-                                    })
-                                } else {
-                                    eachTab.arg.forEach { eachArg ->
-                                        val splitArg = eachArg.split("\\s+".toRegex())
-                                        if (splitArg.size == size) {
-                                            val completed = if (eachArg.contains('*')) {
-                                                StringBuilder().apply {
-                                                    splitArg.forEachIndexed { index, word ->
-                                                        append("${if (word != "*") word else args[index]} ")
-                                                    }
-                                                }.toString().substringBeforeLast(" ")
-                                            } else {
-                                                eachArg
-                                            }
-                                            tabList.addAll(element.filter {
-                                                "$completed $it".toLowerCase().startsWith(joinArg)
-                                            })
+            override fun tabComplete(
+                sender: CommandSender, alias: String, args: Array<out String>
+            ): List<String> {
+                val message = CommandMessage(messagePrefix, sender)
+                val tabList = mutableListOf<String>()
+                val joinArg = args.joinToString(separator = " ").toLowerCase()
+                val size = args.size - 1
+                tab.forEach { eachTab ->
+                    when (eachTab) {
+                        is CommandTab.Base -> {
+                            val element = eachTab.tab.invoke(
+                                sender to CommandArgument(args, message)
+                            )?.element ?: return@forEach
+                            if (eachTab.arg.isEmpty()) {
+                                if (size == 0) tabList.addAll(element.filter {
+                                    it.toLowerCase().startsWith(joinArg)
+                                })
+                            } else {
+                                eachTab.arg.forEach { eachArg ->
+                                    val splitArg = eachArg.split("\\s+".toRegex())
+                                    if (splitArg.size == size) {
+                                        val completed = if (eachArg.contains('*')) {
+                                            var wild2 = false
+                                            StringBuilder().apply {
+                                                splitArg.forEachIndexed { index, word ->
+                                                    if (word == "**") wild2 = true
+                                                    append(
+                                                        if (wild2 || word == "*") args[index]
+                                                        else word
+                                                    )
+                                                }
+                                            }.toString().substringBeforeLast(" ")
+                                        } else {
+                                            eachArg
                                         }
-                                    }
-                                }
-                            }
-                            is CommandTab.Flag -> {
-                                val splitArg = eachTab.arg.split("\\s+".toRegex())
-                                splitArg.forEachIndexed { index, split ->
-                                    if (split != "*" && split.toLowerCase() != args.getOrNull(index)?.toLowerCase()) {
-                                        return@forEach
-                                    }
-                                }
-                                val enterText = args.getOrNull(args.size - 1) ?: return@forEach
-                                if ((size - splitArg.size) % 2 == 0) {
-                                    val element = eachTab.flag.keys.toMutableSet()
-                                    for (index in splitArg.size until size step 2) {
-                                        element.remove(args[index].toLowerCase())
-                                    }
-                                    tabList.addAll(element.filter {
-                                        it.toLowerCase().startsWith(enterText)
-                                    })
-                                } else {
-                                    val element = eachTab.flag[args.getOrNull(args.size - 2)?.toLowerCase()]
-                                    if (element != null) {
                                         tabList.addAll(element.filter {
-                                            it.toLowerCase().startsWith(enterText)
+                                            "$completed $it".toLowerCase().startsWith(joinArg)
                                         })
                                     }
                                 }
                             }
                         }
+                        is CommandTab.Flag -> {
+                            val splitArg = eachTab.arg.split("\\s+".toRegex())
+                            splitArg.forEachIndexed { index, split ->
+                                if (split != "*" && split.toLowerCase() != args.getOrNull(index)?.toLowerCase()) {
+                                    return@forEach
+                                }
+                            }
+                            val enterText = args.getOrNull(args.size - 1) ?: return@forEach
+                            if ((size - splitArg.size) % 2 == 0) {
+                                val element = eachTab.flag.keys.toMutableSet()
+                                for (index in splitArg.size until size step 2) {
+                                    element.remove(args[index].toLowerCase())
+                                }
+                                tabList.addAll(element.filter {
+                                    it.toLowerCase().startsWith(enterText)
+                                })
+                            } else {
+                                val element = eachTab.flag[args.getOrNull(args.size - 2)?.toLowerCase()]
+                                if (element != null) {
+                                    tabList.addAll(element.filter {
+                                        it.toLowerCase().startsWith(enterText)
+                                    })
+                                }
+                            }
+                        }
                     }
-                    return tabList.sorted()
                 }
+                return tabList.sorted()
             }
-        )
+        })
     }
 
     private fun registerCommand(
-        plugin: JavaPlugin,
-        command: Command
+        plugin: JavaPlugin, command: Command
     ) {
         try {
             val commandMapField = plugin.server.javaClass.getDeclaredField("commandMap")

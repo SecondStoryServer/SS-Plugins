@@ -9,8 +9,7 @@ import com.github.syari.ss.plugins.votifier.Main
  * @param username ユーザー名
  */
 class VotifierEvent(
-    val serviceName: String,
-    val username: String
+    val serviceName: String, val username: String
 ): CustomEvent() {
     /**
      * ユーザー名から取得したプレイヤー

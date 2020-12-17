@@ -14,10 +14,7 @@ import org.bukkit.entity.Player
  * @see CreateBossBar.createBossBar
  */
 class CustomBossBar internal constructor(
-    title: String,
-    color: BarColor,
-    style: BarStyle,
-    private val public: Boolean
+    title: String, color: BarColor, style: BarStyle, private val public: Boolean
 ) {
     private val bar: BossBar = corePlugin.server.createBossBar(title.toColor, color, style)
 

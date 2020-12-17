@@ -6,9 +6,7 @@ object ConfigFloatDataType: ConfigDataType<Float> {
     override val typeName = "Float"
 
     override fun get(
-        config: CustomConfig,
-        path: String,
-        notFoundError: Boolean
+        config: CustomConfig, path: String, notFoundError: Boolean
     ): Float? {
         return config.get(path, ConfigDataType.NUMBER, notFoundError)?.toFloat()
     }

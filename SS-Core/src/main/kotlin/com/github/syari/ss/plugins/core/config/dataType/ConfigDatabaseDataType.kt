@@ -7,9 +7,7 @@ object ConfigDatabaseDataType: ConfigDataType<Database> {
     override val typeName = "Database(Section)"
 
     override fun get(
-        config: CustomConfig,
-        path: String,
-        notFoundError: Boolean
+        config: CustomConfig, path: String, notFoundError: Boolean
     ): Database? {
         if (!config.contains(path)) return null
         return when (config.get("$path.type", ConfigDataType.STRING, "mysql", false)) {

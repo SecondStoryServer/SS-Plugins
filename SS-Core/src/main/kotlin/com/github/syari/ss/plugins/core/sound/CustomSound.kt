@@ -9,10 +9,7 @@ import org.bukkit.entity.Entity
  * サウンドデータ
  */
 class CustomSound internal constructor(
-    private val type: Sound,
-    private val volume: Float,
-    private val pitch: Float,
-    private val category: SoundCategory
+    private val type: Sound, private val volume: Float, private val pitch: Float, private val category: SoundCategory
 ) {
     /**
      * 再生します
@@ -36,8 +33,7 @@ class CustomSound internal constructor(
      * @param number 繰り返し回数
      */
     fun repeat(
-        location: Location,
-        number: Int
+        location: Location, number: Int
     ) {
         for (i in 0 until number) {
             play(location)

@@ -15,11 +15,7 @@ object CreateConfig {
      * @return [CustomFileConfig]
      */
     fun config(
-        plugin: JavaPlugin,
-        output: CommandSender,
-        fileName: String,
-        deleteIfEmpty: Boolean = true,
-        default: Map<String, Any> = emptyMap()
+        plugin: JavaPlugin, output: CommandSender, fileName: String, deleteIfEmpty: Boolean = true, default: Map<String, Any> = emptyMap()
     ): CustomFileConfig {
         var directory = plugin.dataFolder
         if (!directory.exists()) directory.mkdir()
@@ -46,12 +42,7 @@ object CreateConfig {
      * @return [CustomFileConfig]
      */
     fun config(
-        plugin: JavaPlugin,
-        output: CommandSender,
-        fileName: String,
-        deleteIfEmpty: Boolean = true,
-        default: Map<String, Any> = emptyMap(),
-        run: CustomFileConfig.() -> Unit
+        plugin: JavaPlugin, output: CommandSender, fileName: String, deleteIfEmpty: Boolean = true, default: Map<String, Any> = emptyMap(), run: CustomFileConfig.() -> Unit
     ): CustomFileConfig {
         return config(plugin, output, fileName, deleteIfEmpty, default).apply(run)
     }
@@ -65,10 +56,7 @@ object CreateConfig {
      * @return [CustomFileConfig]
      */
     fun config(
-        plugin: JavaPlugin,
-        output: CommandSender,
-        uniqueName: String,
-        reader: Reader
+        plugin: JavaPlugin, output: CommandSender, uniqueName: String, reader: Reader
     ): CustomReaderConfig {
         return CustomReaderConfig(plugin, output, uniqueName, reader)
     }
@@ -83,11 +71,7 @@ object CreateConfig {
      * @return [CustomFileConfig]
      */
     fun config(
-        plugin: JavaPlugin,
-        output: CommandSender,
-        uniqueName: String,
-        reader: Reader,
-        run: CustomReaderConfig.() -> Unit
+        plugin: JavaPlugin, output: CommandSender, uniqueName: String, reader: Reader, run: CustomReaderConfig.() -> Unit
     ): CustomReaderConfig {
         return config(plugin, output, uniqueName, reader).apply(run)
     }
@@ -101,10 +85,7 @@ object CreateConfig {
      * @return [Map]<[String], [CustomFileConfig]>
      */
     fun configDir(
-        plugin: JavaPlugin,
-        output: CommandSender,
-        directoryName: String,
-        deleteIfEmpty: Boolean = true
+        plugin: JavaPlugin, output: CommandSender, directoryName: String, deleteIfEmpty: Boolean = true
     ): Map<String, CustomFileConfig> {
         var directory = plugin.dataFolder
         if (!directory.exists()) directory.mkdir()
@@ -131,11 +112,7 @@ object CreateConfig {
      * @return [Map]<[String], [CustomFileConfig]>
      */
     fun configDir(
-        plugin: JavaPlugin,
-        output: CommandSender,
-        directoryName: String,
-        deleteIfEmpty: Boolean = true,
-        run: CustomFileConfig.() -> Unit
+        plugin: JavaPlugin, output: CommandSender, directoryName: String, deleteIfEmpty: Boolean = true, run: CustomFileConfig.() -> Unit
     ) {
         configDir(plugin, output, directoryName, deleteIfEmpty).values.onEach { config ->
             run.invoke(config)
@@ -149,8 +126,7 @@ object CreateConfig {
      * @return [Boolean]
      */
     fun contains(
-        plugin: JavaPlugin,
-        fileName: String
+        plugin: JavaPlugin, fileName: String
     ): Boolean {
         var directory = plugin.dataFolder
         if (!directory.exists()) return false

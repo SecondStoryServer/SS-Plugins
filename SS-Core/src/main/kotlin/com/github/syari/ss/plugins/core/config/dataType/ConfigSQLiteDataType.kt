@@ -7,13 +7,10 @@ object ConfigSQLiteDataType: ConfigDataType<SQLite> {
     override val typeName = "SQLite(Section)"
 
     override fun get(
-        config: CustomConfig,
-        path: String,
-        notFoundError: Boolean
+        config: CustomConfig, path: String, notFoundError: Boolean
     ): SQLite? {
         return SQLite.create(
-            config.plugin.dataFolder,
-            config.get("$path.name", ConfigDataType.STRING)
+            config.plugin.dataFolder, config.get("$path.name", ConfigDataType.STRING)
         )
     }
 }

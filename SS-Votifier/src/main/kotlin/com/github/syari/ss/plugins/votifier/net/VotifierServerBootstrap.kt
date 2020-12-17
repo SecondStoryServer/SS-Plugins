@@ -24,8 +24,7 @@ import java.util.concurrent.ThreadFactory
 import java.util.logging.Level
 
 class VotifierServerBootstrap(
-    private val host: String,
-    private val port: Int
+    private val host: String, private val port: Int
 ) {
     private val bossLoopGroup: EventLoopGroup
     private val eventLoopGroup: EventLoopGroup

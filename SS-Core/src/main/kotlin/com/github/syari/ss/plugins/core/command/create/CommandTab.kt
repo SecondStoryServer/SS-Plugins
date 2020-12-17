@@ -7,15 +7,13 @@ sealed class CommandTab {
      * @see CreateCommand.tab
      */
     class Base internal constructor(
-        val arg: List<String>,
-        val tab: (CommandSender, CommandArgument) -> CommandTabElement?
+        val arg: List<String>, val tab: (Pair<CommandSender, CommandArgument>) -> CommandTabElement?
     ): CommandTab()
 
     /**
      * @see CreateCommand.flag
      */
     class Flag internal constructor(
-        val arg: String,
-        val flag: Map<String, CommandTabElement>
+        val arg: String, val flag: Map<String, CommandTabElement>
     ): CommandTab()
 }

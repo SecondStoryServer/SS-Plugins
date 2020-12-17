@@ -20,8 +20,7 @@ sealed class ShopElement {
     open val needsText = ""
 
     class Jump(
-        private val id: String,
-        private val type: Material
+        private val id: String, private val type: Material
     ): ShopElement() {
         override fun give(player: Player) = Shop.get(id)?.open(player)?.run { false } ?: true
 
@@ -51,16 +50,14 @@ sealed class ShopElement {
         }
 
         class Minecraft(
-            type: Material,
-            amount: Int
+            type: Material, amount: Int
         ): Item() {
             override val item = CustomItemStack.create(type, amount)
             override val needsText by lazy { "${item.i18NDisplayName} × $amount" }
         }
 
         class Custom(
-            override val item: CustomItemStack,
-            amount: Int
+            override val item: CustomItemStack, amount: Int
         ): Item() {
             override val needsText by lazy { "${item.display} × $amount" }
         }

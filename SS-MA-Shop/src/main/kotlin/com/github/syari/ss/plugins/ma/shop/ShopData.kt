@@ -4,9 +4,7 @@ import com.github.syari.ss.plugins.core.inventory.CreateInventory.inventory
 import org.bukkit.entity.Player
 
 data class ShopData(
-    val name: String,
-    val line: Int,
-    val list: Map<Int, ShopBuyAction>
+    val name: String, val line: Int, val list: Map<Int, ShopBuyAction>
 ) {
     fun open(player: Player) {
         inventory(name, line) {

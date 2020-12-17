@@ -10,7 +10,7 @@ import org.bukkit.command.ConsoleCommandSender
 
 object CommandCreator: OnEnable {
     override fun onEnable() {
-        createCommand(plugin, "votifier", "SS-Votifier", tab { sender, _ ->
+        createCommand(plugin, "votifier", "SS-Votifier", tab { (sender, _) ->
             elementIf(sender is ConsoleCommandSender, "reload")
         }) { sender, args ->
             when (args.whenIndex(0)) {

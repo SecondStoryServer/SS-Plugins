@@ -10,9 +10,7 @@ import org.bukkit.entity.Player
 
 object CommandCreator: OnEnable {
     override fun onEnable() {
-        createCommand(plugin, "mashop", "MA_Shop", tab { _, _ ->
-            element("open", "reload")
-        }, tab("open") { _, _ ->
+        createCommand(plugin, "mashop", "MA_Shop", tab { element("open", "reload") }, tab("open") {
             element(Shop.getNames())
         }) { sender, args ->
             when (args.whenIndex(0)) {
@@ -27,8 +25,7 @@ object CommandCreator: OnEnable {
                     ConfigLoader.loadConfig(sender)
                 }
                 else -> sendHelp(
-                    "/mashop open <ID>" to "ショップを開きます",
-                    "/mashop reload" to "コンフィグを再読み込みします"
+                    "/mashop open <ID>" to "ショップを開きます", "/mashop reload" to "コンフィグを再読み込みします"
                 )
             }
         }

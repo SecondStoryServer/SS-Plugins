@@ -7,8 +7,7 @@ sealed class ShopBuyAction(val target: ShopElement) {
 
     class Free(target: ShopElement): ShopBuyAction(target)
     class Paid(
-        target: ShopElement,
-        val needs: List<ShopElement>
+        target: ShopElement, val needs: List<ShopElement>
     ): ShopBuyAction(target)
 
     companion object {

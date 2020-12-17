@@ -36,6 +36,13 @@ interface Project {
         override val dependProject = listOf(Kotlin)
     }
 
+    object Backup: Project {
+        override val name = "SS-Backup"
+        override val version = "1.0.0"
+        override val group = subgroup("backup")
+        override val dependProject = listOf(Core)
+    }
+
     object Votifier: Project {
         override val name = "SS-Votifier"
         override val version = "1.1.3"

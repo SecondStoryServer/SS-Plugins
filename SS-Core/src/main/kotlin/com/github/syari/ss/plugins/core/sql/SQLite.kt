@@ -10,8 +10,7 @@ import java.sql.DriverManager
 data class SQLite(val file: File): Database {
     companion object {
         fun create(
-            parentDirectory: File?,
-            fileName: String?
+            parentDirectory: File?, fileName: String?
         ): SQLite? {
             return if (fileName != null) {
                 val dbFileName = if (fileName.endsWith(".db")) fileName else "$fileName.db"

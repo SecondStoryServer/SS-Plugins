@@ -43,10 +43,6 @@ object CreateBossBar: Listener, OnDisable {
      * @return [CustomBossBar]
      */
     fun createBossBar(
-        title: String,
-        color: BarColor,
-        style: BarStyle,
-        public: Boolean = false
-    ) =
-            CustomBossBar(title, color, style, public)
+        title: String, color: BarColor, style: BarStyle, public: Boolean = false
+    ) = CustomBossBar(title, color, style, public)
 }

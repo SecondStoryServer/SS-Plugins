@@ -1,7 +1,7 @@
 # Project exclude paths
 .gradle
 !.idea/codeStyles/codeStyleConfig.xml
-!.idea/codeStyles/SS-CodeStyle.xml
+!.idea/codeStyles/Project.xml
 .idea
 build
 gradle
