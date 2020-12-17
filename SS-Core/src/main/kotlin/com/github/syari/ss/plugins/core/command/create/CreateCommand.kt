@@ -148,9 +148,14 @@ object CreateCommand {
                                     val splitArg = eachArg.split("\\s+".toRegex())
                                     if (splitArg.size == size) {
                                         val completed = if (eachArg.contains('*')) {
+                                            var wild2 = false
                                             StringBuilder().apply {
                                                 splitArg.forEachIndexed { index, word ->
-                                                    append("${if (word != "*") word else args[index]} ")
+                                                    if (word == "**") wild2 = true
+                                                    append(
+                                                        if (wild2 || word == "*") args[index]
+                                                        else word
+                                                    )
                                                 }
                                             }.toString().substringBeforeLast(" ")
                                         } else {
