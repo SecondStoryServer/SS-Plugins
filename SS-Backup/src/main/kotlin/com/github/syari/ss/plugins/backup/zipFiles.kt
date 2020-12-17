@@ -14,7 +14,7 @@ fun zipFiles(files: Array<File>, output: File) {
 
 private fun ZipOutputStream.addFiles(files: Array<File>, parent: String = "") {
     files.forEach { file ->
-        val path = parent + "/" + file.name
+        val path = parent + file.name
         if (file.isFile) {
             FileInputStream(file).use { inputStream ->
                 putNextEntry(ZipEntry(path))
@@ -26,7 +26,7 @@ private fun ZipOutputStream.addFiles(files: Array<File>, parent: String = "") {
             }
         } else {
             file.listFiles()?.let {
-                addFiles(it, path)
+                addFiles(it, "$path/")
             }
         }
     }
