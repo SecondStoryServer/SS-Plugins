@@ -12,10 +12,22 @@ object CommandCreator: OnEnable {
             when (args.whenIndex(0)) {
                 "now" -> {
                     if (args.size == 1) return@createCommand sendError("グループ名を入力してください")
-                    val groups = args.slice(1).mapNotNull { Backup.groups[it] }
-                    val names = groups.joinToString(", ") { it.name }
-                    sendWithPrefix("&6$names &fのバックアップを始めます")
-                    Backup.create(groups)
+                    val groups = mutableListOf<BackupGroup>()
+                    val nils = mutableListOf<String>()
+                    args.slice(1).forEach { name ->
+                        Backup.groups[name]?.let {
+                            groups.add(it)
+                        } ?: run {
+                            nils.add(name)
+                        }
+                    }
+                    if (groups.isNotEmpty()) {
+                        sendWithPrefix("&6${groups.joinToString { it.name }} &fのバックアップを始めます")
+                        Backup.create(groups)
+                    }
+                    if (nils.isNotEmpty()) {
+                        sendError("&6${nils.joinToString()} &cは存在しませんでした")
+                    }
                 }
             }
         }
