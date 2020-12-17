@@ -8,7 +8,9 @@ import com.github.syari.ss.plugins.core.command.create.CreateCommand.tab
 
 object CommandCreator: OnEnable {
     override fun onEnable() {
-        createCommand(plugin, "backup", "SS-Backup", tab { element("now") }) { _, args ->
+        createCommand(plugin, "backup", "SS-Backup", tab { element("now", "reload") }, tab("now **") {
+            element(Backup.groups.keys)
+        }) { sender, args ->
             when (args.whenIndex(0)) {
                 "now" -> {
                     if (args.size == 1) return@createCommand sendError("グループ名を入力してください")
@@ -29,6 +31,13 @@ object CommandCreator: OnEnable {
                         sendError("&6${nils.joinToString()} &cは存在しませんでした")
                     }
                 }
+                "reload" -> {
+                    sendWithPrefix("コンフィグを読み込みます")
+                    ConfigLoader.load(sender)
+                }
+                else -> sendHelp(
+                    "backup now" to "バックアップを実行します", "backup reload" to "コンフィグを再読み込みします"
+                )
             }
         }
     }
