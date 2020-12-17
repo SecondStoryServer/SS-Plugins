@@ -7,6 +7,7 @@ include(
     "SS-Votifier",
     "SS-MaterialChecker",
     "SS-CommandBlocker",
+    "SS-PluginManager",
     "SS-MA-Shop",
     "SS-MA-Item",
     "SS-Dependency-MythicMobs",
