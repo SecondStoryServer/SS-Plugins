@@ -21,7 +21,7 @@ object ConfigLoader: OnEnable {
                 val worldNames = get("group.$name.world", ConfigDataType.STRINGLIST, listOf(), false)
                 val pluginNames = get("group.$name.plugin", ConfigDataType.STRINGLIST, listOf(), false)
                 val otherPaths = get("group.$name.other", ConfigDataType.STRINGLIST, listOf(), false)
-                BackupGroup(name, worldNames, pluginNames, otherPaths)
+                BackupGroup.from(name, worldNames, pluginNames, otherPaths)
             }?.associateBy { it.name }.orEmpty()
         }
     }

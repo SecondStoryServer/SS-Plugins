@@ -14,7 +14,7 @@ object CreateCommand {
      * @return [CommandTab.Base]
      */
     fun tab(
-        vararg arg: String, tab: (CommandSender, CommandArgument) -> CommandTabElement?
+        vararg arg: String, tab: (Pair<CommandSender, CommandArgument>) -> CommandTabElement?
     ): CommandTab.Base {
         return CommandTab.Base(arg.toList(), tab)
     }
@@ -137,7 +137,7 @@ object CreateCommand {
                     when (eachTab) {
                         is CommandTab.Base -> {
                             val element = eachTab.tab.invoke(
-                                sender, CommandArgument(args, message)
+                                sender to CommandArgument(args, message)
                             )?.element ?: return@forEach
                             if (eachTab.arg.isEmpty()) {
                                 if (size == 0) tabList.addAll(element.filter {

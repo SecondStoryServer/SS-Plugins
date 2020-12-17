@@ -8,7 +8,7 @@ import com.github.syari.ss.plugins.core.command.create.CreateCommand.tab
 
 object CommandCreator: OnEnable {
     override fun onEnable() {
-        createCommand(plugin, "backup", "SS-Backup", tab { _, _ -> element("now") }) { _, args ->
+        createCommand(plugin, "backup", "SS-Backup", tab { element("now") }) { _, args ->
             when (args.whenIndex(0)) {
                 "now" -> {
                     if (args.size == 1) return@createCommand sendError("グループ名を入力してください")
