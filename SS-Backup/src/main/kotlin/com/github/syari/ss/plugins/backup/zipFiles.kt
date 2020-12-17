@@ -6,8 +6,8 @@ import java.io.FileOutputStream
 import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
 
-fun zipFiles(files: Array<File>, outfilePath: String) {
-    ZipOutputStream(FileOutputStream(outfilePath)).use { it ->
+fun zipFiles(files: Array<File>, output: File) {
+    ZipOutputStream(FileOutputStream(output)).use {
         it.addFiles(files)
     }
 }
