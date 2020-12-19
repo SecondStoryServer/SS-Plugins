@@ -18,18 +18,19 @@ class Main: SSPlugin() {
 
     private val soundList = Sound.values().toList().chunked(45)
 
-    private fun Player.openSoundList(page: Int = 0) {
+    private data class OpenSoundListConfig(
+        val page: Int = 0, var pitch: Float = 1.0F, var sound: Sound? = null
+    )
+
+    private fun Player.openSoundList(config: OpenSoundListConfig = OpenSoundListConfig()) {
         val lastPage = soundList.lastIndex
         when {
-            page < 0 -> openSoundList(0)
-            lastPage < page -> openSoundList(lastPage)
-            else -> inventory("&9SoundChecker ($page/$lastPage)", 6) {
-                var lastPlaySound: Sound? = null
-                var lastPitch = 1F
-
-                fun playSound(sound: Sound?) {
-                    sound?.let {
-                        playSound(location, sound, 1.0F, lastPitch)
+            config.page < 0 -> openSoundList(config.copy(page = 0))
+            lastPage < config.page -> openSoundList(config.copy(page = lastPage))
+            else -> inventory("&9SoundChecker (${config.page}/$lastPage)", 6) {
+                fun playSound() {
+                    config.sound?.let {
+                        playSound(location, it, 1.0F, config.pitch)
                     }
                 }
 
@@ -38,7 +39,7 @@ class Main: SSPlugin() {
                         pitch < 0 -> updatePitch(0F)
                         2 < pitch -> updatePitch(2F)
                         else -> {
-                            lastPitch = pitch
+                            config.pitch = pitch
                             item(49, Material.LIME_STAINED_GLASS_PANE, "&fピッチ &a${String.format("%.1f", pitch)}", "&6L: -0.5", "&6SL: -0.1", "&6SR: +0.1", "&6R: +0.5").event(ClickType.LEFT) {
                                 updatePitch(pitch - 0.5F)
                             }.event(ClickType.SHIFT_LEFT) {
@@ -48,26 +49,26 @@ class Main: SSPlugin() {
                             }.event(ClickType.RIGHT) {
                                 updatePitch(pitch + 0.5F)
                             }.event {
-                                playSound(lastPlaySound)
+                                playSound()
                             }
                         }
                     }
                 }
 
-                soundList[page].forEachIndexed { i, sound ->
+                soundList[config.page].forEachIndexed { i, sound ->
                     item(i, soundToMaterial(sound), "&6${sound.name}").event {
-                        playSound(sound)
-                        lastPlaySound = sound
+                        config.sound = sound
+                        playSound()
                     }
                 }
                 item(45..53, Material.BLACK_STAINED_GLASS_PANE, "")
                 item(47, Material.ORANGE_STAINED_GLASS_PANE, "&d<<").event {
-                    openSoundList(page - 1)
+                    openSoundList(config.copy(page = config.page - 1))
                 }
                 item(51, Material.ORANGE_STAINED_GLASS_PANE, "&d>>").event {
-                    openSoundList(page + 1)
+                    openSoundList(config.copy(page = config.page + 1))
                 }
-                updatePitch(1F)
+                updatePitch(config.pitch)
             }.open(this)
         }
     }
