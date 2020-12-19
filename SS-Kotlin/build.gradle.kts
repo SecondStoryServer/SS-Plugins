@@ -1,10 +1,5 @@
-plugins {
-    id("net.minecrell.plugin-yml.bukkit") version "0.3.0"
-}
-
 val project = Project.Kotlin
 group = project.group
-version = project.version
 
 dependencies {
     compileOnly(kotlin("stdlib-jdk8"))
@@ -22,11 +17,4 @@ bukkit {
             description = "Display Kotlin Version & Package"
         }
     }
-}
-
-val jar by tasks.getting(Jar::class) {
-    from(configurations.compileOnly.get().map {
-        if (it.isDirectory) it else zipTree(it)
-    })
-    destinationDir = file("../jars")
 }
