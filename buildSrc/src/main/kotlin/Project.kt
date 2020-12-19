@@ -57,6 +57,13 @@ interface Project {
         override val dependProject = listOf(Core)
     }
 
+    object SoundChecker: Project {
+        override val name = "SS-SoundChecker"
+        override val version = "1.0.0"
+        override val group = subgroup("soundchecker")
+        override val dependProject = listOf(Core)
+    }
+
     object CommandBlocker: Project {
         override val name = "SS-CommandBlocker"
         override val version = "1.0.0"
