@@ -53,7 +53,7 @@ interface Project {
     object MaterialChecker: Project {
         override val name = "SS-MaterialChecker"
         override val version = "1.0.0"
-        override val group = subgroup("checker.material")
+        override val group = subgroup("materialchecker")
         override val dependProject = listOf(Core)
     }
 

@@ -1,4 +1,4 @@
-package com.github.syari.ss.plugins.checker.material
+package com.github.syari.ss.plugins.materialchecker
 
 import com.github.syari.ss.plugins.core.code.SSPlugin
 import com.github.syari.ss.plugins.core.command.create.CreateCommand.createCommand
