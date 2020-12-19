@@ -6,6 +6,7 @@ include(
     "SS-Backup",
     "SS-Votifier",
     "SS-MaterialChecker",
+    "SS-SoundChecker",
     "SS-CommandBlocker",
     "SS-PluginManager",
     "SS-MA-Shop",
