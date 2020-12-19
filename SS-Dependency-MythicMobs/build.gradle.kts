@@ -18,10 +18,3 @@ bukkit {
     apiVersion = project.apiVersion
     depend = project.dependPlugin
 }
-
-val jar by tasks.getting(Jar::class) {
-    from(configurations.compileOnly.get().map {
-        if (it.isDirectory) it else zipTree(it)
-    })
-    destinationDirectory.file("../jars")
-}

@@ -22,10 +22,3 @@ bukkit {
         }
     }
 }
-
-val jar by tasks.getting(Jar::class) {
-    from(configurations.compileOnly.get().map {
-        if (it.isDirectory) it else zipTree(it)
-    })
-    destinationDirectory.file("../jars")
-}
