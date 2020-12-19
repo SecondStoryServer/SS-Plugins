@@ -4,7 +4,6 @@ plugins {
 
 val project = Project.Kotlin
 group = project.group
-version = project.version
 
 dependencies {
     compileOnly(kotlin("stdlib-jdk8"))

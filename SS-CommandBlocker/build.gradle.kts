@@ -4,7 +4,6 @@ plugins {
 
 val project = Project.CommandBlocker
 group = project.group
-version = project.version
 
 dependencies {
     project.dependProjectName.forEach { implementation(project(":$it")) }

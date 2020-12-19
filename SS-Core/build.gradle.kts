@@ -4,7 +4,6 @@ plugins {
 
 val project = Project.Core
 group = project.group
-version = project.version
 
 bukkit {
     name = project.name
