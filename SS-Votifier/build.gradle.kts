@@ -24,5 +24,5 @@ val jar by tasks.getting(Jar::class) {
     from(configurations.compileOnly.get().map {
         if (it.isDirectory) it else zipTree(it)
     })
-    destinationDir = file("../jars")
+    destinationDirectory.file("../jars")
 }
