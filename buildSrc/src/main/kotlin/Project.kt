@@ -108,6 +108,13 @@ interface Project {
             override val group = subgroup("ma.item")
             override val dependProject = listOf(Core, Dependency.AdvancedMobArena)
         }
+
+        object Mob: MA {
+            override val name = "SS-MA-Mob"
+            override val version = build(2)
+            override val group = subgroup("ma.mob")
+            override val dependProject = listOf(Core, Dependency.AdvancedMobArena, Dependency.MythicMobs)
+        }
     }
 
     interface Dependency: Project {
