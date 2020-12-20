@@ -120,5 +120,13 @@ interface Project {
             override val dependProject = listOf(Core)
             override val extraDependPlugin = listOf("CrackShotPlus")
         }
+
+        object NexEngine: Dependency {
+            override val name = "SS-Dependency-NexEngine"
+            override val version = "2.0.1"
+            override val group = subgroup("dependency.nexengine")
+            override val dependProject = listOf(Core)
+            override val extraDependPlugin = listOf("NexEngine")
+        }
     }
 }

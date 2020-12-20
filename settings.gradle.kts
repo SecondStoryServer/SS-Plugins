@@ -13,5 +13,6 @@ include(
     "SS-MA-Item",
     "SS-Dependency-MythicMobs",
     "SS-Dependency-CrackShot",
-    "SS-Dependency-CrackShotPlus"
+    "SS-Dependency-CrackShotPlus",
+    "SS-Dependency-NexEngine"
 )
