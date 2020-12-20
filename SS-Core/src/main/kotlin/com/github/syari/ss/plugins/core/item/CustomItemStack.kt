@@ -391,14 +391,6 @@ class CustomItemStack internal constructor(
         return Gson().toJson(serialize())
     }
 
-    /**
-     * Base64 に変換します
-     * @return [String]
-     */
-    fun toBase64(): String {
-        return InventoryBase64.toBase64(toItemStack)
-    }
-
     companion object {
         /**
          * @param item アイテム
@@ -503,16 +495,6 @@ class CustomItemStack internal constructor(
                     itemMeta = ConfigurationSerialization.deserializeObject(itemMetaMap) as ItemMeta
                 }
             }
-        }
-
-        /**
-         * Base64 をアイテムに変換します
-         * @param base64 Base64 データ
-         * @return [CustomItemStack]
-         */
-        fun fromBase64(base64: String): List<CustomItemStack> {
-            val items = InventoryBase64.getItemStackFromBase64(base64)
-            return compress(items)
         }
 
         /**

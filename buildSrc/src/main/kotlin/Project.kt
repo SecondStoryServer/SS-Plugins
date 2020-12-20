@@ -33,7 +33,7 @@ interface Project {
 
     object Core: Project {
         override val name = "SS-Core"
-        override val version = build(1)
+        override val version = build(2)
         override val group = subgroup("core")
         override val dependProject = listOf(Kotlin)
     }
@@ -123,7 +123,7 @@ interface Project {
 
         object NexEngine: Dependency {
             override val name = "SS-Dependency-NexEngine"
-            override val version = "2.0.1"
+            override val version = "2.0.1-1"
             override val group = subgroup("dependency.nexengine")
             override val dependProject = listOf(Core)
             override val extraDependPlugin = listOf("NexEngine")
