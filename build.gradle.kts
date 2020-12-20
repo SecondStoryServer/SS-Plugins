@@ -36,6 +36,6 @@ subprojects {
     tasks.withType<ShadowJar> {
         configurations = listOf(project.configurations.compileOnly.get())
         classifier = null
-        destinationDirectory.file("../jars")
+        destinationDirectory.set(file("../jars"))
     }
 }
