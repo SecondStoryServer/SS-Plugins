@@ -1,6 +1,10 @@
 val project = Project.Core
 group = project.group
 
+dependencies {
+    implementation(files("dependencyJar/patched_1.16.4.jar"))
+}
+
 bukkit {
     name = project.name
     version = project.version

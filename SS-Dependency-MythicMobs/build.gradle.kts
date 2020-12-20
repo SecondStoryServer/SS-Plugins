@@ -3,7 +3,7 @@ group = project.group
 
 dependencies {
     project.dependProjectName.forEach { implementation(project(":$it")) }
-    implementation(files("dependencyJar/MythicMobs-4.11.0-SNAPSHOT.jar"))
+    api(files("dependencyJar/MythicMobs-4.11.0-SNAPSHOT.jar"))
 }
 
 bukkit {

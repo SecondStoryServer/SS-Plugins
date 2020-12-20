@@ -13,7 +13,7 @@ class Main: SSPlugin() {
             val item = sender.inventory.itemInMainHand
             val itemTypeName = item.type.name
             sendWithPrefix(buildJson {
-                append(itemTypeName, "&6コピー", click = JsonBuilder.Click.Clipboard(itemTypeName))
+                append(itemTypeName, JsonBuilder.Hover.Text("&6コピー"), click = JsonBuilder.Click.Clipboard(itemTypeName))
             })
         }
     }

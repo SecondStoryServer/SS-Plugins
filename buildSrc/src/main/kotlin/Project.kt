@@ -33,7 +33,7 @@ interface Project {
 
     object Core: Project {
         override val name = "SS-Core"
-        override val version = build(1)
+        override val version = build(3)
         override val group = subgroup("core")
         override val dependProject = listOf(Kotlin)
     }
@@ -54,7 +54,7 @@ interface Project {
 
     object MaterialChecker: Project {
         override val name = "SS-MaterialChecker"
-        override val version = build(1)
+        override val version = build(2)
         override val group = subgroup("materialchecker")
         override val dependProject = listOf(Core)
     }
@@ -63,6 +63,13 @@ interface Project {
         override val name = "SS-SoundChecker"
         override val version = build(1)
         override val group = subgroup("soundchecker")
+        override val dependProject = listOf(Core)
+    }
+
+    object Base64Converter: Dependency {
+        override val name = "SS-Base64Converter"
+        override val version = build(1)
+        override val group = subgroup("base64converter")
         override val dependProject = listOf(Core)
     }
 
@@ -88,11 +95,25 @@ interface Project {
             override val dependProject = listOf(Core, Dependency.CrackShot, Dependency.CrackShotPlus, Dependency.MythicMobs)
         }
 
+        object Kit: MA {
+            override val name = "SS-MA-Kit"
+            override val version = build(1)
+            override val group = subgroup("ma.kit")
+            override val dependProject = listOf(Core, Dependency.AdvancedMobArena)
+        }
+
         object Item: MA {
             override val name = "SS-MA-Item"
-            override val version = build(1)
+            override val version = build(2)
             override val group = subgroup("ma.item")
-            override val dependProject = listOf(Core)
+            override val dependProject = listOf(Core, Dependency.AdvancedMobArena)
+        }
+
+        object Mob: MA {
+            override val name = "SS-MA-Mob"
+            override val version = build(2)
+            override val group = subgroup("ma.mob")
+            override val dependProject = listOf(Core, Dependency.AdvancedMobArena, Dependency.MythicMobs)
         }
     }
 
@@ -119,6 +140,14 @@ interface Project {
             override val group = subgroup("dependency.crackshotplus")
             override val dependProject = listOf(Core)
             override val extraDependPlugin = listOf("CrackShotPlus")
+        }
+
+        object AdvancedMobArena: Dependency {
+            override val name = "SS-Dependency-AdvancedMobArena"
+            override val version = "7.22"
+            override val group = subgroup("dependency.advancedmobarena")
+            override val dependProject = listOf(Core)
+            override val extraDependPlugin = listOf("AdvancedMobArena")
         }
     }
 }

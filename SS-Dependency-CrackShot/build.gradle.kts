@@ -3,7 +3,7 @@ group = project.group
 
 dependencies {
     project.dependProjectName.forEach { implementation(project(":$it")) }
-    implementation(files("dependencyJar/CrackShot.jar"))
+    api(files("dependencyJar/CrackShot.jar"))
 }
 
 bukkit {
