@@ -66,6 +66,13 @@ interface Project {
         override val dependProject = listOf(Core)
     }
 
+    object Base64Converter: Dependency {
+        override val name = "SS-Base64Converter"
+        override val version = build(1)
+        override val group = subgroup("base64converter")
+        override val dependProject = listOf(Core)
+    }
+
     object CommandBlocker: Project {
         override val name = "SS-CommandBlocker"
         override val version = build(1)
@@ -119,14 +126,6 @@ interface Project {
             override val group = subgroup("dependency.crackshotplus")
             override val dependProject = listOf(Core)
             override val extraDependPlugin = listOf("CrackShotPlus")
-        }
-
-        object NexEngine: Dependency {
-            override val name = "SS-Dependency-NexEngine"
-            override val version = "2.0.1-1"
-            override val group = subgroup("dependency.nexengine")
-            override val dependProject = listOf(Core)
-            override val extraDependPlugin = listOf("NexEngine")
         }
     }
 }

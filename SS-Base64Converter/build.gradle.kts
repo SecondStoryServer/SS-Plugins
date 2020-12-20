@@ -1,9 +1,8 @@
-val project = Project.Dependency.NexEngine
+val project = Project.Base64Converter
 group = project.group
 
 dependencies {
     project.dependProjectName.forEach { implementation(project(":$it")) }
-    implementation(files("dependencyJar/NexEngine.jar"))
 }
 
 bukkit {
