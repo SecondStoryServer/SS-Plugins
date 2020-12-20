@@ -97,9 +97,9 @@ interface Project {
 
         object Item: MA {
             override val name = "SS-MA-Item"
-            override val version = build(1)
+            override val version = build(2)
             override val group = subgroup("ma.item")
-            override val dependProject = listOf(Core)
+            override val dependProject = listOf(Core, Dependency.AdvancedMobArena)
         }
     }
 
