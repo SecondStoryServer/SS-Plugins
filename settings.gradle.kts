@@ -11,6 +11,7 @@ include(
     "SS-CommandBlocker",
     "SS-PluginManager",
     "SS-MA-Shop",
+    "SS-MA-Kit",
     "SS-MA-Item",
     "SS-Dependency-MythicMobs",
     "SS-Dependency-CrackShot",

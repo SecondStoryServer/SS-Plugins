@@ -95,6 +95,13 @@ interface Project {
             override val dependProject = listOf(Core, Dependency.CrackShot, Dependency.CrackShotPlus, Dependency.MythicMobs)
         }
 
+        object Kit: MA {
+            override val name = "SS-MA-Kit"
+            override val version = build(1)
+            override val group = subgroup("ma.kit")
+            override val dependProject = listOf(Core, Dependency.AdvancedMobArena)
+        }
+
         object Item: MA {
             override val name = "SS-MA-Item"
             override val version = build(2)
