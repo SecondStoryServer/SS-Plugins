@@ -127,5 +127,13 @@ interface Project {
             override val dependProject = listOf(Core)
             override val extraDependPlugin = listOf("CrackShotPlus")
         }
+
+        object AdvancedMobArena: Dependency {
+            override val name = "SS-Dependency-AdvancedMobArena"
+            override val version = "7.22"
+            override val group = subgroup("dependency.advancedmobarena")
+            override val dependProject = listOf(Core)
+            override val extraDependPlugin = listOf("AdvancedMobArena")
+        }
     }
 }
