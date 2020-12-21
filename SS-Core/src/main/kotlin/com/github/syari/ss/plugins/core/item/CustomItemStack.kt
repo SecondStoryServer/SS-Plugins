@@ -459,7 +459,7 @@ class CustomItemStack internal constructor(
         fun fromNullable(
             item: ItemStack?, amount: Int? = null
         ): CustomItemStack? {
-            return if (item != null) create(item, amount) else null
+            return item?.let { create(it, amount) }
         }
 
         /**
@@ -505,10 +505,9 @@ class CustomItemStack internal constructor(
         fun compress(items: Iterable<ItemStack>): List<CustomItemStack> {
             return mutableListOf<CustomItemStack>().apply {
                 items.forEach { item ->
-                    val similarItem = firstOrNull { it.isSimilar(item) }
-                    if (similarItem != null) {
-                        similarItem.amount += item.amount
-                    } else {
+                    firstOrNull { it.isSimilar(item) }?.let {
+                        it.amount += item.amount
+                    } ?: run {
                         add(create(item))
                     }
                 }

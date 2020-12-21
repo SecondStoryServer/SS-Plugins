@@ -88,12 +88,7 @@ interface CustomConfig {
         path: String, notFoundError: Boolean = true
     ): Set<String>? {
         val section = config.getConfigurationSection(path)?.getKeys(false)
-        return if (section != null) {
-            section
-        } else {
-            if (notFoundError) notFoundError(path)
-            null
-        }
+        return section.apply { if (section == null && notFoundError) notFoundError(path) }
     }
 
     /**

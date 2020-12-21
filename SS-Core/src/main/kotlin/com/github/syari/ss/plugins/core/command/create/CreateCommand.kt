@@ -171,7 +171,7 @@ object CreateCommand {
                         is CommandTab.Flag -> {
                             val splitArg = eachTab.arg.split("\\s+".toRegex())
                             splitArg.forEachIndexed { index, split ->
-                                if (split != "*" && split.toLowerCase() != args.getOrNull(index)?.toLowerCase()) {
+                                if (split != "*" && split.equals(args.getOrNull(index), true)) {
                                     return@forEach
                                 }
                             }
@@ -185,8 +185,7 @@ object CreateCommand {
                                     it.toLowerCase().startsWith(enterText)
                                 })
                             } else {
-                                val element = eachTab.flag[args.getOrNull(args.size - 2)?.toLowerCase()]
-                                if (element != null) {
+                                eachTab.flag[args.getOrNull(args.size - 2)?.toLowerCase()]?.let { element ->
                                     tabList.addAll(element.filter {
                                         it.toLowerCase().startsWith(enterText)
                                     })

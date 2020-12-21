@@ -34,8 +34,7 @@ data class Vector5D(
          * @param string (X, Y, Z) or (X, Y, Z, yaw, pitch)
          * @return [Vector5D]
          */
-        fun fromString(string: String?): Vector5D? {
-            if (string == null) return null
+        fun fromString(string: String): Vector5D? {
             val split = string.split(",\\s*".toRegex())
             when (val size = split.size) {
                 3, 5 -> {
