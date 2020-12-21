@@ -131,43 +131,34 @@ object CreateCommand {
                 return tabs.flatMap { tab ->
                     when (tab) {
                         is CommandTab.Base -> {
-                            class ElementList(val element: Set<String>, val prefix: String)
-
-                            val elementList = mutableSetOf<ElementList>()
                             val element = tab.complete(
                                 sender to CommandArgument(args, CommandMessage(messagePrefix, sender))
                             )?.element ?: return@flatMap listOf()
-                            val joinArg = args.joinToString(separator = " ").toLowerCase()
-                            if (tab.arg.isEmpty()) {
-                                if (args.lastIndex == 0) elementList.add(ElementList(element, ""))
-                            } else {
-                                tab.arg.forEach { arg ->
+                            when {
+                                tab.arg.isNotEmpty() -> tab.arg.flatMap { arg ->
                                     val splitArg = arg.split("\\s+".toRegex())
-                                    val completed = if (splitArg.lastIndex <= args.lastIndex && splitArg.last() == "**") {
-                                        joinArg
+                                    if (splitArg.size <= args.size && splitArg.last() == "**") {
+                                        element
                                     } else if (splitArg.size == args.lastIndex) {
-                                        if (arg.contains('*')) {
+                                        val completed = if (arg.contains('*')) {
                                             buildString {
                                                 splitArg.forEachIndexed { index, word ->
-                                                    append(
-                                                        if (word == "*") args[index]
-                                                        else word
-                                                    )
+                                                    append(if (word == "*") args[index] else word)
                                                 }
                                             }.substringBeforeLast(" ")
                                         } else {
                                             arg
                                         }
+                                        val joinArg = args.joinToString(" ").toLowerCase()
+                                        element.filter {
+                                            "$completed $it".toLowerCase().startsWith(joinArg)
+                                        }
                                     } else {
-                                        return@flatMap listOf()
+                                        listOf()
                                     }
-                                    elementList.add(ElementList(element, "$completed "))
                                 }
-                            }
-                            elementList.flatMap { list ->
-                                list.element.filter {
-                                    "${list.prefix}$it".toLowerCase().startsWith(joinArg)
-                                }
+                                args.size == 1 -> element
+                                else -> listOf()
                             }
                         }
                         is CommandTab.Flag -> {
