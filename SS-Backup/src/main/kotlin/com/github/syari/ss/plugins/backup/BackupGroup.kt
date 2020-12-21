@@ -29,8 +29,9 @@ class BackupGroup(
 
     fun create() {
         val files = backupFiles.map { it.file }.toTypedArray()
-        if (backupDirectory.exists().not()) backupDirectory.mkdir()
+        if (backupDirectory.exists().not()) backupDirectory.mkdirs()
         val output = File(backupDirectory, zipFileName)
         zipFiles(files, output)
+        WebDAVUploader.uploader?.upload(output)
     }
 }

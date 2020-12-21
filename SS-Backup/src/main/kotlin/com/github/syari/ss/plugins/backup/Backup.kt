@@ -1,14 +1,15 @@
 package com.github.syari.ss.plugins.backup
 
+import com.github.syari.ss.plugins.backup.Main.Companion.plugin
 import java.io.File
 
 object Backup {
-    lateinit var backupDirectory: File
+    val backupDirectory by lazy { File(plugin.dataFolder, "history") }
     lateinit var groups: Map<String, BackupGroup>
 
     fun create(groups: List<BackupGroup>) {
-        Main.plugin.server.dispatchCommand(com.github.syari.ss.plugins.core.Main.console, "save-off")
+        plugin.server.dispatchCommand(com.github.syari.ss.plugins.core.Main.console, "save-off")
         groups.forEach(BackupGroup::create)
-        Main.plugin.server.dispatchCommand(com.github.syari.ss.plugins.core.Main.console, "save-on")
+        plugin.server.dispatchCommand(com.github.syari.ss.plugins.core.Main.console, "save-on")
     }
 }

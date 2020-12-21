@@ -6,7 +6,6 @@ import com.github.syari.ss.plugins.core.code.OnEnable
 import com.github.syari.ss.plugins.core.config.CreateConfig.config
 import com.github.syari.ss.plugins.core.config.dataType.ConfigDataType
 import org.bukkit.command.CommandSender
-import java.io.File
 
 object ConfigLoader: OnEnable {
     override fun onEnable() {
@@ -15,14 +14,16 @@ object ConfigLoader: OnEnable {
 
     fun load(sender: CommandSender) {
         config(plugin, sender, "config.yml") {
-            val backupDirectoryPath = get("backup.directory", ConfigDataType.STRING, "backup")
-            Backup.backupDirectory = File(backupDirectoryPath)
             Backup.groups = section("group")?.map { name ->
                 val worldNames = get("group.$name.world", ConfigDataType.STRINGLIST, listOf(), false)
                 val pluginNames = get("group.$name.plugin", ConfigDataType.STRINGLIST, listOf(), false)
                 val otherPaths = get("group.$name.other", ConfigDataType.STRINGLIST, listOf(), false)
                 BackupGroup.from(name, worldNames, pluginNames, otherPaths)
             }?.associateBy { it.name }.orEmpty()
+            val webDavUrl = get("webdav.url", ConfigDataType.STRING, false)
+            val webDavUser = get("webdav.user", ConfigDataType.STRING, false)
+            val webDavPass = get("webdav.pass", ConfigDataType.STRING, false)
+            WebDAVUploader.uploader = WebDAVUploader.from(webDavUrl, webDavUser, webDavPass)
         }
     }
 }

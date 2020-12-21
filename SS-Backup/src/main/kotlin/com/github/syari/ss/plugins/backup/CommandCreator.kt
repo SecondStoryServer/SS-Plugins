@@ -8,7 +8,7 @@ import com.github.syari.ss.plugins.core.command.create.CreateCommand.tab
 
 object CommandCreator: OnEnable {
     override fun onEnable() {
-        command(plugin, "backup", "SS-Backup", tab { element("now", "reload") }, tab("now **") {
+        command(plugin, "backup", "SS-Backup", tab { element("now", "upload", "reload") }, tab("now **") {
             element(Backup.groups.keys)
         }) { sender, args ->
             when (args.whenIndex(0)) {
@@ -29,6 +29,15 @@ object CommandCreator: OnEnable {
                     }
                     if (nils.isNotEmpty()) {
                         sendError("&6${nils.joinToString()} &cは存在しませんでした")
+                    }
+                }
+                "upload" -> {
+                    val uploader = WebDAVUploader.uploader ?: return@command sendError("アップロード先が設定されていません")
+                    val listFiles = Backup.backupDirectory.listFiles()
+                    if (listFiles.isNullOrEmpty()) return@command sendError("ファイルが見つかりませんでした")
+                    sendWithPrefix("&6${listFiles.size} &f個のファイルをアップロードします")
+                    listFiles.forEach {
+                        uploader.upload(it)
                     }
                 }
                 "reload" -> {
