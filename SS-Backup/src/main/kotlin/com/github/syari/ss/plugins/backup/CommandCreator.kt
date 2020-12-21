@@ -36,7 +36,8 @@ object CommandCreator: OnEnable {
                     ConfigLoader.load(sender)
                 }
                 else -> sendHelp(
-                    "backup now" to "バックアップを実行します", "backup reload" to "コンフィグを再読み込みします"
+                    "backup now" to "バックアップを実行します", //
+                    "backup reload" to "コンフィグを再読み込みします"
                 )
             }
         }

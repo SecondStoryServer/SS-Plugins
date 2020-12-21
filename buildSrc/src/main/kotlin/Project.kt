@@ -73,6 +73,13 @@ interface Project {
         override val dependProject = listOf(Core)
     }
 
+    object ItemCreator: Project {
+        override val name = "SS-ItemCreator"
+        override val version = build(1)
+        override val group = subgroup("itemcreator")
+        override val dependProject = listOf(Core)
+    }
+
     object CommandBlocker: Project {
         override val name = "SS-CommandBlocker"
         override val version = build(1)
