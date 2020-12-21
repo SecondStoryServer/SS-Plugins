@@ -1,8 +1,11 @@
 package com.github.syari.ss.plugins.backup
 
-import com.github.syari.ss.plugins.backup.Backup.backupDirectory
 import com.github.syari.ss.plugins.backup.Main.Companion.plugin
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.io.File
+import java.net.SocketException
 import java.text.SimpleDateFormat
 
 class BackupGroup(
@@ -29,8 +32,25 @@ class BackupGroup(
 
     fun create() {
         val files = backupFiles.map { it.file }.toTypedArray()
-        if (backupDirectory.exists().not()) backupDirectory.mkdir()
+        val backupDirectory = File(plugin.dataFolder, "history")
+        if (backupDirectory.exists().not()) backupDirectory.mkdirs()
         val output = File(backupDirectory, zipFileName)
         zipFiles(files, output)
+        WebDAVUploader.uploader?.let { uploader ->
+            GlobalScope.launch {
+                repeat(10) {
+                    delay(5000)
+                    try {
+                        uploader.upload(output)
+                        plugin.logger.info("${output.path} をアップロードしました")
+                        output.delete()
+                        return@launch
+                    } catch (ex: SocketException) {
+
+                    }
+                }
+                plugin.logger.severe("${output.path} のアップロードに失敗しました")
+            }
+        }
     }
 }

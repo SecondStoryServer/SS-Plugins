@@ -40,7 +40,7 @@ interface Project {
 
     object Backup: Project {
         override val name = "SS-Backup"
-        override val version = build(2)
+        override val version = build(3)
         override val group = subgroup("backup")
         override val dependProject = listOf(Core)
     }

@@ -1,9 +1,6 @@
 package com.github.syari.ss.plugins.backup
 
-import java.io.File
-
 object Backup {
-    lateinit var backupDirectory: File
     lateinit var groups: Map<String, BackupGroup>
 
     fun create(groups: List<BackupGroup>) {
