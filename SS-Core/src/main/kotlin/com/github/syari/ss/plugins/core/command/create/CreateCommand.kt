@@ -137,19 +137,20 @@ object CreateCommand {
                             val element = tab.complete(
                                 sender to CommandArgument(args, CommandMessage(messagePrefix, sender))
                             )?.element ?: return@flatMap listOf()
+                            val joinArg = args.joinToString(separator = " ").toLowerCase()
                             if (tab.arg.isEmpty()) {
                                 if (args.lastIndex == 0) elementList.add(ElementList(element, ""))
                             } else {
                                 tab.arg.forEach { arg ->
                                     val splitArg = arg.split("\\s+".toRegex())
-                                    if (splitArg.size == args.lastIndex) {
-                                        val completed = if (arg.contains('*')) {
-                                            var wild2 = false
+                                    val completed = if (splitArg.lastIndex <= args.lastIndex && splitArg.last() == "**") {
+                                        joinArg
+                                    } else if (splitArg.size == args.lastIndex) {
+                                        if (arg.contains('*')) {
                                             buildString {
                                                 splitArg.forEachIndexed { index, word ->
-                                                    if (word == "**") wild2 = true
                                                     append(
-                                                        if (wild2 || word == "*") args[index]
+                                                        if (word == "*") args[index]
                                                         else word
                                                     )
                                                 }
@@ -157,11 +158,12 @@ object CreateCommand {
                                         } else {
                                             arg
                                         }
-                                        elementList.add(ElementList(element, "$completed "))
+                                    } else {
+                                        return@flatMap listOf()
                                     }
+                                    elementList.add(ElementList(element, "$completed "))
                                 }
                             }
-                            val joinArg = args.joinToString(separator = " ").toLowerCase()
                             elementList.flatMap { list ->
                                 list.element.filter {
                                     "${list.prefix}$it".toLowerCase().startsWith(joinArg)
