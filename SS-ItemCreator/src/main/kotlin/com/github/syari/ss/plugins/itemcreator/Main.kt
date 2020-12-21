@@ -55,10 +55,10 @@ class Main: SSPlugin() {
                         }
                         else -> {
                             sendHelp(
-                                "citem lore edit [Lore...]" to "説明文を変更します",
-                                "citem lore insert [Line] [Lore...]" to "指定行目に説明文を挿入します",
-                                "citem lore add [Lore...]" to "末尾に説明文を追加します",
-                                "citem lore remove [Line]" to "指定行目の説明文を削除します",
+                                "citem lore edit [Lore...]" to "説明文を変更します", //
+                                "citem lore insert [Line] [Lore...]" to "指定行目に説明文を挿入します", //
+                                "citem lore add [Lore...]" to "末尾に説明文を追加します", //
+                                "citem lore remove [Line]" to "指定行目の説明文を削除します", //
                                 "citem lore clear" to "全ての説明文を削除します"
                             )
                             sender.send("&a<sp> &fは &a空白 &fに置き換わります")
@@ -75,7 +75,9 @@ class Main: SSPlugin() {
                     }
                 }
                 else -> sendHelp(
-                    "citem name [Name]" to "アイテム名を変更します", "citem lore" to "説明文を変更します", "citem model" to "モデルデータ値を変更します"
+                    "citem name [Name]" to "アイテム名を変更します", //
+                    "citem lore" to "説明文を変更します", //
+                    "citem model" to "モデルデータ値を変更します"
                 )
             }
         }
