@@ -65,8 +65,17 @@ class Main: SSPlugin() {
                         }
                     }
                 }
+                "model" -> {
+                    val customModelData = args.getOrNull(1)?.toIntOrNull()
+                    item.customModelData = customModelData
+                    if (customModelData != null) {
+                        sendWithPrefix("モデルデータ値を変更しました")
+                    } else {
+                        sendWithPrefix("モデルデータ値を削除しました")
+                    }
+                }
                 else -> sendHelp(
-                    "citem name [Name]" to "アイテム名を変更します", "citem lore" to "説明文を変更します"
+                    "citem name [Name]" to "アイテム名を変更します", "citem lore" to "説明文を変更します", "citem model" to "モデルデータ値を変更します"
                 )
             }
         }
