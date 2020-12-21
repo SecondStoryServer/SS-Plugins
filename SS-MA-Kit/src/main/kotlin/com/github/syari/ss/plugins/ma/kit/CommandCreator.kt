@@ -1,7 +1,7 @@
 package com.github.syari.ss.plugins.ma.kit
 
 import com.github.syari.ss.plugins.core.code.OnEnable
-import com.github.syari.ss.plugins.core.command.create.CreateCommand.createCommand
+import com.github.syari.ss.plugins.core.command.create.CreateCommand.command
 import com.github.syari.ss.plugins.core.command.create.ErrorMessage
 import com.github.syari.ss.plugins.core.inventory.CreateInventory.inventory
 import com.github.syari.ss.plugins.ma.kit.Main.Companion.plugin
@@ -12,19 +12,19 @@ import su.nightexpress.ama.manager.kits.ArenaKit
 
 object CommandCreator: OnEnable {
     override fun onEnable() {
-        createCommand(plugin, "ma-kit", "MA-Kit") { sender, args ->
+        command(plugin, "ma-kit", "MA-Kit") { sender, args ->
             when (args.whenIndex(0)) {
                 "preview" -> {
-                    if (sender !is Player) return@createCommand sendError(ErrorMessage.OnlyPlayer)
-                    val id = args.getOrNull(1) ?: return@createCommand sendError("キットを入力してください")
-                    val kit = ArenaAPI.getKitManager().getKitById(id) ?: return@createCommand sendError("キットが見つかりませんでした")
+                    if (sender !is Player) return@command sendError(ErrorMessage.OnlyPlayer)
+                    val id = args.getOrNull(1) ?: return@command sendError("キットを入力してください")
+                    val kit = ArenaAPI.getKitManager().getKitById(id) ?: return@command sendError("キットが見つかりませんでした")
                     kit.openPreview(sender)
                 }
                 "select" -> {
-                    if (sender !is Player) return@createCommand sendError(ErrorMessage.OnlyPlayer)
-                    val id = args.getOrNull(1) ?: return@createCommand sendError("キットを入力してください")
-                    val kit = ArenaAPI.getKitManager().getKitById(id) ?: return@createCommand sendError("キットが見つかりませんでした")
-                    val arenaPlayer = ArenaAPI.getArenaManager().getArenaPlayer(sender) ?: return@createCommand sendError("アリーナに入っていません")
+                    if (sender !is Player) return@command sendError(ErrorMessage.OnlyPlayer)
+                    val id = args.getOrNull(1) ?: return@command sendError("キットを入力してください")
+                    val kit = ArenaAPI.getKitManager().getKitById(id) ?: return@command sendError("キットが見つかりませんでした")
+                    val arenaPlayer = ArenaAPI.getArenaManager().getArenaPlayer(sender) ?: return@command sendError("アリーナに入っていません")
                     if (kit.isAvailable(arenaPlayer, false)) {
                         arenaPlayer.kit = kit
                     } else {

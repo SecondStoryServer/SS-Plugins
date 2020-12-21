@@ -60,14 +60,6 @@ object Message {
     }
 
     /**
-     * メッセージを送信します
-     * @param builder 本文
-     */
-    fun CommandSender.send(builder: StringBuilder) {
-        send(builder.toString())
-    }
-
-    /**
      * タイトルを表示します
      * @param main メインタイトル
      * @param sub サブタイトル

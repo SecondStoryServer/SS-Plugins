@@ -31,8 +31,7 @@ object CreateInventory: Listener {
             }
             onClick(e)
             if (e.click == ClickType.MIDDLE && player.isOp) {
-                val item = e.currentItem
-                if (item != null) {
+                e.currentItem?.let { item ->
                     e.isCancelled = true
                     player.inventory.addItem(item.asQuantity(64))
                 }
@@ -110,11 +109,10 @@ object CreateInventory: Listener {
     internal var UUIDPlayer.menuPlayer
         get() = menuPlayers[this]
         set(value) {
-            val uuidPlayer = this
             if (value != null) {
-                menuPlayers[uuidPlayer] = value
+                menuPlayers[this] = value
             } else {
-                menuPlayers.remove(uuidPlayer)
+                menuPlayers.remove(this)
             }
         }
 

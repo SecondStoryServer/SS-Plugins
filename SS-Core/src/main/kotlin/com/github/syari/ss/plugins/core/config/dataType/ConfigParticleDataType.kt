@@ -18,7 +18,7 @@ object ConfigParticleDataType: ConfigDataType<CustomParticleList> {
                 val split = line.split("-")
                 when (split.size) {
                     2 -> {
-                        if (split[0].toLowerCase() == "delay") {
+                        if (split[0].equals("delay", true)) {
                             val delay = split[1].toLongOrNull()
                             if (delay != null) {
                                 addDelay(delay)

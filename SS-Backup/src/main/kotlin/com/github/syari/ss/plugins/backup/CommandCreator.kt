@@ -2,18 +2,18 @@ package com.github.syari.ss.plugins.backup
 
 import com.github.syari.ss.plugins.backup.Main.Companion.plugin
 import com.github.syari.ss.plugins.core.code.OnEnable
-import com.github.syari.ss.plugins.core.command.create.CreateCommand.createCommand
+import com.github.syari.ss.plugins.core.command.create.CreateCommand.command
 import com.github.syari.ss.plugins.core.command.create.CreateCommand.element
 import com.github.syari.ss.plugins.core.command.create.CreateCommand.tab
 
 object CommandCreator: OnEnable {
     override fun onEnable() {
-        createCommand(plugin, "backup", "SS-Backup", tab { element("now", "reload") }, tab("now **") {
+        command(plugin, "backup", "SS-Backup", tab { element("now", "reload") }, tab("now **") {
             element(Backup.groups.keys)
         }) { sender, args ->
             when (args.whenIndex(0)) {
                 "now" -> {
-                    if (args.size == 1) return@createCommand sendError("グループ名を入力してください")
+                    if (args.size == 1) return@command sendError("グループ名を入力してください")
                     val groups = mutableListOf<BackupGroup>()
                     val nils = mutableListOf<String>()
                     args.slice(1).forEach { name ->

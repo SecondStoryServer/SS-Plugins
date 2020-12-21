@@ -70,8 +70,7 @@ sealed class ShopElement {
             val split = line.split("\\s+".toRegex())
             return when (val elementType = split[0].toLowerCase()) {
                 "jump" -> {
-                    val id = split.getOrNull(1)
-                    if (id != null) {
+                    split.getOrNull(1)?.let { id ->
                         val type = split.getOrNull(2)?.let {
                             Material.getMaterial(it) ?: run {
                                 config.nullError(path, "Material(${it})")
@@ -79,13 +78,10 @@ sealed class ShopElement {
                             }
                         } ?: Material.COMPASS
                         Jump(id, type)
-                    } else {
-                        UnAvailable
-                    }
+                    } ?: UnAvailable
                 }
                 "mc" -> {
-                    val type = split.getOrNull(1)?.let { Material.getMaterial(it) }
-                    if (type != null) {
+                    split.getOrNull(1)?.let { Material.getMaterial(it) }?.let { type ->
                         val amount = split.getOrNull(2)?.let {
                             it.toIntOrNull() ?: run {
                                 config.nullError(path, "Int($it)")
@@ -93,21 +89,20 @@ sealed class ShopElement {
                             }
                         } ?: 1
                         Item.Minecraft(type, amount)
-                    } else {
+                    } ?: run {
                         config.nullError(path, "Material(${split.getOrNull(1)})")
                         UnAvailable
                     }
                 }
                 "cs", "csp", "mm" -> {
-                    val id = split.getOrNull(1)
-                    if (id != null) {
+                    split.getOrNull(1)?.let { id ->
                         val amount = split.getOrNull(2)?.let {
                             it.toIntOrNull() ?: run {
                                 config.nullError(path, "Int($it)")
                                 null
                             }
                         } ?: 1
-                        val item = when (elementType) {
+                        when (elementType) {
                             "cs" -> {
                                 CrackShotAPI.getItem(id, amount)
                             }
@@ -118,14 +113,13 @@ sealed class ShopElement {
                                 MythicMobsAPI.getItem(id, amount)
                             }
                             else -> error("Unreachable")
-                        }
-                        if (item != null) {
-                            Item.Custom(item, amount)
-                        } else {
+                        }?.let {
+                            Item.Custom(it, amount)
+                        } ?: run {
                             config.nullError(path, "String($id)")
                             UnAvailable
                         }
-                    } else {
+                    } ?: run {
                         config.nullError(path, "String(${split.getOrNull(1)})")
                         UnAvailable
                     }

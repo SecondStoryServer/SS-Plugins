@@ -1,21 +1,64 @@
 package com.github.syari.ss.plugins.core.bossBar
 
 import com.github.syari.ss.plugins.core.Main.Companion.corePlugin
-import com.github.syari.ss.plugins.core.bossBar.CreateBossBar.barList
+import com.github.syari.ss.plugins.core.bossBar.CustomBossBar.Companion.bossBar
+import com.github.syari.ss.plugins.core.code.OnDisable
 import com.github.syari.ss.plugins.core.code.StringEditor.toColor
 import org.bukkit.OfflinePlayer
 import org.bukkit.boss.BarColor
 import org.bukkit.boss.BarStyle
 import org.bukkit.boss.BossBar
 import org.bukkit.entity.Player
+import org.bukkit.event.EventHandler
+import org.bukkit.event.Listener
+import org.bukkit.event.player.PlayerJoinEvent
+import org.bukkit.event.player.PlayerQuitEvent
 
 /**
- * ボスバー
- * @see CreateBossBar.createBossBar
+ * @see bossBar
  */
 class CustomBossBar internal constructor(
     title: String, color: BarColor, style: BarStyle, private val public: Boolean
 ) {
+    companion object: Listener, OnDisable {
+        private val barList = mutableListOf<CustomBossBar>()
+
+        /**
+         * バーを自動で表示します
+         * @see [CustomBossBar.onLogin]
+         */
+        @EventHandler
+        fun onJoin(e: PlayerJoinEvent) {
+            val player = e.player
+            barList.forEach { it.onLogin(player) }
+        }
+
+        @EventHandler
+        fun onQuit(e: PlayerQuitEvent) {
+            val player = e.player
+            barList.forEach { it.onLogout(player) }
+        }
+
+        /**
+         * プラグインを無効になった時に全てのプレイヤーのバーを非表示にします
+         */
+        override fun onDisable() {
+            barList.forEach { it.clearPlayer() }
+        }
+
+        /**
+         * ボスバーを作成します
+         * @param title 一番上に表示される文字
+         * @param color バーの色
+         * @param style バーの見た目
+         * @param public 全てのプレイヤーに表示するか default: false
+         * @return [CustomBossBar]
+         */
+        fun bossBar(
+            title: String, color: BarColor, style: BarStyle, public: Boolean = false
+        ) = CustomBossBar(title, color, style, public)
+    }
+
     private val bar: BossBar = corePlugin.server.createBossBar(title.toColor, color, style)
 
     init {
@@ -75,9 +118,9 @@ class CustomBossBar internal constructor(
 
     /**
      * 自動で実行されます
-     * @see CreateBossBar.onJoin
+     * @see onJoin
      */
-    internal fun onLogin(player: Player) {
+    private fun onLogin(player: Player) {
         if (public) {
             bar.addPlayer(player)
         } else if (addOnLogin.contains(player)) {
@@ -88,9 +131,9 @@ class CustomBossBar internal constructor(
 
     /**
      * 自動で実行されます
-     * @see CreateBossBar.onQuit
+     * @see onQuit
      */
-    internal fun onLogout(player: Player) {
+    private fun onLogout(player: Player) {
         if (public) return
         bar.removePlayer(player)
         addOnLogin.add(player)

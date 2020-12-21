@@ -98,10 +98,9 @@ class CommandArgument internal constructor(
     fun getOfflinePlayer(
         index: Int, equalName: Boolean
     ): OfflinePlayer? {
-        val rawPlayer = getOrNull(index)
-        if (rawPlayer == null) {
+        val rawPlayer = getOrNull(index) ?: return run {
             message.sendError(ErrorMessage.NotEnterPlayer)
-            return null
+            null
         }
         @Suppress("DEPRECATION") val player = getOfflinePlayer(rawPlayer)
         return if (!equalName || player.name.equals(rawPlayer, ignoreCase = true)) {
@@ -121,10 +120,9 @@ class CommandArgument internal constructor(
     fun getPlayer(
         index: Int, equalName: Boolean
     ): Player? {
-        val rawPlayer = getOrNull(index)
-        if (rawPlayer == null) {
+        val rawPlayer = getOrNull(index) ?: return run {
             message.sendError(ErrorMessage.NotEnterPlayer)
-            return null
+            null
         }
         val player = getPlayer(rawPlayer)
         return if (player != null && (!equalName || player.name.equals(rawPlayer, ignoreCase = true))) {

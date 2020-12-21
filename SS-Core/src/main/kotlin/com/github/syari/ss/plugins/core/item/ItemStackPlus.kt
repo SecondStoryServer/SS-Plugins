@@ -19,9 +19,9 @@ object ItemStackPlus {
      * プレイヤーにアイテムを渡します
      * @param items アイテム
      */
-    fun HumanEntity.give(items: Iterable<ItemStack?>) {
+    fun HumanEntity.give(items: Iterable<ItemStack>) {
         items.forEach {
-            if (it != null) give(it)
+            give(it)
         }
     }
 
@@ -49,9 +49,9 @@ object ItemStackPlus {
      * プレイヤーにアイテムを渡しますが、インベントリが一杯の場合はその場に落とします
      * @param items アイテム
      */
-    fun HumanEntity.giveOrDrop(items: Iterable<ItemStack?>) {
+    fun HumanEntity.giveOrDrop(items: Iterable<ItemStack>) {
         items.forEach { item ->
-            if (item != null) giveOrDrop(item)
+            giveOrDrop(item)
         }
     }
 
