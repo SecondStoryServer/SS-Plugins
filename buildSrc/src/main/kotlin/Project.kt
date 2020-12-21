@@ -33,49 +33,49 @@ interface Project {
 
     object Core: Project {
         override val name = "SS-Core"
-        override val version = build(6)
+        override val version = build(7)
         override val group = subgroup("core")
         override val dependProject = listOf(Kotlin)
     }
 
     object Backup: Project {
         override val name = "SS-Backup"
-        override val version = build(1)
+        override val version = build(2)
         override val group = subgroup("backup")
         override val dependProject = listOf(Core)
     }
 
     object Votifier: Project {
         override val name = "SS-Votifier"
-        override val version = build(1)
+        override val version = build(2)
         override val group = subgroup("votifier")
         override val dependProject = listOf(Core)
     }
 
     object MaterialChecker: Project {
         override val name = "SS-MaterialChecker"
-        override val version = build(2)
+        override val version = build(3)
         override val group = subgroup("materialchecker")
         override val dependProject = listOf(Core)
     }
 
     object SoundChecker: Project {
         override val name = "SS-SoundChecker"
-        override val version = build(1)
+        override val version = build(2)
         override val group = subgroup("soundchecker")
         override val dependProject = listOf(Core)
     }
 
     object Base64Converter: Dependency {
         override val name = "SS-Base64Converter"
-        override val version = build(1)
+        override val version = build(2)
         override val group = subgroup("base64converter")
         override val dependProject = listOf(Core)
     }
 
     object ItemCreator: Project {
         override val name = "SS-ItemCreator"
-        override val version = build(1)
+        override val version = build(2)
         override val group = subgroup("itemcreator")
         override val dependProject = listOf(Core)
     }
@@ -89,7 +89,7 @@ interface Project {
 
     object PluginManager: Project {
         override val name = "SS-PluginManager"
-        override val version = build(1)
+        override val version = build(2)
         override val group = subgroup("pluginmanager")
         override val dependProject = listOf(Core)
     }
@@ -97,21 +97,21 @@ interface Project {
     interface MA: Project {
         object Shop: MA {
             override val name = "SS-MA-Shop"
-            override val version = build(2)
+            override val version = build(3)
             override val group = subgroup("ma.shop")
             override val dependProject = listOf(Core, Dependency.CrackShot, Dependency.CrackShotPlus, Dependency.MythicMobs)
         }
 
         object Kit: MA {
             override val name = "SS-MA-Kit"
-            override val version = build(1)
+            override val version = build(2)
             override val group = subgroup("ma.kit")
             override val dependProject = listOf(Core, Dependency.AdvancedMobArena)
         }
 
         object Item: MA {
             override val name = "SS-MA-Item"
-            override val version = build(2)
+            override val version = build(3)
             override val group = subgroup("ma.item")
             override val dependProject = listOf(Core, Dependency.AdvancedMobArena)
         }

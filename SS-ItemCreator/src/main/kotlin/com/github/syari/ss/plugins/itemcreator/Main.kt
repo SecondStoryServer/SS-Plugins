@@ -1,7 +1,7 @@
 package com.github.syari.ss.plugins.itemcreator
 
 import com.github.syari.ss.plugins.core.code.SSPlugin
-import com.github.syari.ss.plugins.core.command.create.CreateCommand.createCommand
+import com.github.syari.ss.plugins.core.command.create.CreateCommand.command
 import com.github.syari.ss.plugins.core.command.create.ErrorMessage
 import com.github.syari.ss.plugins.core.item.CustomItemStack
 import com.github.syari.ss.plugins.core.message.Message.send
@@ -10,10 +10,10 @@ import org.bukkit.entity.Player
 
 class Main: SSPlugin() {
     override fun onEnable() {
-        createCommand(this, "citem", "ItemCreator") { sender, args ->
-            if (sender !is Player) return@createCommand sendError(ErrorMessage.OnlyPlayer)
+        command(this, "citem", "ItemCreator") { sender, args ->
+            if (sender !is Player) return@command sendError(ErrorMessage.OnlyPlayer)
             val item = CustomItemStack.create(sender.inventory.itemInMainHand)
-            if (item.type == Material.AIR) return@createCommand sendError("アイテムを持ってください")
+            if (item.type == Material.AIR) return@command sendError("アイテムを持ってください")
             when (args.whenIndex(0)) {
                 "name" -> {
                     item.display = args.getOrNull(1)
@@ -28,8 +28,8 @@ class Main: SSPlugin() {
                             sendWithPrefix("説明文を変更しました")
                         }
                         "insert" -> {
-                            val line = args.getOrNull(2)?.toIntOrNull() ?: return@createCommand sendError("行数を入力してください")
-                            if (line < 0 || item.lore.size < line) return@createCommand sendError("挿入できない行です")
+                            val line = args.getOrNull(2)?.toIntOrNull() ?: return@command sendError("行数を入力してください")
+                            if (line < 0 || item.lore.size < line) return@command sendError("挿入できない行です")
                             item.editLore {
                                 addAll(line, args.slice(3).map(String::replaceSpace))
                             }
@@ -42,8 +42,8 @@ class Main: SSPlugin() {
                             sendWithPrefix("説明文を追加しました")
                         }
                         "remove" -> {
-                            val line = args.getOrNull(2)?.toIntOrNull() ?: return@createCommand sendError("行数を入力してください")
-                            if (line < 0 || item.lore.size <= line) return@createCommand sendError("存在しない行です")
+                            val line = args.getOrNull(2)?.toIntOrNull() ?: return@command sendError("行数を入力してください")
+                            if (line < 0 || item.lore.size <= line) return@command sendError("存在しない行です")
                             item.editLore {
                                 removeAt(line)
                             }
@@ -66,8 +66,8 @@ class Main: SSPlugin() {
                     }
                 }
                 "type" -> {
-                    val typeName = args.getOrNull(1)?.toUpperCase() ?: return@createCommand sendError("アイテムタイプを入力してください")
-                    val type = Material.getMaterial(typeName) ?: return@createCommand sendError("存在しないアイテムタイプです")
+                    val typeName = args.getOrNull(1)?.toUpperCase() ?: return@command sendError("アイテムタイプを入力してください")
+                    val type = Material.getMaterial(typeName) ?: return@command sendError("存在しないアイテムタイプです")
                     item.type = type
                     sendWithPrefix("アイテムタイプを変更しました")
                 }

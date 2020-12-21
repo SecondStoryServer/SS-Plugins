@@ -106,16 +106,15 @@ object CreateCommand {
      * @param plugin 登録するプラグイン
      * @param label コマンド名 /label
      * @param messagePrefix メッセージの接頭
-     * @param tab タブ補完
-     * @param alias コマンドのエイリアス
+     * @param tabs タブ補完
      * @param execute コマンドの処理
      * @see CommandMessage
      * @see CommandArgument
      */
-    fun createCommand(
-        plugin: JavaPlugin, label: String, messagePrefix: String, vararg tab: CommandTab, alias: Iterable<String> = listOf(), execute: CommandMessage.(CommandSender, CommandArgument) -> Unit
+    fun command(
+        plugin: JavaPlugin, label: String, messagePrefix: String, vararg tabs: CommandTab, execute: CommandMessage.(CommandSender, CommandArgument) -> Unit
     ) {
-        registerCommand(plugin, object: Command(label, "", "/", alias.toList()) {
+        registerCommand(plugin, object: Command(label) {
             override fun execute(
                 sender: CommandSender, commandLabel: String, args: Array<out String>
             ): Boolean {
@@ -133,18 +132,18 @@ object CreateCommand {
                 val tabList = mutableListOf<String>()
                 val joinArg = args.joinToString(separator = " ").toLowerCase()
                 val size = args.size - 1
-                tab.forEach { eachTab ->
-                    when (eachTab) {
+                tabs.forEach { tab ->
+                    when (tab) {
                         is CommandTab.Base -> {
-                            val element = eachTab.tab.invoke(
+                            val element = tab.complete(
                                 sender to CommandArgument(args, message)
                             )?.element ?: return@forEach
-                            if (eachTab.arg.isEmpty()) {
+                            if (tab.arg.isEmpty()) {
                                 if (size == 0) tabList.addAll(element.filter {
                                     it.toLowerCase().startsWith(joinArg)
                                 })
                             } else {
-                                eachTab.arg.forEach { eachArg ->
+                                tab.arg.forEach { eachArg ->
                                     val splitArg = eachArg.split("\\s+".toRegex())
                                     if (splitArg.size == size) {
                                         val completed = if (eachArg.contains('*')) {
@@ -169,7 +168,7 @@ object CreateCommand {
                             }
                         }
                         is CommandTab.Flag -> {
-                            val splitArg = eachTab.arg.split("\\s+".toRegex())
+                            val splitArg = tab.arg.split("\\s+".toRegex())
                             splitArg.forEachIndexed { index, split ->
                                 if (split != "*" && split.equals(args.getOrNull(index), true)) {
                                     return@forEach
@@ -177,7 +176,7 @@ object CreateCommand {
                             }
                             val enterText = args.getOrNull(args.size - 1) ?: return@forEach
                             if ((size - splitArg.size) % 2 == 0) {
-                                val element = eachTab.flag.keys.toMutableSet()
+                                val element = tab.flag.keys.toMutableSet()
                                 for (index in splitArg.size until size step 2) {
                                     element.remove(args[index].toLowerCase())
                                 }
@@ -185,7 +184,7 @@ object CreateCommand {
                                     it.toLowerCase().startsWith(enterText)
                                 })
                             } else {
-                                eachTab.flag[args.getOrNull(args.size - 2)?.toLowerCase()]?.let { element ->
+                                tab.flag[args.getOrNull(args.size - 2)?.toLowerCase()]?.let { element ->
                                     tabList.addAll(element.filter {
                                         it.toLowerCase().startsWith(enterText)
                                     })
