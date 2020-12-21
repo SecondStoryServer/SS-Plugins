@@ -65,6 +65,12 @@ class Main: SSPlugin() {
                         }
                     }
                 }
+                "type" -> {
+                    val typeName = args.getOrNull(1)?.toUpperCase() ?: return@createCommand sendError("アイテムタイプを入力してください")
+                    val type = Material.getMaterial(typeName) ?: return@createCommand sendError("存在しないアイテムタイプです")
+                    item.type = type
+                    sendWithPrefix("アイテムタイプを変更しました")
+                }
                 "model" -> {
                     val customModelData = args.getOrNull(1)?.toIntOrNull()
                     item.customModelData = customModelData
@@ -74,10 +80,20 @@ class Main: SSPlugin() {
                         sendWithPrefix("モデルデータ値を削除しました")
                     }
                 }
+                "unbreak" -> {
+                    item.unbreakable = !item.unbreakable
+                    if (item.unbreakable) {
+                        sendWithPrefix("耐久無限を付与しました")
+                    } else {
+                        sendWithPrefix("耐久無限を削除しました")
+                    }
+                }
                 else -> sendHelp(
                     "citem name [Name]" to "アイテム名を変更します", //
                     "citem lore" to "説明文を変更します", //
-                    "citem model" to "モデルデータ値を変更します"
+                    "citem type" to "アイテムタイプを変更します", //
+                    "citem model" to "モデルデータ値を変更します", //
+                    "citem unbreak" to "耐久無限を変更します"
                 )
             }
         }
