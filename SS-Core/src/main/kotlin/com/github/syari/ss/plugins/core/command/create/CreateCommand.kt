@@ -128,25 +128,22 @@ object CreateCommand {
             override fun tabComplete(
                 sender: CommandSender, alias: String, args: Array<out String>
             ): List<String> {
-                val message = CommandMessage(messagePrefix, sender)
-                val tabList = mutableListOf<String>()
-                val joinArg = args.joinToString(separator = " ").toLowerCase()
-                val size = args.size - 1
-                tabs.forEach { tab ->
+                return tabs.flatMap { tab ->
                     when (tab) {
                         is CommandTab.Base -> {
+                            class ElementList(val element: Set<String>, val prefix: String)
+
+                            val elementList = mutableSetOf<ElementList>()
                             val element = tab.complete(
-                                sender to CommandArgument(args, message)
-                            )?.element ?: return@forEach
+                                sender to CommandArgument(args, CommandMessage(messagePrefix, sender))
+                            )?.element ?: return@flatMap listOf()
                             if (tab.arg.isEmpty()) {
-                                if (size == 0) tabList.addAll(element.filter {
-                                    it.toLowerCase().startsWith(joinArg)
-                                })
+                                if (args.lastIndex == 0) elementList.add(ElementList(element, ""))
                             } else {
-                                tab.arg.forEach { eachArg ->
-                                    val splitArg = eachArg.split("\\s+".toRegex())
-                                    if (splitArg.size == size) {
-                                        val completed = if (eachArg.contains('*')) {
+                                tab.arg.forEach { arg ->
+                                    val splitArg = arg.split("\\s+".toRegex())
+                                    if (splitArg.size == args.lastIndex) {
+                                        val completed = if (arg.contains('*')) {
                                             var wild2 = false
                                             buildString {
                                                 splitArg.forEachIndexed { index, word ->
@@ -158,42 +155,45 @@ object CreateCommand {
                                                 }
                                             }.substringBeforeLast(" ")
                                         } else {
-                                            eachArg
+                                            arg
                                         }
-                                        tabList.addAll(element.filter {
-                                            "$completed $it".toLowerCase().startsWith(joinArg)
-                                        })
+                                        elementList.add(ElementList(element, "$completed "))
                                     }
+                                }
+                            }
+                            val joinArg = args.joinToString(separator = " ").toLowerCase()
+                            elementList.flatMap { list ->
+                                list.element.filter {
+                                    "${list.prefix}$it".toLowerCase().startsWith(joinArg)
                                 }
                             }
                         }
                         is CommandTab.Flag -> {
+                            val elementList = mutableSetOf<String>()
                             val splitArg = tab.arg.split("\\s+".toRegex())
                             splitArg.forEachIndexed { index, split ->
                                 if (split != "*" && split.equals(args.getOrNull(index), true)) {
-                                    return@forEach
+                                    return@flatMap listOf()
                                 }
                             }
-                            val enterText = args.getOrNull(args.size - 1) ?: return@forEach
-                            if ((size - splitArg.size) % 2 == 0) {
+                            val enterText = args.getOrNull(args.size - 1) ?: return@flatMap listOf()
+                            if ((args.lastIndex - splitArg.size) % 2 == 0) {
                                 val element = tab.flag.keys.toMutableSet()
-                                for (index in splitArg.size until size step 2) {
+                                for (index in splitArg.size until args.lastIndex step 2) {
                                     element.remove(args[index].toLowerCase())
                                 }
-                                tabList.addAll(element.filter {
-                                    it.toLowerCase().startsWith(enterText)
-                                })
+                                elementList.addAll(element)
                             } else {
-                                tab.flag[args.getOrNull(args.size - 2)?.toLowerCase()]?.let { element ->
-                                    tabList.addAll(element.filter {
-                                        it.toLowerCase().startsWith(enterText)
-                                    })
+                                tab.flag[args.getOrNull(args.size - 2)?.toLowerCase()]?.let {
+                                    elementList.addAll(it)
                                 }
+                            }
+                            elementList.filter {
+                                it.toLowerCase().startsWith(enterText)
                             }
                         }
                     }
-                }
-                return tabList.sorted()
+                }.sorted()
             }
         })
     }
