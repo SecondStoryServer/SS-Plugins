@@ -2,6 +2,8 @@ package com.github.syari.ss.plugins.itemcreator
 
 import com.github.syari.ss.plugins.core.code.SSPlugin
 import com.github.syari.ss.plugins.core.command.create.CreateCommand.command
+import com.github.syari.ss.plugins.core.command.create.CreateCommand.element
+import com.github.syari.ss.plugins.core.command.create.CreateCommand.tab
 import com.github.syari.ss.plugins.core.command.create.ErrorMessage
 import com.github.syari.ss.plugins.core.item.CustomItemStack
 import com.github.syari.ss.plugins.core.message.Message.send
@@ -10,18 +12,20 @@ import org.bukkit.entity.Player
 
 class Main: SSPlugin() {
     override fun onEnable() {
-        command(this, "citem", "ItemCreator") { sender, args ->
+        fun String.replaceSpace() = replace("<sp>", " ")
+
+        command(this, "citem", "ItemCreator", tab {
+            element("name", "lore", "type", "model", "unbreak")
+        }, tab("lore") { element("edit", "insert", "add", "remove", "clear") }, tab("type") { element(Material.values().map(Material::name)) }) { sender, args ->
             if (sender !is Player) return@command sendError(ErrorMessage.OnlyPlayer)
             val item = CustomItemStack.create(sender.inventory.itemInMainHand)
             if (item.type == Material.AIR) return@command sendError("アイテムを持ってください")
             when (args.whenIndex(0)) {
                 "name" -> {
-                    item.display = args.getOrNull(1)
+                    item.display = args.slice(1).joinToString(" ").replaceSpace()
                     sendWithPrefix("アイテム名を変更しました")
                 }
                 "lore" -> {
-                    fun String.replaceSpace() = replace("<sp>", " ")
-
                     when (args.whenIndex(1)) {
                         "edit" -> {
                             item.lore = args.slice(2).map(String::replaceSpace)
@@ -61,7 +65,6 @@ class Main: SSPlugin() {
                                 "citem lore remove [Line]" to "指定行目の説明文を削除します", //
                                 "citem lore clear" to "全ての説明文を削除します"
                             )
-                            sender.send("&a<sp> &fは &a空白 &fに置き換わります")
                         }
                     }
                 }
@@ -88,13 +91,17 @@ class Main: SSPlugin() {
                         sendWithPrefix("耐久無限を削除しました")
                     }
                 }
-                else -> sendHelp(
-                    "citem name [Name]" to "アイテム名を変更します", //
-                    "citem lore" to "説明文を変更します", //
-                    "citem type" to "アイテムタイプを変更します", //
-                    "citem model" to "モデルデータ値を変更します", //
-                    "citem unbreak" to "耐久無限を変更します"
-                )
+                else -> {
+                    sendHelp(
+                        "citem name [Name]" to "アイテム名を変更します", //
+                        "citem lore" to "説明文を変更します", //
+                        "citem type [Material]" to "アイテムタイプを変更します", //
+                        "citem model [Value]" to "モデルデータ値を変更します", //
+                        "citem unbreak" to "耐久無限を変更します",
+                    )
+
+                    sender.send("&7* &a<sp> &7は &a空白 &7に置き換わります")
+                }
             }
         }
     }

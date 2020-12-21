@@ -75,7 +75,7 @@ interface Project {
 
     object ItemCreator: Project {
         override val name = "SS-ItemCreator"
-        override val version = build(2)
+        override val version = build(3)
         override val group = subgroup("itemcreator")
         override val dependProject = listOf(Core)
     }
