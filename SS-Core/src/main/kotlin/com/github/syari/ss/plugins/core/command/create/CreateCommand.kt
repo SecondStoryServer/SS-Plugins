@@ -149,7 +149,7 @@ object CreateCommand {
                                     if (splitArg.size == size) {
                                         val completed = if (eachArg.contains('*')) {
                                             var wild2 = false
-                                            StringBuilder().apply {
+                                            buildString {
                                                 splitArg.forEachIndexed { index, word ->
                                                     if (word == "**") wild2 = true
                                                     append(
@@ -157,7 +157,7 @@ object CreateCommand {
                                                         else word
                                                     )
                                                 }
-                                            }.toString().substringBeforeLast(" ")
+                                            }.substringBeforeLast(" ")
                                         } else {
                                             eachArg
                                         }

@@ -43,14 +43,6 @@ class CommandMessage internal constructor(
     }
 
     /**
-     * [prefix] が接頭についたメッセージを送信します
-     * @param builder 本文
-     */
-    fun sendWithPrefix(builder: StringBuilder) {
-        sendWithPrefix(builder.toString())
-    }
-
-    /**
      * コマンドヘルプを送信します
      * ```
      * Format: "/$first &7$second"
@@ -92,7 +84,7 @@ class CommandMessage internal constructor(
         title: String = "", element: Iterable<String>
     ) {
         if (title.isNotEmpty()) sendWithPrefix("&f$title")
-        sender.send(StringBuilder().apply {
+        sender.send(buildString {
             element.forEach {
                 appendLine("&7- &a$it")
             }
