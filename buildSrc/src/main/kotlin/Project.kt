@@ -97,7 +97,7 @@ interface Project {
     interface MA: Project {
         object Shop: MA {
             override val name = "SS-MA-Shop"
-            override val version = build(3)
+            override val version = build(4)
             override val group = subgroup("ma.shop")
             override val dependProject = listOf(Core, Dependency.CrackShot, Dependency.CrackShotPlus, Dependency.MythicMobs)
         }

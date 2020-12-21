@@ -10,7 +10,7 @@ import org.bukkit.entity.Player
 
 object CommandCreator: OnEnable {
     override fun onEnable() {
-        command(plugin, "mashop", "MA_Shop", tab { element("open", "reload") }, tab("open") {
+        command(plugin, "ma-shop", "MA-Shop", tab { element("open", "reload") }, tab("open") {
             element(Shop.getNames())
         }) { sender, args ->
             when (args.whenIndex(0)) {
