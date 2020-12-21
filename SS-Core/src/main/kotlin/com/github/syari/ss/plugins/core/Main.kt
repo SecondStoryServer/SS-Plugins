@@ -1,5 +1,6 @@
 package com.github.syari.ss.plugins.core
 
+import com.github.syari.ss.plugins.core.bossBar.CustomBossBar
 import com.github.syari.ss.plugins.core.code.SSPlugin
 import com.github.syari.ss.plugins.core.inventory.CreateInventory
 import com.github.syari.ss.plugins.core.message.ConsoleLogger
@@ -25,11 +26,9 @@ class Main: SSPlugin() {
         lateinit var console: ConsoleCommandSender
     }
 
-    override val listeners = listOf(
-        com.github.syari.ss.plugins.core.bossBar.CreateBossBar, CreateInventory, TimeScheduler
-    )
+    override val listeners = listOf(CustomBossBar, CreateInventory, TimeScheduler)
     override val onEnables = listOf(TimeScheduler)
-    override val onDisables = listOf(com.github.syari.ss.plugins.core.bossBar.CreateBossBar)
+    override val onDisables = listOf(CustomBossBar)
 
     override fun onEnable() {
         corePlugin = this
