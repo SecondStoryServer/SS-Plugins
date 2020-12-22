@@ -7,7 +7,6 @@ include(
     "SS-Votifier",
     "SS-MaterialChecker",
     "SS-SoundChecker",
-    "SS-Base64Converter",
     "SS-ItemCreator",
     "SS-CommandBlocker",
     "SS-PluginManager",

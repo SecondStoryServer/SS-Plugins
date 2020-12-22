@@ -66,16 +66,9 @@ interface Project {
         override val dependProject = listOf(Core)
     }
 
-    object Base64Converter: Dependency {
-        override val name = "SS-Base64Converter"
-        override val version = build(2)
-        override val group = subgroup("base64converter")
-        override val dependProject = listOf(Core)
-    }
-
     object ItemCreator: Project {
         override val name = "SS-ItemCreator"
-        override val version = build(3)
+        override val version = build(4)
         override val group = subgroup("itemcreator")
         override val dependProject = listOf(Core)
     }
