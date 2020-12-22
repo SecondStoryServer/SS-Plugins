@@ -1,21 +1,21 @@
 rootProject.name = "SS-Plugins"
 
 include(
-    "SS-Kotlin",
-    "SS-Core",
     "SS-Backup",
-    "SS-Votifier",
-    "SS-MaterialChecker",
-    "SS-SoundChecker",
-    "SS-ItemCreator",
     "SS-CommandBlocker",
-    "SS-PluginManager",
-    "SS-MA-Shop",
-    "SS-MA-Kit",
-    "SS-MA-Item",
-    "SS-MA-Mob",
+    "SS-Core",
     "SS-Dependency-MythicMobs",
     "SS-Dependency-CrackShot",
     "SS-Dependency-CrackShotPlus",
-    "SS-Dependency-AdvancedMobArena"
+    "SS-Dependency-AdvancedMobArena",
+    "SS-ItemCreator",
+    "SS-Kotlin",
+    "SS-MA-Shop",
+    "SS-MA-Kit",
+    "SS-MA-Item",
+    "SS-MaterialChecker",
+    "SS-PluginManager",
+    "SS-SoundChecker",
+    "SS-MA-Mob",
+    "SS-Votifier"
 )
