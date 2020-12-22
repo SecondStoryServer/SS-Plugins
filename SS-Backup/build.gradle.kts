@@ -3,8 +3,6 @@ group = project.group
 
 dependencies {
     project.dependProjectName.forEach { implementation(project(":$it")) }
-    compileOnly("io.ktor:ktor-client-okhttp:1.4.3")
-    compileOnly("io.ktor:ktor-client-auth:1.4.3")
 }
 
 bukkit {
