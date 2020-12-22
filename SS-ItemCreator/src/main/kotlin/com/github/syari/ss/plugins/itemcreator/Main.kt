@@ -5,7 +5,10 @@ import com.github.syari.ss.plugins.core.command.create.CreateCommand.command
 import com.github.syari.ss.plugins.core.command.create.CreateCommand.element
 import com.github.syari.ss.plugins.core.command.create.CreateCommand.tab
 import com.github.syari.ss.plugins.core.command.create.ErrorMessage
+import com.github.syari.ss.plugins.core.item.Base64Item
 import com.github.syari.ss.plugins.core.item.CustomItemStack
+import com.github.syari.ss.plugins.core.message.JsonBuilder
+import com.github.syari.ss.plugins.core.message.JsonBuilder.Companion.buildJson
 import com.github.syari.ss.plugins.core.message.Message.send
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -18,7 +21,8 @@ class Main: SSPlugin() {
             element("name", "lore", "type", "model", "unbreak")
         }, tab("lore") { element("edit", "insert", "add", "remove", "clear") }, tab("type") { element(Material.values().map(Material::name)) }) { sender, args ->
             if (sender !is Player) return@command sendError(ErrorMessage.OnlyPlayer)
-            val item = CustomItemStack.create(sender.inventory.itemInMainHand)
+            val itemStack = sender.inventory.itemInMainHand
+            val item = CustomItemStack.create(itemStack)
             if (item.type == Material.AIR) return@command sendError("アイテムを持ってください")
             when (args.whenIndex(0)) {
                 "name" -> {
@@ -91,13 +95,23 @@ class Main: SSPlugin() {
                         sendWithPrefix("耐久無限を削除しました")
                     }
                 }
+                "base64" -> {
+                    val base64 = Base64Item.toBase64(itemStack) ?: return@command sendError("Base64の取得に失敗しました")
+                    val displayName = item.itemMeta?.displayName?.ifBlank { null } ?: item.i18NDisplayName ?: item.type.name
+                    sendWithPrefix(buildJson {
+                        append(displayName, JsonBuilder.Hover.Item(item))
+                        append("  ")
+                        append("&b[Base64]", JsonBuilder.Hover.Text("&6コピー"), JsonBuilder.Click.Clipboard(base64))
+                    })
+                }
                 else -> {
                     sendHelp(
                         "citem name [Name]" to "アイテム名を変更します", //
                         "citem lore" to "説明文を変更します", //
                         "citem type [Material]" to "アイテムタイプを変更します", //
                         "citem model [Value]" to "モデルデータ値を変更します", //
-                        "citem unbreak" to "耐久無限を変更します",
+                        "citem unbreak" to "耐久無限を変更します", //
+                        "citem base64" to "アイテムをBase64に変換します",
                     )
 
                     sender.send("&7* &a<sp> &7は &a空白 &7に置き換わります")
