@@ -20,11 +20,11 @@ sealed class ShopElement {
     open val needsText = ""
 
     class Jump(
-        private val id: String, private val type: Material
+        private val id: String, private val type: Material, private val model: Int?
     ): ShopElement() {
         override fun give(player: Player) = Shop.get(id)?.open(player)?.run { false } ?: true
 
-        override val display by lazy { CustomItemStack.create(type, "&6${Shop.get(id)?.name}") }
+        override val display by lazy { CustomItemStack.create(type, "&6${Shop.get(id)?.name}", customModelData = model) }
         override val targetText = "クリックで開く"
     }
 
@@ -71,13 +71,19 @@ sealed class ShopElement {
             return when (val elementType = split[0].toLowerCase()) {
                 "jump" -> {
                     split.getOrNull(1)?.let { id ->
-                        val type = split.getOrNull(2)?.let {
-                            Material.getMaterial(it) ?: run {
+                        val (type, model) = split.getOrNull(2)?.let {
+                            val (typeName, model) = if (it.contains(':')) {
+                                val s = it.split(':')
+                                s[0] to s[1].toIntOrNull()
+                            } else {
+                                it to null
+                            }
+                            (Material.getMaterial(typeName.toUpperCase()) ?: run {
                                 config.nullError(path, "Material(${it})")
                                 null
-                            }
-                        } ?: Material.COMPASS
-                        Jump(id, type)
+                            }) to model
+                        } ?: (Material.COMPASS to null)
+                        type?.let { Jump(id, type, model) }
                     } ?: UnAvailable
                 }
                 "mc" -> {
