@@ -79,6 +79,13 @@ interface Project {
         }
     }
 
+    object Discord: Project {
+        override val name = "SS-Discord"
+        override val version = build(1)
+        override val group = subgroup("discord")
+        override val dependProject = listOf(Core)
+    }
+
     object ItemCreator: Project {
         override val name = "SS-ItemCreator"
         override val version = build(4)
