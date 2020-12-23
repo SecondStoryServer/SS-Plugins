@@ -8,12 +8,12 @@ import com.github.syari.ss.plugins.discord.api.DiscordAPI.LOGGER
 import com.github.syari.ss.plugins.discord.api.DiscordAPI.token
 import com.github.syari.ss.plugins.discord.api.handle.EventHandler.handleEvent
 import com.github.syari.ss.plugins.discord.api.rest.RestClient
-import com.github.syari.ss.plugins.discord.api.util.ByteArrayUtil.concat
-import com.github.syari.ss.plugins.discord.api.util.ByteArrayUtil.takeLastAsByteArray
+import com.github.syari.ss.plugins.discord.api.util.concat
 import com.github.syari.ss.plugins.discord.api.util.json.getObjectOrNull
 import com.github.syari.ss.plugins.discord.api.util.json.getOrNull
 import com.github.syari.ss.plugins.discord.api.util.json.json
 import com.github.syari.ss.plugins.discord.api.util.json.jsonArray
+import com.github.syari.ss.plugins.discord.api.util.takeLastAsByteArray
 import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
 import java.io.ByteArrayOutputStream
