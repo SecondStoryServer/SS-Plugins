@@ -8,7 +8,7 @@ import com.google.gson.Gson
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-object DiscordAPI {
+internal object DiscordAPI {
     const val NAME = "DiscordAPI"
     const val GITHUB_URL = "https://github.com/SecondStoryServer/SS-Plugins"
     const val API_VERSION = 6

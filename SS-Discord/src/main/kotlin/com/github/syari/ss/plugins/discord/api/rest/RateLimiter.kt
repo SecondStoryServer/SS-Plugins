@@ -3,7 +3,7 @@ package com.github.syari.ss.plugins.discord.api.rest
 import com.github.syari.ss.plugins.discord.api.DiscordAPI.LOGGER
 import java.util.concurrent.ConcurrentHashMap
 
-object RateLimiter {
+internal object RateLimiter {
     @Volatile
     private var globalRateLimitEnds: Long = 0L
 

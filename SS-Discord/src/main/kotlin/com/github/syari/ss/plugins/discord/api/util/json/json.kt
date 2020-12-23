@@ -4,25 +4,25 @@ import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 
-inline fun json(builder: JsonBuilder.() -> Unit) = JsonBuilder().apply(builder).get()
+internal inline fun json(builder: JsonBuilder.() -> Unit) = JsonBuilder().apply(builder).get()
 
-inline fun jsonArray(builder: JsonArrayBuilder.() -> Unit) = JsonArrayBuilder().apply(builder).get()
+internal inline fun jsonArray(builder: JsonArrayBuilder.() -> Unit) = JsonArrayBuilder().apply(builder).get()
 
-fun JsonObject.getOrNull(memberName: String): JsonElement? {
+internal fun JsonObject.getOrNull(memberName: String): JsonElement? {
     return if (has(memberName)) get(memberName) else null
 }
 
-fun JsonObject.getObjectOrNull(memberName: String): JsonObject? {
+internal fun JsonObject.getObjectOrNull(memberName: String): JsonObject? {
     return getOrNull(memberName)?.let {
         if (it.isJsonObject) it.asJsonObject else null
     }
 }
 
-fun JsonObject.getArrayOrNull(memberName: String): JsonArray? {
+internal fun JsonObject.getArrayOrNull(memberName: String): JsonArray? {
     return getOrNull(memberName)?.let {
         return if (it.isJsonArray) it.asJsonArray else null
     }
 }
 
-val JsonElement.asStringOrNull
+internal val JsonElement.asStringOrNull
     get() = if (isJsonPrimitive && asJsonPrimitive.isString) asString else null

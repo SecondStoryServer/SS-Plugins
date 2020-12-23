@@ -1,6 +1,6 @@
 package com.github.syari.ss.plugins.discord.api.websocket
 
-enum class GatewayIntent(val flag: Int) {
+internal enum class GatewayIntent(val flag: Int) {
     /**
     - GUILD_CREATE
     - GUILD_DELETE

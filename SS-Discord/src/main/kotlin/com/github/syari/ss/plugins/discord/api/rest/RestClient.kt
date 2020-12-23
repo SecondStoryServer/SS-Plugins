@@ -20,7 +20,7 @@ import java.net.http.HttpResponse
 import java.net.http.WebSocket
 import java.time.Duration
 
-object RestClient {
+internal object RestClient {
     private const val DISCORD_API_URL = "https://discord.com/api/v$API_VERSION"
 
     private val client = buildHttpClient {

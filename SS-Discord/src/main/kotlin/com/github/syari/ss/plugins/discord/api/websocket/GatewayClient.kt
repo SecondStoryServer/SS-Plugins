@@ -28,7 +28,7 @@ import java.util.zip.Inflater
 import java.util.zip.InflaterOutputStream
 import kotlin.concurrent.timerTask
 
-object GatewayClient {
+internal object GatewayClient {
     private val GatewayIntents = setOf(GatewayIntent.GUILDS, GatewayIntent.GUILD_MESSAGES)
     private const val Shard = 0
     private const val MaxShards = 1

@@ -4,7 +4,7 @@ import com.github.syari.ss.plugins.discord.api.entity.Guild
 import com.github.syari.ss.plugins.discord.api.util.json.getOrNull
 import com.google.gson.JsonObject
 
-object GuildCreateHandler: GatewayHandler {
+internal object GuildCreateHandler: GatewayHandler {
     override fun handle(json: JsonObject) {
         if (json.getOrNull("unavailable")?.asBoolean == true) {
             return

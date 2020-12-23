@@ -20,7 +20,7 @@ data class TextChannel(val name: String, val id: Long): Mentionable {
     override val asMentionRegex: Regex
         get() = "<#$id>".toRegex()
 
-    companion object {
+    internal companion object {
         val allTextChannels = mutableMapOf<Long, TextChannel>()
 
         fun get(id: Long): TextChannel? {

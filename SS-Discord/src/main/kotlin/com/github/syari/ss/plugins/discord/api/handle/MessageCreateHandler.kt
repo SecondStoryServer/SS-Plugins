@@ -12,7 +12,7 @@ import com.github.syari.ss.plugins.discord.api.util.json.getOrNull
 import com.google.gson.JsonObject
 import java.util.regex.Pattern
 
-object MessageCreateHandler: GatewayHandler {
+internal object MessageCreateHandler: GatewayHandler {
     override fun handle(json: JsonObject) {
         handleGuild(json)
     }

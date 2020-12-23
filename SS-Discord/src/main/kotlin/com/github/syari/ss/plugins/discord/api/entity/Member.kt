@@ -16,7 +16,7 @@ data class Member(
     override val asMentionRegex: Regex
         get() = "<@!?$id>".toRegex()
 
-    companion object {
+    internal companion object {
         fun from(memberJson: JsonObject, userJson: JsonObject): Member {
             val user = User.from(userJson)
             val name = user.name
