@@ -1,6 +1,6 @@
 package com.github.syari.ss.plugins.discord.api.entity
 
-import com.github.syari.ss.plugins.discord.api.util.json.JsonUtil.getOrNull
+import com.github.syari.ss.plugins.discord.api.util.json.getOrNull
 import com.google.gson.JsonObject
 
 data class User(val name: String, val id: Long, val isBot: Boolean) {

@@ -2,7 +2,7 @@ package com.github.syari.ss.plugins.discord.api.entity
 
 import com.github.syari.ss.plugins.discord.api.rest.EndPoint
 import com.github.syari.ss.plugins.discord.api.rest.RestClient
-import com.github.syari.ss.plugins.discord.api.util.json.JsonUtil.json
+import com.github.syari.ss.plugins.discord.api.util.json.json
 
 /**
  * GuildTextChannel

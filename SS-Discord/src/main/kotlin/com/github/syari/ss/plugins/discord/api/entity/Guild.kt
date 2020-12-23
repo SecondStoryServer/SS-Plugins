@@ -1,7 +1,7 @@
 package com.github.syari.ss.plugins.discord.api.entity
 
 import com.github.syari.ss.plugins.discord.api.entity.TextChannel.Companion.allTextChannels
-import com.github.syari.ss.plugins.discord.api.util.json.JsonUtil.getOrNull
+import com.github.syari.ss.plugins.discord.api.util.json.getOrNull
 import com.google.gson.JsonObject
 
 class Guild {

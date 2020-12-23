@@ -7,8 +7,8 @@ import com.github.syari.ss.plugins.discord.api.entity.Member
 import com.github.syari.ss.plugins.discord.api.entity.Message
 import com.github.syari.ss.plugins.discord.api.entity.Role
 import com.github.syari.ss.plugins.discord.api.entity.TextChannel
-import com.github.syari.ss.plugins.discord.api.util.json.JsonUtil.getArrayOrNull
-import com.github.syari.ss.plugins.discord.api.util.json.JsonUtil.getOrNull
+import com.github.syari.ss.plugins.discord.api.util.json.getArrayOrNull
+import com.github.syari.ss.plugins.discord.api.util.json.getOrNull
 import com.google.gson.JsonObject
 import java.util.regex.Pattern
 
