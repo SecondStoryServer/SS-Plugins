@@ -183,19 +183,7 @@ object GatewayClient {
         private val buffer = mutableListOf<ByteArray>()
         private val inflater = Inflater()
 
-        private fun hex(s: String): ByteArray {
-            val result = ByteArray(s.length / 2)
-            for (idx in result.indices) {
-                val srcIdx = idx * 2
-                val high = s[srcIdx].toString().toInt(16) shl 4
-                val low = s[srcIdx + 1].toString().toInt(16)
-                result[idx] = (high or low).toByte()
-            }
-
-            return result
-        }
-
-        private val ZLIB_SUFFIX = hex("0000ffff")
+        private val ZLIB_SUFFIX = byteArrayOf(0x00, 0x00, 0xFF.toByte(), 0xFF.toByte())
 
         override fun onBinary(webSocket: WebSocket, data: ByteBuffer, last: Boolean): CompletionStage<*>? {
             val byteArray = ByteArray(data.capacity())
