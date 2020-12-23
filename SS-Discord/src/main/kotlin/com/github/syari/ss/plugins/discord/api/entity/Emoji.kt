@@ -1,6 +1,4 @@
-package com.github.syari.ss.plugins.discord.api.entity.api
-
-import com.github.syari.ss.plugins.discord.api.entity.Mentionable
+package com.github.syari.ss.plugins.discord.api.entity
 
 internal data class Emoji(val name: String, val id: Long, val isAnimated: Boolean): Mentionable {
     override val asMentionDisplay: String

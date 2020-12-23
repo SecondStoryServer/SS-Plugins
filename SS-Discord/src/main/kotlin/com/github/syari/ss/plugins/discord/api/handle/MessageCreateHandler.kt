@@ -1,12 +1,12 @@
 package com.github.syari.ss.plugins.discord.api.handle
 
 import com.github.syari.ss.plugins.discord.api.KtDiscord
-import com.github.syari.ss.plugins.discord.api.entity.api.Emoji
-import com.github.syari.ss.plugins.discord.api.entity.api.Guild
-import com.github.syari.ss.plugins.discord.api.entity.api.Member
-import com.github.syari.ss.plugins.discord.api.entity.api.Message
-import com.github.syari.ss.plugins.discord.api.entity.api.Role
-import com.github.syari.ss.plugins.discord.api.entity.api.TextChannel
+import com.github.syari.ss.plugins.discord.api.entity.Emoji
+import com.github.syari.ss.plugins.discord.api.entity.Guild
+import com.github.syari.ss.plugins.discord.api.entity.Member
+import com.github.syari.ss.plugins.discord.api.entity.Message
+import com.github.syari.ss.plugins.discord.api.entity.Role
+import com.github.syari.ss.plugins.discord.api.entity.TextChannel
 import com.github.syari.ss.plugins.discord.api.util.json.JsonUtil.getArrayOrNull
 import com.github.syari.ss.plugins.discord.api.util.json.JsonUtil.getOrNull
 import com.google.gson.JsonObject

@@ -4,7 +4,6 @@ group = project.group
 dependencies {
     project.dependProjectName.forEach { implementation(project(":$it")) }
     implementation("com.google.code.gson:gson:2.8.6")
-    implementation("io.ktor:ktor-client-okhttp:1.4.0")
     testImplementation("org.slf4j:slf4j-simple:1.7.30")
 }
 

@@ -1,12 +1,10 @@
 package com.github.syari.ss.plugins.discord.api
 
-import com.github.syari.ss.plugins.discord.api.entity.api.Message
+import com.github.syari.ss.plugins.discord.api.entity.Message
 import com.github.syari.ss.plugins.discord.api.rest.EndPoint
 import com.github.syari.ss.plugins.discord.api.rest.RestClient
 import com.github.syari.ss.plugins.discord.api.websocket.GatewayClient
 import com.github.syari.ss.plugins.discord.api.websocket.GatewayIntent
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -29,7 +27,7 @@ object KtDiscord {
     internal lateinit var messageReceiveEvent: (Message) -> Unit
     internal var status = ConnectStatus.DISCONNECTED
 
-    suspend fun login(token: String, messageReceiveEvent: (Message) -> Unit) {
+    fun login(token: String, messageReceiveEvent: (Message) -> Unit) {
         if (status != ConnectStatus.DISCONNECTED) {
             throw IllegalStateException()
         }
@@ -46,11 +44,5 @@ object KtDiscord {
         status = ConnectStatus.CONNECTED
 
         KtDiscord.messageReceiveEvent = messageReceiveEvent
-    }
-
-    fun loginAsync(token: String, messageReceiveEvent: (Message) -> Unit) {
-        GlobalScope.launch {
-            login(token, messageReceiveEvent)
-        }
     }
 }

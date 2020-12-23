@@ -8,74 +8,67 @@ import com.github.syari.ss.plugins.discord.api.exception.DiscordException
 import com.github.syari.ss.plugins.discord.api.exception.MissingPermissionsException
 import com.github.syari.ss.plugins.discord.api.exception.NotFoundException
 import com.github.syari.ss.plugins.discord.api.exception.RateLimitedException
+import com.github.syari.ss.plugins.discord.api.util.buildHttpClient
+import com.github.syari.ss.plugins.discord.api.util.buildHttpRequest
 import com.google.gson.Gson
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
-import io.ktor.client.HttpClient
-import io.ktor.client.engine.okhttp.OkHttp
-import io.ktor.client.request.header
-import io.ktor.client.request.request
-import io.ktor.client.request.url
-import io.ktor.client.statement.HttpResponse
-import io.ktor.client.statement.readText
-import io.ktor.content.TextContent
-import io.ktor.http.ContentType
-import io.ktor.http.HttpHeaders
-import io.ktor.http.HttpMethod
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.sync.withLock
-import okhttp3.Protocol
+import java.net.URI
+import java.net.http.HttpClient
+import java.net.http.HttpRequest
+import java.net.http.HttpResponse
+import java.time.Duration
 
 internal object RestClient {
-    private val HTTP_CLIENT = HttpClient(OkHttp) {
-        engine {
-            config {
-                protocols(listOf(Protocol.HTTP_1_1))
-            }
-        }
-
-        expectSuccess = false
+    internal val client = buildHttpClient {
+        followRedirects(HttpClient.Redirect.NORMAL)
+        connectTimeout(Duration.ofSeconds(10))
     }
     private const val DISCORD_API_URL = "https://discord.com/api/v$API_VERSION"
     private val GSON = Gson()
 
-    suspend fun request(endPoint: EndPoint, data: JsonObject? = null, rateLimitRetries: Int = 50): JsonElement {
-        RateLimiter.getMutex(endPoint).withLock {
+    private val mutex = Any()
+
+    fun request(endPoint: EndPoint, data: JsonObject? = null, rateLimitRetries: Int = 50): JsonElement {
+        synchronized(mutex) {
             repeat(rateLimitRetries) {
                 RateLimiter.wait(endPoint)
 
                 try {
                     var url = DISCORD_API_URL + endPoint.path
-                    val response = HTTP_CLIENT.request<HttpResponse> {
-                        method = endPoint.method
-                        header(HttpHeaders.Accept, "application/json")
-                        header(HttpHeaders.Authorization, "Bot $token")
-                        header(HttpHeaders.UserAgent, "DiscordBot ($GITHUB_URL)")
-                        if (method == HttpMethod.Get) {
+                    val response = client.send(buildHttpRequest {
+                        header("Accept", "application/json")
+                        header("Authorization", "Bot $token")
+                        header("User-Agent", "DiscordBot ($GITHUB_URL)")
+                        if (endPoint.method == HttpMethod.Get) {
                             if (data != null) {
                                 val parameter = data.entrySet().joinToString("&") { "${it.key}=${it.value}" }
                                 url += "?$parameter"
                             }
+                            method(endPoint.method.value, HttpRequest.BodyPublishers.noBody())
                         } else {
-                            body = TextContent(data?.toString() ?: "{}", ContentType.Application.Json)
+                            method(endPoint.method.value, HttpRequest.BodyPublishers.ofString(data?.toString() ?: "{}"))
+                            header("Content-Type", "application/json; charset=UTF-8")
                         }
-                        url(url)
-                    }
-                    val contentType = response.headers["Content-Type"]
-                    val body = response.readText()
+                        uri(URI.create(url))
+                    }, HttpResponse.BodyHandlers.ofString())
+                    val headers = response.headers()
+                    val contentType = headers.firstValue("Content-Type").or { null }.orElse(null)
+                    val body = response.body()
+                    val statusCode = response.statusCode()
                     val json = if (contentType?.equals("application/json", true) == true) {
                         GSON.fromJson(body, JsonElement::class.java)
                     } else {
                         null
                     }
-                    LOGGER.debug("Response: ${response.status.value}, Body: $json")
+                    LOGGER.debug("Response: $statusCode, Body: $json")
 
                     // Update rate limits
-                    val rateLimit = response.headers["X-RateLimit-Limit"]?.toInt()
-                    val rateLimitRemaining = response.headers["X-RateLimit-Remaining"]?.toInt()
-                    val rateLimitEnds = response.headers["X-RateLimit-Reset"]?.toLong()
+                    val rateLimit = headers.firstValue("X-RateLimit-Limit").orElse(null)?.toInt()
+                    val rateLimitRemaining = headers.firstValue("X-RateLimit-Remaining").orElse(null)?.toInt()
+                    val rateLimitEnds = headers.firstValue("X-RateLimit-Reset").orElse(null)?.toLong()
 
-                    if (response.status.value !in 200..299) { // When failed to request
+                    if (statusCode !in 200..299) { // When failed to request
                         RateLimiter.incrementRateLimitRemaining(endPoint)
                     }
 
@@ -86,7 +79,7 @@ internal object RestClient {
                         LOGGER.debug("RateLimit: $rateLimit, Remaining: $rateLimitRemaining, Ends: $rateLimitEnds")
                     }
 
-                    when (response.status.value) { // Handle rate limits (429 Too Many Requests)
+                    when (statusCode) { // Handle rate limits (429 Too Many Requests)
                         429 -> {
                             if (json == null) { // When get rate limited without body
                                 throw RateLimitedException()
@@ -104,7 +97,7 @@ internal object RestClient {
                             return@repeat
                         }
                         in 500..599 -> {
-                            val message = "Discord API returned internal server error (code: ${response.status.value})"
+                            val message = "Discord API returned internal server error (code: $statusCode)"
                             throw Exception(message) // Retry
                         }
                         403 -> {
@@ -114,9 +107,8 @@ internal object RestClient {
                             throw NotFoundException(true)
                         }
                         !in 200..299 -> {
-                            val code = response.status.value
-                            val message = "Discord API returned status code $code with body ${json?.toString()}"
-                            throw DiscordException(message, code)
+                            val message = "Discord API returned status code $statusCode with body ${json?.toString()}"
+                            throw DiscordException(message, statusCode)
                         }
                         else -> {
                             return json ?: JsonObject()
@@ -132,7 +124,7 @@ internal object RestClient {
                     throw ex
                 } catch (ex: Exception) {
                     LOGGER.warn("An unexpected error has occurred! we will retry in a second", ex)
-                    delay(1000)
+                    Thread.sleep(1000)
                 }
             }
 

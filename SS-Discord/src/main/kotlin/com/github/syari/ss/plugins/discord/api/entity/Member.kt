@@ -1,6 +1,5 @@
-package com.github.syari.ss.plugins.discord.api.entity.api
+package com.github.syari.ss.plugins.discord.api.entity
 
-import com.github.syari.ss.plugins.discord.api.entity.Mentionable
 import com.github.syari.ss.plugins.discord.api.util.json.JsonUtil.asStringOrNull
 import com.github.syari.ss.plugins.discord.api.util.json.JsonUtil.getOrNull
 import com.google.gson.JsonObject
