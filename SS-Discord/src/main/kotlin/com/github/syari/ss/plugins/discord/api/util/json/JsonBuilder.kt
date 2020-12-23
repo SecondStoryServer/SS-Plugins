@@ -3,7 +3,7 @@ package com.github.syari.ss.plugins.discord.api.util.json
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 
-internal class JsonBuilder {
+class JsonBuilder {
     private val jsonObject = JsonObject()
 
     infix fun String.to(value: Number?) {

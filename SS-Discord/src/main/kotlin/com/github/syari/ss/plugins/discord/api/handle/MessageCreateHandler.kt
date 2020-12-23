@@ -1,6 +1,6 @@
 package com.github.syari.ss.plugins.discord.api.handle
 
-import com.github.syari.ss.plugins.discord.api.KtDiscord
+import com.github.syari.ss.plugins.discord.api.DiscordAPI
 import com.github.syari.ss.plugins.discord.api.entity.Emoji
 import com.github.syari.ss.plugins.discord.api.entity.Guild
 import com.github.syari.ss.plugins.discord.api.entity.Member
@@ -12,7 +12,7 @@ import com.github.syari.ss.plugins.discord.api.util.json.JsonUtil.getOrNull
 import com.google.gson.JsonObject
 import java.util.regex.Pattern
 
-internal object MessageCreateHandler: GatewayHandler {
+object MessageCreateHandler: GatewayHandler {
     override fun handle(json: JsonObject) {
         handleGuild(json)
     }
@@ -31,7 +31,7 @@ internal object MessageCreateHandler: GatewayHandler {
         val mentionChannels = getMentionChannels(guild, content)
         val mentionEmojis = getMentionEmojis(guild, content)
         val message = Message(channel, member, content, mentionMembers, mentionRoles, mentionChannels, mentionEmojis)
-        KtDiscord.messageReceiveEvent.invoke(message)
+        DiscordAPI.messageReceiveEvent.invoke(message)
     }
 
     private fun getMentionMembers(parent: JsonObject): List<Member> {

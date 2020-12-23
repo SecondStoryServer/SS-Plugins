@@ -3,7 +3,7 @@ package com.github.syari.ss.plugins.discord.api.util.json
 import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 
-internal class JsonArrayBuilder {
+class JsonArrayBuilder {
     private val jsonArray = JsonArray()
 
     operator fun String?.unaryPlus() {

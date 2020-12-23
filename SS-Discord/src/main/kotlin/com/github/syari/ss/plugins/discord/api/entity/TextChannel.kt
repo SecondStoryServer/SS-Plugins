@@ -7,7 +7,7 @@ import com.github.syari.ss.plugins.discord.api.util.json.JsonUtil.json
 /**
  * GuildTextChannel
  */
-data class TextChannel internal constructor(val name: String, val id: Long): Mentionable {
+data class TextChannel(val name: String, val id: Long): Mentionable {
     fun send(message: String) {
         RestClient.request(EndPoint.CreateMessage(id), json {
             "content" to message
@@ -21,12 +21,12 @@ data class TextChannel internal constructor(val name: String, val id: Long): Men
         get() = "<#$id>".toRegex()
 
     companion object {
-        internal val allTextChannels = mutableMapOf<Long, TextChannel>()
+        val allTextChannels = mutableMapOf<Long, TextChannel>()
 
         fun get(id: Long): TextChannel? {
             return allTextChannels[id]
         }
 
-        internal const val REGEX = "<#(\\d+)>"
+        const val REGEX = "<#(\\d+)>"
     }
 }

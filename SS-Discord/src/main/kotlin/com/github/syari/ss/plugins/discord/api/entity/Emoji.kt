@@ -1,6 +1,6 @@
 package com.github.syari.ss.plugins.discord.api.entity
 
-internal data class Emoji(val name: String, val id: Long, val isAnimated: Boolean): Mentionable {
+data class Emoji(val name: String, val id: Long, val isAnimated: Boolean): Mentionable {
     override val asMentionDisplay: String
         get() = ":$name:"
 
@@ -8,6 +8,6 @@ internal data class Emoji(val name: String, val id: Long, val isAnimated: Boolea
         get() = "<${if (isAnimated) "a" else ""}:$name:$id>".toRegex()
 
     companion object {
-        internal const val REGEX = "<a?:([a-zA-Z0-9_]+):([0-9]+)>"
+        const val REGEX = "<a?:([a-zA-Z0-9_]+):([0-9]+)>"
     }
 }

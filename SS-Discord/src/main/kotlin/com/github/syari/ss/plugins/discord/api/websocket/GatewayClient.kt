@@ -1,22 +1,19 @@
 package com.github.syari.ss.plugins.discord.api.websocket
 
 import com.github.syari.ss.plugins.discord.api.ConnectStatus
-import com.github.syari.ss.plugins.discord.api.KtDiscord
-import com.github.syari.ss.plugins.discord.api.KtDiscord.API_VERSION
-import com.github.syari.ss.plugins.discord.api.KtDiscord.LOGGER
-import com.github.syari.ss.plugins.discord.api.KtDiscord.gatewayIntents
-import com.github.syari.ss.plugins.discord.api.KtDiscord.maxShards
-import com.github.syari.ss.plugins.discord.api.KtDiscord.shard
-import com.github.syari.ss.plugins.discord.api.KtDiscord.token
+import com.github.syari.ss.plugins.discord.api.DiscordAPI
+import com.github.syari.ss.plugins.discord.api.DiscordAPI.API_VERSION
+import com.github.syari.ss.plugins.discord.api.DiscordAPI.GSON
+import com.github.syari.ss.plugins.discord.api.DiscordAPI.LOGGER
+import com.github.syari.ss.plugins.discord.api.DiscordAPI.token
 import com.github.syari.ss.plugins.discord.api.handle.EventHandler.handleEvent
-import com.github.syari.ss.plugins.discord.api.rest.RestClient.client
+import com.github.syari.ss.plugins.discord.api.rest.RestClient
 import com.github.syari.ss.plugins.discord.api.util.ByteArrayUtil.concat
 import com.github.syari.ss.plugins.discord.api.util.ByteArrayUtil.takeLastAsByteArray
 import com.github.syari.ss.plugins.discord.api.util.json.JsonUtil.getObjectOrNull
 import com.github.syari.ss.plugins.discord.api.util.json.JsonUtil.getOrNull
 import com.github.syari.ss.plugins.discord.api.util.json.JsonUtil.json
 import com.github.syari.ss.plugins.discord.api.util.json.JsonUtil.jsonArray
-import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
 import java.io.ByteArrayOutputStream
@@ -31,8 +28,10 @@ import java.util.zip.Inflater
 import java.util.zip.InflaterOutputStream
 import kotlin.concurrent.timerTask
 
-internal object GatewayClient {
-    private val GSON = Gson()
+object GatewayClient {
+    private val GatewayIntents = setOf(GatewayIntent.GUILDS, GatewayIntent.GUILD_MESSAGES)
+    private const val Shard = 0
+    private const val MaxShards = 1
 
     @Volatile
     private var sessionId: String? = null
@@ -58,16 +57,16 @@ internal object GatewayClient {
 
     private fun connect() {
         val url = URI.create("$url/?v=$API_VERSION&encoding=json&compress=zlib-stream")
-        client.newWebSocketBuilder().buildAsync(url, Listener)
+        RestClient.newWebSocketBuilder().buildAsync(url, Listener)
     }
 
     private fun authenticate(webSocket: WebSocket) {
         send(webSocket, Opcode.IDENTIFY, json {
             "token" to token
 
-            if (gatewayIntents.isNotEmpty()) {
+            if (GatewayIntents.isNotEmpty()) {
                 var value = 0
-                gatewayIntents.forEach {
+                GatewayIntents.forEach {
                     value = value or it.flag
                 }
                 LOGGER.trace("Intent flag: $value")
@@ -81,8 +80,8 @@ internal object GatewayClient {
             }
 
             "shard" to jsonArray {
-                +JsonPrimitive(shard)
-                +JsonPrimitive(maxShards)
+                +JsonPrimitive(Shard)
+                +JsonPrimitive(MaxShards)
             }
         })
     }
@@ -168,7 +167,7 @@ internal object GatewayClient {
     object Listener: WebSocket.Listener {
         override fun onOpen(webSocket: WebSocket) {
             LOGGER.info("Connected to the gateway")
-            KtDiscord.status = ConnectStatus.CONNECTED
+            DiscordAPI.status = ConnectStatus.CONNECTED
 
             if (sessionId == null) {
                 LOGGER.info("Authenticating...")
@@ -206,7 +205,7 @@ internal object GatewayClient {
             buffer.add(byteArray)
 
             // Check for zlib suffix
-            if (byteArray.size < 4 || !byteArray.takeLastAsByteArray(4).contentEquals(ZLIB_SUFFIX)) {
+            if (byteArray.size < 4 || byteArray.takeLastAsByteArray(4).contentEquals(ZLIB_SUFFIX).not()) {
                 return null
             }
 

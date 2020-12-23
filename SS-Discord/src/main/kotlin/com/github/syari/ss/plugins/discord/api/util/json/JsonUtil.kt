@@ -4,7 +4,7 @@ import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 
-internal object JsonUtil {
+object JsonUtil {
     fun json(builder: JsonBuilder.() -> Unit) = JsonBuilder().apply(builder).get()
 
     fun jsonArray(builder: JsonArrayBuilder.() -> Unit) = JsonArrayBuilder().apply(builder).get()

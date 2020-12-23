@@ -1,6 +1,6 @@
 package com.github.syari.ss.plugins.discord.api.websocket
 
-internal enum class Opcode(val code: Int) {
+enum class Opcode(val code: Int) {
     /**
      * dispatches an event (Receive)
      */

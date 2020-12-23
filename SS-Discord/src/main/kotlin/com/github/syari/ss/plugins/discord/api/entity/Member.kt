@@ -4,7 +4,7 @@ import com.github.syari.ss.plugins.discord.api.util.json.JsonUtil.asStringOrNull
 import com.github.syari.ss.plugins.discord.api.util.json.JsonUtil.getOrNull
 import com.google.gson.JsonObject
 
-data class Member internal constructor(
+data class Member(
     val name: String, val id: Long, val isBot: Boolean, val nickName: String?
 ): Mentionable {
     val displayName
@@ -16,7 +16,7 @@ data class Member internal constructor(
     override val asMentionRegex: Regex
         get() = "<@!?$id>".toRegex()
 
-    internal companion object {
+    companion object {
         fun from(memberJson: JsonObject, userJson: JsonObject): Member {
             val user = User.from(userJson)
             val name = user.name

@@ -1,9 +1,9 @@
 package com.github.syari.ss.plugins.discord.api.rest
 
-import com.github.syari.ss.plugins.discord.api.KtDiscord.LOGGER
+import com.github.syari.ss.plugins.discord.api.DiscordAPI.LOGGER
 import java.util.concurrent.ConcurrentHashMap
 
-internal object RateLimiter {
+object RateLimiter {
     @Volatile
     private var globalRateLimitEnds: Long = 0L
 

@@ -1,6 +1,6 @@
 package com.github.syari.ss.plugins.discord.api.entity
 
-internal interface Mentionable {
+interface Mentionable {
     val asMentionRegex: Regex
 
     val asMentionDisplay: String

@@ -2,7 +2,7 @@ package com.github.syari.ss.plugins.discord.api.entity
 
 import com.github.syari.ss.plugins.discord.api.entity.Mentionable.Companion.replaceAll
 
-class Message internal constructor(
+class Message(
     val channel: TextChannel,
     val member: Member,
     val content: String,

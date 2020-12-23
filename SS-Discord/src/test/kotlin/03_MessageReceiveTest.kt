@@ -1,8 +1,8 @@
-import com.github.syari.ss.plugins.discord.api.KtDiscord
-import com.github.syari.ss.plugins.discord.api.KtDiscord.LOGGER
+import com.github.syari.ss.plugins.discord.api.DiscordAPI
+import com.github.syari.ss.plugins.discord.api.DiscordAPI.LOGGER
 
 fun main() {
-    KtDiscord.login(BOT_TOKEN) { message ->
+    DiscordAPI.login(BOT_TOKEN) { message ->
         LOGGER.debug(message.toString())
     }
     LOGGER.debug("return")

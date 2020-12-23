@@ -3,7 +3,7 @@ package com.github.syari.ss.plugins.discord.api.entity
 import com.github.syari.ss.plugins.discord.api.util.json.JsonUtil.getOrNull
 import com.google.gson.JsonObject
 
-internal data class User(val name: String, val id: Long, val isBot: Boolean) {
+data class User(val name: String, val id: Long, val isBot: Boolean) {
     companion object {
         fun from(json: JsonObject): User {
             val name: String = json["username"].asString

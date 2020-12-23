@@ -1,16 +1,16 @@
 package com.github.syari.ss.plugins.discord.api.rest
 
-import com.github.syari.ss.plugins.discord.api.KtDiscord.API_VERSION
-import com.github.syari.ss.plugins.discord.api.KtDiscord.GITHUB_URL
-import com.github.syari.ss.plugins.discord.api.KtDiscord.LOGGER
-import com.github.syari.ss.plugins.discord.api.KtDiscord.token
+import com.github.syari.ss.plugins.discord.api.DiscordAPI.API_VERSION
+import com.github.syari.ss.plugins.discord.api.DiscordAPI.GITHUB_URL
+import com.github.syari.ss.plugins.discord.api.DiscordAPI.GSON
+import com.github.syari.ss.plugins.discord.api.DiscordAPI.LOGGER
+import com.github.syari.ss.plugins.discord.api.DiscordAPI.token
 import com.github.syari.ss.plugins.discord.api.exception.DiscordException
 import com.github.syari.ss.plugins.discord.api.exception.MissingPermissionsException
 import com.github.syari.ss.plugins.discord.api.exception.NotFoundException
 import com.github.syari.ss.plugins.discord.api.exception.RateLimitedException
 import com.github.syari.ss.plugins.discord.api.util.buildHttpClient
 import com.github.syari.ss.plugins.discord.api.util.buildHttpRequest
-import com.google.gson.Gson
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import java.net.URI
@@ -19,13 +19,15 @@ import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 import java.time.Duration
 
-internal object RestClient {
-    internal val client = buildHttpClient {
+object RestClient {
+    private const val DISCORD_API_URL = "https://discord.com/api/v$API_VERSION"
+
+    private val client = buildHttpClient {
         followRedirects(HttpClient.Redirect.NORMAL)
         connectTimeout(Duration.ofSeconds(10))
     }
-    private const val DISCORD_API_URL = "https://discord.com/api/v$API_VERSION"
-    private val GSON = Gson()
+
+    fun newWebSocketBuilder() = client.newWebSocketBuilder()
 
     private val mutex = Any()
 

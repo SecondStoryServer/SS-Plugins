@@ -1,8 +1,8 @@
-import com.github.syari.ss.plugins.discord.api.KtDiscord
+import com.github.syari.ss.plugins.discord.api.DiscordAPI
 
 fun main() {
-    KtDiscord.login("wrong") {}
-    KtDiscord.LOGGER.debug("return")
+    DiscordAPI.login("wrong") {}
+    DiscordAPI.LOGGER.debug("return")
     while (true) {
     }
 }

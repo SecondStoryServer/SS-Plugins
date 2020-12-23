@@ -4,7 +4,7 @@ import com.github.syari.ss.plugins.discord.api.entity.TextChannel.Companion.allT
 import com.github.syari.ss.plugins.discord.api.util.json.JsonUtil.getOrNull
 import com.google.gson.JsonObject
 
-internal class Guild {
+class Guild {
     private val emojis = mutableMapOf<Long, Emoji>()
     private val roles = mutableMapOf<Long, Role>()
     private val textChannels = mutableMapOf<Long, TextChannel>()
