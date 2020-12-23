@@ -8,6 +8,7 @@ include(
     "SS-Dependency-CrackShot",
     "SS-Dependency-CrackShotPlus",
     "SS-Dependency-AdvancedMobArena",
+    "SS-Discord",
     "SS-ItemCreator",
     "SS-Kotlin",
     "SS-MA-Shop",
