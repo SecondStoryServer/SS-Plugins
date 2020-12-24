@@ -17,6 +17,5 @@ include(
     "SS-MaterialChecker",
     "SS-PluginManager",
     "SS-SoundChecker",
-    "SS-MA-Mob",
-    "SS-Votifier"
+    "SS-MA-Mob"
 )

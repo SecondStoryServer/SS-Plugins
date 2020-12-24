@@ -150,11 +150,4 @@ interface Project {
         override val group = subgroup("soundchecker")
         override val dependProject = listOf(Core)
     }
-
-    object Votifier: Project {
-        override val name = "SS-Votifier"
-        override val version = build(2)
-        override val group = subgroup("votifier")
-        override val dependProject = listOf(Core)
-    }
 }
