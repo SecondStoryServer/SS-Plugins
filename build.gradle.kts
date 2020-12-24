@@ -2,7 +2,7 @@ import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.4.10"
+    kotlin("jvm") version "1.4.21"
     id("com.github.johnrengelman.shadow") version "6.1.0" apply false
     id("net.minecrell.plugin-yml.bukkit") version "0.3.0" apply false
 }
@@ -26,7 +26,7 @@ subprojects {
 
     dependencies {
         implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-        implementation("com.destroystokyo.paper:paper-api:1.16.2-R0.1-SNAPSHOT")
+        implementation("com.destroystokyo.paper:paper-api:1.16.4-R0.1-SNAPSHOT")
     }
 
     tasks.withType<KotlinCompile> {
