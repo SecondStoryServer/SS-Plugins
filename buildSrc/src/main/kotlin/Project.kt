@@ -95,7 +95,7 @@ interface Project {
 
     object Kotlin: Project {
         override val name = "SS-Kotlin"
-        override val version = "1.4.10"
+        override val version = "1.4.21"
         override val group = subgroup("kotlin")
         override val dependProject = listOf<Project>()
     }
