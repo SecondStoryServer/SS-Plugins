@@ -1,6 +1,6 @@
 package com.github.syari.ss.plugins.core.command.create
 
-import com.github.syari.ss.plugins.core.Main.Companion.corePlugin
+import com.github.syari.ss.plugins.core.Main.Companion.plugin
 import org.bukkit.command.Command
 import org.bukkit.command.CommandMap
 import org.bukkit.command.CommandSender
@@ -208,10 +208,10 @@ object CreateCommand {
     /**
      * 全オフラインプレイヤーの名前一覧を取得します
      */
-    val offlinePlayers get() = CommandTabElement(corePlugin.server.offlinePlayers.mapNotNull { it?.name })
+    val offlinePlayers get() = CommandTabElement(plugin.server.offlinePlayers.mapNotNull { it?.name })
 
     /**
      * 全オンラインプレイヤーの名前一覧を取得します
      */
-    val onlinePlayers get() = CommandTabElement(corePlugin.server.onlinePlayers.mapNotNull { it?.name })
+    val onlinePlayers get() = CommandTabElement(plugin.server.onlinePlayers.mapNotNull { it?.name })
 }

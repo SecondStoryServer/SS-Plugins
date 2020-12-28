@@ -1,6 +1,5 @@
 package com.github.syari.ss.plugins.core.config
 
-import com.github.syari.ss.plugins.core.Main.Companion.coreLogger
 import com.github.syari.ss.plugins.core.message.Message.send
 import org.bukkit.command.CommandSender
 import org.bukkit.configuration.file.YamlConfiguration
@@ -27,14 +26,14 @@ class CustomFileConfig internal constructor(
         val writeDefault = if (!file.exists()) {
             try {
                 file.createNewFile()
-                coreLogger.info("$filePath の作成に成功しました")
+                plugin.logger.info("$filePath の作成に成功しました")
                 true
             } catch (ex: IOException) {
-                coreLogger.error("$filePath の作成に失敗しました")
+                plugin.logger.severe("$filePath の作成に失敗しました")
                 false
             }
         } else if (file.length() == 0L && deleteIfEmpty) {
-            coreLogger.warn("$filePath は中身が存在しないので削除されます")
+            plugin.logger.warning("$filePath は中身が存在しないので削除されます")
             delete()
             false
         } else {
@@ -97,7 +96,7 @@ class CustomFileConfig internal constructor(
      */
     fun delete() {
         file.delete()
-        coreLogger.info("$filePath の削除に成功しました")
+        plugin.logger.info("$filePath の削除に成功しました")
     }
 
     /**

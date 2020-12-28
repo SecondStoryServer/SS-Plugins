@@ -1,6 +1,6 @@
 package com.github.syari.ss.plugins.core.inventory
 
-import com.github.syari.ss.plugins.core.Main.Companion.corePlugin
+import com.github.syari.ss.plugins.core.Main.Companion.plugin
 import com.github.syari.ss.plugins.core.code.StringEditor.toColor
 import com.github.syari.ss.plugins.core.inventory.CreateInventory.runWithId
 import com.github.syari.ss.plugins.core.player.UUIDPlayer
@@ -46,7 +46,7 @@ object CreateInventory: Listener {
         uuidPlayer.menuPlayer?.run {
             onClose(e)
             uuidPlayer.menuPlayer = null
-            runLater(corePlugin, 5) {
+            runLater(plugin, 5) {
                 player.updateInventory()
             }
         }

@@ -1,6 +1,6 @@
 package com.github.syari.ss.plugins.core.bossBar
 
-import com.github.syari.ss.plugins.core.Main.Companion.corePlugin
+import com.github.syari.ss.plugins.core.Main.Companion.plugin
 import com.github.syari.ss.plugins.core.bossBar.CustomBossBar.Companion.bossBar
 import com.github.syari.ss.plugins.core.code.OnDisable
 import com.github.syari.ss.plugins.core.code.StringEditor.toColor
@@ -59,11 +59,11 @@ class CustomBossBar internal constructor(
         ) = CustomBossBar(title, color, style, public)
     }
 
-    private val bar: BossBar = corePlugin.server.createBossBar(title.toColor, color, style)
+    private val bar: BossBar = plugin.server.createBossBar(title.toColor, color, style)
 
     init {
         if (public) {
-            corePlugin.server.onlinePlayers.forEach { bar.addPlayer(it) }
+            plugin.server.onlinePlayers.forEach { bar.addPlayer(it) }
         }
         barList.add(this)
     }

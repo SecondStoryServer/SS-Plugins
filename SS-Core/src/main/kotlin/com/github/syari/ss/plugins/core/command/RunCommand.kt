@@ -1,7 +1,7 @@
 package com.github.syari.ss.plugins.core.command
 
 import com.github.syari.ss.plugins.core.Main.Companion.console
-import com.github.syari.ss.plugins.core.Main.Companion.corePlugin
+import com.github.syari.ss.plugins.core.Main.Companion.plugin
 import org.bukkit.command.CommandSender
 
 object RunCommand {
@@ -13,7 +13,7 @@ object RunCommand {
     fun runCommand(
         sender: CommandSender, command: String
     ) {
-        corePlugin.server.dispatchCommand(sender, command)
+        plugin.server.dispatchCommand(sender, command)
     }
 
     /**

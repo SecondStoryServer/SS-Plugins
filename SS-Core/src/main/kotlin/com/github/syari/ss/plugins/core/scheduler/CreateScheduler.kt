@@ -1,6 +1,6 @@
 package com.github.syari.ss.plugins.core.scheduler
 
-import com.github.syari.ss.plugins.core.Main.Companion.corePlugin
+import com.github.syari.ss.plugins.core.Main.Companion.plugin
 import org.bukkit.plugin.java.JavaPlugin
 
 object CreateScheduler {
@@ -79,8 +79,8 @@ object CreateScheduler {
     ): Set<CustomTask> {
         return mutableSetOf<CustomTask>().also { taskList ->
             listWithDelay.forEach { (delay, value) ->
-                runLater(corePlugin, delay, true) {
-                    run(corePlugin, false) {
+                runLater(plugin, delay, true) {
+                    run(plugin, false) {
                         value.forEach {
                             run.invoke(it)
                         }

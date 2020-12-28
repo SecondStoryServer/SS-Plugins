@@ -3,7 +3,6 @@ package com.github.syari.ss.plugins.core
 import com.github.syari.ss.plugins.core.bossBar.CustomBossBar
 import com.github.syari.ss.plugins.core.code.SSPlugin
 import com.github.syari.ss.plugins.core.inventory.CreateInventory
-import com.github.syari.ss.plugins.core.message.ConsoleLogger
 import com.github.syari.ss.plugins.core.time.TimeScheduler
 import org.bukkit.command.ConsoleCommandSender
 import org.bukkit.plugin.java.JavaPlugin
@@ -13,12 +12,7 @@ class Main: SSPlugin() {
         /**
          * コアプラグインのインスタンス
          */
-        internal lateinit var corePlugin: JavaPlugin
-
-        /**
-         * コアプラグインのロガー
-         */
-        internal lateinit var coreLogger: ConsoleLogger
+        internal lateinit var plugin: JavaPlugin
 
         /**
          * コンソール
@@ -31,8 +25,7 @@ class Main: SSPlugin() {
     override val onDisables = listOf(CustomBossBar)
 
     override fun onEnable() {
-        corePlugin = this
-        coreLogger = ConsoleLogger(this)
+        plugin = this
         console = server.consoleSender
         runOnEnable()
         registerListeners()
