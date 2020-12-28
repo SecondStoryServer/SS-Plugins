@@ -1,6 +1,6 @@
 package com.github.syari.ss.plugins.core.message
 
-import com.github.syari.ss.plugins.core.Main.Companion.corePlugin
+import com.github.syari.ss.plugins.core.Main.Companion.plugin
 import com.github.syari.ss.plugins.core.code.StringEditor.toColor
 import net.md_5.bungee.api.chat.TextComponent
 import org.bukkit.command.CommandSender
@@ -13,7 +13,7 @@ object Message {
      */
     fun broadcast(message: String) {
         val coloredMessage = message.toColor
-        corePlugin.server.broadcastMessage(coloredMessage)
+        plugin.server.broadcastMessage(coloredMessage)
     }
 
     /**

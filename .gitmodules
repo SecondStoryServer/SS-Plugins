@@ -1,0 +1,3 @@
+[submodule "SS-Core/src/main/kotlin/com/github/syari/ss/plugins/core/pluginMessage/template"]
+	path = SS-Core/src/main/kotlin/com/github/syari/ss/plugins/core/pluginMessage/template
+	url = https://github.com/SecondStoryServer/SS-Plugins-Message

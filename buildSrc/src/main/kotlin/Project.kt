@@ -40,7 +40,7 @@ interface Project {
 
     object Core: Project {
         override val name = "SS-Core"
-        override val version = build(7)
+        override val version = build(8)
         override val group = subgroup("core")
         override val dependProject = listOf(Kotlin)
     }

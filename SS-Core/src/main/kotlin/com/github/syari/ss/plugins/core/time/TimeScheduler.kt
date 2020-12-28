@@ -1,6 +1,6 @@
 package com.github.syari.ss.plugins.core.time
 
-import com.github.syari.ss.plugins.core.Main.Companion.corePlugin
+import com.github.syari.ss.plugins.core.Main.Companion.plugin
 import com.github.syari.ss.plugins.core.code.OnEnable
 import com.github.syari.ss.plugins.core.scheduler.CreateScheduler.runLater
 import com.github.syari.ss.plugins.core.time.event.NextDayEvent
@@ -69,7 +69,7 @@ object TimeScheduler: OnEnable, Listener {
      */
     override fun onEnable() {
         val now = LocalDateTime.now()
-        runLater(corePlugin, (60 - now.second).toLong()) {
+        runLater(plugin, (60 - now.second).toLong()) {
             nextMinute(ScheduleTimeEveryWeek.create(now.dayOfWeek, now.hour, now.minute + 1))
         }
     }
@@ -84,7 +84,7 @@ object TimeScheduler: OnEnable, Listener {
         } else {
             NextMinuteEvent(time.dayOfWeek, time.hour, time.minute)
         }.callEvent()
-        runLater(corePlugin, 60 * 20) {
+        runLater(plugin, 60 * 20) {
             nextMinute(time.getNextMinute())
         }
     }

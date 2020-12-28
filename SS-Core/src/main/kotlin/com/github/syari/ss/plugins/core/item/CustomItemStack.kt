@@ -1,6 +1,6 @@
 package com.github.syari.ss.plugins.core.item
 
-import com.github.syari.ss.plugins.core.Main.Companion.corePlugin
+import com.github.syari.ss.plugins.core.Main.Companion.plugin
 import com.github.syari.ss.plugins.core.code.StringEditor.toColor
 import com.github.syari.ss.plugins.core.persistentData.CustomPersistentData
 import com.github.syari.ss.plugins.core.persistentData.CustomPersistentDataContainer
@@ -377,7 +377,7 @@ class CustomItemStack internal constructor(
                 result["amount"] = amount
             }
             val meta = itemMeta
-            if (meta != null && !corePlugin.server.itemFactory.equals(meta, null)) {
+            if (meta != null && !plugin.server.itemFactory.equals(meta, null)) {
                 result["meta"] = meta.serialize()
             }
         }
