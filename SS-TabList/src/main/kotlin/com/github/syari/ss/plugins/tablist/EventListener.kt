@@ -13,19 +13,28 @@ import org.bukkit.craftbukkit.v1_16_R3.CraftWorld
 import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
-import java.util.UUID
 
 object EventListener: Listener {
+    private var lastPlayerList = listOf<String>()
+
     @EventHandler
     fun on(e: SSPluginMessageEvent) {
         val template = e.template as? PluginMessageTemplateTabList ?: return
+        val playerList = template.playerNameList
+        updatePlayers(EnumPlayerInfoAction.ADD_PLAYER, playerList)
+        updatePlayers(EnumPlayerInfoAction.REMOVE_PLAYER, lastPlayerList.filterNot { playerList.contains(it) })
+        lastPlayerList = playerList
+    }
+
+    private fun updatePlayers(action: EnumPlayerInfoAction, list: List<String>) {
         val server = (plugin.server as CraftServer).server
         val world = (plugin.server.worlds.first() as CraftWorld).handle
         val manager = PlayerInteractManager(world)
-        template.playerNameList.forEach { fakePlayerName ->
-            val profile = GameProfile(UUID.randomUUID(), fakePlayerName)
-            val fakePlayer = EntityPlayer(server, world, profile, manager)
-            val packet = PacketPlayOutPlayerInfo(EnumPlayerInfoAction.ADD_PLAYER, fakePlayer)
+        list.forEach { fakePlayerName ->
+            @Suppress("DEPRECATION") val fakePlayer = plugin.server.getOfflinePlayer(fakePlayerName)
+            val profile = GameProfile(fakePlayer.uniqueId, fakePlayerName)
+            val fakeEntityPlayer = EntityPlayer(server, world, profile, manager)
+            val packet = PacketPlayOutPlayerInfo(action, fakeEntityPlayer)
             plugin.server.onlinePlayers.forEach {
                 (it as CraftPlayer).handle.playerConnection.sendPacket(packet)
             }
