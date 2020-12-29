@@ -139,7 +139,7 @@ interface Project {
 
     object PluginManager: Project {
         override val name = "SS-PluginManager"
-        override val version = build(2)
+        override val version = build(3)
         override val group = subgroup("pluginmanager")
         override val dependProject = listOf(Core)
     }
