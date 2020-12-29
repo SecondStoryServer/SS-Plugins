@@ -150,4 +150,11 @@ interface Project {
         override val group = subgroup("soundchecker")
         override val dependProject = listOf(Core)
     }
+
+    object TabList: Project {
+        override val name = "SS-TabList"
+        override val version = build(1)
+        override val group = subgroup("tablist")
+        override val dependProject = listOf(Core)
+    }
 }
