@@ -12,9 +12,10 @@ include(
     "SS-Kotlin",
     "SS-MA-Shop",
     "SS-MA-Kit",
+    "SS-MA-Mob",
     "SS-MA-Item",
     "SS-MaterialChecker",
     "SS-PluginManager",
     "SS-SoundChecker",
-    "SS-MA-Mob"
+    "SS-TabList"
 )

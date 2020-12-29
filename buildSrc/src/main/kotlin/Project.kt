@@ -139,7 +139,7 @@ interface Project {
 
     object PluginManager: Project {
         override val name = "SS-PluginManager"
-        override val version = build(2)
+        override val version = build(3)
         override val group = subgroup("pluginmanager")
         override val dependProject = listOf(Core)
     }
@@ -148,6 +148,13 @@ interface Project {
         override val name = "SS-SoundChecker"
         override val version = build(2)
         override val group = subgroup("soundchecker")
+        override val dependProject = listOf(Core)
+    }
+
+    object TabList: Project {
+        override val name = "SS-TabList"
+        override val version = build(4)
+        override val group = subgroup("tablist")
         override val dependProject = listOf(Core)
     }
 }

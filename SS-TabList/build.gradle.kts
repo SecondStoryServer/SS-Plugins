@@ -1,8 +1,8 @@
-val project = Project.Core
+val project = Project.TabList
 group = project.group
 
 dependencies {
-    api(files("dependencyJar/patched_1.16.4.jar"))
+    project.dependProjectName.forEach { implementation(project(":$it")) }
 }
 
 bukkit {
