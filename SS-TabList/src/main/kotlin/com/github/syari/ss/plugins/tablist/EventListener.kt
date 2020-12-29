@@ -1,5 +1,6 @@
 package com.github.syari.ss.plugins.tablist
 
+import com.github.syari.ss.plugins.core.code.StringEditor.toColor
 import com.github.syari.ss.plugins.core.pluginMessage.SSPluginMessageEvent
 import com.github.syari.ss.plugins.core.scheduler.CreateScheduler.runLater
 import com.github.syari.ss.plugins.tablist.Main.Companion.plugin
@@ -34,7 +35,12 @@ object EventListener: Listener {
             val manager = PlayerInteractManager(world)
             list.forEach { fakePlayerName ->
                 @Suppress("DEPRECATION") val fakePlayer = plugin.server.getOfflinePlayer(fakePlayerName)
-                val profile = GameProfile(fakePlayer.uniqueId, fakePlayerName)
+                val displayName = when {
+                    fakePlayer.isOp -> "&0&3"
+                    fakePlayer.isOnline -> "&1&f"
+                    else -> "&2&7"
+                }.toColor + fakePlayerName
+                val profile = GameProfile(fakePlayer.uniqueId, displayName)
                 val fakeEntityPlayer = EntityPlayer(server, world, profile, manager)
                 val packet = PacketPlayOutPlayerInfo(action, fakeEntityPlayer)
                 plugin.server.onlinePlayers.forEach {
