@@ -1,6 +1,7 @@
 package com.github.syari.ss.plugins.tablist
 
 import com.github.syari.ss.plugins.core.pluginMessage.SSPluginMessageEvent
+import com.github.syari.ss.plugins.core.scheduler.CreateScheduler.runLater
 import com.github.syari.ss.plugins.tablist.Main.Companion.plugin
 import com.github.syari.ss.template.message.PluginMessageTemplateTabList
 import com.mojang.authlib.GameProfile
@@ -27,16 +28,18 @@ object EventListener: Listener {
     }
 
     private fun updatePlayers(action: EnumPlayerInfoAction, list: List<String>) {
-        val server = (plugin.server as CraftServer).server
-        val world = (plugin.server.worlds.first() as CraftWorld).handle
-        val manager = PlayerInteractManager(world)
-        list.forEach { fakePlayerName ->
-            @Suppress("DEPRECATION") val fakePlayer = plugin.server.getOfflinePlayer(fakePlayerName)
-            val profile = GameProfile(fakePlayer.uniqueId, fakePlayerName)
-            val fakeEntityPlayer = EntityPlayer(server, world, profile, manager)
-            val packet = PacketPlayOutPlayerInfo(action, fakeEntityPlayer)
-            plugin.server.onlinePlayers.forEach {
-                (it as CraftPlayer).handle.playerConnection.sendPacket(packet)
+        runLater(plugin, 5) {
+            val server = (plugin.server as CraftServer).server
+            val world = (plugin.server.worlds.first() as CraftWorld).handle
+            val manager = PlayerInteractManager(world)
+            list.forEach { fakePlayerName ->
+                @Suppress("DEPRECATION") val fakePlayer = plugin.server.getOfflinePlayer(fakePlayerName)
+                val profile = GameProfile(fakePlayer.uniqueId, fakePlayerName)
+                val fakeEntityPlayer = EntityPlayer(server, world, profile, manager)
+                val packet = PacketPlayOutPlayerInfo(action, fakeEntityPlayer)
+                plugin.server.onlinePlayers.forEach {
+                    (it as CraftPlayer).handle.playerConnection.sendPacket(packet)
+                }
             }
         }
     }
