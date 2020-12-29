@@ -2,7 +2,7 @@ package com.github.syari.ss.plugins.core.pluginMessage
 
 import com.github.syari.ss.plugins.core.Main.Companion.plugin
 import com.github.syari.ss.plugins.core.code.OnEnable
-import com.github.syari.ss.wplugins.core.pluginMessage.template.PluginMessageTemplate
+import com.github.syari.ss.template.message.PluginMessageTemplate
 import com.google.common.io.ByteStreams
 import org.bukkit.entity.Player
 import org.bukkit.plugin.messaging.PluginMessageListener
