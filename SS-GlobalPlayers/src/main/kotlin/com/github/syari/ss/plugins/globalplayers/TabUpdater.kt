@@ -16,19 +16,19 @@ import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 
-object EventListener: Listener {
+object TabUpdater: Listener {
     private var lastPlayerList = listOf<String>()
 
     @EventHandler
     fun on(e: SSPluginMessageEvent) {
         val template = e.template as? PluginMessageTemplateTabList ?: return
         val playerList = template.playerNameList
-        updatePlayers(EnumPlayerInfoAction.ADD_PLAYER, playerList)
-        updatePlayers(EnumPlayerInfoAction.REMOVE_PLAYER, lastPlayerList.filterNot { playerList.contains(it) })
+        updateTabPlayers(EnumPlayerInfoAction.ADD_PLAYER, playerList)
+        updateTabPlayers(EnumPlayerInfoAction.REMOVE_PLAYER, lastPlayerList.filterNot { playerList.contains(it) })
         lastPlayerList = playerList
     }
 
-    private fun updatePlayers(action: EnumPlayerInfoAction, list: List<String>) {
+    private fun updateTabPlayers(action: EnumPlayerInfoAction, list: List<String>) {
         runLater(plugin, 5) {
             val server = (plugin.server as CraftServer).server
             val world = (plugin.server.worlds.first() as CraftWorld).handle
