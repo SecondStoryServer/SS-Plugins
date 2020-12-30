@@ -5,8 +5,8 @@ import org.bukkit.Bukkit.getPlayer
 import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
 
-class CommandArgument internal constructor(
-    private val array: Array<out String>, private val message: CommandMessage
+open class CommandArgument internal constructor(
+    private val array: Array<out String>
 ) {
     /**
      * 指定した要素を取得します
@@ -95,19 +95,16 @@ class CommandArgument internal constructor(
      * @param equalName 名前が完全一致した場合のみ取得する
      * @return [OfflinePlayer]?
      */
-    fun getOfflinePlayer(
+    open fun getOfflinePlayer(
         index: Int, equalName: Boolean
     ): OfflinePlayer? {
-        val rawPlayer = getOrNull(index) ?: return run {
-            message.sendError(ErrorMessage.NotEnterPlayer)
-            null
-        }
-        @Suppress("DEPRECATION") val player = getOfflinePlayer(rawPlayer)
-        return if (!equalName || player.name.equals(rawPlayer, ignoreCase = true)) {
-            player
-        } else {
-            message.sendError(ErrorMessage.NotFoundPlayer)
-            null
+        return getOrNull(index)?.let { rawPlayer ->
+            @Suppress("DEPRECATION") val player = getOfflinePlayer(rawPlayer)
+            if (!equalName || player.name.equals(rawPlayer, ignoreCase = true)) {
+                player
+            } else {
+                null
+            }
         }
     }
 
@@ -117,19 +114,16 @@ class CommandArgument internal constructor(
      * @param equalName 名前が完全一致した場合のみ取得する
      * @return [Player]?
      */
-    fun getPlayer(
+    open fun getPlayer(
         index: Int, equalName: Boolean
     ): Player? {
-        val rawPlayer = getOrNull(index) ?: return run {
-            message.sendError(ErrorMessage.NotEnterPlayer)
-            null
-        }
-        val player = getPlayer(rawPlayer)
-        return if (player != null && (!equalName || player.name.equals(rawPlayer, ignoreCase = true))) {
-            player
-        } else {
-            message.sendError(ErrorMessage.NotFoundPlayer)
-            null
+        return getOrNull(index)?.let { rawPlayer ->
+            val player = getPlayer(rawPlayer)
+            return if (player != null && (!equalName || player.name.equals(rawPlayer, ignoreCase = true))) {
+                player
+            } else {
+                null
+            }
         }
     }
 }

@@ -3,6 +3,78 @@ package com.github.syari.ss.plugins.core.command.create
 import org.bukkit.command.CommandSender
 
 class CommandTabElement internal constructor(list: Iterable<String>): Collection<String> {
+    companion object {
+        /**
+         * タブ補完の要素
+         * @param element 要素
+         * @return [CommandTabElement]
+         */
+        fun element(element: Iterable<String>?): CommandTabElement {
+            return CommandTabElement(element ?: listOf())
+        }
+
+        /**
+         * タブ補完の要素
+         * @param element 要素
+         * @return [CommandTabElement]
+         */
+        fun element(vararg element: String): CommandTabElement {
+            return element(element.toList())
+        }
+
+        /**
+         * タブ補完の要素
+         * @param condition 条件
+         * @param element 条件に一致した場合の要素
+         * @param unlessElement 条件に一致しなかった場合の要素
+         * @return [CommandTabElement]
+         */
+        fun elementIf(
+            condition: Boolean, element: Iterable<String>?, unlessElement: Iterable<String>? = listOf()
+        ): CommandTabElement {
+            return element(if (condition) element else unlessElement)
+        }
+
+        /**
+         * タブ補完の要素
+         * @param condition 条件
+         * @param element 条件に一致した場合の要素
+         * @param unlessElement 条件に一致しなかった場合の要素
+         * @return [CommandTabElement]
+         */
+        fun elementIf(
+            condition: Boolean, vararg element: String, unlessElement: Iterable<String>? = listOf()
+        ): CommandTabElement {
+            return elementIf(condition, element.toList(), unlessElement)
+        }
+
+        /**
+         * タブ補完の要素
+         * @param sender CommandSender
+         * @param element sender.isOpが真であった場合の要素
+         * @param unlessElement sender.isOpが偽であった場合の要素
+         * @return [CommandTabElement]
+         */
+        fun elementIfOp(
+            sender: CommandSender, element: Iterable<String>?, unlessElement: Iterable<String>? = listOf()
+        ): CommandTabElement {
+            return elementIf(sender.isOp, element, unlessElement)
+        }
+
+        /**
+         * タブ補完の要素
+         * @param sender CommandSender
+         * @param element sender.isOpが真であった場合の要素
+         * @param unlessElement sender.isOpが偽であった場合の要素
+         * @return [CommandTabElement]
+         */
+        fun elementIfOp(
+            sender: CommandSender, vararg element: String, unlessElement: Iterable<String>? = listOf()
+        ): CommandTabElement {
+            return elementIfOp(sender, element.toList(), unlessElement)
+        }
+    }
+
     var element = list.toSet()
         private set
 
