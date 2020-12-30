@@ -79,6 +79,13 @@ interface Project {
         }
     }
 
+    object GlobalPlayers: Project {
+        override val name = "SS-GlobalPlayers"
+        override val version = build(1)
+        override val group = subgroup("globalplayers")
+        override val dependProject = listOf(Core)
+    }
+
     object Discord: Project {
         override val name = "SS-Discord"
         override val version = build(1)
@@ -148,13 +155,6 @@ interface Project {
         override val name = "SS-SoundChecker"
         override val version = build(2)
         override val group = subgroup("soundchecker")
-        override val dependProject = listOf(Core)
-    }
-
-    object TabList: Project {
-        override val name = "SS-TabList"
-        override val version = build(5)
-        override val group = subgroup("tablist")
         override val dependProject = listOf(Core)
     }
 }

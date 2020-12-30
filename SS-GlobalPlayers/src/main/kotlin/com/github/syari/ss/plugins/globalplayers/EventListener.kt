@@ -1,9 +1,9 @@
-package com.github.syari.ss.plugins.tablist
+package com.github.syari.ss.plugins.globalplayers
 
 import com.github.syari.ss.plugins.core.code.StringEditor.toColor
 import com.github.syari.ss.plugins.core.pluginMessage.SSPluginMessageEvent
 import com.github.syari.ss.plugins.core.scheduler.CreateScheduler.runLater
-import com.github.syari.ss.plugins.tablist.Main.Companion.plugin
+import com.github.syari.ss.plugins.globalplayers.Main.Companion.plugin
 import com.github.syari.ss.template.message.PluginMessageTemplateTabList
 import com.mojang.authlib.GameProfile
 import net.minecraft.server.v1_16_R3.EntityPlayer

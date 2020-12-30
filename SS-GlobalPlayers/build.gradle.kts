@@ -1,4 +1,4 @@
-val project = Project.TabList
+val project = Project.GlobalPlayers
 group = project.group
 
 dependencies {
