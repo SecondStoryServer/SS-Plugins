@@ -1,4 +1,4 @@
-package com.github.syari.ss.plugins.tablist
+package com.github.syari.ss.plugins.globalplayers
 
 import com.github.syari.ss.plugins.core.code.SSPlugin
 import org.bukkit.plugin.java.JavaPlugin
@@ -8,7 +8,7 @@ class Main: SSPlugin() {
         internal lateinit var plugin: JavaPlugin
     }
 
-    override val listeners = listOf(EventListener)
+    override val listeners = listOf(TabUpdater, SilentJoinMessage)
 
     override fun onEnable() {
         plugin = this

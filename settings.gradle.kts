@@ -8,6 +8,7 @@ include(
     "SS-Dependency-CrackShot",
     "SS-Dependency-CrackShotPlus",
     "SS-Dependency-AdvancedMobArena",
+    "SS-GlobalPlayers",
     "SS-ItemCreator",
     "SS-Kotlin",
     "SS-MA-Shop",
@@ -16,6 +17,5 @@ include(
     "SS-MA-Item",
     "SS-MaterialChecker",
     "SS-PluginManager",
-    "SS-SoundChecker",
-    "SS-TabList"
+    "SS-SoundChecker"
 )
