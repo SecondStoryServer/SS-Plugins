@@ -5,9 +5,13 @@ import com.github.syari.ss.plugins.core.message.Message.send
 import net.md_5.bungee.api.chat.TextComponent
 import org.bukkit.command.CommandSender
 
-class CommandMessage internal constructor(
-    private val prefix: String, private val sender: CommandSender
+class CommandExecuteAction internal constructor(
+    private val prefix: String, val sender: CommandSender, val args: CommandExecuteArgument
 ) {
+    init {
+        args.executeAction = this
+    }
+
     /**
      * ```
      * sendWithPrefix("&c$message")
@@ -55,13 +59,13 @@ class CommandMessage internal constructor(
         return SendHelpIfOp(this)
     }
 
-    class SendHelpIfOp(private val message: CommandMessage) {
+    class SendHelpIfOp(private val executeAction: CommandExecuteAction) {
         /**
          * @param command OPに対してのみ表示するコマンド一覧
          */
         fun ifOp(vararg command: Pair<String, String>) {
-            if (message.sender.isOp) {
-                message.sendList("", command.map { "/${it.first} &7${it.second}" })
+            if (executeAction.sender.isOp) {
+                executeAction.sendList("", command.map { "/${it.first} &7${it.second}" })
             }
         }
     }

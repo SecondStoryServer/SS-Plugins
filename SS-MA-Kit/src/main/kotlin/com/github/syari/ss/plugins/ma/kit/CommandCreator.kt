@@ -1,7 +1,7 @@
 package com.github.syari.ss.plugins.ma.kit
 
 import com.github.syari.ss.plugins.core.code.OnEnable
-import com.github.syari.ss.plugins.core.command.create.CreateCommand.command
+import com.github.syari.ss.plugins.core.command.create.CommandCreator.Companion.command
 import com.github.syari.ss.plugins.core.command.create.ErrorMessage
 import com.github.syari.ss.plugins.core.inventory.CreateInventory.inventory
 import com.github.syari.ss.plugins.ma.kit.Main.Companion.plugin
@@ -12,27 +12,28 @@ import su.nightexpress.ama.manager.kits.ArenaKit
 
 object CommandCreator: OnEnable {
     override fun onEnable() {
-        command(plugin, "ma-kit", "MA-Kit") { sender, args ->
-            when (args.whenIndex(0)) {
-                "preview" -> {
-                    if (sender !is Player) return@command sendError(ErrorMessage.OnlyPlayer)
-                    val id = args.getOrNull(1) ?: return@command sendError("キットを入力してください")
-                    val kit = ArenaAPI.getKitManager().getKitById(id) ?: return@command sendError("キットが見つかりませんでした")
-                    kit.openPreview(sender)
-                }
-                "select" -> {
-                    if (sender !is Player) return@command sendError(ErrorMessage.OnlyPlayer)
-                    val id = args.getOrNull(1) ?: return@command sendError("キットを入力してください")
-                    val kit = ArenaAPI.getKitManager().getKitById(id) ?: return@command sendError("キットが見つかりませんでした")
-                    val arenaPlayer = ArenaAPI.getArenaManager().getArenaPlayer(sender) ?: return@command sendError("アリーナに入っていません")
-                    if (kit.isAvailable(arenaPlayer, false)) {
-                        arenaPlayer.kit = kit
-                    } else {
-                        val availableBuy = kit.checkRequirements(sender)
-                        inventory("&9&l購入 - ${kit.id}", 1) {
-                            item(4, kit.icon.type, if (availableBuy) "&a&l購入する" else "&c&l購入できません", "&6Coin ${kit.requirementMoney}").apply {
-                                if (availableBuy) {
-                                    kit.buy(arenaPlayer)
+        plugin.command("ma-kit", "MA-Kit") {
+            execute {
+                val player = sender as? Player ?: return@execute sendError(ErrorMessage.OnlyPlayer)
+                when (args.whenIndex(0)) {
+                    "preview" -> {
+                        val id = args.getOrNull(1) ?: return@execute sendError("キットを入力してください")
+                        val kit = ArenaAPI.getKitManager().getKitById(id) ?: return@execute sendError("キットが見つかりませんでした")
+                        kit.openPreview(player)
+                    }
+                    "select" -> {
+                        val id = args.getOrNull(1) ?: return@execute sendError("キットを入力してください")
+                        val kit = ArenaAPI.getKitManager().getKitById(id) ?: return@execute sendError("キットが見つかりませんでした")
+                        val arenaPlayer = ArenaAPI.getArenaManager().getArenaPlayer(player) ?: return@execute sendError("アリーナに入っていません")
+                        if (kit.isAvailable(arenaPlayer, false)) {
+                            arenaPlayer.kit = kit
+                        } else {
+                            val availableBuy = kit.checkRequirements(player)
+                            inventory("&9&l購入 - ${kit.id}", 1) {
+                                item(4, kit.icon.type, if (availableBuy) "&a&l購入する" else "&c&l購入できません", "&6Coin ${kit.requirementMoney}").apply {
+                                    if (availableBuy) {
+                                        kit.buy(arenaPlayer)
+                                    }
                                 }
                             }
                         }
