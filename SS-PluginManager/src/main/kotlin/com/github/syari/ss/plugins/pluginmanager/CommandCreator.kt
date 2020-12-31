@@ -59,7 +59,7 @@ object CommandCreator: OnEnable {
         plugin.command("versions", "PluginManager") {
             execute {
                 val plugins = plugin.server.pluginManager.plugins
-                sendList("&fプラグイン一覧", plugins.map { "${it.name} &7${it.description.version}" })
+                sendList("&fプラグイン一覧", plugins.map { "${it.name} &7${it.description.version}" }.sorted())
             }
         }
     }
