@@ -9,6 +9,7 @@ import com.github.syari.ss.plugins.core.config.CreateConfig.config
 import com.github.syari.ss.plugins.core.config.dataType.ConfigDataType
 import com.github.syari.ss.plugins.core.message.Message.send
 import com.github.syari.ss.plugins.core.time.TimeScheduler.clearTimeScheduler
+import com.github.syari.ss.plugins.core.time.TimeScheduler.getFormatTime
 import com.github.syari.ss.plugins.core.time.TimeScheduler.scheduleEveryDayAt
 import com.github.syari.ss.plugins.core.time.TimeScheduler.scheduleEveryWeekAt
 import org.bukkit.command.CommandSender
@@ -32,7 +33,7 @@ object ConfigLoader: OnEnable {
                     plugin.scheduleEveryDayAt(hour, minute) {
                         commandList.forEach(RunCommand::runCommandFromConsole)
                     }
-                    sender.send("&7- &a$hour:$minute &7×${commandList.size}")
+                    sender.send("&7- &a${getFormatTime(hour, minute)} &7×${commandList.size}")
                 } else {
                     formatMismatchError("every.$it")
                 }
@@ -46,7 +47,7 @@ object ConfigLoader: OnEnable {
                         plugin.scheduleEveryWeekAt(day, hour, minute) {
                             commandList.forEach(RunCommand::runCommandFromConsole)
                         }
-                        sender.send("&7- &a$dayName $hour:$minute &7×${commandList.size}")
+                        sender.send("&7- &a$dayName ${getFormatTime(hour, minute)} &7×${commandList.size}")
                     } else {
                         formatMismatchError("$dayName.$it")
                     }
