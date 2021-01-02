@@ -11,5 +11,5 @@ bukkit {
     main = project.main
     author = project.author
     apiVersion = project.apiVersion
-    depend = project.dependPlugin
+    depend = project.allDependPlugin
 }
