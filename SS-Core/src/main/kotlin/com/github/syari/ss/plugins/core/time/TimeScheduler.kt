@@ -75,7 +75,7 @@ object TimeScheduler: OnEnable, Listener {
     fun getFormatTime(
         hour: Int, minute: Int
     ): String {
-        return "${String.format("%2d", hour)}:${String.format("%2d", minute)}"
+        return "${String.format("%02d", hour)}:${String.format("%02d", minute)}"
     }
 
     /**
