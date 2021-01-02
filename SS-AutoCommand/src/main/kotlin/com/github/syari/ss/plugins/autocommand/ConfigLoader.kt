@@ -25,7 +25,7 @@ object ConfigLoader: OnEnable {
         plugin.clearTimeScheduler()
         plugin.config(sender, "config.yml") {
             sender.send("&b[AutoCommand] &f自動コマンド一覧")
-            section("every")?.forEach {
+            section("every", false)?.forEach {
                 val commandList = get("every.$it", ConfigDataType.STRINGLIST) ?: return@forEach
                 val (hour, minute) = it.toTime()
                 if (hour != null && minute != null) {
@@ -39,7 +39,7 @@ object ConfigLoader: OnEnable {
             }
             DayOfWeek.values().forEach { day ->
                 val dayName = day.name.toLowerCase()
-                section(dayName)?.forEach nextTime@{
+                section(dayName, false)?.forEach nextTime@{
                     val commandList = get("$dayName.$it", ConfigDataType.STRINGLIST) ?: return@nextTime
                     val (hour, minute) = it.toTime()
                     if (hour != null && minute != null) {
