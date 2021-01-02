@@ -13,7 +13,7 @@ object ConfigParticleDataType: ConfigDataType<CustomParticleList> {
         config: CustomConfig, path: String, notFoundError: Boolean
     ): CustomParticleList? {
         val getList = config.get(path, ConfigDataType.STRINGLIST, notFoundError) ?: return null
-        return CustomParticleList().apply {
+        return CustomParticleList(config.plugin).apply {
             getList.forEachIndexed { index, line ->
                 val split = line.split("-")
                 when (split.size) {

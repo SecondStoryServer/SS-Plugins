@@ -3,7 +3,7 @@ package com.github.syari.ss.plugins.backup
 import com.github.syari.ss.plugins.backup.Main.Companion.plugin
 import com.github.syari.ss.plugins.backup.http.buildHttpClient
 import com.github.syari.ss.plugins.backup.http.buildHttpRequest
-import com.github.syari.ss.plugins.core.scheduler.CreateScheduler.run
+import com.github.syari.ss.plugins.core.scheduler.CreateScheduler.runSchedule
 import java.io.File
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
@@ -32,7 +32,7 @@ class WebDAVUploader(private val url: String, user: String, pass: String) {
     private val authBase64 = Base64.getEncoder().encodeToString("$user:$pass".toByteArray())
 
     fun upload(file: File) {
-        run(plugin, async = true) {
+        plugin.runSchedule(async = true) {
             val response: HttpResponse<String> = client.send(buildHttpRequest("$url/${file.name}") {
                 header("Authorization", "Basic $authBase64")
                 PUT(HttpRequest.BodyPublishers.ofFile(file.toPath()))

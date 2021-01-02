@@ -30,7 +30,7 @@ object TabUpdater: Listener {
     }
 
     private fun updateTabPlayers(action: EnumPlayerInfoAction, list: List<String>) {
-        runLater(plugin, 5) {
+        plugin.runLater(5) {
             val server = (plugin.server as CraftServer).server
             val world = (plugin.server.worlds.first() as CraftWorld).handle
             val manager = PlayerInteractManager(world)
