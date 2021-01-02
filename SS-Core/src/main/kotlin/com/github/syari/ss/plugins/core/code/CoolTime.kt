@@ -39,7 +39,7 @@ class CoolTime<T>(private val plugin: JavaPlugin) {
     ) {
         val success = coolTimeList.add(value)
         if (!success) return
-        runLater(plugin, coolTime) {
+        plugin.runLater(coolTime) {
             coolTimeList.remove(value)
         }
     }

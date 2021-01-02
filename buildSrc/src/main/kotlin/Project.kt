@@ -12,7 +12,7 @@ open class Project(val version: String, groupName: String = "") {
     val dependProjectName by lazy { dependProject.map { it.name } }
     val allDependPlugin by lazy { dependProjectName + dependPlugin }
 
-    object Backup: Project(6) {
+    object Backup: Project(8) {
         override val dependProject = listOf(Core)
     }
 
@@ -20,7 +20,7 @@ open class Project(val version: String, groupName: String = "") {
         override val dependProject = listOf(Core)
     }
 
-    object Core: Project(10) {
+    object Core: Project(12) {
         override val dependProject = listOf(Kotlin)
     }
 
@@ -46,7 +46,7 @@ open class Project(val version: String, groupName: String = "") {
         }
     }
 
-    object GlobalPlayers: Project(2) {
+    object GlobalPlayers: Project(3) {
         override val dependProject = listOf(Core)
     }
 
@@ -75,7 +75,7 @@ open class Project(val version: String, groupName: String = "") {
             override val dependProject = listOf(Core, Dependency.AdvancedMobArena, Dependency.MythicMobs)
         }
 
-        object Shop: MA(7) {
+        object Shop: MA(8) {
             override val dependProject = listOf(Core, Dependency.CrackShot, Dependency.CrackShotPlus, Dependency.MythicMobs)
         }
     }

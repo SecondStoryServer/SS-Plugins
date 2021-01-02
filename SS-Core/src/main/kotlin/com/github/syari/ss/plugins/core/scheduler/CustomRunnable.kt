@@ -1,5 +1,9 @@
 package com.github.syari.ss.plugins.core.scheduler
 
+import com.github.syari.ss.plugins.core.scheduler.CreateScheduler.runLater
+import com.github.syari.ss.plugins.core.scheduler.CreateScheduler.runRepeatTimes
+import com.github.syari.ss.plugins.core.scheduler.CreateScheduler.runSchedule
+import com.github.syari.ss.plugins.core.scheduler.CreateScheduler.runTimer
 import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.scheduler.BukkitTask
@@ -39,10 +43,10 @@ class CustomRunnable internal constructor(
     private var onCancelTask: (() -> Unit)? = null
 
     /**
-     * @see CreateScheduler.run
+     * @see CreateScheduler.runSchedule
      * @return [CustomTask]?
      */
-    fun run(async: Boolean = false): CustomTask? {
+    fun runSchedule(async: Boolean = false): CustomTask? {
         return runLater(0, async)
     }
 

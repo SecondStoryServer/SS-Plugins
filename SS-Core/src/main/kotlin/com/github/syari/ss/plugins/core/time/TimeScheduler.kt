@@ -69,7 +69,7 @@ object TimeScheduler: OnEnable, Listener {
      */
     override fun onEnable() {
         val now = LocalDateTime.now()
-        runLater(plugin, (60 - now.second).toLong()) {
+        plugin.runLater(60 - now.second.toLong()) {
             nextMinute(ScheduleTimeEveryWeek.create(now.dayOfWeek, now.hour, now.minute + 1))
         }
     }
@@ -84,7 +84,7 @@ object TimeScheduler: OnEnable, Listener {
         } else {
             NextMinuteEvent(time.dayOfWeek, time.hour, time.minute)
         }.callEvent()
-        runLater(plugin, 60 * 20) {
+        plugin.runLater(60 * 20) {
             nextMinute(time.getNextMinute())
         }
     }

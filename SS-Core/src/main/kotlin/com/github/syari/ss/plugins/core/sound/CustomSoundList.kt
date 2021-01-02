@@ -4,11 +4,12 @@ import com.github.syari.ss.plugins.core.scheduler.CreateScheduler.runListWithDel
 import com.github.syari.ss.plugins.core.scheduler.CustomTask
 import org.bukkit.Location
 import org.bukkit.entity.Entity
+import org.bukkit.plugin.java.JavaPlugin
 
 /**
  * [CustomSound] をまとめたクラス
  */
-class CustomSoundList {
+class CustomSoundList(val plugin: JavaPlugin) {
     private val listWithDelay = mutableMapOf<Long, MutableSet<CustomSound>>()
     private var accumulateDelay = 0L
 
@@ -33,7 +34,7 @@ class CustomSoundList {
      * @param run 実行する処理
      */
     private fun run(run: (CustomSound) -> Unit): Set<CustomTask> {
-        return runListWithDelay(listWithDelay, run)
+        return plugin.runListWithDelay(listWithDelay, run)
     }
 
     /**

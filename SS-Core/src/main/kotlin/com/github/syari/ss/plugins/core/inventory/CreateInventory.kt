@@ -46,7 +46,7 @@ object CreateInventory: Listener {
         uuidPlayer.menuPlayer?.run {
             onClose(e)
             uuidPlayer.menuPlayer = null
-            runLater(plugin, 5) {
+            plugin.runLater(5) {
                 player.updateInventory()
             }
         }

@@ -13,7 +13,7 @@ object ConfigLoader: OnEnable {
     }
 
     fun load(sender: CommandSender) {
-        config(plugin, sender, "config.yml") {
+        plugin.config(sender, "config.yml") {
             Backup.groups = section("group")?.map { name ->
                 val worldNames = get("group.$name.world", ConfigDataType.STRINGLIST, listOf(), false)
                 val pluginNames = get("group.$name.plugin", ConfigDataType.STRINGLIST, listOf(), false)

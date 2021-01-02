@@ -1,88 +1,82 @@
 package com.github.syari.ss.plugins.core.scheduler
 
-import com.github.syari.ss.plugins.core.Main.Companion.plugin
 import org.bukkit.plugin.java.JavaPlugin
 
 object CreateScheduler {
     /**
-     * @param plugin 実行するプラグイン
-     * @param run 実行する処理
+     * @param action 実行する処理
      * @return [CustomRunnable]
      */
-    fun schedule(
-        plugin: JavaPlugin, run: CustomTask.() -> Unit
+    fun JavaPlugin.schedule(
+        action: CustomTask.() -> Unit
     ): CustomRunnable {
-        return CustomRunnable(plugin, run)
+        return CustomRunnable(this, action)
     }
 
     /**
-     * @param plugin 実行するプラグイン
      * @param async 非同期か default: false
-     * @param run 実行する処理
+     * @param action 実行する処理
      * @return [CustomTask]?
      */
-    fun run(
-        plugin: JavaPlugin, async: Boolean = false, run: CustomTask.() -> Unit
+    fun JavaPlugin.runSchedule(
+        async: Boolean = false, action: CustomTask.() -> Unit
     ): CustomTask? {
-        return schedule(plugin, run).run(async)
+        return schedule(action).runSchedule(async)
     }
 
     /**
-     * @param plugin 実行するプラグイン
      * @param delay 遅らせる時間 tick
      * @param async 非同期か default: false
-     * @param run 遅らせて実行する処理
+     * @param action 遅らせて実行する処理
      * @return [CustomTask]?
      */
-    fun runLater(
-        plugin: JavaPlugin, delay: Long, async: Boolean = false, run: CustomTask.() -> Unit
+    fun JavaPlugin.runLater(
+        delay: Long, async: Boolean = false, action: CustomTask.() -> Unit
     ): CustomTask? {
-        return schedule(plugin, run).runLater(delay, async)
+        return schedule(action).runLater(delay, async)
     }
 
     /**
-     * @param plugin 実行するプラグイン
      * @param period 繰り返し間隔 tick
      * @param delay 遅らせる時間 tick default: 0
      * @param async 非同期か default: false
-     * @param run 繰り返し実行する処理
+     * @param action 繰り返し実行する処理
      * @return [CustomTask]?
      */
-    fun runTimer(
-        plugin: JavaPlugin, period: Long, delay: Long = 0, async: Boolean = false, run: CustomTask.() -> Unit
+    fun JavaPlugin.runTimer(
+        period: Long, delay: Long = 0, async: Boolean = false, action: CustomTask.() -> Unit
     ): CustomTask? {
-        return schedule(plugin, run).runTimer(period, delay, async)
+        return schedule(action).runTimer(period, delay, async)
     }
 
     /**
-     * @param plugin 実行するプラグイン
      * @param period 繰り返し間隔 tick
      * @param times 繰り返し回数
      * @param delay 遅らせる時間 tick default: 0
      * @param async 非同期か default: false
-     * @param run 繰り返し実行する処理
+     * @param action 繰り返し実行する処理
      * @return [CustomTask]?
      */
-    fun runRepeatTimes(
-        plugin: JavaPlugin, period: Long, times: Int, delay: Long = 0, async: Boolean = false, run: CustomTask.() -> Unit
+    fun JavaPlugin.runRepeatTimes(
+        period: Long, times: Int, delay: Long = 0, async: Boolean = false, action: CustomTask.() -> Unit
     ): CustomTask? {
-        return schedule(plugin, run).runRepeatTimes(period, times, delay, async)
+        return schedule(action).runRepeatTimes(period, times, delay, async)
     }
 
     /**
      * @param listWithDelay キーを待機時間としたマップ
-     * @param run 待機後に実行する処理
+     * @param action 待機後に実行する処理
      * @return [Set]<[CustomTask]>
      */
-    fun <T> runListWithDelay(
-        listWithDelay: Map<Long, Set<T>>, run: (T) -> Unit
+    fun <T> JavaPlugin.runListWithDelay(
+        listWithDelay: Map<Long, Set<T>>, action: (T) -> Unit
     ): Set<CustomTask> {
         return mutableSetOf<CustomTask>().also { taskList ->
             listWithDelay.forEach { (delay, value) ->
-                runLater(plugin, delay, true) {
-                    run(plugin, false) {
+                runLater(delay, true) {
+                    runSchedule(false) {
                         value.forEach {
-                            run.invoke(it)
+                            action.invoke(it)
                         }
                     }
                     taskList.remove(this)

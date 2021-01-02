@@ -15,7 +15,7 @@ object ConfigLoader: OnEnable {
 
     fun loadConfig(sender: CommandSender) {
         val shopList = mutableMapOf<String, ShopData>()
-        configDir(plugin, sender, "data") {
+        plugin.configDir(sender, "data") {
             section("")?.forEach { id ->
                 val name = get("$id.name", ConfigDataType.STRING, id)
                 val line = get("$id.line", ConfigDataType.INT, 3, false)

@@ -13,7 +13,7 @@ object ConfigSoundDataType: ConfigDataType<CustomSoundList> {
         config: CustomConfig, path: String, notFoundError: Boolean
     ): CustomSoundList? {
         val getList = config.get(path, ConfigDataType.STRINGLIST, notFoundError) ?: return null
-        return CustomSoundList().apply {
+        return CustomSoundList(config.plugin).apply {
             getList.forEachIndexed { index, line ->
                 val split = line.split("-")
                 when (split.size) {
