@@ -81,7 +81,7 @@ interface Project {
 
     object GlobalPlayers: Project {
         override val name = "SS-GlobalPlayers"
-        override val version = build(1)
+        override val version = build(2)
         override val group = subgroup("globalplayers")
         override val dependProject = listOf(Core)
     }

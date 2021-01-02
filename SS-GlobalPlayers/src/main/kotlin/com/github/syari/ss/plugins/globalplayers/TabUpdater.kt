@@ -13,6 +13,7 @@ import net.minecraft.server.v1_16_R3.PlayerInteractManager
 import org.bukkit.craftbukkit.v1_16_R3.CraftServer
 import org.bukkit.craftbukkit.v1_16_R3.CraftWorld
 import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer
+import org.bukkit.craftbukkit.v1_16_R3.util.CraftChatMessage
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 
@@ -35,13 +36,16 @@ object TabUpdater: Listener {
             val manager = PlayerInteractManager(world)
             list.forEach { fakePlayerName ->
                 @Suppress("DEPRECATION") val fakePlayer = plugin.server.getOfflinePlayer(fakePlayerName)
-                val displayName = when {
-                    fakePlayer.isOp -> "&0&3"
-                    fakePlayer.isOnline -> "&1&f"
-                    else -> "&2&7"
-                }.toColor + fakePlayerName
-                val profile = GameProfile(fakePlayer.uniqueId, displayName)
-                val fakeEntityPlayer = EntityPlayer(server, world, profile, manager)
+                val profile = GameProfile(fakePlayer.uniqueId, fakePlayerName)
+                val fakeEntityPlayer = EntityPlayer(server, world, profile, manager).apply {
+                    this.listName = CraftChatMessage.fromStringOrNull(
+                        when {
+                            fakePlayer.isOp -> "&0&3"
+                            fakePlayer.isOnline -> "&1&f"
+                            else -> "&2&7"
+                        }.toColor + fakePlayerName
+                    )
+                }
                 val packet = PacketPlayOutPlayerInfo(action, fakeEntityPlayer)
                 plugin.server.onlinePlayers.forEach {
                     (it as CraftPlayer).handle.playerConnection.sendPacket(packet)
