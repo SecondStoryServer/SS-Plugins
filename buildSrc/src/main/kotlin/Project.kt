@@ -12,7 +12,7 @@ open class Project(val version: String, groupName: String = "") {
     val dependProjectName by lazy { dependProject.map { it.name } }
     val allDependPlugin by lazy { dependProjectName + dependPlugin }
 
-    object AutoCommand: Project(1) {
+    object AutoCommand: Project(2) {
         override val dependProject = listOf(Core)
     }
 
@@ -24,7 +24,7 @@ open class Project(val version: String, groupName: String = "") {
         override val dependProject = listOf(Core)
     }
 
-    object Core: Project(12) {
+    object Core: Project(13) {
         override val dependProject = listOf(Kotlin)
     }
 

@@ -8,13 +8,20 @@ import com.github.syari.ss.plugins.core.time.event.NextHourEvent
 import com.github.syari.ss.plugins.core.time.event.NextMinuteEvent
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
+import org.bukkit.plugin.java.JavaPlugin
 import java.time.DayOfWeek
 import java.time.LocalDateTime
 
 object TimeScheduler: OnEnable, Listener {
-    private val everyWeekScheduler = mutableMapOf<ScheduleTimeEveryWeek, MutableSet<() -> Unit>>()
-    private val everyDayScheduler = mutableMapOf<ScheduleTimeEveryDay, MutableSet<() -> Unit>>()
-    private val everyHourScheduler = mutableMapOf<ScheduleTimeEveryHour, MutableSet<() -> Unit>>()
+    class TimeSchedules {
+        val everyWeekScheduler = mutableMapOf<ScheduleTimeEveryWeek, MutableSet<() -> Unit>>()
+        val everyDayScheduler = mutableMapOf<ScheduleTimeEveryDay, MutableSet<() -> Unit>>()
+        val everyHourScheduler = mutableMapOf<ScheduleTimeEveryHour, MutableSet<() -> Unit>>()
+    }
+
+    private val schedules = mutableMapOf<String, TimeSchedules>()
+
+    private fun JavaPlugin.schedules() = schedules.getOrPut(name) { TimeSchedules() }
 
     /**
      * 毎週決まった時間に実行されます
@@ -23,10 +30,10 @@ object TimeScheduler: OnEnable, Listener {
      * @param minute 分
      * @param run その時間に実行する処理
      */
-    fun scheduleEveryWeekAt(
+    fun JavaPlugin.scheduleEveryWeekAt(
         dayOfWeek: DayOfWeek, hour: Int, minute: Int, run: () -> Unit
     ) {
-        everyWeekScheduler.getOrPut(ScheduleTimeEveryWeek.create(dayOfWeek, hour, minute)) { mutableSetOf() }.add(run)
+        schedules().everyWeekScheduler.getOrPut(ScheduleTimeEveryWeek.create(dayOfWeek, hour, minute)) { mutableSetOf() }.add(run)
     }
 
     /**
@@ -35,10 +42,10 @@ object TimeScheduler: OnEnable, Listener {
      * @param minute 分
      * @param run その時間に実行する処理
      */
-    fun scheduleEveryDayAt(
+    fun JavaPlugin.scheduleEveryDayAt(
         hour: Int, minute: Int, run: () -> Unit
     ) {
-        everyDayScheduler.getOrPut(ScheduleTimeEveryDay.create(hour, minute)) { mutableSetOf() }.add(run)
+        schedules().everyDayScheduler.getOrPut(ScheduleTimeEveryDay.create(hour, minute)) { mutableSetOf() }.add(run)
     }
 
     /**
@@ -46,10 +53,17 @@ object TimeScheduler: OnEnable, Listener {
      * @param minute 分
      * @param run その時間に実行する処理
      */
-    fun scheduleEveryHourAt(
+    fun JavaPlugin.scheduleEveryHourAt(
         minute: Int, run: () -> Unit
     ) {
-        everyHourScheduler.getOrPut(ScheduleTimeEveryHour.create(minute)) { mutableSetOf() }.add(run)
+        schedules().everyHourScheduler.getOrPut(ScheduleTimeEveryHour.create(minute)) { mutableSetOf() }.add(run)
+    }
+
+    /**
+     * 特定のプラグインのスケジュールを削除します
+     */
+    fun JavaPlugin.clearTimeScheduler() {
+        schedules.remove(name)
     }
 
     /**
@@ -91,11 +105,13 @@ object TimeScheduler: OnEnable, Listener {
 
     @EventHandler
     fun onNextMinute(e: NextMinuteEvent) {
-        val everyWeek = e.scheduleTime
-        everyWeekScheduler[everyWeek]?.forEach { it.invoke() }
-        val everyDay = everyWeek.everyDay
-        everyDayScheduler[everyDay]?.forEach { it.invoke() }
-        val everyHour = everyDay.everyHour
-        everyHourScheduler[everyHour]?.forEach { it.invoke() }
+        schedules.values.forEach { list ->
+            val everyWeek = e.scheduleTime
+            list.everyWeekScheduler[everyWeek]?.forEach { it.invoke() }
+            val everyDay = everyWeek.everyDay
+            list.everyDayScheduler[everyDay]?.forEach { it.invoke() }
+            val everyHour = everyDay.everyHour
+            list.everyHourScheduler[everyHour]?.forEach { it.invoke() }
+        }
     }
 }
