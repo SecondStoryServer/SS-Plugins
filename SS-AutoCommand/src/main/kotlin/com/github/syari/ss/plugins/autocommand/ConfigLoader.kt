@@ -8,7 +8,9 @@ import com.github.syari.ss.plugins.core.command.RunCommand.runCommandFromConsole
 import com.github.syari.ss.plugins.core.config.CreateConfig.config
 import com.github.syari.ss.plugins.core.config.dataType.ConfigDataType
 import com.github.syari.ss.plugins.core.message.Message.send
-import com.github.syari.ss.plugins.core.time.TimeScheduler
+import com.github.syari.ss.plugins.core.time.TimeScheduler.clearTimeScheduler
+import com.github.syari.ss.plugins.core.time.TimeScheduler.scheduleEveryDayAt
+import com.github.syari.ss.plugins.core.time.TimeScheduler.scheduleEveryWeekAt
 import org.bukkit.command.CommandSender
 import java.time.DayOfWeek
 
@@ -20,13 +22,14 @@ object ConfigLoader: OnEnable {
     fun load(sender: CommandSender) {
         fun String.toTime() = split(":").let { it.getOrNull(0)?.toIntOrNull() to it.getOrNull(1)?.toIntOrNull() }
 
+        plugin.clearTimeScheduler()
         plugin.config(sender, "config.yml") {
             sender.send("&b[AutoCommand] &f自動コマンド一覧")
             section("every")?.forEach {
                 val commandList = get("every.$it", ConfigDataType.STRINGLIST) ?: return@forEach
                 val (hour, minute) = it.toTime()
                 if (hour != null && minute != null) {
-                    TimeScheduler.scheduleEveryDayAt(hour, minute) {
+                    plugin.scheduleEveryDayAt(hour, minute) {
                         commandList.forEach(RunCommand::runCommandFromConsole)
                     }
                     sender.send("&7- &a$hour:$minute &7×${commandList.size}")
@@ -40,7 +43,7 @@ object ConfigLoader: OnEnable {
                     val commandList = get("$dayName.$it", ConfigDataType.STRINGLIST) ?: return@nextTime
                     val (hour, minute) = it.toTime()
                     if (hour != null && minute != null) {
-                        TimeScheduler.scheduleEveryWeekAt(day, hour, minute) {
+                        plugin.scheduleEveryWeekAt(day, hour, minute) {
                             commandList.forEach(RunCommand::runCommandFromConsole)
                         }
                         sender.send("&7- &a$dayName $hour:$minute &7×${commandList.size}")
