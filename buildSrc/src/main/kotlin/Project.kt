@@ -62,10 +62,18 @@ open class Project(val version: String, groupName: String = "") {
         override val dependProject = listOf(Core)
     }
 
+    object ItemFrameCommand: Project(1) {
+        override val dependProject = listOf(Core)
+    }
+
     object Kotlin: Project("1.4.21")
 
     open class MA(version: String): Project(version, "MA") {
         constructor(buildVersion: Int): this(buildVersion.toString())
+
+        object Chest: MA(1) {
+            override val dependProject = listOf(Core, Dependency.AdvancedMobArena)
+        }
 
         object Item: MA(4) {
             override val dependProject = listOf(Core, Dependency.AdvancedMobArena)
