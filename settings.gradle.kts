@@ -11,6 +11,7 @@ include(
     "SS-Dependency-AdvancedMobArena",
     "SS-GlobalPlayers",
     "SS-ItemCreator",
+    "SS-ItemFrameCommand",
     "SS-Kotlin",
     "SS-MA-Chest",
     "SS-MA-Item",
