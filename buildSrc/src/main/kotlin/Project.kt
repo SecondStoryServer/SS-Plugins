@@ -67,6 +67,10 @@ open class Project(val version: String, groupName: String = "") {
     open class MA(version: String): Project(version, "MA") {
         constructor(buildVersion: Int): this(buildVersion.toString())
 
+        object Chest: MA(1) {
+            override val dependProject = listOf(Core, Dependency.AdvancedMobArena)
+        }
+
         object Item: MA(4) {
             override val dependProject = listOf(Core, Dependency.AdvancedMobArena)
         }

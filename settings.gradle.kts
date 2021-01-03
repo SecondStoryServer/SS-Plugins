@@ -12,10 +12,11 @@ include(
     "SS-GlobalPlayers",
     "SS-ItemCreator",
     "SS-Kotlin",
-    "SS-MA-Shop",
+    "SS-MA-Chest",
+    "SS-MA-Item",
     "SS-MA-Kit",
     "SS-MA-Mob",
-    "SS-MA-Item",
+    "SS-MA-Shop",
     "SS-MaterialChecker",
     "SS-PluginManager",
     "SS-SoundChecker"
