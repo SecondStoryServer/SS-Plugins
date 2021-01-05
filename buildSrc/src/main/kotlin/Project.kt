@@ -29,11 +29,6 @@ open class Project(val version: String, groupName: String = "") {
     }
 
     open class Dependency(version: String): Project(version, "Dependency") {
-        object AdvancedMobArena: Dependency("7.22") {
-            override val dependProject = listOf(Core)
-            override val dependPlugin = listOf("AdvancedMobArena")
-        }
-
         object CrackShot: Dependency("0.98.9") {
             override val dependProject = listOf(Core)
             override val dependPlugin = listOf("CrackShot")
@@ -67,30 +62,6 @@ open class Project(val version: String, groupName: String = "") {
     }
 
     object Kotlin: Project("1.4.21")
-
-    open class MA(version: String): Project(version, "MA") {
-        constructor(buildVersion: Int): this(buildVersion.toString())
-
-        object Chest: MA(1) {
-            override val dependProject = listOf(Core, Dependency.AdvancedMobArena)
-        }
-
-        object Item: MA(4) {
-            override val dependProject = listOf(Core, Dependency.AdvancedMobArena)
-        }
-
-        object Kit: MA(3) {
-            override val dependProject = listOf(Core, Dependency.AdvancedMobArena)
-        }
-
-        object Mob: MA(2) {
-            override val dependProject = listOf(Core, Dependency.AdvancedMobArena, Dependency.MythicMobs)
-        }
-
-        object Shop: MA(8) {
-            override val dependProject = listOf(Core, Dependency.CrackShot, Dependency.CrackShotPlus, Dependency.MythicMobs)
-        }
-    }
 
     object MaterialChecker: Project(4) {
         override val dependProject = listOf(Core)
