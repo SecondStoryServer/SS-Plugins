@@ -13,6 +13,7 @@ include(
     "SS-ItemFrameCommand",
     "SS-Kotlin",
     "SS-MaterialChecker",
+    "SS-MobArena",
     "SS-PluginManager",
     "SS-SoundChecker"
 )

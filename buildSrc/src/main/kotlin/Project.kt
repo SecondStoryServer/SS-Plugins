@@ -67,6 +67,10 @@ open class Project(val version: String, groupName: String = "") {
         override val dependProject = listOf(Core)
     }
 
+    object MobArena: Project(1) {
+        override val dependProject = listOf(Core)
+    }
+
     object PluginManager: Project(6) {
         override val dependProject = listOf(Core)
     }
