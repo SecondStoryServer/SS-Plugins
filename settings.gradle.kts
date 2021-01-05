@@ -8,17 +8,12 @@ include(
     "SS-Dependency-MythicMobs",
     "SS-Dependency-CrackShot",
     "SS-Dependency-CrackShotPlus",
-    "SS-Dependency-AdvancedMobArena",
     "SS-GlobalPlayers",
     "SS-ItemCreator",
     "SS-ItemFrameCommand",
     "SS-Kotlin",
-    "SS-MA-Chest",
-    "SS-MA-Item",
-    "SS-MA-Kit",
-    "SS-MA-Mob",
-    "SS-MA-Shop",
     "SS-MaterialChecker",
+    "SS-MobArena",
     "SS-PluginManager",
     "SS-SoundChecker"
 )
