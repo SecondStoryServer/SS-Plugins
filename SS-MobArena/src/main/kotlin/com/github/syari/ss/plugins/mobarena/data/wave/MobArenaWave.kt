@@ -9,6 +9,7 @@ import com.github.syari.ss.plugins.mobarena.data.wave.mob.MobArenaMob
 import org.bukkit.attribute.Attribute
 import org.bukkit.boss.BarColor
 import org.bukkit.boss.BarStyle
+import org.bukkit.entity.LivingEntity
 import org.bukkit.inventory.ItemStack
 
 class MobArenaWave(
@@ -34,16 +35,18 @@ class MobArenaWave(
             arena.mobs.add(entity.uniqueId)
         }
         if (boss != null) {
-            val entity = boss.spawn(arena.mobSpawn, arena) ?: return
+            val entity = boss.spawn(arena.mobSpawn) ?: return
             arena.mobs.add(entity.uniqueId)
-            val bar = bossBar(entity.customName ?: "null", BarColor.RED, BarStyle.SOLID)
-            arena.players.forEach { bar.addPlayer(it.player) }
-            plugin.runTimer(20) {
-                if (entity.isDead) {
-                    bar.delete()
-                    cancel()
-                } else {
-                    bar.progress = entity.health / entity.getAttribute(Attribute.GENERIC_MAX_HEALTH)!!.baseValue
+            if (entity is LivingEntity) {
+                val bar = bossBar(entity.customName ?: "null", BarColor.RED, BarStyle.SOLID)
+                arena.players.forEach { bar.addPlayer(it.player) }
+                plugin.runTimer(20) {
+                    if (entity.isDead) {
+                        bar.delete()
+                        cancel()
+                    } else {
+                        bar.progress = entity.health / entity.getAttribute(Attribute.GENERIC_MAX_HEALTH)!!.baseValue
+                    }
                 }
             }
         }
