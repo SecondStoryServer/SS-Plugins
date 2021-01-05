@@ -70,7 +70,7 @@ object ConfigLoader: OnEnable {
                             val priority = get("wave.$wave.mob.list.$it", ConfigDataType.INT, 1)
                             MobArenaMythicMobsMob(it, priority)
                         } ?: mobs
-                        boss = get("wave.$wave.boss.id", ConfigDataType.STRING, false)?.let {
+                        boss = get("wave.$wave.boss", ConfigDataType.STRING, false)?.let {
                             MobArenaMythicMobsBoss(it)
                         }
                         upgradeItem = get("wave.$wave.upgrade", ConfigDataType.STRINGLIST, listOf(), false).map { TODO() }
