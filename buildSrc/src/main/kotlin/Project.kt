@@ -21,7 +21,7 @@ open class Project(val version: String, groupName: String = "") {
         override val dependProject = listOf(Core)
     }
 
-    object Backup: Project(8) {
+    object Backup: Project(9) {
         override val dependProject = listOf(Core)
     }
 
