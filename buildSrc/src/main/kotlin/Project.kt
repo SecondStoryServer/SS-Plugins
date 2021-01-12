@@ -71,6 +71,10 @@ open class Project(val version: String, groupName: String = "") {
         override val dependProject = listOf(Core, Dependency.CrackShot, Dependency.CrackShotPlus, Dependency.MythicMobs)
     }
 
+    object PlayerDataStore: Project(1) {
+        override val dependProject = listOf(Core)
+    }
+
     object PluginManager: Project(6) {
         override val dependProject = listOf(Core)
     }
