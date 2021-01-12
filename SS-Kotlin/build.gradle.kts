@@ -12,6 +12,7 @@ bukkit {
     author = project.author
     apiVersion = project.apiVersion
     depend = project.allDependPlugin
+    softDepend = project.allSoftDependPlugin
     commands {
         register("ss-kotlin") {
             description = "Display Kotlin Version & Package"

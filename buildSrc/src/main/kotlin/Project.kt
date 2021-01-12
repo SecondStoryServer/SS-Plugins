@@ -11,6 +11,11 @@ open class Project(val version: String, groupName: String = "") {
     open val dependPlugin = listOf<String>()
     val dependProjectName by lazy { dependProject.map { it.name } }
     val allDependPlugin by lazy { dependProjectName + dependPlugin }
+    open val softDependProject = listOf<Project>()
+    open val softDependPlugin = listOf<String>()
+    val softDependProjectName by lazy { softDependProject.map { it.name } }
+    val allSoftDependPlugin by lazy { softDependProjectName + softDependPlugin }
+    val implementationProjects by lazy { dependProjectName + softDependProjectName }
 
     object AutoCommand: Project(2) {
         override val dependProject = listOf(Core)

@@ -2,7 +2,7 @@ val project = Project.GlobalPlayers
 group = project.group
 
 dependencies {
-    project.dependProjectName.forEach { implementation(project(":$it")) }
+    project.implementationProjects.forEach { implementation(project(":$it")) }
 }
 
 bukkit {
@@ -12,4 +12,5 @@ bukkit {
     author = project.author
     apiVersion = project.apiVersion
     depend = project.allDependPlugin
+    softDepend = project.allSoftDependPlugin
 }

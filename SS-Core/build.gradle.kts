@@ -12,4 +12,5 @@ bukkit {
     author = project.author
     apiVersion = project.apiVersion
     depend = project.allDependPlugin
+    softDepend = project.allSoftDependPlugin
 }

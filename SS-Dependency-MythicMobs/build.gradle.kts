@@ -2,7 +2,7 @@ val project = Project.Dependency.MythicMobs
 group = project.group
 
 dependencies {
-    project.dependProjectName.forEach { implementation(project(":$it")) }
+    project.implementationProjects.forEach { implementation(project(":$it")) }
     api(files("dependencyJar/MythicMobs-4.11.0-SNAPSHOT.jar"))
 }
 
@@ -13,4 +13,5 @@ bukkit {
     author = project.author
     apiVersion = project.apiVersion
     depend = project.allDependPlugin
+    softDepend = project.allSoftDependPlugin
 }
