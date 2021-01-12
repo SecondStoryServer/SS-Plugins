@@ -54,6 +54,8 @@ class PlayerData(private val player: Player) {
             player.inventory.contents.forEachIndexed { slot, item ->
                 if (item != null && item.type != Material.AIR) {
                     config.set("inventory.$slot", Base64Item.toBase64(item))
+                } else {
+                    config.set("inventory.$slot", null)
                 }
             }
         } else {
