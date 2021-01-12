@@ -23,16 +23,18 @@ class PlayerData(private val player: Player) {
     private val config = plugin.config(console, "data/${player.uniqueId}.yml")
 
     @OptIn(ExperimentalStdlibApi::class)
-    private val inventory = buildMap<Int, ItemStack> {
-        config.section("inventory", false)?.forEach {
-            val slot = it.toIntOrNull() ?: return@forEach
-            val line = config.get("inventory.$it", ConfigDataType.STRING) ?: return@forEach
-            val item = line.let(Base64Item::fromBase64) ?: return@forEach
-            this[slot] = item
+    private val inventory
+        get() = buildMap<Int, ItemStack> {
+            config.section("inventory", false)?.forEach {
+                val slot = it.toIntOrNull() ?: return@forEach
+                val line = config.get("inventory.$it", ConfigDataType.STRING) ?: return@forEach
+                val item = line.let(Base64Item::fromBase64) ?: return@forEach
+                this[slot] = item
+            }
         }
-    }
 
-    private val location = config.get("location", ConfigDataType.LOCATION, false)
+    private val location
+        get() = config.get("location", ConfigDataType.LOCATION, false)
 
     private val isEnableInventory = player.let(ConfigLoader.saveInventoryMode.condition)
 
