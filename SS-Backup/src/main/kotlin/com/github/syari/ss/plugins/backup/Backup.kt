@@ -1,6 +1,8 @@
 package com.github.syari.ss.plugins.backup
 
 import com.github.syari.ss.plugins.backup.Main.Companion.plugin
+import com.github.syari.ss.plugins.backup.event.PostBackupEvent
+import com.github.syari.ss.plugins.backup.event.PreBackupEvent
 import java.io.File
 
 object Backup {
@@ -8,8 +10,8 @@ object Backup {
     lateinit var groups: Map<String, BackupGroup>
 
     fun create(groups: List<BackupGroup>) {
-        plugin.server.dispatchCommand(com.github.syari.ss.plugins.core.Main.console, "save-off")
+        PreBackupEvent(groups).callEvent()
         groups.forEach(BackupGroup::create)
-        plugin.server.dispatchCommand(com.github.syari.ss.plugins.core.Main.console, "save-on")
+        PostBackupEvent(groups).callEvent()
     }
 }
