@@ -53,7 +53,7 @@ class PlayerData(private val uuidPlayer: UUIDPlayer) {
             config.set("inventory", null)
         }
         if (isEnableLocation) {
-            config.set("location", TODO("LocationConfigDataType::toString(Location)"))
+            config.set("location", ConfigDataType.LOCATION.toString(player.location))
         } else {
             config.set("location", null)
         }
