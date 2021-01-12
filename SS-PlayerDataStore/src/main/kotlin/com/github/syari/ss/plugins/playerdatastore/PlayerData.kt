@@ -10,6 +10,16 @@ import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
 class PlayerData(private val player: Player) {
+    companion object {
+        fun loadStoreData(player: Player) {
+            PlayerData(player).load()
+        }
+
+        fun saveStoreData(player: Player) {
+            PlayerData(player).save()
+        }
+    }
+
     private val config = plugin.config(console, "data/${player.uniqueId}.yml")
 
     @OptIn(ExperimentalStdlibApi::class)
