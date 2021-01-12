@@ -14,6 +14,7 @@ include(
     "SS-Kotlin",
     "SS-MaterialChecker",
     "SS-MobArena",
+    "SS-PlayerDataStore",
     "SS-PluginManager",
     "SS-SoundChecker"
 )

@@ -38,4 +38,12 @@ object ConfigLocationDataType: ConfigDataType<Location> {
             }
         }
     }
+
+    fun toString(location: Location): String {
+        return if (location.yaw == 0F && location.pitch == 0F) {
+            "${location.world.name}, ${location.x}, ${location.y}, ${location.z}"
+        } else {
+            "${location.world.name}, ${location.x}, ${location.y}, ${location.z}, ${location.yaw}, ${location.pitch}"
+        }
+    }
 }
