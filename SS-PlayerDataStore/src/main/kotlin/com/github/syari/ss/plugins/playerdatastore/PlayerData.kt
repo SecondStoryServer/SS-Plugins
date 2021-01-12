@@ -4,14 +4,13 @@ import com.github.syari.ss.plugins.core.Main.Companion.console
 import com.github.syari.ss.plugins.core.config.CreateConfig.config
 import com.github.syari.ss.plugins.core.config.dataType.ConfigDataType
 import com.github.syari.ss.plugins.core.item.Base64Item
-import com.github.syari.ss.plugins.core.player.UUIDPlayer
 import com.github.syari.ss.plugins.playerdatastore.Main.Companion.plugin
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
-class PlayerData(private val uuidPlayer: UUIDPlayer) {
-    private val config = plugin.config(console, "data/$uuidPlayer.yml")
+class PlayerData(private val player: Player) {
+    private val config = plugin.config(console, "data/${player.uniqueId}.yml")
 
     @OptIn(ExperimentalStdlibApi::class)
     private val inventory = buildMap<Int, ItemStack> {
@@ -25,13 +24,11 @@ class PlayerData(private val uuidPlayer: UUIDPlayer) {
 
     private val location = config.get("location", ConfigDataType.LOCATION, false)
 
-    private val isEnableInventory
-        get() = uuidPlayer.player?.let(ConfigLoader.saveInventoryMode.condition) ?: false
+    private val isEnableInventory = player.let(ConfigLoader.saveInventoryMode.condition)
 
-    private val isEnableLocation
-        get() = uuidPlayer.player?.let(ConfigLoader.saveLocationMode.condition) ?: false
+    private val isEnableLocation = player.let(ConfigLoader.saveLocationMode.condition)
 
-    fun load(player: Player) {
+    fun load() {
         if (isEnableInventory) {
             inventory.forEach { (slot, item) ->
                 player.inventory.setItem(slot, item)
@@ -42,7 +39,7 @@ class PlayerData(private val uuidPlayer: UUIDPlayer) {
         }
     }
 
-    fun save(player: Player) {
+    fun save() {
         if (isEnableInventory) {
             player.inventory.contents.forEachIndexed { slot, item ->
                 if (item != null && item.type != Material.AIR) {
