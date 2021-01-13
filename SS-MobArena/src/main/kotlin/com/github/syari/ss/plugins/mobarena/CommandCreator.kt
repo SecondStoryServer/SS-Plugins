@@ -14,6 +14,7 @@ import com.github.syari.ss.plugins.mobarena.data.MobArenaManager.endAllArena
 import com.github.syari.ss.plugins.mobarena.data.MobArenaManager.getArena
 import com.github.syari.ss.plugins.mobarena.data.arena.MobArena
 import com.github.syari.ss.plugins.mobarena.data.arena.MobArenaStatus
+import com.github.syari.ss.plugins.mobarena.data.kit.MobArenaKit
 import org.bukkit.entity.Player
 
 object CommandCreator: OnEnable {
@@ -57,9 +58,9 @@ object CommandCreator: OnEnable {
                         val arenaPlayer = player.arenaPlayer ?: return@execute sendError("モブアリーナに入っていません")
                         if (arenaPlayer.play) {
                             val id = args.getOrNull(1) ?: return@execute sendError("キット名を入力してください")
-                            if (arenaPlayer.arena.kits.contains(id).not()) return@execute sendError("存在しないキットです")
-                            arenaPlayer.kitId = id
-                            arenaPlayer.kit?.load(player) ?: return@execute sendError("キットの読み込みに失敗しました")
+                            val kit = MobArenaKit.getKit(id) ?: return@execute sendError("存在しないキットです")
+                            if (arenaPlayer.arena.availableKit(kit).not()) return@execute sendError("使用不可能なキットです")
+                            arenaPlayer.loadKit(kit)
                         } else {
                             sendError("モブアリーナに参加していません")
                         }
@@ -68,7 +69,7 @@ object CommandCreator: OnEnable {
                         val player = sender as? Player ?: return@execute sendError(ErrorMessage.OnlyPlayer)
                         val arenaPlayer = player.arenaPlayer ?: return@execute sendError("モブアリーナに入っていません")
                         if (arenaPlayer.play) {
-                            if (arenaPlayer.kitId == null) return@execute sendError("キットを選択していません")
+                            if (arenaPlayer.kit == null) return@execute sendError("キットを選択していません")
                             if (arenaPlayer.ready) return@execute sendError("既に準備完了しています")
                             arenaPlayer.ready = true
                         } else {
