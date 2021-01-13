@@ -15,10 +15,7 @@ class MobArenaPlayer(val arena: MobArena, val player: Player, var play: Boolean)
             }
         }
 
-    var kitId: String? = null
-
-    val kit: MobArenaKit?
-        get() = MobArenaKit.getKit(kitId)
+    var kit: MobArenaKit? = null
 
     fun isAllowMove(location: Location): Boolean {
         return if (play) {
@@ -30,5 +27,9 @@ class MobArenaPlayer(val arena: MobArena, val player: Player, var play: Boolean)
         } else {
             arena.spec.region.inRegion(location)
         }
+    }
+
+    fun loadKit(kit: MobArenaKit) {
+        arena.loadKit(this, kit)
     }
 }

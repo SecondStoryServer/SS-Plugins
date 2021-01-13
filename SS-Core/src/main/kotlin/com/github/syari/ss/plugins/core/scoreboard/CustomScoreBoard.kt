@@ -2,36 +2,24 @@ package com.github.syari.ss.plugins.core.scoreboard
 
 import com.github.syari.ss.plugins.core.code.StringEditor.toColor
 import com.github.syari.ss.plugins.core.player.UUIDPlayer
+import com.github.syari.ss.plugins.core.scoreboard.CreateScoreBoard.board
+import com.github.syari.ss.plugins.core.scoreboard.ScoreBoardPlayer.Companion.scoreBoardPlayer
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.scoreboard.DisplaySlot
 
 /**
- * @see CreateScoreBoard.createScoreBoard
+ * @see CreateScoreBoard.board
  */
-data class CustomScoreBoard internal constructor(
-    private val plugin: JavaPlugin, private val title: String, val priority: ScoreBoardPriority
-): CustomScoreBoardEdit {
-    private val lineList = mutableMapOf<Int, ScoreBoardLine>()
-
-    private var lineIndex = 0
-
+class CustomScoreBoard internal constructor(
+    private val plugin: JavaPlugin, private val title: String, val priority: Int, private val action: (Player) -> String
+) {
     /**
-     * 新しく行を追加します
-     * @param text 内容
+     * スコアボードの再表示をします
+     * @param players プレイヤー
      */
-    override fun line(text: String) {
-        lineList[lineIndex] = ScoreBoardLine.Constant(text)
-        lineIndex--
-    }
-
-    /**
-     * 新しく行を追加します
-     * @param text 内容
-     */
-    override fun line(text: Player.() -> String) {
-        lineList[lineIndex] = ScoreBoardLine.Invoke(text)
-        lineIndex--
+    fun updatePlayer(vararg players: Player) {
+        players.forEach { UUIDPlayer(it).scoreBoardPlayer.updateBoard(this) }
     }
 
     /**
@@ -39,7 +27,7 @@ data class CustomScoreBoard internal constructor(
      * @param players プレイヤー
      */
     fun addPlayer(vararg players: Player) {
-        players.forEach { ScoreBoardPlayer.addBoard(UUIDPlayer(it), this) }
+        players.forEach { UUIDPlayer(it).scoreBoardPlayer.addBoard(this) }
     }
 
     /**
@@ -47,25 +35,27 @@ data class CustomScoreBoard internal constructor(
      * @param players プレイヤー
      */
     fun removePlayer(vararg players: Player) {
-        players.forEach { ScoreBoardPlayer.removeBoard(UUIDPlayer(it), this) }
+        players.forEach { UUIDPlayer(it).scoreBoardPlayer.removeBoard(this) }
     }
 
     /**
      * スコアボードを表示します
-     * @param scoreBoardPlayer プレイヤーデータ
+     * @param scoreBoardPlayer プレイヤー
      */
-    fun show(scoreBoardPlayer: ScoreBoardPlayer) {
-        val uuidPlayer = scoreBoardPlayer.uuidPlayer
-        val player = uuidPlayer.player ?: return
+    internal fun show(scoreBoardPlayer: ScoreBoardPlayer) {
+        val player = scoreBoardPlayer.uuidPlayer.player ?: return
         val board = plugin.server.scoreboardManager.newScoreboard
-        val objective = board.registerNewObjective(uuidPlayer.toString().substring(0 until 16), "dummy", title.toColor)
-        objective.displaySlot = DisplaySlot.SIDEBAR
-        var count = 0
-        lineList.forEach { (index, text) ->
-            objective.getScore((text.get(player) + "&" + "%x".format(count)).toColor).score = index
-            count++
+        val boardName = player.uniqueId.toString().substring(0 until 16)
+        val scoreboard = board.registerNewObjective(boardName, "dummy", title.toColor).apply {
+            displaySlot = DisplaySlot.SIDEBAR
+            var lineNumber = 0
+            action(player).lines().forEachIndexed { index, text ->
+                getScore((text + "&" + "%x".format(lineNumber)).toColor).score = -index
+                lineNumber++
+            }
+        }.scoreboard ?: return
+        if (player.scoreboard.entries != scoreboard.entries) {
+            player.scoreboard = scoreboard
         }
-        val scoreboard = objective.scoreboard
-        if (scoreboard != null && player.scoreboard.entries != scoreboard.entries) player.scoreboard = scoreboard
     }
 }

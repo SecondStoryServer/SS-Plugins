@@ -9,8 +9,7 @@ import com.github.syari.ss.plugins.core.message.Message.send
 import com.github.syari.ss.plugins.core.scheduler.CreateScheduler.runLater
 import com.github.syari.ss.plugins.core.scheduler.CreateScheduler.runRepeatTimes
 import com.github.syari.ss.plugins.core.scheduler.CustomTask
-import com.github.syari.ss.plugins.core.scoreboard.CreateScoreBoard.createScoreBoard
-import com.github.syari.ss.plugins.core.scoreboard.ScoreBoardPriority
+import com.github.syari.ss.plugins.core.scoreboard.CreateScoreBoard.board
 import com.github.syari.ss.plugins.mobarena.Main.Companion.plugin
 import com.github.syari.ss.plugins.mobarena.data.MobArenaManager.arenaPlayer
 import com.github.syari.ss.plugins.mobarena.data.MobArenaManager.inMobArena
@@ -47,17 +46,17 @@ class MobArena(
     var lastWave = 0
     var waitAllKill = false
 
-    private val board = plugin.createScoreBoard("&a&lMobArena", ScoreBoardPriority.High) {
-        line("&e&m------------------------")
-        line("&a&lウェーブ &7≫ &e${wave}")
-        space()
-        line("&a&l残り人数 &7≫ &e${livingPlayers.count()}人")
-        space()
-        line {
-            val arenaPlayer = getPlayer(this)
-            "&a&lキット &7≫ &e${if (arenaPlayer != null && arenaPlayer.play) arenaPlayer.kit?.name ?: "&c未設定" else "&b&l観戦者"}"
-        }
-        line("&e&m------------------------")
+    private val board = plugin.board("&a&lMobArena", 1) {
+        val arenaPlayer = getPlayer(it)
+        """
+            &e&m------------------------
+            &a&lウェーブ &7≫ &e${wave}
+            
+            &a&l残り人数 &7≫ &e${livingPlayers.count()}人
+            
+            &a&lキット &7≫ &e${if (arenaPlayer != null && arenaPlayer.play) arenaPlayer.kit?.name ?: "&c未設定" else "&b&l観戦者"}
+            &e&m------------------------
+        """.trimIndent()
     }
 
     fun getPlayer(player: Player) = players.firstOrNull { it.player == player }
@@ -66,7 +65,13 @@ class MobArena(
 
     private val isEmptyLivingPlayers get() = livingPlayers.isEmpty()
 
-    fun canUseKit(kit: MobArenaKit) = players.count { it.kitId == kit.id } < kitLimit
+    fun availableKit(kit: MobArenaKit) = kits.contains(kit.id) && players.count { it.kit == kit } < kitLimit
+
+    fun loadKit(arenaPlayer: MobArenaPlayer, kit: MobArenaKit) {
+        arenaPlayer.kit = kit
+        kit.load(arenaPlayer.player)
+        board.updatePlayer(arenaPlayer.player)
+    }
 
     fun announce(msg: String) {
         players.forEach {
@@ -75,13 +80,7 @@ class MobArena(
     }
 
     private fun updateAllBoard() {
-        players.forEach {
-            updateBoard(it.player)
-        }
-    }
-
-    fun updateBoard(player: Player) {
-        board.addPlayer(player)
+        board.updatePlayer(*players.map { it.player }.toTypedArray())
     }
 
     private fun reloadProgress() {
@@ -151,6 +150,7 @@ class MobArena(
         PlayerData.saveStoreData(p)
         p.inventory.clear()
         p.teleport(lobby.spawn)
+        board.addPlayer(p)
         updateAllBoard()
     }
 
@@ -160,7 +160,7 @@ class MobArena(
         p.inventory.clear()
         players.add(MobArenaPlayer(this, p, false))
         p.teleport(spec.spawn)
-        updateBoard(p)
+        board.addPlayer(p)
     }
 
     fun leave(p: Player) {
@@ -177,8 +177,8 @@ class MobArena(
         p.closeInventory()
         p.inventory.clear()
         PlayerData.loadStoreData(p)
-        updateAllBoard()
         board.removePlayer(p)
+        updateAllBoard()
     }
 
     fun start() {
