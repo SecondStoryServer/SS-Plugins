@@ -22,6 +22,7 @@ import org.bukkit.event.entity.PlayerDeathEvent
 import org.bukkit.event.inventory.ClickType
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryType
+import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerItemDamageEvent
 import org.bukkit.event.player.PlayerMoveEvent
@@ -112,6 +113,14 @@ object EventListener: Listener {
             else -> null
         } ?: return
         if (victim.inMobArena || attacker.inMobArena) {
+            e.isCancelled = true
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    fun on(e: PlayerDropItemEvent) {
+        val player = e.player
+        if (player.inMobArena) {
             e.isCancelled = true
         }
     }
