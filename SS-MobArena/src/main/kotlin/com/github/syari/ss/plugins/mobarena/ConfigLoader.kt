@@ -92,17 +92,20 @@ object ConfigLoader: OnEnable {
         MobArenaManager.arenas = arenas
     }
 
+    @OptIn(ExperimentalStdlibApi::class)
     private fun loadKit(sender: CommandSender) {
         val kits = mutableListOf<MobArenaKit>()
         plugin.configDir(sender, "Kit") {
             val id = fileNameWithoutExtension
             val name = get("name", ConfigDataType.STRING, id)
-            val items = section("items")?.mapNotNull {
-                val slotNumber = it.toIntOrNull() ?: return@mapNotNull typeMismatchError("items.$it", "Int").run { null }
-                val line = get("items.$it", ConfigDataType.STRING) ?: return@mapNotNull nullError("items.$it", "String").run { null }
-                val item = ItemFromConfig.get(line) ?: return@mapNotNull nullError("items.$it", "ItemStack").run { null }
-                slotNumber to item
-            }.orEmpty()
+            val items = buildMap<Int, ItemStack> {
+                section("items")?.forEach {
+                    val slotNumber = it.toIntOrNull() ?: return@forEach typeMismatchError("items.$it", "Int")
+                    val line = get("items.$it", ConfigDataType.STRING) ?: return@forEach nullError("items.$it", "String")
+                    val item = ItemFromConfig.get(line) ?: return@forEach nullError("items.$it", "ItemStack")
+                    this[slotNumber] = item
+                }
+            }
             kits.add(MobArenaKit(id, name, items))
         }
         MobArenaKit.kits = kits.associateBy(MobArenaKit::id)
