@@ -3,39 +3,16 @@ package com.github.syari.ss.plugins.core.scoreboard
 import com.github.syari.ss.plugins.core.player.UUIDPlayer
 import org.bukkit.scoreboard.DisplaySlot
 
-data class ScoreBoardPlayer(val uuidPlayer: UUIDPlayer) {
+internal class ScoreBoardPlayer(val uuidPlayer: UUIDPlayer) {
     companion object {
         private val playerList = mutableMapOf<UUIDPlayer, ScoreBoardPlayer>()
 
         /**
-         * ボードを追加します
-         * @param uuidPlayer 対象プレイヤー
-         * @param board スコアボード
+         * スコアボードのプレイヤーデータ
          */
-        fun addBoard(
-            uuidPlayer: UUIDPlayer, board: CustomScoreBoard
-        ) {
-            playerList.getOrPut(uuidPlayer) { ScoreBoardPlayer(uuidPlayer) }.addBoard(board)
-        }
+        internal val UUIDPlayer.scoreBoardPlayer
+            get() = playerList.getOrPut(this) { ScoreBoardPlayer(this) }
 
-        /**
-         * ボードを削除します
-         * @param uuidPlayer 対象プレイヤー
-         * @param board スコアボード
-         */
-        fun removeBoard(
-            uuidPlayer: UUIDPlayer, board: CustomScoreBoard
-        ) {
-            playerList[uuidPlayer]?.removeBoard(board)
-        }
-
-        /**
-         * ボードを全て削除します
-         * @param uuidPlayer 対象プレイヤー
-         */
-        fun clearBoard(uuidPlayer: UUIDPlayer) {
-            playerList.remove(uuidPlayer)
-        }
     }
 
     private val boardList = mutableSetOf<CustomScoreBoard>()
@@ -47,25 +24,21 @@ data class ScoreBoardPlayer(val uuidPlayer: UUIDPlayer) {
      * ボードを変更します
      * @param board スコアボード
      */
-    fun setBoard(board: CustomScoreBoard?) {
+    private fun setBoard(board: CustomScoreBoard?) {
         board?.show(this) ?: uuidPlayer.player?.scoreboard?.clearSlot(DisplaySlot.SIDEBAR)
         this.board = board
     }
 
     private fun updateBoard() {
         val lastBoard = board
-        val board = boardList.maxByOrNull { it.priority.level }
+        val board = boardList.maxByOrNull { it.priority }
         if (lastBoard != board) {
             setBoard(board)
         }
     }
 
-    /**
-     * ボードを再表示します
-     * @param board スコアボード
-     */
     fun updateBoard(board: CustomScoreBoard) {
-        if (this.board == board) {
+        if (board == this.board) {
             board.show(this)
         }
     }
@@ -85,10 +58,6 @@ data class ScoreBoardPlayer(val uuidPlayer: UUIDPlayer) {
      */
     fun removeBoard(board: CustomScoreBoard) {
         boardList.remove(board)
-        if (boardList.isEmpty()) {
-            clearBoard(uuidPlayer)
-        } else {
-            updateBoard()
-        }
+        updateBoard()
     }
 }

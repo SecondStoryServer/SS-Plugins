@@ -1,5 +1,6 @@
 package com.github.syari.ss.plugins.core.scoreboard
 
+import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
 
 object CreateScoreBoard {
@@ -7,12 +8,12 @@ object CreateScoreBoard {
      * スコアボードを作成します
      * @param title タイトル
      * @param priority 優先度
-     * @param run ボードに対して実行する処理
+     * @param action ボードの内容
      * @return [CustomScoreBoard]
      */
-    fun JavaPlugin.createScoreBoard(
-        title: String, priority: ScoreBoardPriority, run: CustomScoreBoardEdit.() -> Unit
+    fun JavaPlugin.board(
+        title: String, priority: Int, action: (Player) -> String
     ): CustomScoreBoard {
-        return CustomScoreBoard(this, title, priority).apply(run)
+        return CustomScoreBoard(this, title, priority, action)
     }
 }
