@@ -59,6 +59,7 @@ object CommandCreator: OnEnable {
                             val id = args.getOrNull(1) ?: return@execute sendError("キット名を入力してください")
                             if (arenaPlayer.arena.kits.contains(id).not()) return@execute sendError("存在しないキットです")
                             arenaPlayer.kitId = id
+                            arenaPlayer.kit?.load(player) ?: return@execute sendError("キットの読み込みに失敗しました")
                         } else {
                             sendError("モブアリーナに参加していません")
                         }

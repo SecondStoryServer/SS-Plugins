@@ -11,6 +11,10 @@ class MobArenaKit(val id: String, val name: String, val items: Map<Int, ItemStac
     }
 
     fun load(player: Player) {
-
+        player.inventory.clear()
+        player.setItemOnCursor(null)
+        items.forEach { (slot, item) ->
+            player.inventory.setItem(slot, item)
+        }
     }
 }

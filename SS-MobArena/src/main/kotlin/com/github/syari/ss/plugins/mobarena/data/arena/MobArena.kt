@@ -16,6 +16,7 @@ import com.github.syari.ss.plugins.mobarena.data.MobArenaManager.arenaPlayer
 import com.github.syari.ss.plugins.mobarena.data.MobArenaManager.inMobArena
 import com.github.syari.ss.plugins.mobarena.data.kit.MobArenaKit
 import com.github.syari.ss.plugins.mobarena.data.wave.MobArenaWave
+import com.github.syari.ss.plugins.playerdatastore.PlayerData
 import org.bukkit.Location
 import org.bukkit.attribute.Attribute
 import org.bukkit.boss.BarColor
@@ -147,14 +148,18 @@ class MobArena(
         }
         players.add(MobArenaPlayer(this, p, true))
         p.closeInventory()
+        PlayerData.saveStoreData(p)
+        p.inventory.clear()
         p.teleport(lobby.spawn)
         updateAllBoard()
     }
 
     fun spec(p: Player) {
+        p.closeInventory()
+        PlayerData.saveStoreData(p)
+        p.inventory.clear()
         players.add(MobArenaPlayer(this, p, false))
         p.teleport(spec.spawn)
-        p.closeInventory()
         updateBoard(p)
     }
 
@@ -170,6 +175,8 @@ class MobArena(
             end(false)
         }
         p.closeInventory()
+        p.inventory.clear()
+        PlayerData.loadStoreData(p)
         updateAllBoard()
         board.removePlayer(p)
     }
@@ -231,7 +238,6 @@ class MobArena(
     fun onDeath(p: Player) {
         plugin.runLater(3) {
             leave(p)
-            spec(p)
         }
     }
 
@@ -245,7 +251,6 @@ class MobArena(
         plugin.runLater(10 * 20) {
             livingPlayers.forEach {
                 leave(it.player)
-                spec(it.player)
             }
             status = MobArenaStatus.StandBy
             players.clear()
