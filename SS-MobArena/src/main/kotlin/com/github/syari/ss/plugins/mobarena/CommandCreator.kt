@@ -17,7 +17,7 @@ import com.github.syari.ss.plugins.mobarena.data.arena.MobArenaStatus
 import com.github.syari.ss.plugins.mobarena.data.kit.MobArenaKit
 import org.bukkit.entity.Player
 
-object CommandCreator: OnEnable {
+object CommandCreator : OnEnable {
     override fun onEnable() {
         plugin.command("ma", "MobArena") {
             tab {
@@ -91,7 +91,7 @@ object CommandCreator: OnEnable {
                         val arena = getArena(id) ?: return@execute sendError("モブアリーナが見つかりませんでした")
                         if (arena.status != MobArenaStatus.WaitReady) return@execute sendError("準備待機中のアリーナではありません")
                         arena.start()
-                        sender.send("&b[MobArena] &a${id}&fのゲームを強制的に始めました")
+                        sender.send("&b[MobArena] &a$id&fのゲームを強制的に始めました")
                     }
                     "end" -> {
                         val id = args.getOrNull(1) ?: return@execute sendError("アリーナIDを入力してください")
@@ -101,7 +101,7 @@ object CommandCreator: OnEnable {
                         } else {
                             val arena = getArena(id) ?: return@execute sendError("モブアリーナが見つかりませんでした")
                             arena.end(true)
-                            sendError("&a${id} &fのゲームを強制的終了しました")
+                            sendError("&a$id &fのゲームを強制的終了しました")
                         }
                     }
                     "reload" -> {

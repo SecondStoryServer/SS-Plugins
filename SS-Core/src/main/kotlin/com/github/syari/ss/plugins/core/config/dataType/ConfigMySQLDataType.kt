@@ -4,11 +4,13 @@ import com.github.syari.ss.plugins.core.config.CustomConfig
 import com.github.syari.ss.plugins.core.config.CustomFileConfig
 import com.github.syari.ss.plugins.core.sql.MySQL
 
-object ConfigMySQLDataType: ConfigDataType.WithSet<MySQL> {
+object ConfigMySQLDataType : ConfigDataType.WithSet<MySQL> {
     override val typeName = "MySQL(Section)"
 
     override fun get(
-        config: CustomConfig, path: String, notFoundError: Boolean
+        config: CustomConfig,
+        path: String,
+        notFoundError: Boolean
     ): MySQL? {
         return MySQL.create(
             config.get("$path.host", ConfigDataType.STRING, notFoundError),

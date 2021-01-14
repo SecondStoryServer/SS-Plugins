@@ -29,7 +29,7 @@ import org.bukkit.event.player.PlayerMoveEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.inventory.ItemStack
 
-object EventListener: Listener {
+object EventListener : Listener {
     private inline val InventoryClickEvent.insertItem
         get(): ItemStack? {
             val player = whoClicked as? Player ?: return null

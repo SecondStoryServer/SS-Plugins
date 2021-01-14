@@ -13,7 +13,13 @@ import org.bukkit.entity.LivingEntity
 import org.bukkit.inventory.ItemStack
 
 class MobArenaWave(
-    private val arena: MobArena, val waveRange: IntRange, private val mobAmount: Int, val stop: Boolean, mobs: List<MobArenaMob>, private val boss: MobArenaBoss?, val upgrade: List<ItemStack>
+    private val arena: MobArena,
+    val waveRange: IntRange,
+    private val mobAmount: Int,
+    val stop: Boolean,
+    mobs: List<MobArenaMob>,
+    private val boss: MobArenaBoss?,
+    val upgrade: List<ItemStack>
 ) {
     private val withPriorityList: List<Pair<IntRange, MobArenaMob>>
     private val maxPriority: Int

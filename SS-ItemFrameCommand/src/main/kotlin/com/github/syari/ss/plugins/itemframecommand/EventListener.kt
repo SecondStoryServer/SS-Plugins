@@ -14,7 +14,7 @@ import org.bukkit.event.entity.ItemSpawnEvent
 import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.event.player.PlayerInteractEntityEvent
 
-object EventListener: Listener {
+object EventListener : Listener {
     @EventHandler
     fun on(e: PlayerInteractEntityEvent) {
         val player = e.player

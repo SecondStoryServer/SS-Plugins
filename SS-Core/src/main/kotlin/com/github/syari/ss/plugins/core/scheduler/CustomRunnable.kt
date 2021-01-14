@@ -9,8 +9,9 @@ import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.scheduler.BukkitTask
 
 class CustomRunnable internal constructor(
-    private val plugin: JavaPlugin, private val action: CustomTask.() -> Unit
-): CustomTask {
+    private val plugin: JavaPlugin,
+    private val action: CustomTask.() -> Unit
+) : CustomTask {
     private val isRunning
         get() = alreadyInit && !task.isCancelled
 
@@ -55,7 +56,8 @@ class CustomRunnable internal constructor(
      * @return [CustomTask]?
      */
     fun runLater(
-        delay: Long, async: Boolean = false
+        delay: Long,
+        async: Boolean = false
     ): CustomTask? {
         return runTimer(-1, delay, async)
     }
@@ -65,7 +67,9 @@ class CustomRunnable internal constructor(
      * @return [CustomTask]?
      */
     fun runTimer(
-        period: Long, delay: Long = 0, async: Boolean = false
+        period: Long,
+        delay: Long = 0,
+        async: Boolean = false
     ): CustomTask? {
         return runRepeatTimes(period, -1, delay, async)
     }
@@ -75,14 +79,17 @@ class CustomRunnable internal constructor(
      * @return [CustomTask]?
      */
     fun runRepeatTimes(
-        period: Long, times: Int, delay: Long = 0, async: Boolean = false
+        period: Long,
+        times: Int,
+        delay: Long = 0,
+        async: Boolean = false
     ): CustomTask? {
         return if (isRunning) {
             null
         } else {
             if (0 < times) {
                 repeatRemain = times
-                runnable = object: BukkitRunnable() {
+                runnable = object : BukkitRunnable() {
                     override fun run() {
                         action()
                         if (repeatRemain == 0) {
@@ -95,7 +102,7 @@ class CustomRunnable internal constructor(
                 }
             } else {
                 repeatRemain = -1
-                runnable = object: BukkitRunnable() {
+                runnable = object : BukkitRunnable() {
                     override fun run() {
                         action()
                     }

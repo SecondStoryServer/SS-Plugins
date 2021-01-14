@@ -7,7 +7,7 @@ import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerCommandPreprocessEvent
 import org.bukkit.event.player.PlayerCommandSendEvent
 
-object EventListener: Listener {
+object EventListener : Listener {
     @EventHandler
     fun on(e: PlayerCommandSendEvent) {
         val p = e.player

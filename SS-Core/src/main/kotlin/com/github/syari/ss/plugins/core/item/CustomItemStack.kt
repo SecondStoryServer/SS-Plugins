@@ -21,8 +21,9 @@ import org.bukkit.plugin.java.JavaPlugin
  * [ItemStack] の拡張クラス
  */
 class CustomItemStack internal constructor(
-    private val item: ItemStack, amount: Int
-): CustomPersistentDataContainer, ConfigurationSerializable {
+    private val item: ItemStack,
+    amount: Int
+) : CustomPersistentDataContainer, ConfigurationSerializable {
 
     /**
      * アイテムの量
@@ -239,7 +240,8 @@ class CustomItemStack internal constructor(
      * @param level レベル
      */
     fun addEnchant(
-        enchant: Enchantment, level: Int
+        enchant: Enchantment,
+        level: Int
     ) {
         editMeta {
             addEnchant(enchant, level, true)
@@ -314,7 +316,8 @@ class CustomItemStack internal constructor(
      * @return [E]?
      */
     override fun <E> editPersistentData(
-        plugin: JavaPlugin, action: CustomPersistentData.() -> E
+        plugin: JavaPlugin,
+        action: CustomPersistentData.() -> E
     ): E? {
         var result: E? = null
         editMeta {
@@ -397,7 +400,8 @@ class CustomItemStack internal constructor(
          * @return [CustomItemStack]
          */
         fun create(
-            item: ItemStack?, amount: Int? = null
+            item: ItemStack?,
+            amount: Int? = null
         ): CustomItemStack {
             val data = if (item != null) {
                 item to (amount ?: item.amount)
@@ -413,7 +417,8 @@ class CustomItemStack internal constructor(
          * @return [CustomItemStack]
          */
         fun create(
-            material: Material?, amount: Int? = 1
+            material: Material?,
+            amount: Int? = 1
         ): CustomItemStack {
             return create(material?.let { ItemStack(it) }, amount)
         }
@@ -427,7 +432,11 @@ class CustomItemStack internal constructor(
          * @return [CustomItemStack]
          */
         fun create(
-            material: Material, display: String?, lore: List<String>, customModelData: Int? = 0, amount: Int = 1
+            material: Material,
+            display: String?,
+            lore: List<String>,
+            customModelData: Int? = 0,
+            amount: Int = 1
         ): CustomItemStack {
             return create(material, amount).apply {
                 this.display = display
@@ -445,7 +454,11 @@ class CustomItemStack internal constructor(
          * @return [CustomItemStack]
          */
         fun create(
-            material: Material, display: String?, vararg lore: String, customModelData: Int? = 0, amount: Int = 1
+            material: Material,
+            display: String?,
+            vararg lore: String,
+            customModelData: Int? = 0,
+            amount: Int = 1
         ): CustomItemStack {
             return create(material, display, lore.toList(), customModelData, amount)
         }
@@ -456,7 +469,8 @@ class CustomItemStack internal constructor(
          * @return [CustomItemStack]?
          */
         fun fromNullable(
-            item: ItemStack?, amount: Int? = null
+            item: ItemStack?,
+            amount: Int? = null
         ): CustomItemStack? {
             return item?.let { create(it, amount) }
         }
@@ -467,7 +481,7 @@ class CustomItemStack internal constructor(
          * @return [CustomItemStack]
          */
         fun fromJson(json: String): CustomItemStack {
-            val map: Map<String, Any> = Gson().fromJson(json, object: TypeToken<Map<String, Any>>() {}.type)
+            val map: Map<String, Any> = Gson().fromJson(json, object : TypeToken<Map<String, Any>>() {}.type)
             return fromMap(map)
         }
 

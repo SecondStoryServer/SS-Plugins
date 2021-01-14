@@ -17,7 +17,7 @@ import org.bukkit.craftbukkit.v1_16_R3.util.CraftChatMessage
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 
-object TabUpdater: Listener {
+object TabUpdater : Listener {
     private var lastPlayerList = listOf<String>()
 
     @EventHandler

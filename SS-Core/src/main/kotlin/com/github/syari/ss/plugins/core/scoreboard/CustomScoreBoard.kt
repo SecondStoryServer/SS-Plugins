@@ -12,7 +12,10 @@ import org.bukkit.scoreboard.DisplaySlot
  * @see CreateScoreBoard.board
  */
 class CustomScoreBoard internal constructor(
-    private val plugin: JavaPlugin, private val title: String, val priority: Int, private val action: (Player) -> String
+    private val plugin: JavaPlugin,
+    private val title: String,
+    val priority: Int,
+    private val action: (Player) -> String
 ) {
     /**
      * スコアボードの再表示をします

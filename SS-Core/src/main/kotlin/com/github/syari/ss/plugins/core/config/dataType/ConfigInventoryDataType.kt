@@ -3,12 +3,14 @@ package com.github.syari.ss.plugins.core.config.dataType
 import com.github.syari.ss.plugins.core.config.CustomConfig
 import org.bukkit.inventory.ItemStack
 
-class ConfigInventoryDataType(private val itemConverter: ConfigItemConverter): ConfigDataType<Map<Int, ItemStack>> {
+class ConfigInventoryDataType(private val itemConverter: ConfigItemConverter) : ConfigDataType<Map<Int, ItemStack>> {
     override val typeName = "Inventory"
 
     @OptIn(ExperimentalStdlibApi::class)
     override fun get(
-        config: CustomConfig, path: String, notFoundError: Boolean
+        config: CustomConfig,
+        path: String,
+        notFoundError: Boolean
     ): Map<Int, ItemStack> {
         return buildMap {
             config.section(path, notFoundError)?.forEach {

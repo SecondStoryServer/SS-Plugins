@@ -14,7 +14,10 @@ object CreateConfig {
      * @return [CustomFileConfig]
      */
     fun JavaPlugin.config(
-        output: CommandSender, fileName: String, deleteIfEmpty: Boolean = true, default: Map<String, Any> = emptyMap()
+        output: CommandSender,
+        fileName: String,
+        deleteIfEmpty: Boolean = true,
+        default: Map<String, Any> = emptyMap()
     ): CustomFileConfig {
         var directory = dataFolder
         if (!directory.exists()) directory.mkdir()
@@ -40,7 +43,11 @@ object CreateConfig {
      * @return [CustomFileConfig]
      */
     fun JavaPlugin.config(
-        output: CommandSender, fileName: String, deleteIfEmpty: Boolean = true, default: Map<String, Any> = emptyMap(), action: CustomFileConfig.() -> Unit
+        output: CommandSender,
+        fileName: String,
+        deleteIfEmpty: Boolean = true,
+        default: Map<String, Any> = emptyMap(),
+        action: CustomFileConfig.() -> Unit
     ): CustomFileConfig {
         return config(output, fileName, deleteIfEmpty, default).apply(action)
     }
@@ -53,7 +60,9 @@ object CreateConfig {
      * @return [CustomFileConfig]
      */
     fun JavaPlugin.config(
-        output: CommandSender, uniqueName: String, reader: Reader
+        output: CommandSender,
+        uniqueName: String,
+        reader: Reader
     ): CustomReaderConfig {
         return CustomReaderConfig(this, output, uniqueName, reader)
     }
@@ -67,7 +76,10 @@ object CreateConfig {
      * @return [CustomFileConfig]
      */
     fun JavaPlugin.config(
-        output: CommandSender, uniqueName: String, reader: Reader, action: CustomReaderConfig.() -> Unit
+        output: CommandSender,
+        uniqueName: String,
+        reader: Reader,
+        action: CustomReaderConfig.() -> Unit
     ): CustomReaderConfig {
         return config(output, uniqueName, reader).apply(action)
     }
@@ -81,7 +93,9 @@ object CreateConfig {
      */
     @OptIn(ExperimentalStdlibApi::class)
     fun JavaPlugin.configDir(
-        output: CommandSender, directoryName: String, deleteIfEmpty: Boolean = true
+        output: CommandSender,
+        directoryName: String,
+        deleteIfEmpty: Boolean = true
     ): Map<String, CustomFileConfig> {
         var directory = dataFolder
         if (!directory.exists()) directory.mkdir()
@@ -107,7 +121,10 @@ object CreateConfig {
      * @return [Map]<[String], [CustomFileConfig]>
      */
     fun JavaPlugin.configDir(
-        output: CommandSender, directoryName: String, deleteIfEmpty: Boolean = true, action: CustomFileConfig.() -> Unit
+        output: CommandSender,
+        directoryName: String,
+        deleteIfEmpty: Boolean = true,
+        action: CustomFileConfig.() -> Unit
     ) {
         configDir(output, directoryName, deleteIfEmpty).values.onEach { config ->
             action(config)

@@ -5,7 +5,7 @@ import org.bukkit.persistence.PersistentDataType
 import java.nio.ByteBuffer
 import java.util.UUID
 
-object PersistentDataTypeUUID: PersistentDataType<ByteArray, UUID> {
+object PersistentDataTypeUUID : PersistentDataType<ByteArray, UUID> {
     override fun getPrimitiveType(): Class<ByteArray> {
         return ByteArray::class.java
     }
@@ -15,7 +15,8 @@ object PersistentDataTypeUUID: PersistentDataType<ByteArray, UUID> {
     }
 
     override fun toPrimitive(
-        complex: UUID, context: PersistentDataAdapterContext
+        complex: UUID,
+        context: PersistentDataAdapterContext
     ): ByteArray {
         val bb = ByteBuffer.wrap(ByteArray(16))
         bb.putLong(complex.mostSignificantBits)
@@ -24,7 +25,8 @@ object PersistentDataTypeUUID: PersistentDataType<ByteArray, UUID> {
     }
 
     override fun fromPrimitive(
-        primitive: ByteArray, context: PersistentDataAdapterContext
+        primitive: ByteArray,
+        context: PersistentDataAdapterContext
     ): UUID {
         val bb = ByteBuffer.wrap(primitive)
         val firstLong = bb.long

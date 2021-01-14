@@ -8,7 +8,7 @@ import org.bukkit.Sound
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 
-class Main: SSPlugin() {
+class Main : SSPlugin() {
     override fun onEnable() {
         command("csound", "SS-SoundChecker") {
             execute {
@@ -21,7 +21,9 @@ class Main: SSPlugin() {
     private val soundList = Sound.values().toList().chunked(45)
 
     private data class OpenSoundListConfig(
-        val page: Int = 0, var pitch: Float = 1.0F, var sound: Sound? = null
+        val page: Int = 0,
+        var pitch: Float = 1.0F,
+        var sound: Sound? = null
     )
 
     private fun Player.openSoundList(config: OpenSoundListConfig = OpenSoundListConfig()) {

@@ -6,7 +6,7 @@ import org.bukkit.event.HandlerList
 /**
  * Kotlinで自作イベントを作成する場合の基底クラス
  */
-open class CustomEvent: Event() {
+open class CustomEvent : Event() {
     override fun getHandlers(): HandlerList {
         return HANDLERS
     }

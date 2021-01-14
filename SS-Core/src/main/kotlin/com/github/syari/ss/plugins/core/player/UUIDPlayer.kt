@@ -11,7 +11,7 @@ import java.util.UUID
  * [UUID] としてプレイヤーを保存しておく
  */
 data class UUIDPlayer(private val uniqueId: UUID) {
-    constructor(player: OfflinePlayer): this(player.uniqueId)
+    constructor(player: OfflinePlayer) : this(player.uniqueId)
 
     /**
      * プレイヤーに変換します

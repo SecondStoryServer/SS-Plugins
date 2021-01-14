@@ -11,7 +11,8 @@ object RunCommand {
      * @param command 実行するコマンド
      */
     fun runCommand(
-        sender: CommandSender, command: String
+        sender: CommandSender,
+        command: String
     ) {
         plugin.server.dispatchCommand(sender, command)
     }

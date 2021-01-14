@@ -14,7 +14,7 @@ class Region(val world: World, pos1: Vector3D, pos2: Vector3D) {
         }
     }
 
-    constructor(pos1: Location, pos2: Location): this(pos1.world, Vector3D.fromLocation(pos1), Vector3D.fromLocation(pos2))
+    constructor(pos1: Location, pos2: Location) : this(pos1.world, Vector3D.fromLocation(pos1), Vector3D.fromLocation(pos2))
 
     val max: Vector3D
     val min: Vector3D
@@ -25,11 +25,13 @@ class Region(val world: World, pos1: Vector3D, pos2: Vector3D) {
                 pos2.x to pos1.x
             } else {
                 pos1.x to pos2.x
-            }, if (pos1.y < pos2.y) {
+            },
+            if (pos1.y < pos2.y) {
                 pos2.y to pos1.y
             } else {
                 pos1.y to pos2.y
-            }, if (pos1.z < pos2.z) {
+            },
+            if (pos1.z < pos2.z) {
                 pos2.z to pos1.z
             } else {
                 pos1.z to pos2.z

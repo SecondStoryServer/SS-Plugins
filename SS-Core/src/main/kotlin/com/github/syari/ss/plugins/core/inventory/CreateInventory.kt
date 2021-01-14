@@ -17,7 +17,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.inventory.InventoryType
 import org.bukkit.inventory.Inventory
 
-object CreateInventory: Listener {
+object CreateInventory : Listener {
     @EventHandler
     fun onInventoryClick(e: InventoryClickEvent) {
         val player = e.whoClicked as Player
@@ -58,7 +58,8 @@ object CreateInventory: Listener {
      * @return [CustomInventory]
      */
     fun inventory(
-        inventory: Inventory, vararg id: String
+        inventory: Inventory,
+        vararg id: String
     ): CustomInventory {
         return CustomInventory(inventory, id.toList())
     }
@@ -70,7 +71,9 @@ object CreateInventory: Listener {
      * @return [CustomInventory]
      */
     fun inventory(
-        display: String, type: InventoryType, vararg id: String
+        display: String,
+        type: InventoryType,
+        vararg id: String
     ): CustomInventory {
         return inventory(createInventory(null, type, display.toColor), *id)
     }
@@ -83,7 +86,10 @@ object CreateInventory: Listener {
      * @return [CustomInventory]
      */
     fun inventory(
-        display: String, type: InventoryType, vararg id: String, action: CustomInventory.() -> Unit
+        display: String,
+        type: InventoryType,
+        vararg id: String,
+        action: CustomInventory.() -> Unit
     ): CustomInventory {
         return inventory(display, type, *id).apply(action)
     }
@@ -96,7 +102,10 @@ object CreateInventory: Listener {
      * @return [CustomInventory]
      */
     fun inventory(
-        display: String, line: Int = 3, vararg id: String, action: CustomInventory.() -> Unit
+        display: String,
+        line: Int = 3,
+        vararg id: String,
+        action: CustomInventory.() -> Unit
     ): CustomInventory {
         return inventory(createInventory(null, (if (line in 1..6) line else 3) * 9, display.toColor), *id).apply(action)
     }
@@ -122,7 +131,8 @@ object CreateInventory: Listener {
      * @param id インベントリのID
      */
     fun isOpenInventory(
-        player: OfflinePlayer, vararg id: String
+        player: OfflinePlayer,
+        vararg id: String
     ): Boolean {
         return UUIDPlayer(player).menuPlayer?.isOpenInventory(id) ?: false
     }
@@ -133,7 +143,8 @@ object CreateInventory: Listener {
      * @param id インベントリのID
      */
     fun isOpenInventory(
-        uuidPlayer: UUIDPlayer, vararg id: String
+        uuidPlayer: UUIDPlayer,
+        vararg id: String
     ): Boolean {
         return uuidPlayer.menuPlayer?.isOpenInventory(id) ?: false
     }
@@ -144,7 +155,8 @@ object CreateInventory: Listener {
      * @param inventory インベントリ
      */
     fun isOpenInventory(
-        player: OfflinePlayer, inventory: CustomInventory
+        player: OfflinePlayer,
+        inventory: CustomInventory
     ): Boolean {
         return isOpenInventory(player, inventory.id)
     }
@@ -155,7 +167,8 @@ object CreateInventory: Listener {
      * @param inventory インベントリ
      */
     fun isOpenInventory(
-        uuidPlayer: UUIDPlayer, inventory: CustomInventory
+        uuidPlayer: UUIDPlayer,
+        inventory: CustomInventory
     ): Boolean {
         return isOpenInventory(uuidPlayer, inventory.id)
     }
@@ -182,7 +195,8 @@ object CreateInventory: Listener {
      * @param action プレイヤーに対して実行する処理
      */
     fun runWithId(
-        vararg id: String, action: (Player) -> Unit
+        vararg id: String,
+        action: (Player) -> Unit
     ) {
         menuPlayers.forEach { (uuidPlayer, playerData) ->
             if (playerData.isOpenInventory(id)) {
@@ -199,7 +213,8 @@ object CreateInventory: Listener {
      * @param inventory プレイヤーに開かせるインベントリ
      */
     fun reopen(
-        vararg id: String, inventory: CustomInventory
+        vararg id: String,
+        inventory: CustomInventory
     ) {
         runWithId(*id) {
             inventory.open(it)
@@ -213,7 +228,8 @@ object CreateInventory: Listener {
      * @param action プレイヤーに対して実行する処理
      */
     fun reopen(
-        vararg id: String, action: (Player) -> CustomInventory
+        vararg id: String,
+        action: (Player) -> CustomInventory
     ) {
         runWithId(*id) {
             action(it).open(it)

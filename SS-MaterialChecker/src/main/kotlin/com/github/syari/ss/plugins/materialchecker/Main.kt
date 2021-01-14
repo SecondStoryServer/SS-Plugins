@@ -6,16 +6,18 @@ import com.github.syari.ss.plugins.core.message.JsonBuilder
 import com.github.syari.ss.plugins.core.message.JsonBuilder.Companion.buildJson
 import org.bukkit.entity.Player
 
-class Main: SSPlugin() {
+class Main : SSPlugin() {
     override fun onEnable() {
         command("cmaterial", "MaterialChecker") {
             execute {
                 val player = sender as? Player ?: return@execute sendError("プレイヤーからのみ実行可能です")
                 val item = player.inventory.itemInMainHand
                 val itemTypeName = item.type.name
-                sendWithPrefix(buildJson {
-                    append(itemTypeName, JsonBuilder.Hover.Text("&6コピー"), click = JsonBuilder.Click.Clipboard(itemTypeName))
-                })
+                sendWithPrefix(
+                    buildJson {
+                        append(itemTypeName, JsonBuilder.Hover.Text("&6コピー"), click = JsonBuilder.Click.Clipboard(itemTypeName))
+                    }
+                )
             }
         }
     }

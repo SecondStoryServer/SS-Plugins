@@ -4,7 +4,7 @@ import org.bukkit.Bukkit
 import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
 
-class CommandExecuteArgument(array: Array<out String>): CommandArgument(array) {
+class CommandExecuteArgument(array: Array<out String>) : CommandArgument(array) {
     internal lateinit var executeAction: CommandExecuteAction
 
     /**
@@ -14,7 +14,8 @@ class CommandExecuteArgument(array: Array<out String>): CommandArgument(array) {
      * @return [OfflinePlayer]?
      */
     override fun getOfflinePlayer(
-        index: Int, equalName: Boolean
+        index: Int,
+        equalName: Boolean
     ): OfflinePlayer? {
         val rawPlayer = getOrNull(index) ?: return run {
             executeAction.sendError(ErrorMessage.NotEnterPlayer)
@@ -36,7 +37,8 @@ class CommandExecuteArgument(array: Array<out String>): CommandArgument(array) {
      * @return [Player]?
      */
     override fun getPlayer(
-        index: Int, equalName: Boolean
+        index: Int,
+        equalName: Boolean
     ): Player? {
         val rawPlayer = getOrNull(index) ?: return run {
             executeAction.sendError(ErrorMessage.NotEnterPlayer)

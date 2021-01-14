@@ -12,7 +12,6 @@ internal class ScoreBoardPlayer(val uuidPlayer: UUIDPlayer) {
          */
         internal val UUIDPlayer.scoreBoardPlayer
             get() = playerList.getOrPut(this) { ScoreBoardPlayer(this) }
-
     }
 
     private val boardList = mutableSetOf<CustomScoreBoard>()

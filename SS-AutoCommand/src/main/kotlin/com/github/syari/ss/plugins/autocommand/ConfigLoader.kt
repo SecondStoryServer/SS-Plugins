@@ -15,7 +15,7 @@ import com.github.syari.ss.plugins.core.time.TimeScheduler.scheduleEveryWeekAt
 import org.bukkit.command.CommandSender
 import java.time.DayOfWeek
 
-object ConfigLoader: OnEnable {
+object ConfigLoader : OnEnable {
     override fun onEnable() {
         load(console)
     }

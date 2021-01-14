@@ -33,10 +33,13 @@ class WebDAVUploader(private val url: String, user: String, pass: String) {
 
     fun upload(file: File) {
         plugin.runSchedule(async = true) {
-            val response: HttpResponse<String> = client.send(buildHttpRequest("$url/${file.name}") {
-                header("Authorization", "Basic $authBase64")
-                PUT(HttpRequest.BodyPublishers.ofFile(file.toPath()))
-            }, HttpResponse.BodyHandlers.ofString())
+            val response: HttpResponse<String> = client.send(
+                buildHttpRequest("$url/${file.name}") {
+                    header("Authorization", "Basic $authBase64")
+                    PUT(HttpRequest.BodyPublishers.ofFile(file.toPath()))
+                },
+                HttpResponse.BodyHandlers.ofString()
+            )
             val statusCode = response.statusCode()
             if (statusCode in 200 until 300) {
                 plugin.logger.info("${file.path} をアップロードしました")

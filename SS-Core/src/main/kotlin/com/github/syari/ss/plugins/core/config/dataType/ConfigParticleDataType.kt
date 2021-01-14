@@ -6,11 +6,13 @@ import com.github.syari.ss.plugins.core.particle.CustomParticleList
 import org.bukkit.Material
 import org.bukkit.Particle
 
-object ConfigParticleDataType: ConfigDataType<CustomParticleList> {
+object ConfigParticleDataType : ConfigDataType<CustomParticleList> {
     override val typeName = "CustomParticleList"
 
     override fun get(
-        config: CustomConfig, path: String, notFoundError: Boolean
+        config: CustomConfig,
+        path: String,
+        notFoundError: Boolean
     ): CustomParticleList? {
         val getList = config.get(path, ConfigDataType.STRINGLIST, notFoundError) ?: return null
         return CustomParticleList(config.plugin).apply {

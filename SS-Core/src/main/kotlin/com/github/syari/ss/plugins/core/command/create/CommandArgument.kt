@@ -96,7 +96,8 @@ open class CommandArgument internal constructor(
      * @return [OfflinePlayer]?
      */
     open fun getOfflinePlayer(
-        index: Int, equalName: Boolean
+        index: Int,
+        equalName: Boolean
     ): OfflinePlayer? {
         return getOrNull(index)?.let { rawPlayer ->
             @Suppress("DEPRECATION") val player = getOfflinePlayer(rawPlayer)
@@ -115,7 +116,8 @@ open class CommandArgument internal constructor(
      * @return [Player]?
      */
     open fun getPlayer(
-        index: Int, equalName: Boolean
+        index: Int,
+        equalName: Boolean
     ): Player? {
         return getOrNull(index)?.let { rawPlayer ->
             val player = getPlayer(rawPlayer)

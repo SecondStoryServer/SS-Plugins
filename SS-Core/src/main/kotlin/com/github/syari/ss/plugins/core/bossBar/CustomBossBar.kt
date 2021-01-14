@@ -18,9 +18,12 @@ import org.bukkit.event.player.PlayerQuitEvent
  * @see bossBar
  */
 class CustomBossBar internal constructor(
-    title: String, color: BarColor, style: BarStyle, private val public: Boolean
+    title: String,
+    color: BarColor,
+    style: BarStyle,
+    private val public: Boolean
 ) {
-    companion object: Listener, OnDisable {
+    companion object : Listener, OnDisable {
         private val barList = mutableListOf<CustomBossBar>()
 
         /**
@@ -55,7 +58,10 @@ class CustomBossBar internal constructor(
          * @return [CustomBossBar]
          */
         fun bossBar(
-            title: String, color: BarColor, style: BarStyle, public: Boolean = false
+            title: String,
+            color: BarColor,
+            style: BarStyle,
+            public: Boolean = false
         ) = CustomBossBar(title, color, style, public)
     }
 

@@ -22,7 +22,7 @@ import org.bukkit.Material
 import org.bukkit.command.CommandSender
 import org.bukkit.inventory.ItemStack
 
-object ConfigLoader: OnEnable {
+object ConfigLoader : OnEnable {
     override fun onEnable() {
         load(console)
     }
@@ -107,15 +107,20 @@ object ConfigLoader: OnEnable {
         }
     }
 
-    private val itemTypeMap = mapOf<String, (String, Int) -> ItemStack?>("mc" to { id, amount ->
-        Material.getMaterial(id.toUpperCase())?.let { ItemStack(it, amount) }
-    }, "mm" to { id, amount ->
-        MythicMobsAPI.getItem(id, amount)?.toOneItemStack
-    }, "cs" to { id, amount ->
-        CrackShotAPI.getItem(id, amount)?.toOneItemStack
-    }, "csp" to { id, amount ->
-        CrackShotPlusAPI.getAttachment(id, amount)?.toOneItemStack
-    })
+    private val itemTypeMap = mapOf<String, (String, Int) -> ItemStack?>(
+        "mc" to { id, amount ->
+            Material.getMaterial(id.toUpperCase())?.let { ItemStack(it, amount) }
+        },
+        "mm" to { id, amount ->
+            MythicMobsAPI.getItem(id, amount)?.toOneItemStack
+        },
+        "cs" to { id, amount ->
+            CrackShotAPI.getItem(id, amount)?.toOneItemStack
+        },
+        "csp" to { id, amount ->
+            CrackShotPlusAPI.getAttachment(id, amount)?.toOneItemStack
+        }
+    )
 
     private val itemConverter = ConfigItemConverter.Format(itemTypeMap)
 }

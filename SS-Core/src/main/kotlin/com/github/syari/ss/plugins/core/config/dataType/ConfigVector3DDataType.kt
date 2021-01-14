@@ -4,11 +4,13 @@ import com.github.syari.ss.plugins.core.config.CustomConfig
 import com.github.syari.ss.plugins.core.config.CustomFileConfig
 import com.github.syari.ss.plugins.core.world.Vector3D
 
-object ConfigVector3DDataType: ConfigDataType.WithSet<Vector3D> {
+object ConfigVector3DDataType : ConfigDataType.WithSet<Vector3D> {
     override val typeName = "Vector3D"
 
     override fun get(
-        config: CustomConfig, path: String, notFoundError: Boolean
+        config: CustomConfig,
+        path: String,
+        notFoundError: Boolean
     ): Vector3D? {
         val line = config.get(path, ConfigDataType.STRING, notFoundError) ?: return null
         val split = line.split(",\\s*".toRegex())

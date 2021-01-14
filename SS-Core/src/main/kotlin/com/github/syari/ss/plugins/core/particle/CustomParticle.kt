@@ -12,7 +12,12 @@ import org.bukkit.inventory.ItemStack
  * パーティクルデータ
  */
 sealed class CustomParticle(
-    type: Particle, count: Int, speed: Double, offsetX: Double, offsetY: Double, offsetZ: Double
+    type: Particle,
+    count: Int,
+    speed: Double,
+    offsetX: Double,
+    offsetY: Double,
+    offsetZ: Double
 ) {
     /**
      * @see ParticleBuilder
@@ -55,8 +60,13 @@ sealed class CustomParticle(
      * @param offsetZ Zのずれ default: 0.0
      */
     class Normal(
-        type: Particle, count: Int, speed: Double, offsetX: Double = 0.0, offsetY: Double = 0.0, offsetZ: Double = 0.0
-    ): CustomParticle(type, count, speed, offsetX, offsetY, offsetZ)
+        type: Particle,
+        count: Int,
+        speed: Double,
+        offsetX: Double = 0.0,
+        offsetY: Double = 0.0,
+        offsetZ: Double = 0.0
+    ) : CustomParticle(type, count, speed, offsetX, offsetY, offsetZ)
 
     /**
      * アイテムクラック
@@ -68,8 +78,13 @@ sealed class CustomParticle(
      * @param offsetZ Zのずれ default: 0.0
      */
     class ItemCrack(
-        material: Material, count: Int, speed: Double, offsetX: Double = 0.0, offsetY: Double = 0.0, offsetZ: Double = 0.0
-    ): CustomParticle(Particle.ITEM_CRACK, count, speed, offsetX, offsetY, offsetZ) {
+        material: Material,
+        count: Int,
+        speed: Double,
+        offsetX: Double = 0.0,
+        offsetY: Double = 0.0,
+        offsetZ: Double = 0.0
+    ) : CustomParticle(Particle.ITEM_CRACK, count, speed, offsetX, offsetY, offsetZ) {
         init {
             builder.data(ItemStack(material))
         }
@@ -85,8 +100,13 @@ sealed class CustomParticle(
      * @param offsetZ Zのずれ default: 0.0
      */
     class BlockCrack(
-        material: Material, count: Int, speed: Double, offsetX: Double = 0.0, offsetY: Double = 0.0, offsetZ: Double = 0.0
-    ): CustomParticle(Particle.BLOCK_CRACK, count, speed, offsetX, offsetY, offsetZ) {
+        material: Material,
+        count: Int,
+        speed: Double,
+        offsetX: Double = 0.0,
+        offsetY: Double = 0.0,
+        offsetZ: Double = 0.0
+    ) : CustomParticle(Particle.BLOCK_CRACK, count, speed, offsetX, offsetY, offsetZ) {
         init {
             builder.data(material.createBlockData())
         }
@@ -102,8 +122,13 @@ sealed class CustomParticle(
      * @param offsetZ Zのずれ default: 0.0
      */
     class BlockDust(
-        material: Material, count: Int, speed: Double, offsetX: Double = 0.0, offsetY: Double = 0.0, offsetZ: Double = 0.0
-    ): CustomParticle(Particle.BLOCK_DUST, count, speed, offsetX, offsetY, offsetZ) {
+        material: Material,
+        count: Int,
+        speed: Double,
+        offsetX: Double = 0.0,
+        offsetY: Double = 0.0,
+        offsetZ: Double = 0.0
+    ) : CustomParticle(Particle.BLOCK_DUST, count, speed, offsetX, offsetY, offsetZ) {
         init {
             builder.data(material.createBlockData())
         }
@@ -119,8 +144,13 @@ sealed class CustomParticle(
      * @param offsetZ Zのずれ default: 0.0
      */
     class FallingDust(
-        material: Material, count: Int, speed: Double, offsetX: Double = 0.0, offsetY: Double = 0.0, offsetZ: Double = 0.0
-    ): CustomParticle(Particle.FALLING_DUST, count, speed, offsetX, offsetY, offsetZ) {
+        material: Material,
+        count: Int,
+        speed: Double,
+        offsetX: Double = 0.0,
+        offsetY: Double = 0.0,
+        offsetZ: Double = 0.0
+    ) : CustomParticle(Particle.FALLING_DUST, count, speed, offsetX, offsetY, offsetZ) {
         init {
             builder.data(material.createBlockData())
         }
@@ -136,8 +166,13 @@ sealed class CustomParticle(
      * @param offsetZ Zのずれ default: 0.0
      */
     class RedStone(
-        color: Color, count: Int, speed: Double, offsetX: Double = 0.0, offsetY: Double = 0.0, offsetZ: Double = 0.0
-    ): CustomParticle(Particle.REDSTONE, count, speed, offsetX, offsetY, offsetZ) {
+        color: Color,
+        count: Int,
+        speed: Double,
+        offsetX: Double = 0.0,
+        offsetY: Double = 0.0,
+        offsetZ: Double = 0.0
+    ) : CustomParticle(Particle.REDSTONE, count, speed, offsetX, offsetY, offsetZ) {
         init {
             builder.color(color)
         }
@@ -154,8 +189,15 @@ sealed class CustomParticle(
          * @param offsetZ Zのずれ default: 0.0
          */
         constructor(
-            red: Int, green: Int, blue: Int, count: Int, speed: Double, offsetX: Double = 0.0, offsetY: Double = 0.0, offsetZ: Double = 0.0
-        ): this(
+            red: Int,
+            green: Int,
+            blue: Int,
+            count: Int,
+            speed: Double,
+            offsetX: Double = 0.0,
+            offsetY: Double = 0.0,
+            offsetZ: Double = 0.0
+        ) : this(
             Color.fromRGB(convertColor(red), convertColor(green), convertColor(blue)), count, speed, offsetX, offsetY, offsetZ
         )
 
@@ -188,7 +230,11 @@ sealed class CustomParticle(
              * @return [RedStone]
              */
             fun random(
-                count: Int, speed: Double, offsetX: Double = 0.0, offsetY: Double = 0.0, offsetZ: Double = 0.0
+                count: Int,
+                speed: Double,
+                offsetX: Double = 0.0,
+                offsetY: Double = 0.0,
+                offsetZ: Double = 0.0
             ): RedStone {
                 return RedStone(randomColor, randomColor, randomColor, count, speed, offsetX, offsetY, offsetZ)
             }

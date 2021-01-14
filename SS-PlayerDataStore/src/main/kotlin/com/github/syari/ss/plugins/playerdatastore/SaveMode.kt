@@ -16,11 +16,13 @@ enum class SaveMode(val condition: (Player) -> Boolean) {
         }
     }
 
-    object ConfigDataType: IConfigDataType.WithSet<SaveMode> {
+    object ConfigDataType : IConfigDataType.WithSet<SaveMode> {
         override val typeName = "SaveMode"
 
         override fun get(
-            config: CustomConfig, path: String, notFoundError: Boolean
+            config: CustomConfig,
+            path: String,
+            notFoundError: Boolean
         ): SaveMode? {
             return config.get(path, IConfigDataType.STRING, notFoundError)?.let(Companion::get)
         }

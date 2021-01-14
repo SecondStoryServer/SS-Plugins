@@ -7,7 +7,7 @@ import org.bukkit.Location
 import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
 
-object MobArenaManager: OnDisable {
+object MobArenaManager : OnDisable {
     override fun onDisable() {
         endAllArena()
     }

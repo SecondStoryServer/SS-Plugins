@@ -12,7 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin
 import java.time.DayOfWeek
 import java.time.LocalDateTime
 
-object TimeScheduler: OnEnable, Listener {
+object TimeScheduler : OnEnable, Listener {
     class TimeSchedules {
         val everyWeekScheduler = mutableMapOf<ScheduleTimeEveryWeek, MutableSet<() -> Unit>>()
         val everyDayScheduler = mutableMapOf<ScheduleTimeEveryDay, MutableSet<() -> Unit>>()
@@ -31,7 +31,10 @@ object TimeScheduler: OnEnable, Listener {
      * @param action その時間に実行する処理
      */
     fun JavaPlugin.scheduleEveryWeekAt(
-        dayOfWeek: DayOfWeek, hour: Int, minute: Int, action: () -> Unit
+        dayOfWeek: DayOfWeek,
+        hour: Int,
+        minute: Int,
+        action: () -> Unit
     ) {
         schedules().everyWeekScheduler.getOrPut(ScheduleTimeEveryWeek.create(dayOfWeek, hour, minute), ::mutableSetOf).add(action)
     }
@@ -43,7 +46,9 @@ object TimeScheduler: OnEnable, Listener {
      * @param action その時間に実行する処理
      */
     fun JavaPlugin.scheduleEveryDayAt(
-        hour: Int, minute: Int, action: () -> Unit
+        hour: Int,
+        minute: Int,
+        action: () -> Unit
     ) {
         schedules().everyDayScheduler.getOrPut(ScheduleTimeEveryDay.create(hour, minute), ::mutableSetOf).add(action)
     }
@@ -54,7 +59,8 @@ object TimeScheduler: OnEnable, Listener {
      * @param action その時間に実行する処理
      */
     fun JavaPlugin.scheduleEveryHourAt(
-        minute: Int, action: () -> Unit
+        minute: Int,
+        action: () -> Unit
     ) {
         schedules().everyHourScheduler.getOrPut(ScheduleTimeEveryHour.create(minute), ::mutableSetOf).add(action)
     }
@@ -73,7 +79,8 @@ object TimeScheduler: OnEnable, Listener {
      * @return [String]
      */
     fun getFormatTime(
-        hour: Int, minute: Int
+        hour: Int,
+        minute: Int
     ): String {
         return "${String.format("%02d", hour)}:${String.format("%02d", minute)}"
     }

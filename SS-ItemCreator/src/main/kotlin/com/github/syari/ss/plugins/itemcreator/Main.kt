@@ -12,7 +12,7 @@ import com.github.syari.ss.plugins.core.message.Message.send
 import org.bukkit.Material
 import org.bukkit.entity.Player
 
-class Main: SSPlugin() {
+class Main : SSPlugin() {
     override fun onEnable() {
         fun String.replaceSpace() = replace("<sp>", " ")
 
@@ -101,11 +101,13 @@ class Main: SSPlugin() {
                     "base64" -> {
                         val base64 = Base64Item.toBase64(itemStack) ?: return@execute sendError("Base64の取得に失敗しました")
                         val displayName = item.itemMeta?.displayName?.ifBlank { null } ?: item.i18NDisplayName ?: item.type.name
-                        sendWithPrefix(buildJson {
-                            append(displayName, JsonBuilder.Hover.Item(item))
-                            append("  ")
-                            append("&b[Base64]", JsonBuilder.Hover.Text("&6コピー"), JsonBuilder.Click.Clipboard(base64))
-                        })
+                        sendWithPrefix(
+                            buildJson {
+                                append(displayName, JsonBuilder.Hover.Item(item))
+                                append("  ")
+                                append("&b[Base64]", JsonBuilder.Hover.Text("&6コピー"), JsonBuilder.Click.Clipboard(base64))
+                            }
+                        )
                     }
                     else -> {
                         sendHelp(

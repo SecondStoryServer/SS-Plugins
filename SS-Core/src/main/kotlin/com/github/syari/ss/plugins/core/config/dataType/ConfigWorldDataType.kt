@@ -5,11 +5,13 @@ import com.github.syari.ss.plugins.core.config.CustomFileConfig
 import org.bukkit.Bukkit
 import org.bukkit.World
 
-object ConfigWorldDataType: ConfigDataType.WithSet<World> {
+object ConfigWorldDataType : ConfigDataType.WithSet<World> {
     override val typeName = "World"
 
     override fun get(
-        config: CustomConfig, path: String, notFoundError: Boolean
+        config: CustomConfig,
+        path: String,
+        notFoundError: Boolean
     ): World? {
         val getValue = config.get(path, ConfigDataType.STRING, notFoundError) ?: return null
         return Bukkit.getWorld(getValue)

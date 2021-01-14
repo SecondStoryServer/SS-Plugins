@@ -15,7 +15,9 @@ interface CustomConfig {
      * @return [T]?
      */
     fun <T> getUnsafe(
-        path: String, typeName: String, notFoundError: Boolean
+        path: String,
+        typeName: String,
+        notFoundError: Boolean
     ): T? {
         if (config.contains(path)) {
             val getValue = config.get(path)
@@ -38,7 +40,9 @@ interface CustomConfig {
      */
     @OptIn(ExperimentalStdlibApi::class)
     fun <T> getListUnsafe(
-        path: String, typeName: String, notFoundError: Boolean = true
+        path: String,
+        typeName: String,
+        notFoundError: Boolean = true
     ): List<T>? {
         return buildList {
             if (config.isList(path)) {
@@ -63,7 +67,9 @@ interface CustomConfig {
      * @param notFoundError 存在しないデータの場合にエラーを出す default: true
      */
     fun <T> get(
-        path: String, type: ConfigDataType<T>, notFoundError: Boolean = true
+        path: String,
+        type: ConfigDataType<T>,
+        notFoundError: Boolean = true
     ): T? {
         return type.get(this, path, notFoundError)
     }
@@ -75,7 +81,10 @@ interface CustomConfig {
      * @param notFoundError 存在しないデータの場合にエラーを出す default: true
      */
     fun <T> get(
-        path: String, type: ConfigDataType<T>, default: T, notFoundError: Boolean = true
+        path: String,
+        type: ConfigDataType<T>,
+        default: T,
+        notFoundError: Boolean = true
     ): T {
         return get(path, type, notFoundError) ?: default
     }
@@ -86,7 +95,8 @@ interface CustomConfig {
      * @param notFoundError 存在しないデータの場合にエラーを出す default: true
      */
     fun section(
-        path: String, notFoundError: Boolean = true
+        path: String,
+        notFoundError: Boolean = true
     ): Set<String>? {
         val section = config.getConfigurationSection(path)?.getKeys(false)
         return section.apply { if (section == null && notFoundError) notFoundError(path) }
@@ -104,7 +114,8 @@ interface CustomConfig {
      * @param message 本文
      */
     fun sendError(
-        path: String, message: String
+        path: String,
+        message: String
     )
 
     /**
@@ -115,7 +126,8 @@ interface CustomConfig {
      * @param thing データ名
      */
     fun nullError(
-        path: String, thing: String
+        path: String,
+        thing: String
     ) {
         sendError(path, "$thing が null です")
     }
@@ -138,7 +150,8 @@ interface CustomConfig {
      * @param typeName データタイプ
      */
     fun typeMismatchError(
-        path: String, typeName: String
+        path: String,
+        typeName: String
     ) {
         sendError(path, "データタイプが $typeName ではありませんでした")
     }
