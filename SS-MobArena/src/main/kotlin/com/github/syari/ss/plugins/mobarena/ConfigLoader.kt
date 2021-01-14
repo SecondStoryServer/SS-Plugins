@@ -4,8 +4,11 @@ import com.github.syari.ss.plugins.core.Main.Companion.console
 import com.github.syari.ss.plugins.core.code.OnEnable
 import com.github.syari.ss.plugins.core.config.CreateConfig.configDir
 import com.github.syari.ss.plugins.core.config.dataType.ConfigDataType
+import com.github.syari.ss.plugins.core.config.dataType.ConfigItemConverter
+import com.github.syari.ss.plugins.dependency.crackshot.CrackShotAPI
+import com.github.syari.ss.plugins.dependency.crackshotplus.CrackShotPlusAPI
+import com.github.syari.ss.plugins.dependency.mythicmobs.MythicMobsAPI
 import com.github.syari.ss.plugins.mobarena.Main.Companion.plugin
-import com.github.syari.ss.plugins.mobarena.api.ItemFromConfig
 import com.github.syari.ss.plugins.mobarena.data.MobArenaManager
 import com.github.syari.ss.plugins.mobarena.data.arena.Area
 import com.github.syari.ss.plugins.mobarena.data.arena.MobArena
@@ -15,6 +18,7 @@ import com.github.syari.ss.plugins.mobarena.data.wave.boss.MobArenaBoss
 import com.github.syari.ss.plugins.mobarena.data.wave.boss.MobArenaMythicMobsBoss
 import com.github.syari.ss.plugins.mobarena.data.wave.mob.MobArenaMob
 import com.github.syari.ss.plugins.mobarena.data.wave.mob.MobArenaMythicMobsMob
+import org.bukkit.Material
 import org.bukkit.command.CommandSender
 import org.bukkit.inventory.ItemStack
 
@@ -73,9 +77,7 @@ object ConfigLoader: OnEnable {
                         boss = get("wave.$wave.boss", ConfigDataType.STRING, false)?.let {
                             MobArenaMythicMobsBoss(it)
                         }
-                        upgradeItem = get("wave.$wave.upgrade", ConfigDataType.STRINGLIST, listOf(), false).mapNotNull {
-                            ItemFromConfig.get(it) ?: return@mapNotNull nullError("wave.$wave.upgrade.$it", "ItemStack").run { null }
-                        }
+                        upgradeItem = get("wave.$wave.upgrade", ConfigDataType.ITEMS(itemConverter), listOf(), false)
                         lastWave = wave
                     }
                     waveList.add(MobArenaWave(arena, lastWave..lastWave, mobAmount, true, mobs, boss, upgradeItem))
@@ -98,16 +100,21 @@ object ConfigLoader: OnEnable {
         plugin.configDir(sender, "Kit") {
             val id = fileNameWithoutExtension
             val name = get("name", ConfigDataType.STRING, id)
-            val items = buildMap<Int, ItemStack> {
-                section("items")?.forEach {
-                    val slotNumber = it.toIntOrNull() ?: return@forEach typeMismatchError("items.$it", "Int")
-                    val line = get("items.$it", ConfigDataType.STRING) ?: return@forEach nullError("items.$it", "String")
-                    val item = ItemFromConfig.get(line) ?: return@forEach nullError("items.$it", "ItemStack")
-                    this[slotNumber] = item
-                }
-            }
+            val items = get("items", ConfigDataType.INVENTORY(itemConverter), mapOf())
             kits.add(MobArenaKit(id, name, items))
         }
         MobArenaKit.kits = kits.associateBy(MobArenaKit::id)
     }
+
+    private val itemTypeMap = mapOf<String, (String, Int) -> ItemStack?>("mc" to { id, amount ->
+        Material.getMaterial(id.toUpperCase())?.let { ItemStack(it, amount) }
+    }, "mm" to { id, amount ->
+        MythicMobsAPI.getItem(id, amount)?.toOneItemStack
+    }, "cs" to { id, amount ->
+        CrackShotAPI.getItem(id, amount)?.toOneItemStack
+    }, "csp" to { id, amount ->
+        CrackShotPlusAPI.getAttachment(id, amount)?.toOneItemStack
+    })
+
+    private val itemConverter = ConfigItemConverter.Format(itemTypeMap)
 }
