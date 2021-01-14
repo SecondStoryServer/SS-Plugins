@@ -14,7 +14,7 @@ interface ConfigDataType<T> {
     val typeName: String
 
     /**
-     * @param config [CustomFileConfig]
+     * @param config [CustomConfig]
      * @param path コンフィグパス
      * @param notFoundError 存在しないデータの場合にエラーを出す
      */
@@ -32,6 +32,17 @@ interface ConfigDataType<T> {
         config: CustomConfig, path: String, notFoundError: Boolean, default: T
     ): T {
         return get(config, path, notFoundError) ?: default
+    }
+
+    interface WithSet<T>: ConfigDataType<T> {
+        /**
+         * @param config [CustomFileConfig]
+         * @param path コンフィグパス
+         * @param value 設定する値
+         */
+        fun set(
+            config: CustomFileConfig, path: String, value: T?
+        )
     }
 
     companion object {
@@ -54,7 +65,5 @@ interface ConfigDataType<T> {
         val POTION = ConfigPotionDataType
         val SOUND = ConfigSoundDataType
         val MYSQL = ConfigMySQLDataType
-        val SQLITE = ConfigSQLiteDataType
-        val DATABASE = ConfigDatabaseDataType
     }
 }

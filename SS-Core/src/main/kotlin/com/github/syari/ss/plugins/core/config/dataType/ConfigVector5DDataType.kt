@@ -1,9 +1,10 @@
 package com.github.syari.ss.plugins.core.config.dataType
 
 import com.github.syari.ss.plugins.core.config.CustomConfig
+import com.github.syari.ss.plugins.core.config.CustomFileConfig
 import com.github.syari.ss.plugins.core.world.Vector5D
 
-object ConfigVector5DDataType: ConfigDataType<Vector5D> {
+object ConfigVector5DDataType: ConfigDataType.WithSet<Vector5D> {
     override val typeName = "Vector5D"
 
     override fun get(
@@ -33,11 +34,17 @@ object ConfigVector5DDataType: ConfigDataType<Vector5D> {
         }
     }
 
-    fun toString(vector5D: Vector5D): String {
-        return if (vector5D.yaw == 0F && vector5D.pitch == 0F) {
-            "${vector5D.x}, ${vector5D.y}, ${vector5D.z}"
+    override fun set(config: CustomFileConfig, path: String, value: Vector5D?) {
+        if (value != null) {
+            config.set(
+                path, ConfigDataType.STRING, if (value.yaw == 0F && value.pitch == 0F) {
+                    "${value.x}, ${value.y}, ${value.z}"
+                } else {
+                    "${value.x}, ${value.y}, ${value.z}, ${value.yaw}, ${value.pitch}"
+                }
+            )
         } else {
-            "${vector5D.x}, ${vector5D.y}, ${vector5D.z}, ${vector5D.yaw}, ${vector5D.pitch}"
+            config.setUnsafe(path, null)
         }
     }
 }
