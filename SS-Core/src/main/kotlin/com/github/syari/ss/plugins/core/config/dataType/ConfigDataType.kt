@@ -46,6 +46,7 @@ interface ConfigDataType<T> {
         val LOCATION = ConfigLocationDataType
         val VECTOR3D = ConfigVector3DDataType
         val VECTOR5D = ConfigVector3DDataType
+        val WORLD = ConfigWorldDataType
         val MATERIAL = ConfigMaterialDataType
         val PARTICLE = ConfigParticleDataType
         val POTION = ConfigPotionDataType
