@@ -48,6 +48,8 @@ interface ConfigDataType<T> {
         val VECTOR5D = ConfigVector3DDataType
         val WORLD = ConfigWorldDataType
         val MATERIAL = ConfigMaterialDataType
+        fun ITEMS(itemConverter: ConfigItemConverter) = ConfigItemsDataType(itemConverter)
+        fun INVENTORY(itemConverter: ConfigItemConverter) = ConfigInventoryDataType(itemConverter)
         val PARTICLE = ConfigParticleDataType
         val POTION = ConfigPotionDataType
         val SOUND = ConfigSoundDataType
