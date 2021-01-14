@@ -3,11 +3,11 @@ package com.github.syari.ss.plugins.playerdatastore
 import com.github.syari.ss.plugins.core.Main.Companion.console
 import com.github.syari.ss.plugins.core.config.CreateConfig.config
 import com.github.syari.ss.plugins.core.config.dataType.ConfigDataType
+import com.github.syari.ss.plugins.core.config.dataType.ConfigItemConverter
 import com.github.syari.ss.plugins.core.item.Base64Item
 import com.github.syari.ss.plugins.playerdatastore.Main.Companion.plugin
 import org.bukkit.Material
 import org.bukkit.entity.Player
-import org.bukkit.inventory.ItemStack
 
 class PlayerData(private val player: Player) {
     companion object {
@@ -24,14 +24,7 @@ class PlayerData(private val player: Player) {
 
     @OptIn(ExperimentalStdlibApi::class)
     private val inventory
-        get() = buildMap<Int, ItemStack> {
-            config.section("inventory", false)?.forEach {
-                val slot = it.toIntOrNull() ?: return@forEach
-                val line = config.get("inventory.$it", ConfigDataType.STRING) ?: return@forEach
-                val item = line.let(Base64Item::fromBase64) ?: return@forEach
-                this[slot] = item
-            }
-        }
+        get() = config.get("inventory", ConfigDataType.INVENTORY(ConfigItemConverter.Base64), false)
 
     private val location
         get() = config.get("location", ConfigDataType.LOCATION, false)
@@ -42,7 +35,7 @@ class PlayerData(private val player: Player) {
 
     fun load() {
         if (isEnableInventory) {
-            inventory.forEach { (slot, item) ->
+            inventory?.forEach { (slot, item) ->
                 player.inventory.setItem(slot, item)
             }
         }
