@@ -1,9 +1,10 @@
 package com.github.syari.ss.plugins.core.config.dataType
 
 import com.github.syari.ss.plugins.core.config.CustomConfig
+import com.github.syari.ss.plugins.core.config.CustomFileConfig
 import com.github.syari.ss.plugins.core.world.Vector3D
 
-object ConfigVector3DDataType: ConfigDataType<Vector3D> {
+object ConfigVector3DDataType: ConfigDataType.WithSet<Vector3D> {
     override val typeName = "Vector3D"
 
     override fun get(
@@ -30,7 +31,11 @@ object ConfigVector3DDataType: ConfigDataType<Vector3D> {
         }
     }
 
-    fun toString(vector3D: Vector3D): String {
-        return "${vector3D.x}, ${vector3D.y}, ${vector3D.z}"
+    override fun set(config: CustomFileConfig, path: String, value: Vector3D?) {
+        if (value != null) {
+            config.set(path, ConfigDataType.STRING, "${value.x}, ${value.y}, ${value.z}")
+        } else {
+            config.setUnsafe(path, null)
+        }
     }
 }

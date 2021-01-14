@@ -48,18 +48,18 @@ class PlayerData(private val player: Player) {
         if (isEnableInventory) {
             player.inventory.contents.forEachIndexed { slot, item ->
                 if (item != null && item.type != Material.AIR) {
-                    config.set("inventory.$slot", Base64Item.toBase64(item))
+                    config.setUnsafe("inventory.$slot", Base64Item.toBase64(item))
                 } else {
-                    config.set("inventory.$slot", null)
+                    config.setUnsafe("inventory.$slot", null)
                 }
             }
         } else {
-            config.set("inventory", null)
+            config.setUnsafe("inventory", null)
         }
         if (isEnableLocation) {
-            config.set("location", ConfigDataType.LOCATION.toString(player.location))
+            config.set("location", ConfigDataType.LOCATION, player.location)
         } else {
-            config.set("location", null)
+            config.setUnsafe("location", null)
         }
         config.save()
     }

@@ -1,5 +1,6 @@
 package com.github.syari.ss.plugins.core.config
 
+import com.github.syari.ss.plugins.core.config.dataType.ConfigDataType
 import com.github.syari.ss.plugins.core.message.Message.send
 import org.bukkit.command.CommandSender
 import org.bukkit.configuration.file.YamlConfiguration
@@ -42,7 +43,7 @@ class CustomFileConfig internal constructor(
         config = YamlConfiguration.loadConfiguration(file)
         if (writeDefault && default.isNotEmpty()) {
             default.forEach { (key, value) ->
-                set(key, value)
+                setUnsafe(key, value)
             }
             save()
         }
@@ -58,10 +59,22 @@ class CustomFileConfig internal constructor(
      * @param value 上書きする値
      * @param save 上書き後に保存する default: false
      */
-    fun set(
+    fun setUnsafe(
         path: String, value: Any?, save: Boolean = false
     ) {
         config.set(path, value)
+        if (save) save()
+    }
+
+    /**
+     * @param path コンフィグパス
+     * @param value 上書きする値
+     * @param save 上書き後に保存する default: false
+     */
+    fun <T> set(
+        path: String, type: ConfigDataType.WithSet<T>, value: T?, save: Boolean = false
+    ) {
+        type.set(this, path, value)
         if (save) save()
     }
 

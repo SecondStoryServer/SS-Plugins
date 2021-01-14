@@ -1,10 +1,11 @@
 package com.github.syari.ss.plugins.core.config.dataType
 
 import com.github.syari.ss.plugins.core.config.CustomConfig
+import com.github.syari.ss.plugins.core.config.CustomFileConfig
 import org.bukkit.Bukkit
 import org.bukkit.Location
 
-object ConfigLocationDataType: ConfigDataType<Location> {
+object ConfigLocationDataType: ConfigDataType.WithSet<Location> {
     override val typeName = "Location"
 
     override fun get(
@@ -39,11 +40,17 @@ object ConfigLocationDataType: ConfigDataType<Location> {
         }
     }
 
-    fun toString(location: Location): String {
-        return if (location.yaw == 0F && location.pitch == 0F) {
-            "${location.world.name}, ${location.x}, ${location.y}, ${location.z}"
+    override fun set(config: CustomFileConfig, path: String, value: Location?) {
+        if (value != null) {
+            config.set(
+                path, ConfigDataType.STRING, if (value.yaw == 0F && value.pitch == 0F) {
+                    "${value.world.name}, ${value.x}, ${value.y}, ${value.z}"
+                } else {
+                    "${value.world.name}, ${value.x}, ${value.y}, ${value.z}, ${value.yaw}, ${value.pitch}"
+                }
+            )
         } else {
-            "${location.world.name}, ${location.x}, ${location.y}, ${location.z}, ${location.yaw}, ${location.pitch}"
+            config.setUnsafe(path, null)
         }
     }
 }
