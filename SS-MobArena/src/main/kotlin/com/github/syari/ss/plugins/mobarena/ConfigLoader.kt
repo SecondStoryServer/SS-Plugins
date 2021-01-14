@@ -22,7 +22,7 @@ import org.bukkit.Material
 import org.bukkit.command.CommandSender
 import org.bukkit.inventory.ItemStack
 
-object ConfigLoader: OnEnable {
+object ConfigLoader : OnEnable {
     override fun onEnable() {
         load(console)
     }
@@ -32,6 +32,7 @@ object ConfigLoader: OnEnable {
         loadKit(sender)
     }
 
+    @OptIn(ExperimentalStdlibApi::class)
     private fun loadArena(sender: CommandSender) {
         val arenas = mutableListOf<MobArena>()
         plugin.configDir(sender, "MobArena") {
@@ -54,34 +55,34 @@ object ConfigLoader: OnEnable {
             }?.toMutableList()
             if (waves != null) {
                 waves.sort()
-                val waveList = mutableListOf<MobArenaWave>()
                 if (waves.first() == 1) {
                     var lastWave = 1
-                    var stop = false
-                    var mobAmount = 5
-                    var mobs = listOf<MobArenaMob>()
-                    var boss: MobArenaBoss? = null
-                    var upgradeItem = listOf<ItemStack>()
-                    waves.forEach { wave ->
-                        if (wave != 1) waveList.add(
-                            MobArenaWave(
-                                arena, lastWave until wave, mobAmount, stop, mobs, boss, upgradeItem
+                    arena.waveList = buildList {
+                        var stop = false
+                        var mobAmount = 5
+                        var mobs = listOf<MobArenaMob>()
+                        var boss: MobArenaBoss? = null
+                        var upgradeItem = listOf<ItemStack>()
+                        waves.forEach { wave ->
+                            if (wave != 1) add(
+                                MobArenaWave(
+                                    arena, lastWave until wave, mobAmount, stop, mobs, boss, upgradeItem
+                                )
                             )
-                        )
-                        stop = get("wave.$wave.stop", ConfigDataType.BOOLEAN, false, notFoundError = false)
-                        mobAmount = get("wave.$wave.mob.amount", ConfigDataType.INT, mobAmount, false)
-                        mobs = section("wave.$wave.mob.list", false)?.map {
-                            val priority = get("wave.$wave.mob.list.$it", ConfigDataType.INT, 1)
-                            MobArenaMythicMobsMob(it, priority)
-                        } ?: mobs
-                        boss = get("wave.$wave.boss", ConfigDataType.STRING, false)?.let {
-                            MobArenaMythicMobsBoss(it)
+                            stop = get("wave.$wave.stop", ConfigDataType.BOOLEAN, false, notFoundError = false)
+                            mobAmount = get("wave.$wave.mob.amount", ConfigDataType.INT, mobAmount, false)
+                            mobs = section("wave.$wave.mob.list", false)?.map {
+                                val priority = get("wave.$wave.mob.list.$it", ConfigDataType.INT, 1)
+                                MobArenaMythicMobsMob(it, priority)
+                            } ?: mobs
+                            boss = get("wave.$wave.boss", ConfigDataType.STRING, false)?.let {
+                                MobArenaMythicMobsBoss(it)
+                            }
+                            upgradeItem = get("wave.$wave.upgrade", ConfigDataType.ITEMS(itemConverter), listOf(), false)
+                            lastWave = wave
                         }
-                        upgradeItem = get("wave.$wave.upgrade", ConfigDataType.ITEMS(itemConverter), listOf(), false)
-                        lastWave = wave
+                        add(MobArenaWave(arena, lastWave..lastWave, mobAmount, true, mobs, boss, upgradeItem))
                     }
-                    waveList.add(MobArenaWave(arena, lastWave..lastWave, mobAmount, true, mobs, boss, upgradeItem))
-                    arena.waveList = waveList
                     arena.lastWave = lastWave
                 } else {
                     sendError("", "Wave 1 is not defined")
@@ -96,25 +97,30 @@ object ConfigLoader: OnEnable {
 
     @OptIn(ExperimentalStdlibApi::class)
     private fun loadKit(sender: CommandSender) {
-        val kits = mutableListOf<MobArenaKit>()
-        plugin.configDir(sender, "Kit") {
-            val id = fileNameWithoutExtension
-            val name = get("name", ConfigDataType.STRING, id)
-            val items = get("items", ConfigDataType.INVENTORY(itemConverter), mapOf())
-            kits.add(MobArenaKit(id, name, items))
+        MobArenaKit.kits = buildMap {
+            plugin.configDir(sender, "Kit") {
+                val id = fileNameWithoutExtension
+                val name = get("name", ConfigDataType.STRING, id)
+                val items = get("items", ConfigDataType.INVENTORY(itemConverter), mapOf())
+                put(id, MobArenaKit(id, name, items))
+            }
         }
-        MobArenaKit.kits = kits.associateBy(MobArenaKit::id)
     }
 
-    private val itemTypeMap = mapOf<String, (String, Int) -> ItemStack?>("mc" to { id, amount ->
-        Material.getMaterial(id.toUpperCase())?.let { ItemStack(it, amount) }
-    }, "mm" to { id, amount ->
-        MythicMobsAPI.getItem(id, amount)?.toOneItemStack
-    }, "cs" to { id, amount ->
-        CrackShotAPI.getItem(id, amount)?.toOneItemStack
-    }, "csp" to { id, amount ->
-        CrackShotPlusAPI.getAttachment(id, amount)?.toOneItemStack
-    })
+    private val itemTypeMap = mapOf<String, (String, Int) -> ItemStack?>(
+        "mc" to { id, amount ->
+            Material.getMaterial(id.toUpperCase())?.let { ItemStack(it, amount) }
+        },
+        "mm" to { id, amount ->
+            MythicMobsAPI.getItem(id, amount)?.toOneItemStack
+        },
+        "cs" to { id, amount ->
+            CrackShotAPI.getItem(id, amount)?.toOneItemStack
+        },
+        "csp" to { id, amount ->
+            CrackShotPlusAPI.getAttachment(id, amount)?.toOneItemStack
+        }
+    )
 
     private val itemConverter = ConfigItemConverter.Format(itemTypeMap)
 }

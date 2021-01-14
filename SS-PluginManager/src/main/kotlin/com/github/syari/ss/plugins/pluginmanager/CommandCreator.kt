@@ -8,7 +8,7 @@ import org.bukkit.plugin.PluginDescriptionFile
 import java.io.File
 import java.util.jar.JarFile
 
-object CommandCreator: OnEnable {
+object CommandCreator : OnEnable {
     override fun onEnable() {
         val pluginsFolder = plugin.dataFolder.parentFile
         val pluginManager = plugin.server.pluginManager
@@ -26,9 +26,9 @@ object CommandCreator: OnEnable {
                         val pluginName = args.getOrNull(1) ?: return@execute sendError("プラグイン名を入力してください")
                         if (pluginManager.getPlugin(pluginName) != null) return@execute sendError("読み込まれているプラグインです")
                         val file = pluginsFolder.getPluginJar(pluginName) ?: return@execute sendError("プラグインが見つかりませんでした")
-                        sendWithPrefix("&6${pluginName} &fを読み込みます")
+                        sendWithPrefix("&6$pluginName &fを読み込みます")
                         pluginManager.loadPlugin(file)
-                        sendWithPrefix("&6${pluginName} &fを読み込みました")
+                        sendWithPrefix("&6$pluginName &fを読み込みました")
                     }
                     "enable" -> {
                         val pluginName = args.getOrNull(1) ?: return@execute sendError("プラグイン名を入力してください")

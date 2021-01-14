@@ -50,7 +50,7 @@ class MobArena(
         val arenaPlayer = getPlayer(it)
         """
             &e&m------------------------
-            &a&lウェーブ &7≫ &e${wave}
+            &a&lウェーブ &7≫ &e$wave
             
             &a&l残り人数 &7≫ &e${livingPlayers.count()}人
             
@@ -225,7 +225,7 @@ class MobArena(
             }
             players.clear()
         } else {
-            broadcast("&b[MobArena] &a${name}&fのゲームが終わりました &a/ma-debug j $id &fで始めましょう")
+            broadcast("&b[MobArena] &a$name&fのゲームが終わりました &a/ma-debug j $id &fで始めましょう")
             updateAllBoard()
         }
         wave = 0
@@ -244,9 +244,9 @@ class MobArena(
     private fun clearGame() {
         broadcast(
             """
-            &b[MobArena] &fモブアリーナ&a${name}&fがクリアされました！！
+            &b[MobArena] &fモブアリーナ&a$name&fがクリアされました！！
             &fクリア者: &a${livingPlayers.joinToString(", ") { it.player.displayName }}
-        """.trimIndent()
+            """.trimIndent()
         )
         plugin.runLater(10 * 20) {
             livingPlayers.forEach {

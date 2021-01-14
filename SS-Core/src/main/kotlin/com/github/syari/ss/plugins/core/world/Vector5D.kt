@@ -4,7 +4,11 @@ import org.bukkit.Location
 import org.bukkit.World
 
 data class Vector5D(
-    val x: Double, val y: Double, val z: Double, val yaw: Float = 0F, val pitch: Float = 0F
+    val x: Double,
+    val y: Double,
+    val z: Double,
+    val yaw: Float = 0F,
+    val pitch: Float = 0F
 ) {
     /**
      * Location に変換します

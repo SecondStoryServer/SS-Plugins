@@ -9,7 +9,8 @@ import org.bukkit.plugin.java.JavaPlugin
  * [PersistentDataContainer] 拡張クラス
  */
 class CustomPersistentData internal constructor(
-    private val plugin: JavaPlugin, private val persistentDataContainer: PersistentDataContainer
+    private val plugin: JavaPlugin,
+    private val persistentDataContainer: PersistentDataContainer
 ) {
     private val String.asNamespacedKey get() = NamespacedKey(plugin, this)
 
@@ -20,7 +21,8 @@ class CustomPersistentData internal constructor(
      * @return [Boolean]
      */
     fun <T, Z> has(
-        key: String, type: PersistentDataType<T, Z>
+        key: String,
+        type: PersistentDataType<T, Z>
     ): Boolean {
         return persistentDataContainer.has(key.asNamespacedKey, type)
     }
@@ -32,7 +34,8 @@ class CustomPersistentData internal constructor(
      * @return [Z]?
      */
     fun <T, Z> get(
-        key: String, type: PersistentDataType<T, Z>
+        key: String,
+        type: PersistentDataType<T, Z>
     ): Z? {
         return if (has(key, type)) {
             persistentDataContainer.get(key.asNamespacedKey, type)
@@ -49,7 +52,9 @@ class CustomPersistentData internal constructor(
      * @return [Z]
      */
     fun <T, Z> get(
-        key: String, type: PersistentDataType<T, Z>, default: Z
+        key: String,
+        type: PersistentDataType<T, Z>,
+        default: Z
     ): Z {
         return get(key, type) ?: default
     }
@@ -61,7 +66,9 @@ class CustomPersistentData internal constructor(
      * @param value 値
      */
     fun <T, Z> set(
-        key: String, type: PersistentDataType<T, Z>, value: Z?
+        key: String,
+        type: PersistentDataType<T, Z>,
+        value: Z?
     ) {
         if (value != null) {
             persistentDataContainer.set(key.asNamespacedKey, type, value)

@@ -21,8 +21,9 @@ import org.bukkit.plugin.java.JavaPlugin
  * [ItemStack] の拡張クラス
  */
 class CustomItemStack internal constructor(
-    private val item: ItemStack, amount: Int
-): CustomPersistentDataContainer, ConfigurationSerializable {
+    private val item: ItemStack,
+    amount: Int
+) : CustomPersistentDataContainer, ConfigurationSerializable {
 
     /**
      * アイテムの量
@@ -239,7 +240,8 @@ class CustomItemStack internal constructor(
      * @param level レベル
      */
     fun addEnchant(
-        enchant: Enchantment, level: Int
+        enchant: Enchantment,
+        level: Int
     ) {
         editMeta {
             addEnchant(enchant, level, true)
@@ -268,23 +270,22 @@ class CustomItemStack internal constructor(
     /**
      * [ItemStack] に変換します
      */
+    @OptIn(ExperimentalStdlibApi::class)
     val toItemStack: List<ItemStack>
-        get() {
-            val map = mutableListOf<ItemStack>()
+        get() = buildList {
             val stackNumber = amount / 64
             if (0 < stackNumber) {
                 val stackItem = item.asQuantity(64)
                 for (i in 0 until stackNumber) {
-                    map.add(stackItem)
+                    add(stackItem)
                 }
             }
             val modNumber = amount % 64
             if (modNumber != 0) {
                 val modItem = item.asQuantity(modNumber)
                 modItem.amount = modNumber
-                map.add(modItem)
+                add(modItem)
             }
-            return map
         }
 
     /**
@@ -315,11 +316,12 @@ class CustomItemStack internal constructor(
      * @return [E]?
      */
     override fun <E> editPersistentData(
-        plugin: JavaPlugin, run: CustomPersistentData.() -> E
+        plugin: JavaPlugin,
+        action: CustomPersistentData.() -> E
     ): E? {
         var result: E? = null
         editMeta {
-            result = run.invoke(
+            result = action(
                 CustomPersistentData(
                     plugin, persistentDataContainer
                 )
@@ -362,10 +364,10 @@ class CustomItemStack internal constructor(
 
     /**
      * CustomItemStack を複製します
-     * @param run 複製後のアイテムに対して実行する処理
+     * @param action 複製後のアイテムに対して実行する処理
      * @return [CustomItemStack]
      */
-    fun clone(run: CustomItemStack.() -> Unit) = clone().apply(run)
+    fun clone(action: CustomItemStack.() -> Unit) = clone().apply(action)
 
     /**
      * @see [ConfigurationSerializable]
@@ -398,7 +400,8 @@ class CustomItemStack internal constructor(
          * @return [CustomItemStack]
          */
         fun create(
-            item: ItemStack?, amount: Int? = null
+            item: ItemStack?,
+            amount: Int? = null
         ): CustomItemStack {
             val data = if (item != null) {
                 item to (amount ?: item.amount)
@@ -414,7 +417,8 @@ class CustomItemStack internal constructor(
          * @return [CustomItemStack]
          */
         fun create(
-            material: Material?, amount: Int? = 1
+            material: Material?,
+            amount: Int? = 1
         ): CustomItemStack {
             return create(material?.let { ItemStack(it) }, amount)
         }
@@ -428,7 +432,11 @@ class CustomItemStack internal constructor(
          * @return [CustomItemStack]
          */
         fun create(
-            material: Material, display: String?, lore: List<String>, customModelData: Int? = 0, amount: Int = 1
+            material: Material,
+            display: String?,
+            lore: List<String>,
+            customModelData: Int? = 0,
+            amount: Int = 1
         ): CustomItemStack {
             return create(material, amount).apply {
                 this.display = display
@@ -446,7 +454,11 @@ class CustomItemStack internal constructor(
          * @return [CustomItemStack]
          */
         fun create(
-            material: Material, display: String?, vararg lore: String, customModelData: Int? = 0, amount: Int = 1
+            material: Material,
+            display: String?,
+            vararg lore: String,
+            customModelData: Int? = 0,
+            amount: Int = 1
         ): CustomItemStack {
             return create(material, display, lore.toList(), customModelData, amount)
         }
@@ -457,7 +469,8 @@ class CustomItemStack internal constructor(
          * @return [CustomItemStack]?
          */
         fun fromNullable(
-            item: ItemStack?, amount: Int? = null
+            item: ItemStack?,
+            amount: Int? = null
         ): CustomItemStack? {
             return item?.let { create(it, amount) }
         }
@@ -468,7 +481,7 @@ class CustomItemStack internal constructor(
          * @return [CustomItemStack]
          */
         fun fromJson(json: String): CustomItemStack {
-            val map: Map<String, Any> = Gson().fromJson(json, object: TypeToken<Map<String, Any>>() {}.type)
+            val map: Map<String, Any> = Gson().fromJson(json, object : TypeToken<Map<String, Any>>() {}.type)
             return fromMap(map)
         }
 
@@ -502,8 +515,9 @@ class CustomItemStack internal constructor(
          * @param items アイテム
          * @return [List]<[CustomItemStack]>
          */
+        @OptIn(ExperimentalStdlibApi::class)
         fun compress(items: Iterable<ItemStack>): List<CustomItemStack> {
-            return mutableListOf<CustomItemStack>().apply {
+            return buildList<CustomItemStack> {
                 items.forEach { item ->
                     firstOrNull { it.isSimilar(item) }?.let {
                         it.amount += item.amount

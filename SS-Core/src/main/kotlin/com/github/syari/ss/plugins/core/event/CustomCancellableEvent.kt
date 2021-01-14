@@ -5,7 +5,7 @@ import org.bukkit.event.Cancellable
 /**
  * キャンセル可能なイベント
  */
-open class CustomCancellableEvent: CustomEvent(), Cancellable {
+open class CustomCancellableEvent : CustomEvent(), Cancellable {
     private var cancelled: Boolean = false
 
     override fun isCancelled(): Boolean {

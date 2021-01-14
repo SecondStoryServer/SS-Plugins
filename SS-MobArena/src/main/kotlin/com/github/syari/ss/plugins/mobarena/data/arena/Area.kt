@@ -7,7 +7,7 @@ import org.bukkit.Location
 import com.github.syari.ss.plugins.core.config.dataType.ConfigDataType as IConfigDataType
 
 class Area(val spawn: Location, val region: Region) {
-    object ConfigDataType: IConfigDataType.WithSet<Area> {
+    object ConfigDataType : IConfigDataType.WithSet<Area> {
         override val typeName = "Area"
 
         override fun get(config: CustomConfig, path: String, notFoundError: Boolean): Area? {

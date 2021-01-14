@@ -6,13 +6,21 @@ import java.io.File
 import java.text.SimpleDateFormat
 
 class BackupGroup(
-    val name: String, val worldNames: MutableList<String>, val pluginNames: MutableList<String>, val otherPaths: MutableList<String>, val settings: BackupSettings
+    val name: String,
+    val worldNames: MutableList<String>,
+    val pluginNames: MutableList<String>,
+    val otherPaths: MutableList<String>,
+    val settings: BackupSettings
 ) {
     companion object {
         private val dateFormat = SimpleDateFormat("yyyy_MMdd_HHmm")
 
         fun from(
-            name: String, worldNames: List<String>, pluginNames: List<String>, otherPaths: List<String>, settings: BackupSettings
+            name: String,
+            worldNames: List<String>,
+            pluginNames: List<String>,
+            otherPaths: List<String>,
+            settings: BackupSettings
         ) = BackupGroup(name, worldNames.toMutableList(), pluginNames.toMutableList(), otherPaths.toMutableList(), settings)
     }
 

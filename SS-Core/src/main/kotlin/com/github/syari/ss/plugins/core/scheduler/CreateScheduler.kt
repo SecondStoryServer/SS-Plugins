@@ -19,7 +19,8 @@ object CreateScheduler {
      * @return [CustomTask]?
      */
     fun JavaPlugin.runSchedule(
-        async: Boolean = false, action: CustomTask.() -> Unit
+        async: Boolean = false,
+        action: CustomTask.() -> Unit
     ): CustomTask? {
         return schedule(action).runSchedule(async)
     }
@@ -31,7 +32,9 @@ object CreateScheduler {
      * @return [CustomTask]?
      */
     fun JavaPlugin.runLater(
-        delay: Long, async: Boolean = false, action: CustomTask.() -> Unit
+        delay: Long,
+        async: Boolean = false,
+        action: CustomTask.() -> Unit
     ): CustomTask? {
         return schedule(action).runLater(delay, async)
     }
@@ -44,7 +47,10 @@ object CreateScheduler {
      * @return [CustomTask]?
      */
     fun JavaPlugin.runTimer(
-        period: Long, delay: Long = 0, async: Boolean = false, action: CustomTask.() -> Unit
+        period: Long,
+        delay: Long = 0,
+        async: Boolean = false,
+        action: CustomTask.() -> Unit
     ): CustomTask? {
         return schedule(action).runTimer(period, delay, async)
     }
@@ -58,7 +64,11 @@ object CreateScheduler {
      * @return [CustomTask]?
      */
     fun JavaPlugin.runRepeatTimes(
-        period: Long, times: Int, delay: Long = 0, async: Boolean = false, action: CustomTask.() -> Unit
+        period: Long,
+        times: Int,
+        delay: Long = 0,
+        async: Boolean = false,
+        action: CustomTask.() -> Unit
     ): CustomTask? {
         return schedule(action).runRepeatTimes(period, times, delay, async)
     }
@@ -68,19 +78,21 @@ object CreateScheduler {
      * @param action 待機後に実行する処理
      * @return [Set]<[CustomTask]>
      */
+    @OptIn(ExperimentalStdlibApi::class)
     fun <T> JavaPlugin.runListWithDelay(
-        listWithDelay: Map<Long, Set<T>>, action: (T) -> Unit
+        listWithDelay: Map<Long, Set<T>>,
+        action: (T) -> Unit
     ): Set<CustomTask> {
-        return mutableSetOf<CustomTask>().also { taskList ->
+        return buildSet {
             listWithDelay.forEach { (delay, value) ->
                 runLater(delay, true) {
                     runSchedule(false) {
                         value.forEach {
-                            action.invoke(it)
+                            action(it)
                         }
                     }
-                    taskList.remove(this)
-                }?.let { taskList.add(it) }
+                    remove(this)
+                }?.let(::add)
             }
         }
     }

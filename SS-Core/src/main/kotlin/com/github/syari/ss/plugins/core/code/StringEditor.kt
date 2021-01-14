@@ -6,7 +6,7 @@ object StringEditor {
     /**
      * 文字を色付きにします
      */
-    val String.toColor get() : String = ChatColor.translateAlternateColorCodes('&', this)
+    val String.toColor get(): String = ChatColor.translateAlternateColorCodes('&', this)
 
     /**
      * 文字から色を無くします

@@ -18,7 +18,7 @@ class CustomSoundList(val plugin: JavaPlugin) {
      * @param sound サウンド
      */
     fun addSound(sound: CustomSound) {
-        listWithDelay.getOrPut(accumulateDelay) { mutableSetOf() }.add(sound)
+        listWithDelay.getOrPut(accumulateDelay, ::mutableSetOf).add(sound)
     }
 
     /**
@@ -31,10 +31,10 @@ class CustomSoundList(val plugin: JavaPlugin) {
 
     /**
      * 実行します
-     * @param run 実行する処理
+     * @param action 実行する処理
      */
-    private fun run(run: (CustomSound) -> Unit): Set<CustomTask> {
-        return plugin.runListWithDelay(listWithDelay, run)
+    private fun run(action: (CustomSound) -> Unit): Set<CustomTask> {
+        return plugin.runListWithDelay(listWithDelay, action)
     }
 
     /**

@@ -12,7 +12,9 @@ object CreateScoreBoard {
      * @return [CustomScoreBoard]
      */
     fun JavaPlugin.board(
-        title: String, priority: Int, action: (Player) -> String
+        title: String,
+        priority: Int,
+        action: (Player) -> String
     ): CustomScoreBoard {
         return CustomScoreBoard(this, title, priority, action)
     }

@@ -19,7 +19,9 @@ interface ConfigDataType<T> {
      * @param notFoundError 存在しないデータの場合にエラーを出す
      */
     fun get(
-        config: CustomConfig, path: String, notFoundError: Boolean
+        config: CustomConfig,
+        path: String,
+        notFoundError: Boolean
     ): T?
 
     /**
@@ -29,19 +31,24 @@ interface ConfigDataType<T> {
      * @param default デフォルト値
      */
     fun get(
-        config: CustomConfig, path: String, notFoundError: Boolean, default: T
+        config: CustomConfig,
+        path: String,
+        notFoundError: Boolean,
+        default: T
     ): T {
         return get(config, path, notFoundError) ?: default
     }
 
-    interface WithSet<T>: ConfigDataType<T> {
+    interface WithSet<T> : ConfigDataType<T> {
         /**
          * @param config [CustomFileConfig]
          * @param path コンフィグパス
          * @param value 設定する値
          */
         fun set(
-            config: CustomFileConfig, path: String, value: T?
+            config: CustomFileConfig,
+            path: String,
+            value: T?
         )
     }
 

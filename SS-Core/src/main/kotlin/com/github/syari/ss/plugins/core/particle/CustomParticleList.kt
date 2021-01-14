@@ -18,7 +18,7 @@ class CustomParticleList(val plugin: JavaPlugin) {
      * @param particle パーティクル
      */
     fun addParticle(particle: CustomParticle) {
-        listWithDelay.getOrPut(accumulateDelay) { mutableSetOf() }.add(particle)
+        listWithDelay.getOrPut(accumulateDelay, ::mutableSetOf).add(particle)
     }
 
     /**
@@ -31,10 +31,10 @@ class CustomParticleList(val plugin: JavaPlugin) {
 
     /**
      * 実行します
-     * @param run 実行する処理
+     * @param action 実行する処理
      */
-    private fun run(run: (CustomParticle) -> Unit): Set<CustomTask> {
-        return plugin.runListWithDelay(listWithDelay, run)
+    private fun run(action: (CustomParticle) -> Unit): Set<CustomTask> {
+        return plugin.runListWithDelay(listWithDelay, action)
     }
 
     /**

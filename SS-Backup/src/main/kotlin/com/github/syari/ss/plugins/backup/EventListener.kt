@@ -5,7 +5,7 @@ import com.github.syari.ss.plugins.backup.event.PreBackupEvent
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 
-object EventListener: Listener {
+object EventListener : Listener {
     @EventHandler
     fun on(e: PreBackupEvent) {
         e.groups.forEach {

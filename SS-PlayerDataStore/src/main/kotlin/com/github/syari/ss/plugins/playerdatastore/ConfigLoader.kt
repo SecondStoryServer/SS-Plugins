@@ -6,7 +6,7 @@ import com.github.syari.ss.plugins.core.config.CreateConfig.config
 import com.github.syari.ss.plugins.playerdatastore.Main.Companion.plugin
 import org.bukkit.command.CommandSender
 
-object ConfigLoader: OnEnable {
+object ConfigLoader : OnEnable {
     override fun onEnable() {
         load(console)
     }

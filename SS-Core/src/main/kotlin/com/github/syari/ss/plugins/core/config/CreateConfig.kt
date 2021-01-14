@@ -14,7 +14,10 @@ object CreateConfig {
      * @return [CustomFileConfig]
      */
     fun JavaPlugin.config(
-        output: CommandSender, fileName: String, deleteIfEmpty: Boolean = true, default: Map<String, Any> = emptyMap()
+        output: CommandSender,
+        fileName: String,
+        deleteIfEmpty: Boolean = true,
+        default: Map<String, Any> = emptyMap()
     ): CustomFileConfig {
         var directory = dataFolder
         if (!directory.exists()) directory.mkdir()
@@ -36,13 +39,17 @@ object CreateConfig {
      * @param output メッセージの出力先
      * @param fileName ファイル名 最後は必ず.yml
      * @param deleteIfEmpty 中身が存在しなければ消去する default: true
-     * @param run コンフィグに対して実行する処理
+     * @param action コンフィグに対して実行する処理
      * @return [CustomFileConfig]
      */
     fun JavaPlugin.config(
-        output: CommandSender, fileName: String, deleteIfEmpty: Boolean = true, default: Map<String, Any> = emptyMap(), run: CustomFileConfig.() -> Unit
+        output: CommandSender,
+        fileName: String,
+        deleteIfEmpty: Boolean = true,
+        default: Map<String, Any> = emptyMap(),
+        action: CustomFileConfig.() -> Unit
     ): CustomFileConfig {
-        return config(output, fileName, deleteIfEmpty, default).apply(run)
+        return config(output, fileName, deleteIfEmpty, default).apply(action)
     }
 
     /**
@@ -53,7 +60,9 @@ object CreateConfig {
      * @return [CustomFileConfig]
      */
     fun JavaPlugin.config(
-        output: CommandSender, uniqueName: String, reader: Reader
+        output: CommandSender,
+        uniqueName: String,
+        reader: Reader
     ): CustomReaderConfig {
         return CustomReaderConfig(this, output, uniqueName, reader)
     }
@@ -63,13 +72,16 @@ object CreateConfig {
      * @param output メッセージの出力先
      * @param uniqueName 識別名
      * @param reader コンフィグの内容
-     * @param run コンフィグに対して実行する処理
+     * @param action コンフィグに対して実行する処理
      * @return [CustomFileConfig]
      */
     fun JavaPlugin.config(
-        output: CommandSender, uniqueName: String, reader: Reader, run: CustomReaderConfig.() -> Unit
+        output: CommandSender,
+        uniqueName: String,
+        reader: Reader,
+        action: CustomReaderConfig.() -> Unit
     ): CustomReaderConfig {
-        return config(output, uniqueName, reader).apply(run)
+        return config(output, uniqueName, reader).apply(action)
     }
 
     /**
@@ -79,8 +91,11 @@ object CreateConfig {
      * @param deleteIfEmpty 中身が存在しなければ消去する default: true
      * @return [Map]<[String], [CustomFileConfig]>
      */
+    @OptIn(ExperimentalStdlibApi::class)
     fun JavaPlugin.configDir(
-        output: CommandSender, directoryName: String, deleteIfEmpty: Boolean = true
+        output: CommandSender,
+        directoryName: String,
+        deleteIfEmpty: Boolean = true
     ): Map<String, CustomFileConfig> {
         var directory = dataFolder
         if (!directory.exists()) directory.mkdir()
@@ -88,7 +103,7 @@ object CreateConfig {
             directory = File(directory, subDirectory)
             if (!directory.exists()) directory.mkdir()
         }
-        return mutableMapOf<String, CustomFileConfig>().apply {
+        return buildMap {
             directory.list()?.forEach { fileName ->
                 if (fileName.endsWith(".yml")) {
                     this[fileName] = CustomFileConfig(this@configDir, output, fileName, directory, deleteIfEmpty)
@@ -102,14 +117,17 @@ object CreateConfig {
      * @param output メッセージの出力先
      * @param directoryName フォルダ名
      * @param deleteIfEmpty 中身が存在しなければ消去する default: true
-     * @param run コンフィグに対して実行する処理
+     * @param action コンフィグに対して実行する処理
      * @return [Map]<[String], [CustomFileConfig]>
      */
     fun JavaPlugin.configDir(
-        output: CommandSender, directoryName: String, deleteIfEmpty: Boolean = true, run: CustomFileConfig.() -> Unit
+        output: CommandSender,
+        directoryName: String,
+        deleteIfEmpty: Boolean = true,
+        action: CustomFileConfig.() -> Unit
     ) {
         configDir(output, directoryName, deleteIfEmpty).values.onEach { config ->
-            run.invoke(config)
+            action(config)
         }
     }
 

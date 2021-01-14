@@ -8,7 +8,7 @@ import com.github.syari.ss.plugins.core.time.TimeScheduler
 import org.bukkit.command.ConsoleCommandSender
 import org.bukkit.plugin.java.JavaPlugin
 
-class Main: SSPlugin() {
+class Main : SSPlugin() {
     companion object {
         /**
          * コアプラグインのインスタンス

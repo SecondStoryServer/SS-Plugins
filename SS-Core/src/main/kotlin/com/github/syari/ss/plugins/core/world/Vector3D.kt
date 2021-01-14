@@ -4,7 +4,9 @@ import org.bukkit.Location
 import org.bukkit.World
 
 data class Vector3D(
-    val x: Double, val y: Double, val z: Double
+    val x: Double,
+    val y: Double,
+    val z: Double
 ) {
     /**
      * Location に変換します

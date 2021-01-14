@@ -4,7 +4,7 @@ import com.github.syari.ss.plugins.core.code.SSPlugin
 import com.github.syari.ss.plugins.mobarena.data.MobArenaManager
 import org.bukkit.plugin.java.JavaPlugin
 
-class Main: SSPlugin() {
+class Main : SSPlugin() {
     companion object {
         internal lateinit var plugin: JavaPlugin
     }
