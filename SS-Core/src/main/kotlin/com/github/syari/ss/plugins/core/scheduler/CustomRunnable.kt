@@ -2,7 +2,6 @@ package com.github.syari.ss.plugins.core.scheduler
 
 import com.github.syari.ss.plugins.core.scheduler.CreateScheduler.runLater
 import com.github.syari.ss.plugins.core.scheduler.CreateScheduler.runRepeatTimes
-import com.github.syari.ss.plugins.core.scheduler.CreateScheduler.runSchedule
 import com.github.syari.ss.plugins.core.scheduler.CreateScheduler.runTimer
 import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.scheduler.BukkitRunnable
