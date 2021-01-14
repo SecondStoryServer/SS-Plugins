@@ -7,11 +7,12 @@ import org.bukkit.potion.PotionEffectType
 object ConfigPotionDataType: ConfigDataType<List<PotionEffect>> {
     override val typeName = "List<PotionEffect>"
 
+    @OptIn(ExperimentalStdlibApi::class)
     override fun get(
         config: CustomConfig, path: String, notFoundError: Boolean
     ): List<PotionEffect>? {
         val getList = config.get(path, ConfigDataType.STRINGLIST, notFoundError) ?: return null
-        return mutableListOf<PotionEffect>().apply {
+        return buildList {
             getList.forEachIndexed { index, line ->
                 val split = line.split("-")
                 if (split.size < 3) {

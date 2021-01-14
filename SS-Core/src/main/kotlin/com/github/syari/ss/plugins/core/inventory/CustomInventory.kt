@@ -217,32 +217,32 @@ class CustomInventory internal constructor(
     ) {
         /**
          * @param clickType クリックタイプ
-         * @param run クリックタイプが一致した時に実行する処理
+         * @param action クリックタイプが一致した時に実行する処理
          * @return [ClickEvent]
          */
         fun event(
-            vararg clickType: ClickType, run: () -> Unit
+            vararg clickType: ClickType, action: () -> Unit
         ): ClickEvent {
             clickType.forEach { type ->
-                addEvent(type, run)
+                addEvent(type, action)
             }
             return this
         }
 
         /**
-         * @param run アイテムがクリックされた時に実行する処理
+         * @param action アイテムがクリックされた時に実行する処理
          * @return [ClickEvent]
          */
-        fun event(run: () -> Unit): ClickEvent {
-            addEvent(null, run)
+        fun event(action: () -> Unit): ClickEvent {
+            addEvent(null, action)
             return this
         }
 
         private fun addEvent(
-            clickType: ClickType?, run: () -> Unit
+            clickType: ClickType?, action: () -> Unit
         ) {
             slot.forEach {
-                inventory.events[it to clickType] = run
+                inventory.events[it to clickType] = action
             }
         }
     }

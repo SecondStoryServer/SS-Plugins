@@ -9,7 +9,7 @@ interface CustomTask {
 
     fun cancel(): Boolean
 
-    fun onEndRepeat(run: () -> Unit): CustomTask?
+    fun onEndRepeat(action: () -> Unit): CustomTask?
 
-    fun onCancel(run: () -> Unit): CustomTask?
+    fun onCancel(action: () -> Unit): CustomTask?
 }

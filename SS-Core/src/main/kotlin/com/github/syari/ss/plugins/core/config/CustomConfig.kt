@@ -36,10 +36,11 @@ interface CustomConfig {
      * @param notFoundError 存在しないデータの場合にエラーを出す default: true
      * @return [List]<[T]>?
      */
+    @OptIn(ExperimentalStdlibApi::class)
     fun <T> getListUnsafe(
         path: String, typeName: String, notFoundError: Boolean = true
     ): List<T>? {
-        return mutableListOf<T>().apply {
+        return buildList {
             if (config.isList(path)) {
                 getUnsafe<List<*>>(path, "List<$typeName>", notFoundError)?.forEachIndexed { index, each ->
                     try {

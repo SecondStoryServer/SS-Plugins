@@ -268,23 +268,22 @@ class CustomItemStack internal constructor(
     /**
      * [ItemStack] に変換します
      */
+    @OptIn(ExperimentalStdlibApi::class)
     val toItemStack: List<ItemStack>
-        get() {
-            val map = mutableListOf<ItemStack>()
+        get() = buildList {
             val stackNumber = amount / 64
             if (0 < stackNumber) {
                 val stackItem = item.asQuantity(64)
                 for (i in 0 until stackNumber) {
-                    map.add(stackItem)
+                    add(stackItem)
                 }
             }
             val modNumber = amount % 64
             if (modNumber != 0) {
                 val modItem = item.asQuantity(modNumber)
                 modItem.amount = modNumber
-                map.add(modItem)
+                add(modItem)
             }
-            return map
         }
 
     /**
@@ -315,11 +314,11 @@ class CustomItemStack internal constructor(
      * @return [E]?
      */
     override fun <E> editPersistentData(
-        plugin: JavaPlugin, run: CustomPersistentData.() -> E
+        plugin: JavaPlugin, action: CustomPersistentData.() -> E
     ): E? {
         var result: E? = null
         editMeta {
-            result = run.invoke(
+            result = action(
                 CustomPersistentData(
                     plugin, persistentDataContainer
                 )
@@ -362,10 +361,10 @@ class CustomItemStack internal constructor(
 
     /**
      * CustomItemStack を複製します
-     * @param run 複製後のアイテムに対して実行する処理
+     * @param action 複製後のアイテムに対して実行する処理
      * @return [CustomItemStack]
      */
-    fun clone(run: CustomItemStack.() -> Unit) = clone().apply(run)
+    fun clone(action: CustomItemStack.() -> Unit) = clone().apply(action)
 
     /**
      * @see [ConfigurationSerializable]
@@ -502,8 +501,9 @@ class CustomItemStack internal constructor(
          * @param items アイテム
          * @return [List]<[CustomItemStack]>
          */
+        @OptIn(ExperimentalStdlibApi::class)
         fun compress(items: Iterable<ItemStack>): List<CustomItemStack> {
-            return mutableListOf<CustomItemStack>().apply {
+            return buildList<CustomItemStack> {
                 items.forEach { item ->
                     firstOrNull { it.isSimilar(item) }?.let {
                         it.amount += item.amount

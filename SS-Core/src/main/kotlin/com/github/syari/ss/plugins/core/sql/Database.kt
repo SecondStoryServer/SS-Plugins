@@ -17,23 +17,23 @@ interface Database {
 
     /**
      * 接続テストを行います
-     * @param run データベースに対して実行する処理
+     * @param action データベースに対して実行する処理
      * @return [Boolean]
      */
-    fun canConnect(run: Statement.() -> Unit = {}): Boolean {
-        return use(run) != null
+    fun canConnect(action: Statement.() -> Unit = {}): Boolean {
+        return use(action) != null
     }
 
     /**
      * データベースを使用します
      * @param R 任意の戻り値型
-     * @param run データベースに対して実行する処理
+     * @param action データベースに対して実行する処理
      * @return [R]?
      */
-    fun <R> use(run: Statement.() -> R): R? {
+    fun <R> use(action: Statement.() -> R): R? {
         return try {
             getConnection().use { connection ->
-                connection.createStatement().use(run)
+                connection.createStatement().use(action)
             }
         } catch (ex: SQLException) {
             null
@@ -44,12 +44,12 @@ interface Database {
         /**
          * 値が存在していれば 処理を実行し、していなければ null を返します
          * @param R 任意のデータ型
-         * @param run 値が存在していた時に実行する処理
+         * @param action 値が存在していた時に実行する処理
          * @return [R]?
          */
-        inline fun <R> ResultSet.nextOrNull(run: ResultSet.() -> R): R? {
+        inline fun <R> ResultSet.nextOrNull(action: ResultSet.() -> R): R? {
             return if (next()) {
-                run.invoke(this)
+                action()
             } else {
                 null
             }
@@ -58,13 +58,14 @@ interface Database {
         /**
          * 全ての値を [Set] に変換します
          * @param R 任意のデータ型
-         * @param run それぞれの値に対する処理
+         * @param action それぞれの値に対する処理
          * @return [List]<[R]>
          */
-        inline fun <R> ResultSet.asSet(run: ResultSet.() -> R?): Set<R?> {
-            return mutableSetOf<R?>().also { list ->
+        @OptIn(ExperimentalStdlibApi::class)
+        inline fun <R> ResultSet.asSet(action: ResultSet.() -> R?): Set<R?> {
+            return buildSet {
                 while (next()) {
-                    list.add(run.invoke(this))
+                    add(action())
                 }
             }
         }
@@ -72,13 +73,14 @@ interface Database {
         /**
          * 全ての値を [Set] に変換します
          * @param R 任意のデータ型
-         * @param run それぞれの値に対する処理
+         * @param action それぞれの値に対する処理
          * @return [List]<[R]>
          */
-        inline fun <R> ResultSet.asSetNotNull(run: ResultSet.() -> R?): Set<R> {
-            return mutableSetOf<R>().also { list ->
+        @OptIn(ExperimentalStdlibApi::class)
+        inline fun <R> ResultSet.asSetNotNull(action: ResultSet.() -> R?): Set<R> {
+            return buildSet {
                 while (next()) {
-                    run.invoke(this)?.let { list.add(it) }
+                    action()?.let(::add)
                 }
             }
         }
@@ -86,13 +88,14 @@ interface Database {
         /**
          * 全ての値を [List] に変換します
          * @param R 任意のデータ型
-         * @param run それぞれの値に対する処理
+         * @param action それぞれの値に対する処理
          * @return [List]<[R]>
          */
-        inline fun <R> ResultSet.asList(run: ResultSet.() -> R?): List<R?> {
-            return mutableListOf<R?>().also { list ->
+        @OptIn(ExperimentalStdlibApi::class)
+        inline fun <R> ResultSet.asList(action: ResultSet.() -> R?): List<R?> {
+            return buildList {
                 while (next()) {
-                    list.add(run.invoke(this))
+                    add(action())
                 }
             }
         }
@@ -100,13 +103,14 @@ interface Database {
         /**
          * 全ての値を [List] に変換します
          * @param R 任意のデータ型
-         * @param run それぞれの値に対する処理
+         * @param action それぞれの値に対する処理
          * @return [List]<[R]>
          */
-        inline fun <R> ResultSet.asListNotNull(run: ResultSet.() -> R?): List<R> {
-            return mutableListOf<R>().also { list ->
+        @OptIn(ExperimentalStdlibApi::class)
+        inline fun <R> ResultSet.asListNotNull(action: ResultSet.() -> R?): List<R> {
+            return buildList {
                 while (next()) {
-                    run.invoke(this)?.let { list.add(it) }
+                    action()?.let(::add)
                 }
             }
         }
@@ -115,14 +119,15 @@ interface Database {
          * 全ての値を [Map] に変換します
          * @param K マップのキーの型
          * @param V マップの値の型
-         * @param run それぞれの値に対する処理
+         * @param action それぞれの値に対する処理
          * @return [Map]<[K], [V]>
          */
-        inline fun <K, V> ResultSet.asMap(run: ResultSet.() -> Pair<K, V?>?): Map<K, V?> {
-            return mutableMapOf<K, V?>().also { map ->
+        @OptIn(ExperimentalStdlibApi::class)
+        inline fun <K, V> ResultSet.asMap(action: ResultSet.() -> Pair<K, V?>?): Map<K, V?> {
+            return buildMap {
                 while (next()) {
-                    run.invoke(this)?.let { (key, value) ->
-                        map[key] = value
+                    action()?.let { (key, value) ->
+                        this[key] = value
                     }
                 }
             }
@@ -132,15 +137,16 @@ interface Database {
          * 全ての値を [Map] に変換します
          * @param K マップのキーの型
          * @param V マップの値の型
-         * @param run それぞれの値に対する処理
+         * @param action それぞれの値に対する処理
          * @return [Map]<[K], [V]>
          */
-        inline fun <K, V> ResultSet.asMapNotNull(run: ResultSet.() -> Pair<K, V?>?): Map<K, V> {
-            return mutableMapOf<K, V>().also { map ->
+        @OptIn(ExperimentalStdlibApi::class)
+        inline fun <K, V> ResultSet.asMapNotNull(action: ResultSet.() -> Pair<K, V?>?): Map<K, V> {
+            return buildMap {
                 while (next()) {
-                    run.invoke(this)?.let { (key, value) ->
+                    action()?.let { (key, value) ->
                         if (value != null) {
-                            map[key] = value
+                            this[key] = value
                         }
                     }
                 }

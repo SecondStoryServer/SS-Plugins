@@ -68,19 +68,20 @@ object CreateScheduler {
      * @param action 待機後に実行する処理
      * @return [Set]<[CustomTask]>
      */
+    @OptIn(ExperimentalStdlibApi::class)
     fun <T> JavaPlugin.runListWithDelay(
         listWithDelay: Map<Long, Set<T>>, action: (T) -> Unit
     ): Set<CustomTask> {
-        return mutableSetOf<CustomTask>().also { taskList ->
+        return buildSet {
             listWithDelay.forEach { (delay, value) ->
                 runLater(delay, true) {
                     runSchedule(false) {
                         value.forEach {
-                            action.invoke(it)
+                            action(it)
                         }
                     }
-                    taskList.remove(this)
-                }?.let { taskList.add(it) }
+                    remove(this)
+                }?.let(::add)
             }
         }
     }

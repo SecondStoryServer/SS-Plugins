@@ -4,7 +4,7 @@ import org.bukkit.plugin.java.JavaPlugin
 
 interface CustomPersistentDataContainer {
     fun <E> editPersistentData(
-        plugin: JavaPlugin, run: CustomPersistentData.() -> E
+        plugin: JavaPlugin, action: CustomPersistentData.() -> E
     ): E?
 
     fun getPersistentData(plugin: JavaPlugin): CustomPersistentData?

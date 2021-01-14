@@ -79,26 +79,26 @@ object CreateInventory: Listener {
      * @param display インベントリのタイトル
      * @param type インベントリの種類
      * @param id インベントリのID
-     * @param run インベントリに対して実行する処理
+     * @param action インベントリに対して実行する処理
      * @return [CustomInventory]
      */
     fun inventory(
-        display: String, type: InventoryType, vararg id: String, run: CustomInventory.() -> Unit
+        display: String, type: InventoryType, vararg id: String, action: CustomInventory.() -> Unit
     ): CustomInventory {
-        return inventory(display, type, *id).apply(run)
+        return inventory(display, type, *id).apply(action)
     }
 
     /**
      * @param display インベントリのタイトル
      * @param line インベントリの行数 default: 3
      * @param id インベントリのID
-     * @param run インベントリに対して実行する処理
+     * @param action インベントリに対して実行する処理
      * @return [CustomInventory]
      */
     fun inventory(
-        display: String, line: Int = 3, vararg id: String, run: CustomInventory.() -> Unit
+        display: String, line: Int = 3, vararg id: String, action: CustomInventory.() -> Unit
     ): CustomInventory {
-        return inventory(createInventory(null, (if (line in 1..6) line else 3) * 9, display.toColor), *id).apply(run)
+        return inventory(createInventory(null, (if (line in 1..6) line else 3) * 9, display.toColor), *id).apply(action)
     }
 
     private val menuPlayers = mutableMapOf<UUIDPlayer, InventoryPlayerData>()
@@ -179,15 +179,15 @@ object CreateInventory: Listener {
     /**
      * [id] から始まる インベントリID を持つプレイヤーに処理を行います
      * @param id インベントリのID
-     * @param run プレイヤーに対して実行する処理
+     * @param action プレイヤーに対して実行する処理
      */
     fun runWithId(
-        vararg id: String, run: (Player) -> Unit
+        vararg id: String, action: (Player) -> Unit
     ) {
         menuPlayers.forEach { (uuidPlayer, playerData) ->
             if (playerData.isOpenInventory(id)) {
                 val player = uuidPlayer.player ?: return@forEach
-                run.invoke(player)
+                action(player)
             }
         }
     }
@@ -210,13 +210,13 @@ object CreateInventory: Listener {
      * 該当プレイヤーに再度インベントリを開かせます
      * @see runWithId
      * @param id インベントリのID
-     * @param run プレイヤーに対して実行する処理
+     * @param action プレイヤーに対して実行する処理
      */
     fun reopen(
-        vararg id: String, run: (Player) -> CustomInventory
+        vararg id: String, action: (Player) -> CustomInventory
     ) {
         runWithId(*id) {
-            run.invoke(it).open(it)
+            action(it).open(it)
         }
     }
 
