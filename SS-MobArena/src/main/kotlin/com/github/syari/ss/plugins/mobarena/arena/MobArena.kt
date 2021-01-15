@@ -136,8 +136,11 @@ class MobArena(
             if (m.play) {
                 return p.send("&b[MobArena] &c既にモブアリーナに参加しています")
             } else {
-                m.arena.leave(p)
+                m.arena.leave(p, false)
             }
+        } else {
+            PlayerData.saveStoreData(p)
+            p.inventory.clear()
         }
         if (playerLimit <= players.size) {
             return p.send("&b[MobArena] &c制限人数に達しています /ma-debug s $id で観戦しましょう")
@@ -147,23 +150,30 @@ class MobArena(
         }
         players.add(MobArenaPlayer(this, p, true))
         p.closeInventory()
-        PlayerData.saveStoreData(p)
-        p.inventory.clear()
         p.teleport(lobby.spawn)
         board.addPlayer(p)
         updateAllBoard()
     }
 
     fun spec(p: Player) {
+        val m = p.arenaPlayer
+        if (m != null) {
+            if (m.play) {
+                m.arena.leave(p, false)
+            } else {
+                return p.send("&b[MobArena] &c既にモブアリーナに参加しています")
+            }
+        } else {
+            PlayerData.saveStoreData(p)
+            p.inventory.clear()
+        }
         p.closeInventory()
-        PlayerData.saveStoreData(p)
-        p.inventory.clear()
         players.add(MobArenaPlayer(this, p, false))
         p.teleport(spec.spawn)
         board.addPlayer(p)
     }
 
-    fun leave(p: Player) {
+    fun leave(p: Player, loadItem: Boolean = true) {
         if (!p.inMobArena) {
             return p.send("&b[MobArena] &cモブアリーナに参加していません")
         }
@@ -175,8 +185,10 @@ class MobArena(
             end(false)
         }
         p.closeInventory()
-        p.inventory.clear()
-        PlayerData.loadStoreData(p)
+        if (loadItem) {
+            p.inventory.clear()
+            PlayerData.loadStoreData(p)
+        }
         board.removePlayer(p)
         updateAllBoard()
     }
@@ -192,7 +204,7 @@ class MobArena(
                 val p = m.player
                 p.teleport(play.spawn)
                 p.activePotionEffects.clear()
-                p.health = p.getAttribute(Attribute.GENERIC_MAX_HEALTH)!!.baseValue
+                p.health = p.getAttribute(Attribute.GENERIC_MAX_HEALTH)!!.value
                 p.foodLevel = 20
                 firstMemberSize++
             }

@@ -1,7 +1,6 @@
 package com.github.syari.ss.plugins.mobarena.arena
 
 import com.github.syari.ss.plugins.mobarena.kit.MobArenaKit
-import org.bukkit.Location
 import org.bukkit.entity.Player
 
 class MobArenaPlayer(val arena: MobArena, val player: Player, var play: Boolean) {
@@ -16,18 +15,6 @@ class MobArenaPlayer(val arena: MobArena, val player: Player, var play: Boolean)
         }
 
     var kit: MobArenaKit? = null
-
-    fun isAllowMove(location: Location): Boolean {
-        return if (play) {
-            if (arena.status == MobArenaStatus.WaitReady) {
-                arena.lobby.region.inRegion(location)
-            } else {
-                arena.play.region.inRegion(location)
-            }
-        } else {
-            arena.spec.region.inRegion(location)
-        }
-    }
 
     fun loadKit(kit: MobArenaKit) {
         arena.loadKit(this, kit)
