@@ -1,6 +1,7 @@
 package com.github.syari.ss.plugins.core.config
 
-import com.github.syari.ss.plugins.core.config.dataType.ConfigDataType
+import com.github.syari.ss.plugins.core.config.type.ConfigDataType
+import com.github.syari.ss.plugins.core.config.type.ConfigSectionType
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.plugin.java.JavaPlugin
 
@@ -100,6 +101,20 @@ interface CustomConfig {
     ): Set<String>? {
         val section = config.getConfigurationSection(path)?.getKeys(false)
         return section.apply { if (section == null && notFoundError) notFoundError(path) }
+    }
+
+    /**
+     * コンフィグセクションを取得する
+     * @param path コンフィグパス
+     * @param type セクションタイプ
+     * @param notFoundError 存在しないデータの場合にエラーを出す default: true
+     */
+    fun <T> section(
+        path: String,
+        type: ConfigSectionType<T>,
+        notFoundError: Boolean = true
+    ): List<T>? {
+        return section(path, notFoundError)?.mapNotNull { type.parse(this, path, it) }
     }
 
     /**

@@ -1,4 +1,4 @@
-package com.github.syari.ss.plugins.core.config.dataType
+package com.github.syari.ss.plugins.core.config.type.data
 
 import com.github.syari.ss.plugins.core.item.Base64Item
 import org.bukkit.inventory.ItemStack

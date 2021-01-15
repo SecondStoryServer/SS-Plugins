@@ -1,6 +1,7 @@
-package com.github.syari.ss.plugins.core.config.dataType
+package com.github.syari.ss.plugins.core.config.type.data
 
 import com.github.syari.ss.plugins.core.config.CustomConfig
+import com.github.syari.ss.plugins.core.config.type.ConfigDataType
 import com.github.syari.ss.plugins.core.sound.CustomSound
 import com.github.syari.ss.plugins.core.sound.CustomSoundList
 import org.bukkit.Sound
