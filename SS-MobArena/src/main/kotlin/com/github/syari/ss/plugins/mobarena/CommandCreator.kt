@@ -23,16 +23,24 @@ object CommandCreator : OnEnable {
         plugin.command("ma", "MobArena") {
             tab {
                 arg {
-                    val player = sender as? Player ?: return@arg element("reload", "start", "end")
-                    val arenaPlayer = player.arenaPlayer
-                    when {
-                        arenaPlayer == null -> element("join", "spec", "shop", "start", "end", "reload")
-                        arenaPlayer.play -> element("leave", "ready", "notready", "start", "end", "reload")
-                        else -> element("join", "leave", "start", "end", "reload")
-                    }
+                    val player = sender as? Player
+                    if (player != null) {
+                        val arenaPlayer = player.arenaPlayer
+                        when {
+                            arenaPlayer == null -> element("join", "spec", "shop")
+                            arenaPlayer.play -> element("leave", "ready", "notready", "kit")
+                            else -> element("join", "leave")
+                        }
+                    } else {
+                        element()
+                    }.join("start", "end", "reload")
                 }
                 arg("join", "j", "spec", "s", "start", "end") {
                     element(arenas.map(MobArena::id))
+                }
+                arg("kit") {
+                    val player = sender as? Player ?: return@arg null
+                    element(player.arenaPlayer?.arena?.kits)
                 }
             }
             execute {
