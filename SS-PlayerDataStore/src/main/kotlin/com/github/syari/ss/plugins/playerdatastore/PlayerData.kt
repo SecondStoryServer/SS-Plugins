@@ -20,7 +20,7 @@ class PlayerData(private val player: Player) {
         }
     }
 
-    private val config = plugin.config(console, "data/${player.uniqueId}.yml")
+    private val config by lazy { plugin.config(console, "data/${player.uniqueId}.yml") }
 
     @OptIn(ExperimentalStdlibApi::class)
     private val inventory
@@ -33,7 +33,10 @@ class PlayerData(private val player: Player) {
 
     private val isEnableLocation = player.let(ConfigLoader.saveLocationMode.condition)
 
+    private val isEnableSave = isEnableInventory || isEnableLocation
+
     fun load() {
+        if (isEnableSave.not()) return
         if (isEnableInventory) {
             inventory?.forEach { (slot, item) ->
                 player.inventory.setItem(slot, item)
@@ -45,6 +48,7 @@ class PlayerData(private val player: Player) {
     }
 
     fun save() {
+        if (isEnableSave.not()) return
         if (isEnableInventory) {
             player.inventory.contents.forEachIndexed { slot, item ->
                 if (item != null && item.type != Material.AIR) {
