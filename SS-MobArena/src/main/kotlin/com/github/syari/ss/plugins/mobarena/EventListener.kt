@@ -3,7 +3,6 @@ package com.github.syari.ss.plugins.mobarena
 import com.github.syari.ss.plugins.core.code.StringEditor.toColor
 import com.github.syari.ss.plugins.core.item.CustomItemStack
 import com.github.syari.ss.plugins.mobarena.MobArenaManager.arena
-import com.github.syari.ss.plugins.mobarena.MobArenaManager.arenaPlayer
 import com.github.syari.ss.plugins.mobarena.MobArenaManager.getArena
 import com.github.syari.ss.plugins.mobarena.MobArenaManager.getArenaInPlay
 import com.github.syari.ss.plugins.mobarena.MobArenaManager.inMobArena
@@ -27,7 +26,6 @@ import org.bukkit.event.inventory.InventoryType
 import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerItemDamageEvent
-import org.bukkit.event.player.PlayerMoveEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.inventory.ItemStack
 
@@ -53,13 +51,6 @@ object EventListener : Listener {
         if (CustomItemStack.create(e.insertItem).lore.contains("&c受け渡し不可".toColor)) {
             e.isCancelled = true
         }
-    }
-
-    @EventHandler(ignoreCancelled = true)
-    fun on(e: PlayerMoveEvent) {
-        val player = e.player
-        val arenaPlayer = player.arenaPlayer ?: return
-        if (arenaPlayer.isAllowMove(e.to).not()) e.isCancelled = true
     }
 
     @EventHandler
