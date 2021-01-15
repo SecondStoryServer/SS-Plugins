@@ -1,21 +1,21 @@
-package com.github.syari.ss.plugins.core.config.dataType
+package com.github.syari.ss.plugins.core.config.type.data
 
 import com.github.syari.ss.plugins.core.config.CustomConfig
 import com.github.syari.ss.plugins.core.config.CustomFileConfig
-import java.util.Date
+import com.github.syari.ss.plugins.core.config.type.ConfigDataType
 
-object ConfigDateDataType : ConfigDataType.WithSet<Date> {
-    override val typeName = "Date"
+object ConfigBooleanDataType : ConfigDataType.WithSet<Boolean> {
+    override val typeName = "Boolean"
 
     override fun get(
         config: CustomConfig,
         path: String,
         notFoundError: Boolean
-    ): Date? {
+    ): Boolean? {
         return config.getUnsafe(path, typeName, notFoundError)
     }
 
-    override fun set(config: CustomFileConfig, path: String, value: Date?) {
+    override fun set(config: CustomFileConfig, path: String, value: Boolean?) {
         config.setUnsafe(path, value)
     }
 }

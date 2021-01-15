@@ -3,7 +3,7 @@ package com.github.syari.ss.plugins.playerdatastore
 import com.github.syari.ss.plugins.core.config.CustomConfig
 import com.github.syari.ss.plugins.core.config.CustomFileConfig
 import org.bukkit.entity.Player
-import com.github.syari.ss.plugins.core.config.dataType.ConfigDataType as IConfigDataType
+import com.github.syari.ss.plugins.core.config.type.ConfigDataType as IConfigDataType
 
 enum class SaveMode(val condition: (Player) -> Boolean) {
     Everyone({ true }),

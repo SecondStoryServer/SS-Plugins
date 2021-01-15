@@ -4,7 +4,7 @@ import com.github.syari.ss.plugins.backup.Main.Companion.plugin
 import com.github.syari.ss.plugins.core.Main.Companion.console
 import com.github.syari.ss.plugins.core.code.OnEnable
 import com.github.syari.ss.plugins.core.config.CreateConfig.config
-import com.github.syari.ss.plugins.core.config.dataType.ConfigDataType
+import com.github.syari.ss.plugins.core.config.type.ConfigDataType
 import org.bukkit.command.CommandSender
 
 object ConfigLoader : OnEnable {

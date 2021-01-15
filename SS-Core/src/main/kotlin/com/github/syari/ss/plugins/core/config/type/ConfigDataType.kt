@@ -1,7 +1,26 @@
-package com.github.syari.ss.plugins.core.config.dataType
+package com.github.syari.ss.plugins.core.config.type
 
 import com.github.syari.ss.plugins.core.config.CustomConfig
 import com.github.syari.ss.plugins.core.config.CustomFileConfig
+import com.github.syari.ss.plugins.core.config.type.data.ConfigBooleanDataType
+import com.github.syari.ss.plugins.core.config.type.data.ConfigDateDataType
+import com.github.syari.ss.plugins.core.config.type.data.ConfigFloatDataType
+import com.github.syari.ss.plugins.core.config.type.data.ConfigIntDataType
+import com.github.syari.ss.plugins.core.config.type.data.ConfigInventoryDataType
+import com.github.syari.ss.plugins.core.config.type.data.ConfigItemConverter
+import com.github.syari.ss.plugins.core.config.type.data.ConfigItemsDataType
+import com.github.syari.ss.plugins.core.config.type.data.ConfigLocationDataType
+import com.github.syari.ss.plugins.core.config.type.data.ConfigLongDataType
+import com.github.syari.ss.plugins.core.config.type.data.ConfigMaterialDataType
+import com.github.syari.ss.plugins.core.config.type.data.ConfigMySQLDataType
+import com.github.syari.ss.plugins.core.config.type.data.ConfigNumberDataType
+import com.github.syari.ss.plugins.core.config.type.data.ConfigParticleDataType
+import com.github.syari.ss.plugins.core.config.type.data.ConfigPotionDataType
+import com.github.syari.ss.plugins.core.config.type.data.ConfigSoundDataType
+import com.github.syari.ss.plugins.core.config.type.data.ConfigStringDataType
+import com.github.syari.ss.plugins.core.config.type.data.ConfigStringListDataType
+import com.github.syari.ss.plugins.core.config.type.data.ConfigVector3DDataType
+import com.github.syari.ss.plugins.core.config.type.data.ConfigWorldDataType
 
 /**
  * コンフィグデータタイプ
@@ -25,7 +44,7 @@ interface ConfigDataType<T> {
     ): T?
 
     /**
-     * @param config [CustomFileConfig]
+     * @param config [CustomConfig]
      * @param path コンフィグパス
      * @param notFoundError 存在しないデータの場合にエラーを出す
      * @param default デフォルト値

@@ -1,6 +1,6 @@
 package com.github.syari.ss.plugins.core.config
 
-import com.github.syari.ss.plugins.core.config.dataType.ConfigDataType
+import com.github.syari.ss.plugins.core.config.type.ConfigDataType
 import com.github.syari.ss.plugins.core.message.Message.send
 import org.bukkit.command.CommandSender
 import org.bukkit.configuration.file.YamlConfiguration

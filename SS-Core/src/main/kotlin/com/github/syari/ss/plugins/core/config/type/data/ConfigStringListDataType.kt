@@ -1,7 +1,8 @@
-package com.github.syari.ss.plugins.core.config.dataType
+package com.github.syari.ss.plugins.core.config.type.data
 
 import com.github.syari.ss.plugins.core.config.CustomConfig
 import com.github.syari.ss.plugins.core.config.CustomFileConfig
+import com.github.syari.ss.plugins.core.config.type.ConfigDataType
 
 object ConfigStringListDataType : ConfigDataType.WithSet<List<String>> {
     override val typeName = "List<String>"

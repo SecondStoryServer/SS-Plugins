@@ -1,6 +1,8 @@
-package com.github.syari.ss.plugins.core.config.dataType
+package com.github.syari.ss.plugins.core.config.type.data
 
 import com.github.syari.ss.plugins.core.config.CustomConfig
+import com.github.syari.ss.plugins.core.config.type.ConfigDataType
+import com.github.syari.ss.plugins.core.config.type.ConfigSectionType
 import org.bukkit.inventory.ItemStack
 
 class ConfigInventoryDataType(private val itemConverter: ConfigItemConverter) : ConfigDataType<Map<Int, ItemStack>> {
@@ -13,11 +15,10 @@ class ConfigInventoryDataType(private val itemConverter: ConfigItemConverter) : 
         notFoundError: Boolean
     ): Map<Int, ItemStack> {
         return buildMap {
-            config.section(path, notFoundError)?.forEach {
-                val slotNumber = it.toIntOrNull() ?: return@forEach config.typeMismatchError("$path.$it", "Int")
+            config.section(path, ConfigSectionType.INT, notFoundError)?.forEach {
                 val line = config.get("$path.$it", ConfigDataType.STRING) ?: return@forEach config.nullError("$path.$it", "String")
                 val item = itemConverter.get(line) ?: return@forEach config.nullError("$path.$it", itemConverter.things)
-                this[slotNumber] = item
+                this[it] = item
             }
         }
     }

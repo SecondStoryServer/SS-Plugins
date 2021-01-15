@@ -4,7 +4,7 @@ import com.github.syari.ss.plugins.core.config.CustomConfig
 import com.github.syari.ss.plugins.core.config.CustomFileConfig
 import com.github.syari.ss.plugins.core.world.Region
 import org.bukkit.Location
-import com.github.syari.ss.plugins.core.config.dataType.ConfigDataType as IConfigDataType
+import com.github.syari.ss.plugins.core.config.type.ConfigDataType as IConfigDataType
 
 class Area(val spawn: Location, val region: Region) {
     object ConfigDataType : IConfigDataType.WithSet<Area> {

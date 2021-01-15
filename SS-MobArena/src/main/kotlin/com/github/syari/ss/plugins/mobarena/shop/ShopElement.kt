@@ -1,6 +1,6 @@
 package com.github.syari.ss.plugins.mobarena.shop
 
-import com.github.syari.ss.plugins.core.config.CustomFileConfig
+import com.github.syari.ss.plugins.core.config.CustomConfig
 import com.github.syari.ss.plugins.core.item.CustomItemStack
 import com.github.syari.ss.plugins.core.item.ItemStackPlus.give
 import com.github.syari.ss.plugins.core.item.ItemStackPlus.hasItem
@@ -10,6 +10,7 @@ import com.github.syari.ss.plugins.dependency.crackshotplus.CrackShotPlusAPI
 import com.github.syari.ss.plugins.dependency.mythicmobs.MythicMobsAPI
 import org.bukkit.Material
 import org.bukkit.entity.Player
+import com.github.syari.ss.plugins.core.config.type.ConfigDataType as IConfigDataType
 
 sealed class ShopElement {
     open fun give(player: Player) = true
@@ -70,74 +71,77 @@ sealed class ShopElement {
 
     object UnAvailable : ShopElement()
 
-    companion object {
-        fun from(config: CustomFileConfig, path: String, line: String): ShopElement {
-            val split = line.split("\\s+".toRegex())
-            return when (val elementType = split[0].toLowerCase()) {
-                "jump" -> {
-                    split.getOrNull(1)?.let { id ->
-                        val (type, model) = split.getOrNull(2)?.let {
-                            val (typeName, model) = if (it.contains(':')) {
-                                val s = it.split(':')
-                                s[0] to s[1].toIntOrNull()
-                            } else {
-                                it to null
-                            }
-                            (
-                                Material.getMaterial(typeName.toUpperCase()) ?: run {
+    object ConfigDataType : IConfigDataType<List<ShopElement>> {
+        override val typeName = "ShopElement"
+
+        override fun get(config: CustomConfig, path: String, notFoundError: Boolean): List<ShopElement>? {
+            return config.get(path, IConfigDataType.STRINGLIST)?.map { line ->
+                val split = line.split("\\s+".toRegex())
+                when (val elementType = split[0].toLowerCase()) {
+                    "jump" -> {
+                        split.getOrNull(1)?.let { id ->
+                            val (type, model) = split.getOrNull(2)?.let {
+                                val (typeName, model) = if (it.contains(':')) {
+                                    val s = it.split(':')
+                                    s[0] to s[1].toIntOrNull()
+                                } else {
+                                    it to null
+                                }
+                                val type = Material.getMaterial(typeName.toUpperCase()) ?: run {
                                     config.nullError(path, "Material($it)")
                                     null
                                 }
-                                ) to model
-                        } ?: (Material.COMPASS to null)
-                        type?.let { Jump(id, type, model) }
-                    } ?: UnAvailable
-                }
-                "mc" -> {
-                    split.getOrNull(1)?.let { Material.getMaterial(it) }?.let { type ->
-                        val amount = split.getOrNull(2)?.let {
-                            it.toIntOrNull() ?: run {
-                                config.nullError(path, "Int($it)")
-                                null
-                            }
-                        } ?: 1
-                        Item.Minecraft(type, amount)
-                    } ?: run {
-                        config.nullError(path, "Material(${split.getOrNull(1)})")
-                        UnAvailable
+                                type to model
+                            } ?: (Material.COMPASS to null)
+                            type?.let { Jump(id, type, model) }
+                        } ?: UnAvailable
                     }
-                }
-                "cs", "csp", "mm" -> {
-                    split.getOrNull(1)?.let { id ->
-                        val amount = split.getOrNull(2)?.let {
-                            it.toIntOrNull() ?: run {
-                                config.nullError(path, "Int($it)")
-                                null
-                            }
-                        } ?: 1
-                        when (elementType) {
-                            "cs" -> {
-                                CrackShotAPI.getItem(id, amount)
-                            }
-                            "csp" -> {
-                                CrackShotPlusAPI.getAttachment(id, amount)
-                            }
-                            "mm" -> {
-                                MythicMobsAPI.getItem(id, amount)
-                            }
-                            else -> error("Unreachable")
-                        }?.let {
-                            Item.Custom(it, amount)
+                    "mc" -> {
+                        split.getOrNull(1)?.let { Material.getMaterial(it) }?.let { type ->
+                            val amount = split.getOrNull(2)?.let {
+                                it.toIntOrNull() ?: run {
+                                    config.nullError(path, "Int($it)")
+                                    null
+                                }
+                            } ?: 1
+                            Item.Minecraft(type, amount)
                         } ?: run {
-                            config.nullError(path, "String($id)")
+                            config.nullError(path, "Material(${split.getOrNull(1)})")
                             UnAvailable
                         }
-                    } ?: run {
-                        config.nullError(path, "String(${split.getOrNull(1)})")
-                        UnAvailable
                     }
+                    "cs", "csp", "mm" -> {
+                        split.getOrNull(1)?.let { id ->
+                            val amount = split.getOrNull(2)?.let {
+                                it.toIntOrNull() ?: run {
+                                    config.nullError(path, "Int($it)")
+                                    null
+                                }
+                            } ?: 1
+                            when (elementType) {
+                                "cs" -> {
+                                    CrackShotAPI.getItem(id, amount)
+                                }
+                                "csp" -> {
+                                    CrackShotPlusAPI.getAttachment(id, amount)
+                                }
+                                "mm" -> {
+                                    MythicMobsAPI.getItem(id, amount)
+                                }
+                                else -> error("Unreachable")
+                            }?.let {
+                                Item.Custom(it, amount)
+                            } ?: run {
+                                config.nullError(path, "String($id)")
+                                UnAvailable
+                            }
+                        } ?: run {
+                            config.nullError(path, "String(${split.getOrNull(1)})")
+                            UnAvailable
+                        }
+                    }
+                    else -> UnAvailable
                 }
-                else -> UnAvailable
             }
         }
     }
