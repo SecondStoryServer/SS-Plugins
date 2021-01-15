@@ -1,4 +1,4 @@
-package com.github.syari.ss.plugins.mobarena.data.arena
+package com.github.syari.ss.plugins.mobarena.arena
 
 enum class MobArenaStatus {
     StandBy,

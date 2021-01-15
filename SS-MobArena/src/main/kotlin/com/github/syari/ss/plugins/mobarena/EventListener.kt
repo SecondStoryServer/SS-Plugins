@@ -2,11 +2,11 @@ package com.github.syari.ss.plugins.mobarena
 
 import com.github.syari.ss.plugins.core.code.StringEditor.toColor
 import com.github.syari.ss.plugins.core.item.CustomItemStack
-import com.github.syari.ss.plugins.mobarena.data.MobArenaManager.arena
-import com.github.syari.ss.plugins.mobarena.data.MobArenaManager.arenaPlayer
-import com.github.syari.ss.plugins.mobarena.data.MobArenaManager.getArena
-import com.github.syari.ss.plugins.mobarena.data.MobArenaManager.getArenaInPlay
-import com.github.syari.ss.plugins.mobarena.data.MobArenaManager.inMobArena
+import com.github.syari.ss.plugins.mobarena.MobArenaManager.arena
+import com.github.syari.ss.plugins.mobarena.MobArenaManager.arenaPlayer
+import com.github.syari.ss.plugins.mobarena.MobArenaManager.getArena
+import com.github.syari.ss.plugins.mobarena.MobArenaManager.getArenaInPlay
+import com.github.syari.ss.plugins.mobarena.MobArenaManager.inMobArena
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.entity.Projectile

@@ -1,10 +1,8 @@
-package com.github.syari.ss.plugins.mobarena.data.wave.mob
+package com.github.syari.ss.plugins.mobarena.wave.boss
 
 import org.bukkit.Location
 import org.bukkit.entity.Entity
 
-interface MobArenaMob {
-    val priority: Int
-
+interface MobArenaBoss {
     fun spawn(location: Location): Entity?
 }

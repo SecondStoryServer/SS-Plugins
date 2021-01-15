@@ -1,6 +1,6 @@
-package com.github.syari.ss.plugins.mobarena.data.arena
+package com.github.syari.ss.plugins.mobarena.arena
 
-import com.github.syari.ss.plugins.mobarena.data.kit.MobArenaKit
+import com.github.syari.ss.plugins.mobarena.kit.MobArenaKit
 import org.bukkit.Location
 import org.bukkit.entity.Player
 

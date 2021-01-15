@@ -5,19 +5,22 @@ import com.github.syari.ss.plugins.core.code.OnEnable
 import com.github.syari.ss.plugins.core.config.CreateConfig.configDir
 import com.github.syari.ss.plugins.core.config.dataType.ConfigDataType
 import com.github.syari.ss.plugins.core.config.dataType.ConfigItemConverter
+import com.github.syari.ss.plugins.core.message.Message.send
 import com.github.syari.ss.plugins.dependency.crackshot.CrackShotAPI
 import com.github.syari.ss.plugins.dependency.crackshotplus.CrackShotPlusAPI
 import com.github.syari.ss.plugins.dependency.mythicmobs.MythicMobsAPI
 import com.github.syari.ss.plugins.mobarena.Main.Companion.plugin
-import com.github.syari.ss.plugins.mobarena.data.MobArenaManager
-import com.github.syari.ss.plugins.mobarena.data.arena.Area
-import com.github.syari.ss.plugins.mobarena.data.arena.MobArena
-import com.github.syari.ss.plugins.mobarena.data.kit.MobArenaKit
-import com.github.syari.ss.plugins.mobarena.data.wave.MobArenaWave
-import com.github.syari.ss.plugins.mobarena.data.wave.boss.MobArenaBoss
-import com.github.syari.ss.plugins.mobarena.data.wave.boss.MobArenaMythicMobsBoss
-import com.github.syari.ss.plugins.mobarena.data.wave.mob.MobArenaMob
-import com.github.syari.ss.plugins.mobarena.data.wave.mob.MobArenaMythicMobsMob
+import com.github.syari.ss.plugins.mobarena.arena.Area
+import com.github.syari.ss.plugins.mobarena.arena.MobArena
+import com.github.syari.ss.plugins.mobarena.kit.MobArenaKit
+import com.github.syari.ss.plugins.mobarena.shop.Shop
+import com.github.syari.ss.plugins.mobarena.shop.ShopAction
+import com.github.syari.ss.plugins.mobarena.shop.ShopElement
+import com.github.syari.ss.plugins.mobarena.wave.MobArenaWave
+import com.github.syari.ss.plugins.mobarena.wave.boss.MobArenaBoss
+import com.github.syari.ss.plugins.mobarena.wave.boss.MobArenaMythicMobsBoss
+import com.github.syari.ss.plugins.mobarena.wave.mob.MobArenaMob
+import com.github.syari.ss.plugins.mobarena.wave.mob.MobArenaMythicMobsMob
 import org.bukkit.Material
 import org.bukkit.command.CommandSender
 import org.bukkit.inventory.ItemStack
@@ -105,6 +108,32 @@ object ConfigLoader : OnEnable {
                 put(id, MobArenaKit(id, name, items))
             }
         }
+    }
+
+    @OptIn(ExperimentalStdlibApi::class)
+    private fun loadShop(sender: CommandSender) {
+        Shop.list = buildMap {
+            plugin.configDir(sender, "Shop") {
+                section("")?.forEach { id ->
+                    val name = get("$id.name", ConfigDataType.STRING, id)
+                    val line = get("$id.line", ConfigDataType.INT, 3, false)
+                    val list = mutableMapOf<Int, ShopAction>()
+                    section("$id.list", false)?.forEach { rawSlot ->
+                        val slot = rawSlot.toIntOrNull()
+                        if (slot != null) {
+                            val elements = get("$id.list.$rawSlot", ConfigDataType.STRINGLIST)?.map {
+                                ShopElement.from(this, "$id.list.$rawSlot", it)
+                            }
+                            ShopAction.from(elements)?.let { list[slot] = it }
+                        } else {
+                            nullError("$id.list.$rawSlot", "Int")
+                        }
+                    }
+                    this@buildMap[id] = Shop(name, line, list)
+                }
+            }
+        }
+        sender.send("&b[MobArena] &a${Shop.list.size} &f個のショップを読み込みました")
     }
 
     private val itemTypeMap = mapOf<String, (String, Int) -> ItemStack?>(

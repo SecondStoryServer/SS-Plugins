@@ -1,4 +1,4 @@
-package com.github.syari.ss.plugins.mobarena.data.arena
+package com.github.syari.ss.plugins.mobarena.arena
 
 import com.github.syari.ss.plugins.core.bossBar.CustomBossBar
 import com.github.syari.ss.plugins.core.bossBar.CustomBossBar.Companion.bossBar
@@ -11,10 +11,10 @@ import com.github.syari.ss.plugins.core.scheduler.CreateScheduler.runRepeatTimes
 import com.github.syari.ss.plugins.core.scheduler.CustomTask
 import com.github.syari.ss.plugins.core.scoreboard.CreateScoreBoard.board
 import com.github.syari.ss.plugins.mobarena.Main.Companion.plugin
-import com.github.syari.ss.plugins.mobarena.data.MobArenaManager.arenaPlayer
-import com.github.syari.ss.plugins.mobarena.data.MobArenaManager.inMobArena
-import com.github.syari.ss.plugins.mobarena.data.kit.MobArenaKit
-import com.github.syari.ss.plugins.mobarena.data.wave.MobArenaWave
+import com.github.syari.ss.plugins.mobarena.MobArenaManager.arenaPlayer
+import com.github.syari.ss.plugins.mobarena.MobArenaManager.inMobArena
+import com.github.syari.ss.plugins.mobarena.kit.MobArenaKit
+import com.github.syari.ss.plugins.mobarena.wave.MobArenaWave
 import com.github.syari.ss.plugins.playerdatastore.PlayerData
 import org.bukkit.Location
 import org.bukkit.attribute.Attribute
