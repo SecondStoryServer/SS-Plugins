@@ -15,6 +15,7 @@ import com.github.syari.ss.plugins.mobarena.MobArenaManager.getArena
 import com.github.syari.ss.plugins.mobarena.arena.MobArena
 import com.github.syari.ss.plugins.mobarena.arena.MobArenaStatus
 import com.github.syari.ss.plugins.mobarena.kit.MobArenaKit
+import com.github.syari.ss.plugins.mobarena.shop.Shop
 import org.bukkit.entity.Player
 
 object CommandCreator : OnEnable {
@@ -25,7 +26,7 @@ object CommandCreator : OnEnable {
                     val player = sender as? Player ?: return@arg element("reload", "start", "end")
                     val arenaPlayer = player.arenaPlayer
                     when {
-                        arenaPlayer == null -> element("join", "spec", "start", "end", "reload")
+                        arenaPlayer == null -> element("join", "spec", "shop", "start", "end", "reload")
                         arenaPlayer.play -> element("leave", "ready", "notready", "start", "end", "reload")
                         else -> element("join", "leave", "start", "end", "reload")
                     }
@@ -52,6 +53,12 @@ object CommandCreator : OnEnable {
                         val id = args.getOrNull(1) ?: return@execute sendError("モブアリーナを入力してください")
                         val arena = getArena(id) ?: return@execute sendError("モブアリーナが見つかりませんでした")
                         arena.spec(player)
+                    }
+                    "shop" -> {
+                        val player = sender as? Player ?: return@execute sendError(ErrorMessage.OnlyPlayer)
+                        val id = args.getOrNull(1) ?: return@execute sendError(ErrorMessage.NotEnterId)
+                        val shopData = Shop.get(id) ?: return@execute sendError(ErrorMessage.NotExistId)
+                        shopData.open(player)
                     }
                     "kit" -> {
                         val player = sender as? Player ?: return@execute sendError(ErrorMessage.OnlyPlayer)
