@@ -33,6 +33,7 @@ object ConfigLoader : OnEnable {
     fun load(sender: CommandSender) {
         loadArena(sender)
         loadKit(sender)
+        loadShop(sender)
     }
 
     @OptIn(ExperimentalStdlibApi::class)

@@ -14,10 +14,8 @@ class ConfigItemsDataType(private val itemConverter: ConfigItemConverter) : Conf
     ): List<ItemStack> {
         return buildList {
             config.get(path, ConfigDataType.STRINGLIST, notFoundError)?.forEach {
-                val slotNumber = it.toIntOrNull() ?: return@forEach config.typeMismatchError("$path.$it", "Int")
-                val line = config.get("$path.$it", ConfigDataType.STRING) ?: return@forEach config.nullError("$path.$it", "String")
-                val item = itemConverter.get(line) ?: return@forEach config.nullError("$path.$it", itemConverter.things)
-                this[slotNumber] = item
+                val item = itemConverter.get(it) ?: return@forEach config.nullError("$path.$it", itemConverter.things)
+                add(item)
             }
         }
     }
