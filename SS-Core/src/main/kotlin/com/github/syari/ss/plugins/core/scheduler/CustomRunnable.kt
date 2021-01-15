@@ -29,9 +29,14 @@ class CustomRunnable internal constructor(
     /**
      * キャンセルされているか取得します
      */
-    override val isCanceled get() = alreadyInit && task.isCancelled
+    override val isCanceled
+        get() = task.isCancelled
 
-    // override val isAsync get() = alreadyInit && task.isSync
+    /**
+     * 同期で処理されているか取得します
+     */
+    override val isSync
+        get() = task.isSync
 
     /**
      * 残りリピート回数

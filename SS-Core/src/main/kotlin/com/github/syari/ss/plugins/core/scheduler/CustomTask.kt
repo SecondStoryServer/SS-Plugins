@@ -3,7 +3,7 @@ package com.github.syari.ss.plugins.core.scheduler
 interface CustomTask {
     val isCanceled: Boolean
 
-    // val isAsync: Boolean
+    val isSync: Boolean
 
     val repeatRemain: Int
 
