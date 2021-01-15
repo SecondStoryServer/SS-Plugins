@@ -192,7 +192,7 @@ class MobArena(
                 val p = m.player
                 p.teleport(play.spawn)
                 p.activePotionEffects.clear()
-                p.health = p.getAttribute(Attribute.GENERIC_MAX_HEALTH)!!.baseValue
+                p.health = p.getAttribute(Attribute.GENERIC_MAX_HEALTH)!!.value
                 p.foodLevel = 20
                 firstMemberSize++
             }
