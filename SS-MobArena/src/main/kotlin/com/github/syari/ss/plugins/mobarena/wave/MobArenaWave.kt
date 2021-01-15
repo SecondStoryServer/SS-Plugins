@@ -1,11 +1,11 @@
-package com.github.syari.ss.plugins.mobarena.data.wave
+package com.github.syari.ss.plugins.mobarena.wave
 
 import com.github.syari.ss.plugins.core.bossBar.CustomBossBar.Companion.bossBar
 import com.github.syari.ss.plugins.core.scheduler.CreateScheduler.runTimer
 import com.github.syari.ss.plugins.mobarena.Main.Companion.plugin
-import com.github.syari.ss.plugins.mobarena.data.arena.MobArena
-import com.github.syari.ss.plugins.mobarena.data.wave.boss.MobArenaBoss
-import com.github.syari.ss.plugins.mobarena.data.wave.mob.MobArenaMob
+import com.github.syari.ss.plugins.mobarena.arena.MobArena
+import com.github.syari.ss.plugins.mobarena.wave.boss.MobArenaBoss
+import com.github.syari.ss.plugins.mobarena.wave.mob.MobArenaMob
 import org.bukkit.attribute.Attribute
 import org.bukkit.boss.BarColor
 import org.bukkit.boss.BarStyle

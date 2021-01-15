@@ -7,14 +7,14 @@ import com.github.syari.ss.plugins.core.command.create.CommandTabElement.Compani
 import com.github.syari.ss.plugins.core.command.create.ErrorMessage
 import com.github.syari.ss.plugins.core.message.Message.send
 import com.github.syari.ss.plugins.mobarena.Main.Companion.plugin
-import com.github.syari.ss.plugins.mobarena.data.MobArenaManager.arena
-import com.github.syari.ss.plugins.mobarena.data.MobArenaManager.arenaPlayer
-import com.github.syari.ss.plugins.mobarena.data.MobArenaManager.arenas
-import com.github.syari.ss.plugins.mobarena.data.MobArenaManager.endAllArena
-import com.github.syari.ss.plugins.mobarena.data.MobArenaManager.getArena
-import com.github.syari.ss.plugins.mobarena.data.arena.MobArena
-import com.github.syari.ss.plugins.mobarena.data.arena.MobArenaStatus
-import com.github.syari.ss.plugins.mobarena.data.kit.MobArenaKit
+import com.github.syari.ss.plugins.mobarena.MobArenaManager.arena
+import com.github.syari.ss.plugins.mobarena.MobArenaManager.arenaPlayer
+import com.github.syari.ss.plugins.mobarena.MobArenaManager.arenas
+import com.github.syari.ss.plugins.mobarena.MobArenaManager.endAllArena
+import com.github.syari.ss.plugins.mobarena.MobArenaManager.getArena
+import com.github.syari.ss.plugins.mobarena.arena.MobArena
+import com.github.syari.ss.plugins.mobarena.arena.MobArenaStatus
+import com.github.syari.ss.plugins.mobarena.kit.MobArenaKit
 import org.bukkit.entity.Player
 
 object CommandCreator : OnEnable {

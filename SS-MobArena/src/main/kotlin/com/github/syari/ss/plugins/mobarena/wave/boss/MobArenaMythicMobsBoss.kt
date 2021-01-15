@@ -1,4 +1,4 @@
-package com.github.syari.ss.plugins.mobarena.data.wave.boss
+package com.github.syari.ss.plugins.mobarena.wave.boss
 
 import com.github.syari.ss.plugins.dependency.mythicmobs.MythicMobsAPI.spawnMythicMobs
 import org.bukkit.Location

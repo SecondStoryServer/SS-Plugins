@@ -1,7 +1,6 @@
 package com.github.syari.ss.plugins.mobarena
 
 import com.github.syari.ss.plugins.core.code.SSPlugin
-import com.github.syari.ss.plugins.mobarena.data.MobArenaManager
 import org.bukkit.plugin.java.JavaPlugin
 
 class Main : SSPlugin() {

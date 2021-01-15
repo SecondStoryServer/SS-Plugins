@@ -1,8 +1,8 @@
-package com.github.syari.ss.plugins.mobarena.data
+package com.github.syari.ss.plugins.mobarena
 
 import com.github.syari.ss.plugins.core.code.OnDisable
-import com.github.syari.ss.plugins.mobarena.data.arena.MobArena
-import com.github.syari.ss.plugins.mobarena.data.arena.MobArenaPlayer
+import com.github.syari.ss.plugins.mobarena.arena.MobArena
+import com.github.syari.ss.plugins.mobarena.arena.MobArenaPlayer
 import org.bukkit.Location
 import org.bukkit.entity.Entity
 import org.bukkit.entity.Player

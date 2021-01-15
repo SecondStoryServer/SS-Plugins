@@ -1,4 +1,4 @@
-package com.github.syari.ss.plugins.mobarena.data.kit
+package com.github.syari.ss.plugins.mobarena.kit
 
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
