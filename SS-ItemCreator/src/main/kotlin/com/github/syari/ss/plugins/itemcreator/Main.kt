@@ -6,11 +6,13 @@ import com.github.syari.ss.plugins.core.command.create.CommandTabElement.Compani
 import com.github.syari.ss.plugins.core.command.create.ErrorMessage
 import com.github.syari.ss.plugins.core.item.Base64Item
 import com.github.syari.ss.plugins.core.item.CustomItemStack
+import com.github.syari.ss.plugins.core.item.ItemStackPlus.give
 import com.github.syari.ss.plugins.core.message.JsonBuilder
 import com.github.syari.ss.plugins.core.message.JsonBuilder.Companion.buildJson
 import com.github.syari.ss.plugins.core.message.Message.send
 import org.bukkit.Material
 import org.bukkit.entity.Player
+import org.bukkit.inventory.ItemStack
 
 class Main : SSPlugin() {
     override fun onEnable() {
@@ -18,21 +20,32 @@ class Main : SSPlugin() {
 
         command("citem", "ItemCreator") {
             tab {
-                arg { element("name", "lore", "type", "model", "unbreak") }
+                arg { element("name", "lore", "type", "model", "unbreak", "base64") }
                 arg("lore") { element("edit", "insert", "add", "remove", "clear") }
                 arg("type") { element(Material.values().map(Material::name)) }
             }
             execute {
                 val player = sender as? Player ?: return@execute sendError(ErrorMessage.OnlyPlayer)
-                val itemStack = player.inventory.itemInMainHand
-                val item = CustomItemStack.create(itemStack)
-                if (item.type == Material.AIR) return@execute sendError("アイテムを持ってください")
+
+                fun getHeldItem(): Pair<ItemStack, CustomItemStack>? {
+                    val itemStack = player.inventory.itemInMainHand
+                    val item = CustomItemStack.create(itemStack)
+                    return if (item.type == Material.AIR) {
+                        sendError("アイテムを持ってください")
+                        null
+                    } else {
+                        itemStack to item
+                    }
+                }
+
                 when (args.whenIndex(0)) {
                     "name" -> {
+                        val (_, item) = getHeldItem() ?: return@execute
                         item.display = args.slice(1).joinToString(" ").replaceSpace()
                         sendWithPrefix("アイテム名を変更しました")
                     }
                     "lore" -> {
+                        val (_, item) = getHeldItem() ?: return@execute
                         when (args.whenIndex(1)) {
                             "edit" -> {
                                 item.lore = args.slice(2).map(String::replaceSpace)
@@ -76,12 +89,14 @@ class Main : SSPlugin() {
                         }
                     }
                     "type" -> {
+                        val (_, item) = getHeldItem() ?: return@execute
                         val typeName = args.getOrNull(1)?.toUpperCase() ?: return@execute sendError("アイテムタイプを入力してください")
                         val type = Material.getMaterial(typeName) ?: return@execute sendError("存在しないアイテムタイプです")
                         item.type = type
                         sendWithPrefix("アイテムタイプを変更しました")
                     }
                     "model" -> {
+                        val (_, item) = getHeldItem() ?: return@execute
                         val customModelData = args.getOrNull(1)?.toIntOrNull()
                         item.customModelData = customModelData
                         if (customModelData != null) {
@@ -91,6 +106,7 @@ class Main : SSPlugin() {
                         }
                     }
                     "unbreak" -> {
+                        val (_, item) = getHeldItem() ?: return@execute
                         item.unbreakable = !item.unbreakable
                         if (item.unbreakable) {
                             sendWithPrefix("耐久無限を付与しました")
@@ -99,15 +115,21 @@ class Main : SSPlugin() {
                         }
                     }
                     "base64" -> {
-                        val base64 = Base64Item.toBase64(itemStack) ?: return@execute sendError("Base64の取得に失敗しました")
-                        val displayName = item.itemMeta?.displayName?.ifBlank { null } ?: item.i18NDisplayName ?: item.type.name
-                        sendWithPrefix(
-                            buildJson {
-                                append(displayName, JsonBuilder.Hover.Item(item))
-                                append("  ")
-                                append("&b[Base64]", JsonBuilder.Hover.Text("&6コピー"), JsonBuilder.Click.Clipboard(base64))
-                            }
-                        )
+                        args.getOrNull(1)?.let { base64 ->
+                            val itemStack = Base64Item.fromBase64(base64) ?: return@execute sendError("アイテムの取得に失敗しました")
+                            player.give(itemStack)
+                        } ?: run {
+                            val (itemStack, item) = getHeldItem() ?: return@execute
+                            val base64 = Base64Item.toBase64(itemStack) ?: return@execute sendError("Base64の取得に失敗しました")
+                            val displayName = item.itemMeta?.displayName?.ifBlank { null } ?: item.i18NDisplayName ?: item.type.name
+                            sendWithPrefix(
+                                buildJson {
+                                    append(displayName, JsonBuilder.Hover.Item(item))
+                                    append("  ")
+                                    append("&b[Base64]", JsonBuilder.Hover.Text("&6コピー"), JsonBuilder.Click.Clipboard(base64))
+                                }
+                            )
+                        }
                     }
                     else -> {
                         sendHelp(
@@ -116,7 +138,8 @@ class Main : SSPlugin() {
                             "citem type [Material]" to "アイテムタイプを変更します", //
                             "citem model [Value]" to "モデルデータ値を変更します", //
                             "citem unbreak" to "耐久無限を変更します", //
-                            "citem base64" to "アイテムをBase64に変換します",
+                            "citem base64" to "アイテムをBase64に変換します", //
+                            "citem base64 [value]" to "Base64をアイテムに変換します",
                         )
 
                         sender.send("&7* &a<sp> &7は &a空白 &7に置き換わります")
