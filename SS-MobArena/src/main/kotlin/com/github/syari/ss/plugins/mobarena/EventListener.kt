@@ -13,6 +13,8 @@ import org.bukkit.entity.Projectile
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.Action
+import org.bukkit.event.entity.EntityCombustByBlockEvent
+import org.bukkit.event.entity.EntityCombustEvent
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.entity.EntityDeathEvent
 import org.bukkit.event.entity.EntityTargetEvent
@@ -144,5 +146,15 @@ object EventListener : Listener {
         val entity = e.entity
         val arena = getArena(entity) ?: return
         if (e.target !is Player) e.target = arena.livingPlayers.random().player
+    }
+
+    @EventHandler
+    fun on(e: EntityCombustEvent) {
+        val entity = e.entity
+        if (getArena(entity) == null) return
+        if (e is EntityCombustByBlockEvent || e is EntityDamageByEntityEvent) {
+            return
+        }
+        e.isCancelled = true
     }
 }
