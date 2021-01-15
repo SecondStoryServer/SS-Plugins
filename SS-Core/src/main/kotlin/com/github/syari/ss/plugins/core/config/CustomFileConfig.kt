@@ -108,8 +108,9 @@ class CustomFileConfig internal constructor(
      * ファイルの変更を保存します
      */
     fun save() {
-        config.save(file)
-        if (deleteIfEmpty && file.length() == 0L) {
+        if (config.getValues(false).isNotEmpty()) {
+            config.save(file)
+        } else if (deleteIfEmpty) {
             delete()
         }
     }
