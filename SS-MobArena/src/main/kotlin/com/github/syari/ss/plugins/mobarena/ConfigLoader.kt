@@ -3,8 +3,9 @@ package com.github.syari.ss.plugins.mobarena
 import com.github.syari.ss.plugins.core.Main.Companion.console
 import com.github.syari.ss.plugins.core.code.OnEnable
 import com.github.syari.ss.plugins.core.config.CreateConfig.configDir
-import com.github.syari.ss.plugins.core.config.dataType.ConfigDataType
-import com.github.syari.ss.plugins.core.config.dataType.ConfigItemConverter
+import com.github.syari.ss.plugins.core.config.type.ConfigDataType
+import com.github.syari.ss.plugins.core.config.type.ConfigSectionType
+import com.github.syari.ss.plugins.core.config.type.data.ConfigItemConverter
 import com.github.syari.ss.plugins.core.message.Message.send
 import com.github.syari.ss.plugins.dependency.crackshot.CrackShotAPI
 import com.github.syari.ss.plugins.dependency.crackshotplus.CrackShotPlusAPI
@@ -51,12 +52,7 @@ object ConfigLoader : OnEnable {
             val kitLimit = get("limit.kit", ConfigDataType.INT, 1, false)
             val waveInterval = get("wave-interval", ConfigDataType.LONG, 200, false)
             val arena = MobArena(id, name, kits, lobby, play, spec, spawn, waveInterval, playerLimit, kitLimit)
-            val waves = section("wave")?.mapNotNull {
-                it.toIntOrNull() ?: run {
-                    typeMismatchError("&cWave($it)", "Int")
-                    null
-                }
-            }?.toMutableList()
+            val waves = section("wave", ConfigSectionType.INT)?.toMutableList()
             if (waves != null) {
                 waves.sort()
                 if (waves.first() == 1) {
@@ -119,16 +115,9 @@ object ConfigLoader : OnEnable {
                     val name = get("$id.name", ConfigDataType.STRING, id)
                     val line = get("$id.line", ConfigDataType.INT, 3, false)
                     val list = mutableMapOf<Int, ShopAction>()
-                    section("$id.list", false)?.forEach { rawSlot ->
-                        val slot = rawSlot.toIntOrNull()
-                        if (slot != null) {
-                            val elements = get("$id.list.$rawSlot", ConfigDataType.STRINGLIST)?.map {
-                                ShopElement.from(this, "$id.list.$rawSlot", it)
-                            }
-                            ShopAction.from(elements)?.let { list[slot] = it }
-                        } else {
-                            nullError("$id.list.$rawSlot", "Int")
-                        }
+                    section("$id.list", ConfigSectionType.INT, false)?.forEach { slot ->
+                        val elements = get("$id.list.$slot", ShopElement.ConfigDataType)
+                        ShopAction.from(elements)?.let { list[slot] = it }
                     }
                     this@buildMap[id] = Shop(name, line, list)
                 }

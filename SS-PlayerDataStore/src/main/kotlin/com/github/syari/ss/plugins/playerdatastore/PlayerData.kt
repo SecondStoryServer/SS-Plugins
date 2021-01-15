@@ -2,8 +2,8 @@ package com.github.syari.ss.plugins.playerdatastore
 
 import com.github.syari.ss.plugins.core.Main.Companion.console
 import com.github.syari.ss.plugins.core.config.CreateConfig.config
-import com.github.syari.ss.plugins.core.config.dataType.ConfigDataType
-import com.github.syari.ss.plugins.core.config.dataType.ConfigItemConverter
+import com.github.syari.ss.plugins.core.config.type.ConfigDataType
+import com.github.syari.ss.plugins.core.config.type.data.ConfigItemConverter
 import com.github.syari.ss.plugins.core.item.Base64Item
 import com.github.syari.ss.plugins.playerdatastore.Main.Companion.plugin
 import org.bukkit.Material
