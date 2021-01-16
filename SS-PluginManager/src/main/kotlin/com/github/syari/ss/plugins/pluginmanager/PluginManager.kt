@@ -3,6 +3,7 @@ package com.github.syari.ss.plugins.pluginmanager
 import com.github.syari.ss.plugins.pluginmanager.Main.Companion.plugin
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
+import org.bukkit.command.CommandMap
 import org.bukkit.command.PluginCommand
 import org.bukkit.command.SimpleCommandMap
 import org.bukkit.event.Event
@@ -12,12 +13,9 @@ import org.bukkit.plugin.Plugin
 import org.bukkit.plugin.PluginDescriptionFile
 import org.bukkit.plugin.RegisteredListener
 import java.io.File
-import java.io.IOException
 import java.net.URLClassLoader
 import java.util.SortedSet
 import java.util.jar.JarFile
-import java.util.logging.Level
-import java.util.logging.Logger
 
 object PluginManager {
     private inline val pluginManager
@@ -96,96 +94,71 @@ object PluginManager {
 
     @Suppress("UNCHECKED_CAST")
     fun unload(plugin: Plugin): Boolean {
-        val name = plugin.name
-        val commandMap: SimpleCommandMap?
-        val plugins: MutableList<Plugin?>?
-        val names: MutableMap<String?, Plugin?>?
-        val commands: MutableMap<String?, Command>?
-        var listeners: Map<Event?, SortedSet<RegisteredListener>>? = null
-        var reloadlisteners = true
-        pluginManager.disablePlugin(plugin)
-        try {
-            val pluginsField = Bukkit.getPluginManager().javaClass.getDeclaredField("plugins")
-            pluginsField.isAccessible = true
-            plugins = pluginsField[pluginManager] as MutableList<Plugin?>
-            val lookupNamesField = Bukkit.getPluginManager().javaClass.getDeclaredField("lookupNames")
-            lookupNamesField.isAccessible = true
-            names = lookupNamesField[pluginManager] as MutableMap<String?, Plugin?>
-            try {
-                val listenersField = Bukkit.getPluginManager().javaClass.getDeclaredField("listeners")
-                listenersField.isAccessible = true
-                listeners = listenersField[pluginManager] as Map<Event?, SortedSet<RegisteredListener>>
-            } catch (e: Exception) {
-                reloadlisteners = false
-            }
-            val commandMapField = Bukkit.getPluginManager().javaClass.getDeclaredField("commandMap")
-            commandMapField.isAccessible = true
-            commandMap = commandMapField[pluginManager] as SimpleCommandMap
-            val knownCommandsField = SimpleCommandMap::class.java.getDeclaredField("knownCommands")
-            knownCommandsField.isAccessible = true
-            commands = knownCommandsField[commandMap] as MutableMap<String?, Command>
-        } catch (e: NoSuchFieldException) {
-            e.printStackTrace()
-            return false
-        } catch (e: IllegalAccessException) {
-            e.printStackTrace()
-            return false
+        if (plugin.isEnabled) {
+            disable(plugin)
         }
-        pluginManager.disablePlugin(plugin)
-        if (plugins.contains(plugin)) plugins.remove(plugin)
-        if (names.containsKey(name)) names.remove(name)
-        if (listeners != null && reloadlisteners) {
-            for (set in listeners.values) {
-                val it = set.iterator()
-                while (it.hasNext()) {
-                    val value = it.next()
-                    if (value.plugin === plugin) {
-                        it.remove()
+        try {
+            val pluginsField = pluginManager.javaClass.getDeclaredField("plugins")
+            pluginsField.isAccessible = true
+            val plugins = pluginsField.get(pluginManager) as MutableList<Plugin>
+            val lookupNamesField = pluginManager.javaClass.getDeclaredField("lookupNames")
+            lookupNamesField.isAccessible = true
+            val lookupNames = lookupNamesField.get(pluginManager) as MutableMap<String, Plugin>
+            if (plugins.contains(plugin)) plugins.remove(plugin)
+            if (lookupNames.containsKey(plugin.name)) lookupNames.remove(plugin.name)
+            pluginsField.set(pluginManager, plugins)
+            lookupNamesField.set(pluginManager, lookupNames)
+            try {
+                try {
+                    val listenersField = pluginManager.javaClass.getDeclaredField("listeners")
+                    listenersField.isAccessible = true
+                    val listeners = listenersField.get(pluginManager) as MutableMap<Event, SortedSet<RegisteredListener>>
+                    val toRemoveFromListeners = arrayListOf<Event>()
+                    listeners.forEach { (event, listenerSet) ->
+                        listenerSet.forEach {
+                            if (it.plugin === plugin) {
+                                toRemoveFromListeners.add(event)
+                            }
+                        }
+                    }
+                    toRemoveFromListeners.forEach(listeners::remove)
+                    listenersField.set(pluginManager, listeners)
+                } catch (e: Exception) {
+                }
+
+                val commandMapField = pluginManager.javaClass.getDeclaredField("commandMap")
+                commandMapField.isAccessible = true
+                val commandMap = commandMapField.get(pluginManager) as CommandMap
+                val knownCommandsField = SimpleCommandMap::class.java.getDeclaredField("knownCommands")
+                knownCommandsField.isAccessible = true
+                val knownCommands = knownCommandsField.get(commandMap) as MutableMap<String, Command>
+                val toRemoveFromKnownCommands = arrayListOf<String>()
+                knownCommands.forEach { (name, command) ->
+                    if (command is PluginCommand && command.plugin === plugin) {
+                        command.unregister(commandMap)
+                        toRemoveFromKnownCommands.add(name)
                     }
                 }
+                toRemoveFromKnownCommands.forEach(knownCommands::remove)
+                knownCommandsField.set(commandMap, knownCommands)
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
-        }
-        val iterator = commands.entries.iterator()
-        while (iterator.hasNext()) {
-            val entry = iterator.next()
-            if (entry.value is PluginCommand) {
-                val c = entry.value as PluginCommand
-                if (c.plugin === plugin) {
-                    c.unregister(commandMap)
-                    iterator.remove()
-                }
-            }
-        }
-
-        // Attempt to close the classloader to unlock any handles on the plugin's jar file.
-        val cl = plugin.javaClass.classLoader
-        if (cl is URLClassLoader) {
-            try {
-                val pluginField = cl.javaClass.getDeclaredField("plugin")
+            val classLoader = pluginManager.javaClass.classLoader
+            if (classLoader is URLClassLoader) {
+                val pluginField = classLoader.javaClass.getDeclaredField("plugin")
                 pluginField.isAccessible = true
-                pluginField[cl] = null
-                val pluginInitField = cl.javaClass.getDeclaredField("pluginInit")
+                pluginField.set(classLoader, null)
+                val pluginInitField = classLoader.javaClass.getDeclaredField("pluginInit")
                 pluginInitField.isAccessible = true
-                pluginInitField[cl] = null
-            } catch (ex: NoSuchFieldException) {
-                Logger.getLogger(PluginManager::class.java.name).log(Level.SEVERE, null, ex)
-            } catch (ex: SecurityException) {
-                Logger.getLogger(PluginManager::class.java.name).log(Level.SEVERE, null, ex)
-            } catch (ex: IllegalArgumentException) {
-                Logger.getLogger(PluginManager::class.java.name).log(Level.SEVERE, null, ex)
-            } catch (ex: IllegalAccessException) {
-                Logger.getLogger(PluginManager::class.java.name).log(Level.SEVERE, null, ex)
+                pluginInitField.set(classLoader, null)
+                classLoader.close()
             }
-            try {
-                cl.close()
-            } catch (ex: IOException) {
-                Logger.getLogger(PluginManager::class.java.name).log(Level.SEVERE, null, ex)
-            }
+            System.gc()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return false
         }
-
-        // Will not work on processes started with the -XX:+DisableExplicitGC flag, but lets try it anyway.
-        // This tries to get around the issue where Windows refuses to unlock jar files that were previously loaded into the JVM.
-        System.gc()
         return true
     }
 
