@@ -517,6 +517,7 @@ class CustomItemStack internal constructor(
          * @param items アイテム
          * @return [List]<[CustomItemStack]>
          */
+        @Suppress("RemoveExplicitTypeArguments")
         @OptIn(ExperimentalStdlibApi::class)
         fun compress(items: Iterable<ItemStack>): List<CustomItemStack> {
             return buildList<CustomItemStack> {
