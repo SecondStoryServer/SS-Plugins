@@ -80,7 +80,7 @@ open class Project(val version: String, groupName: String = "") {
         override val dependProject = listOf(Core)
     }
 
-    object PluginManager : Project(7) {
+    object PluginManager : Project(8) {
         override val dependProject = listOf(Core)
     }
 
