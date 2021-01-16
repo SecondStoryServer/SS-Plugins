@@ -10,8 +10,9 @@ object CommandCreator : OnEnable {
     override fun onEnable() {
         plugin.command("pluginmanager", "SS-PluginManager") {
             tab {
-                arg { element("load", "enable", "disable") }
+                arg { element("load", "unload", "enable", "disable") }
                 arg("load") { element(PluginManager.unloadPluginNames) }
+                arg("unload") { element(PluginManager.loadedPluginNames) }
                 arg("enable") { element(PluginManager.enabledPlugins.map(Plugin::getName)) }
                 arg("disable") { element(PluginManager.disabledPlugins.map(Plugin::getName)) }
             }
@@ -26,6 +27,21 @@ object CommandCreator : OnEnable {
                             PluginManager.LoadResult.Success -> sendWithPrefix("&6$pluginName &fを読み込みました")
                             PluginManager.LoadResult.InvalidDescription -> sendError("&6$pluginName &cには plugin.yml が存在しません")
                             PluginManager.LoadResult.InvalidPlugin -> sendError("&6$pluginName &cは不正なプラグインです")
+                        }
+                    }
+                    "unload" -> {
+                        val pluginName = args.getOrNull(1) ?: return@execute sendError("プラグイン名を入力してください")
+                        val plugin = PluginManager.getPlugin(pluginName) ?: return@execute sendError("存在しないプラグインです")
+                        val dependOnPlugin = PluginManager.getPluginsDependOn(plugin)
+                        if (dependOnPlugin.isEmpty()) {
+                            sendWithPrefix("&6${plugin.name} &fの読み込みを停止します")
+                            if (PluginManager.unload(plugin)) {
+                                sendWithPrefix("&6${plugin.name} &fの読み込みを停止しました")
+                            } else {
+                                sendError("&6${plugin.name} &cの読み込みを停止できませんでした")
+                            }
+                        } else {
+                            sendError("&c依存しているプラグインがあるので読み込みを停止できません ${dependOnPlugin.joinToString("\n&6", "\n") { it.name }}")
                         }
                     }
                     "enable" -> {
@@ -50,7 +66,7 @@ object CommandCreator : OnEnable {
                     }
                     else -> sendHelp(
                         "pluginmanager load" to "読み込まれていないプラグインをロードします",
-                        "pluginmanager load" to "プラグインを読み込みを停止します",
+                        "pluginmanager unload" to "プラグインを読み込みを停止します",
                         "pluginmanager enable" to "プラグインを有効化します",
                         "pluginmanager disable" to "プラグインを無効化します"
                     )
