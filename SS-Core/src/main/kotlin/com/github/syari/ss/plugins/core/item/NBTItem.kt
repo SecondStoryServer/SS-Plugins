@@ -1,3 +1,5 @@
+@file:Suppress("unused", "MemberVisibilityCanBePrivate")
+
 package com.github.syari.ss.plugins.core.item
 
 import org.bukkit.craftbukkit.v1_16_R3.inventory.CraftItemStack

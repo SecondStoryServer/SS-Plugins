@@ -1,3 +1,5 @@
+@file:Suppress("unused", "MemberVisibilityCanBePrivate")
+
 package com.github.syari.ss.plugins.core.command.create
 
 import com.github.syari.ss.plugins.core.code.StringEditor.toColor

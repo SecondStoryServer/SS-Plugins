@@ -1,3 +1,5 @@
+@file:Suppress("unused", "MemberVisibilityCanBePrivate")
+
 package com.github.syari.ss.plugins.core.config.type
 
 import com.github.syari.ss.plugins.core.config.CustomConfig

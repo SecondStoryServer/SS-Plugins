@@ -1,3 +1,5 @@
+@file:Suppress("unused", "MemberVisibilityCanBePrivate")
+
 package com.github.syari.ss.plugins.core.bossBar
 
 import com.github.syari.ss.plugins.core.Main.Companion.plugin
