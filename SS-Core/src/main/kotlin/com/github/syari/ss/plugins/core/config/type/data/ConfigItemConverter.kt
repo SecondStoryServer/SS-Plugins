@@ -6,6 +6,7 @@ import org.bukkit.inventory.ItemStack
 abstract class ConfigItemConverter(val things: String) {
     abstract fun get(line: String): ItemStack?
 
+    @Suppress("FunctionName")
     companion object {
         val Base64 = object : ConfigItemConverter("ItemStack(Base64)") {
             override fun get(line: String) = Base64Item.fromBase64(line)

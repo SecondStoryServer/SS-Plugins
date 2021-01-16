@@ -71,6 +71,7 @@ interface ConfigDataType<T> {
         )
     }
 
+    @Suppress("FunctionName")
     companion object {
         val NUMBER = ConfigNumberDataType
         val INT = ConfigIntDataType
