@@ -2,7 +2,7 @@ val project = Project.Core
 group = project.group
 
 dependencies {
-    api(files("dependencyJar/patched_1.16.4.jar"))
+    api(files("dependencyJar/patched_1.16.5.jar"))
 }
 
 bukkit {
