@@ -22,8 +22,11 @@ object CommandCreator : OnEnable {
                         if (PluginManager.isLoaded(pluginName)) return@execute sendError("読み込まれているプラグインです")
                         val file = PluginManager.getPluginJar(pluginName) ?: return@execute sendError("プラグインが見つかりませんでした")
                         sendWithPrefix("&6$pluginName &fを読み込みます")
-                        PluginManager.load(file)
-                        sendWithPrefix("&6$pluginName &fを読み込みました")
+                        when (PluginManager.load(file)) {
+                            PluginManager.LoadResult.Success -> sendWithPrefix("&6$pluginName &fを読み込みました")
+                            PluginManager.LoadResult.InvalidDescription -> sendError("&6$pluginName &cには plugin.yml が存在しません")
+                            PluginManager.LoadResult.InvalidPlugin -> sendError("&6$pluginName &cは不正なプラグインです")
+                        }
                     }
                     "enable" -> {
                         val pluginName = args.getOrNull(1) ?: return@execute sendError("プラグイン名を入力してください")

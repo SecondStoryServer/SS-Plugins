@@ -1,8 +1,9 @@
 package com.github.syari.ss.plugins.pluginmanager
 
 import com.github.syari.ss.plugins.pluginmanager.Main.Companion.plugin
-import com.github.syari.ss.plugins.pluginmanager.PluginManager.pluginName
 import org.bukkit.Bukkit
+import org.bukkit.plugin.InvalidDescriptionException
+import org.bukkit.plugin.InvalidPluginException
 import org.bukkit.plugin.Plugin
 import org.bukkit.plugin.PluginDescriptionFile
 import java.io.File
@@ -60,7 +61,23 @@ object PluginManager {
 
     fun isLoaded(name: String) = getPlugin(name) != null
 
-    fun load(jar: File) {
+    enum class LoadResult {
+        Success, InvalidDescription, InvalidPlugin
+    }
+
+    fun load(jar: File): LoadResult {
         pluginManager.loadPlugin(jar)
+        val plugin = try {
+            Bukkit.getPluginManager().loadPlugin(jar)!!
+        } catch (e: InvalidDescriptionException) {
+            e.printStackTrace()
+            return LoadResult.InvalidDescription
+        } catch (e: InvalidPluginException) {
+            e.printStackTrace()
+            return LoadResult.InvalidPlugin
+        }
+        plugin.onLoad()
+        Bukkit.getPluginManager().enablePlugin(plugin)
+        return LoadResult.Success
     }
 }
