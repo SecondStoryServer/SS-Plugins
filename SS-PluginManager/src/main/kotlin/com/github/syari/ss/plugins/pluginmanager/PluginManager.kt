@@ -188,4 +188,9 @@ object PluginManager {
         System.gc()
         return true
     }
+
+    fun reload(plugin: Plugin): Boolean {
+        unload(plugin)
+        return getPluginJar(plugin.name)?.let(::load) != null
+    }
 }

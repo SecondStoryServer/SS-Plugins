@@ -10,9 +10,9 @@ object CommandCreator : OnEnable {
     override fun onEnable() {
         plugin.command("pluginmanager", "SS-PluginManager") {
             tab {
-                arg { element("load", "unload", "enable", "disable") }
+                arg { element("load", "unload", "reload", "enable", "disable") }
                 arg("load") { element(PluginManager.unloadPluginNames) }
-                arg("unload") { element(PluginManager.loadedPluginNames) }
+                arg("unload", "reload") { element(PluginManager.loadedPluginNames) }
                 arg("enable") { element(PluginManager.enabledPlugins.map(Plugin::getName)) }
                 arg("disable") { element(PluginManager.disabledPlugins.map(Plugin::getName)) }
             }
@@ -44,6 +44,21 @@ object CommandCreator : OnEnable {
                             sendError("&c依存しているプラグインがあるので読み込みを停止できません ${dependOnPlugin.joinToString("\n&6", "\n") { it.name }}")
                         }
                     }
+                    "reload" -> {
+                        val pluginName = args.getOrNull(1) ?: return@execute sendError("プラグイン名を入力してください")
+                        val plugin = PluginManager.getPlugin(pluginName) ?: return@execute sendError("存在しないプラグインです")
+                        val dependOnPlugin = PluginManager.getPluginsDependOn(plugin)
+                        if (dependOnPlugin.isEmpty()) {
+                            sendWithPrefix("&6${plugin.name} &fをリロードします")
+                            if (PluginManager.reload(plugin)) {
+                                sendWithPrefix("&6${plugin.name} &fをリロードしました")
+                            } else {
+                                sendError("&6${plugin.name} &cのリロードに失敗しました")
+                            }
+                        } else {
+                            sendError("&c依存しているプラグインがあるのでリロードできません ${dependOnPlugin.joinToString("\n&6", "\n") { it.name }}")
+                        }
+                    }
                     "enable" -> {
                         val pluginName = args.getOrNull(1) ?: return@execute sendError("プラグイン名を入力してください")
                         val plugin = PluginManager.getPlugin(pluginName) ?: return@execute sendError("存在しないプラグインです")
@@ -67,6 +82,7 @@ object CommandCreator : OnEnable {
                     else -> sendHelp(
                         "pluginmanager load" to "読み込まれていないプラグインをロードします",
                         "pluginmanager unload" to "プラグインを読み込みを停止します",
+                        "pluginmanager reload" to "プラグインをリロードします",
                         "pluginmanager enable" to "プラグインを有効化します",
                         "pluginmanager disable" to "プラグインを無効化します"
                     )
