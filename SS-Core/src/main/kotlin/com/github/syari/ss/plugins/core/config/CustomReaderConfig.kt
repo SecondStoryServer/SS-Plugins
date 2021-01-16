@@ -1,3 +1,5 @@
+@file:Suppress("unused", "MemberVisibilityCanBePrivate")
+
 package com.github.syari.ss.plugins.core.config
 
 import com.github.syari.ss.plugins.core.message.Message.send

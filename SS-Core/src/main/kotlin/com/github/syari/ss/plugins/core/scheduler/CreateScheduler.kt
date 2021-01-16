@@ -1,3 +1,5 @@
+@file:Suppress("unused", "MemberVisibilityCanBePrivate")
+
 package com.github.syari.ss.plugins.core.scheduler
 
 import org.bukkit.plugin.java.JavaPlugin

@@ -1,3 +1,5 @@
+@file:Suppress("unused", "MemberVisibilityCanBePrivate")
+
 package com.github.syari.ss.plugins.core.player
 
 import com.github.syari.ss.plugins.core.code.UUIDConverter.toUUIDOrNull

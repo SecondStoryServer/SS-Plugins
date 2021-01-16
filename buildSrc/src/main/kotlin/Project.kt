@@ -1,3 +1,5 @@
+@file:Suppress("unused", "MemberVisibilityCanBePrivate")
+
 open class Project(val version: String, groupName: String = "") {
     constructor(buildVersion: Int) : this(buildVersion.toString())
 

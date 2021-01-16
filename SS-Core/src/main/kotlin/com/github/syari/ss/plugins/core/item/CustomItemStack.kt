@@ -1,3 +1,5 @@
+@file:Suppress("unused", "MemberVisibilityCanBePrivate")
+
 package com.github.syari.ss.plugins.core.item
 
 import com.github.syari.ss.plugins.core.Main.Companion.plugin
@@ -515,6 +517,7 @@ class CustomItemStack internal constructor(
          * @param items アイテム
          * @return [List]<[CustomItemStack]>
          */
+        @Suppress("RemoveExplicitTypeArguments")
         @OptIn(ExperimentalStdlibApi::class)
         fun compress(items: Iterable<ItemStack>): List<CustomItemStack> {
             return buildList<CustomItemStack> {

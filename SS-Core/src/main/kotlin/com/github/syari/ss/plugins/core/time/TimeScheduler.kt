@@ -1,3 +1,5 @@
+@file:Suppress("unused", "MemberVisibilityCanBePrivate")
+
 package com.github.syari.ss.plugins.core.time
 
 import com.github.syari.ss.plugins.core.Main.Companion.plugin

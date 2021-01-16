@@ -1,3 +1,5 @@
+@file:Suppress("unused", "MemberVisibilityCanBePrivate")
+
 package com.github.syari.ss.plugins.core.config.type
 
 import com.github.syari.ss.plugins.core.config.CustomConfig
@@ -71,6 +73,7 @@ interface ConfigDataType<T> {
         )
     }
 
+    @Suppress("FunctionName")
     companion object {
         val NUMBER = ConfigNumberDataType
         val INT = ConfigIntDataType

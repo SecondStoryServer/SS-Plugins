@@ -1,3 +1,5 @@
+@file:Suppress("unused", "MemberVisibilityCanBePrivate")
+
 package com.github.syari.ss.plugins.core.pluginMessage
 
 import com.github.syari.ss.plugins.core.event.CustomEvent
