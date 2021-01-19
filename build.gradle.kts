@@ -52,3 +52,30 @@ subprojects {
         version.set("0.40.0")
     }
 }
+
+task("updateVersions") {
+    doLast {
+        val outputBlockComment = "<!-- Generate Versions -->"
+        val escapedOutputBlockComment = Regex.escape(outputBlockComment)
+        val mdFile = file("README.md")
+        val fileContent = mdFile.bufferedReader().use { it.readText() }
+        mdFile.writeText(
+            fileContent.replace(
+                "$escapedOutputBlockComment[\\s\\S]*$escapedOutputBlockComment".toRegex(),
+                buildString {
+                    appendln(outputBlockComment)
+                    appendln(
+                        """
+                    | Name | Version |
+                    |:-----|--------:|
+                        """.trimIndent()
+                    )
+                    Project.list.sortedBy { it.name }.forEach {
+                        appendln("| ${it.name} | ${it.version} |")
+                    }
+                    append(outputBlockComment)
+                }
+            )
+        )
+    }
+}

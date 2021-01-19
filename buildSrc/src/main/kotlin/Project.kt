@@ -1,6 +1,10 @@
 @file:Suppress("unused", "MemberVisibilityCanBePrivate")
 
 open class Project(val version: String, groupName: String = "") {
+    companion object {
+        val list = mutableListOf<Project>()
+    }
+
     constructor(buildVersion: Int) : this(buildVersion.toString())
 
     private val simpleName = javaClass.simpleName
@@ -18,6 +22,10 @@ open class Project(val version: String, groupName: String = "") {
     val softDependProjectName by lazy { softDependProject.map { it.name } }
     val allSoftDependPlugin by lazy { softDependProjectName + softDependPlugin }
     val implementationProjects by lazy { dependProjectName + softDependProjectName }
+
+    init {
+        list.add(this)
+    }
 
     object AutoCommand : Project(3) {
         override val dependProject = listOf(Core)
