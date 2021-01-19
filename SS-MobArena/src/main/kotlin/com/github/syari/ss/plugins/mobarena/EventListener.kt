@@ -7,6 +7,7 @@ import com.github.syari.ss.plugins.mobarena.MobArenaManager.getArena
 import com.github.syari.ss.plugins.mobarena.MobArenaManager.getArenaInPlay
 import com.github.syari.ss.plugins.mobarena.MobArenaManager.inMobArena
 import org.bukkit.Material
+import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
 import org.bukkit.entity.Projectile
 import org.bukkit.event.EventHandler
@@ -99,14 +100,20 @@ object EventListener : Listener {
 
     @EventHandler(ignoreCancelled = true)
     fun on(e: EntityDamageByEntityEvent) {
-        val victim = e.entity as? Player ?: return
+        val victim = e.entity
         val attacker = when (e.damager) {
-            is Player -> e.damager as Player
-            is Projectile -> (e.damager as Projectile).shooter as? Player
-            else -> null
-        } ?: return
-        if (victim.inMobArena || attacker.inMobArena) {
-            e.isCancelled = true
+            is Projectile -> (e.damager as Projectile).shooter as? Entity
+            else -> e.damager
+        }
+        if (victim is Player) {
+            if (attacker is Player && (victim.inMobArena || attacker.inMobArena)) {
+                e.isCancelled = true
+            }
+        } else if (attacker != null) {
+            val victimArena = getArena(victim)
+            if (victimArena != null && victimArena == getArena(attacker)) {
+                e.isCancelled = true
+            }
         }
     }
 

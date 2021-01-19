@@ -295,7 +295,7 @@ class CustomItemStack internal constructor(
      */
     val toOneItemStack: ItemStack
         get() {
-            return item.clone().apply { amount = if (64 < amount) 64 else amount }
+            return item.clone().also { it.amount = if (64 < amount) 64 else amount }
         }
 
     /**

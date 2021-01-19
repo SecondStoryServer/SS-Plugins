@@ -6,6 +6,7 @@ import com.github.syari.ss.plugins.core.inventory.CreateInventory.inventory
 import com.github.syari.ss.plugins.core.item.ItemStackPlus.give
 import com.github.syari.ss.plugins.core.message.Message.broadcast
 import com.github.syari.ss.plugins.core.message.Message.send
+import com.github.syari.ss.plugins.core.pluginMessage.PluginMessage
 import com.github.syari.ss.plugins.core.scheduler.CreateScheduler.runLater
 import com.github.syari.ss.plugins.core.scheduler.CreateScheduler.runRepeatTimes
 import com.github.syari.ss.plugins.core.scheduler.CustomTask
@@ -16,6 +17,7 @@ import com.github.syari.ss.plugins.mobarena.MobArenaManager.inMobArena
 import com.github.syari.ss.plugins.mobarena.kit.MobArenaKit
 import com.github.syari.ss.plugins.mobarena.wave.MobArenaWave
 import com.github.syari.ss.plugins.playerdatastore.PlayerData
+import com.github.syari.ss.template.message.PluginMessageTemplateChatChannel
 import org.bukkit.Location
 import org.bukkit.attribute.Attribute
 import org.bukkit.boss.BarColor
@@ -57,6 +59,42 @@ class MobArena(
             &a&lキット &7≫ &e${if (arenaPlayer != null && arenaPlayer.play) arenaPlayer.kit?.name ?: "&c未設定" else "&b&l観戦者"}
             &e&m------------------------
         """.trimIndent()
+    }
+
+    private val chatChannel = "mob_arena/$id"
+
+    private fun setChatChannel(player: Player) {
+        PluginMessage.send(
+            PluginMessageTemplateChatChannel(
+                PluginMessageTemplateChatChannel.UpdateTask.AddPlayer,
+                chatChannel,
+                listOf(player.name)
+            )
+        )
+        PluginMessage.send(
+            PluginMessageTemplateChatChannel(
+                PluginMessageTemplateChatChannel.UpdateTask.SetSpeaker,
+                chatChannel,
+                listOf(player.name)
+            )
+        )
+    }
+
+    fun unsetChatChannel(player: Player) {
+        PluginMessage.send(
+            PluginMessageTemplateChatChannel(
+                PluginMessageTemplateChatChannel.UpdateTask.RemovePlayer,
+                chatChannel,
+                listOf(player.name)
+            )
+        )
+        PluginMessage.send(
+            PluginMessageTemplateChatChannel(
+                PluginMessageTemplateChatChannel.UpdateTask.UnSetSpeaker,
+                chatChannel,
+                listOf(player.name)
+            )
+        )
     }
 
     fun getPlayer(player: Player) = players.firstOrNull { it.player == player }
@@ -152,6 +190,7 @@ class MobArena(
         p.closeInventory()
         p.teleport(lobby.spawn)
         board.addPlayer(p)
+        setChatChannel(p)
         updateAllBoard()
     }
 
@@ -190,6 +229,7 @@ class MobArena(
             PlayerData.loadStoreData(p)
         }
         board.removePlayer(p)
+        unsetChatChannel(p)
         updateAllBoard()
     }
 
