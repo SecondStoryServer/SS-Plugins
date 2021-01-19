@@ -21,6 +21,9 @@ subprojects {
     apply(plugin = "net.minecrell.plugin-yml.bukkit")
     apply(plugin = "org.jlleitschuh.gradle.ktlint")
 
+    val shadowImplementation by configurations.creating
+    configurations["implementation"].extendsFrom(shadowImplementation)
+
     repositories {
         maven {
             url = uri("https://papermc.io/repo/repository/maven-public/")
@@ -40,8 +43,8 @@ subprojects {
     }
 
     tasks.withType<ShadowJar> {
-        configurations = listOf(project.configurations.compileOnly.get())
-        classifier = null
+        configurations = listOf(shadowImplementation)
+        archiveClassifier.set("")
         destinationDirectory.set(file("../jars"))
     }
 
