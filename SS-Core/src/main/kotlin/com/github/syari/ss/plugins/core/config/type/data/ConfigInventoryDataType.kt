@@ -16,11 +16,10 @@ class ConfigInventoryDataType(private val itemConverter: ConfigItemConverter) : 
         path: String,
         notFoundError: Boolean
     ): Map<Int, ItemStack> {
+        val itemDataType = ConfigDataType.ITEM(itemConverter)
         return buildMap {
             config.section(path, ConfigSectionType.INT, notFoundError)?.forEach {
-                val line = config.get("$path.$it", ConfigDataType.STRING) ?: return@forEach config.nullError("$path.$it", "String")
-                val item = itemConverter.get(line) ?: return@forEach config.nullError("$path.$it", itemConverter.things)
-                this[it] = item
+                this[it] = config.get("$path.$it", itemDataType) ?: return@forEach
             }
         }
     }

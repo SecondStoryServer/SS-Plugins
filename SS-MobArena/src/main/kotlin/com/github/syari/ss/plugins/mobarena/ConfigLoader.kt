@@ -78,7 +78,7 @@ object ConfigLoader : OnEnable {
                             boss = get("wave.$wave.boss", ConfigDataType.STRING, false)?.let {
                                 MobArenaMythicMobsBoss(it)
                             }
-                            upgradeItem = get("wave.$wave.upgrade", ConfigDataType.ITEMS(itemConverter), listOf(), false)
+                            upgradeItem = get("wave.$wave.upgrade", ConfigDataType.ITEMLIST(itemConverter), listOf(), false)
                             lastWave = wave
                         }
                         add(MobArenaWave(arena, lastWave..lastWave, mobAmount, true, mobs, boss, upgradeItem))
