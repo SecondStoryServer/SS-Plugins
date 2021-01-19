@@ -16,10 +16,9 @@ All Paper Plugins For SecondStory.
 | SS-Dependency-MythicMobs | 4.11.0-build-3527 |
 | SS-GlobalPlayers | 3 |
 | SS-Discord | 1 |
-| SS-ItemCreator | 6 |
-| SS-ItemFrameCommand | 6 |
+| SS-ItemCreator | 7 |
+| SS-ItemFrameCommand | 1 |
 | SS-Kotlin | 1.4.21 |
-| SS-MaterialChecker | 4 |
 | SS-MobArena | 10 |
 | SS-PlayerDataStore | 5 |
 | SS-PluginManager | 8 |
