@@ -12,7 +12,6 @@ include(
     "SS-ItemCreator",
     "SS-ItemFrameCommand",
     "SS-Kotlin",
-    "SS-MaterialChecker",
     "SS-MobArena",
     "SS-PlayerDataStore",
     "SS-PluginManager",

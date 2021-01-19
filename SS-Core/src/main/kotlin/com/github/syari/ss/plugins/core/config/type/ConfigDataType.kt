@@ -10,7 +10,8 @@ import com.github.syari.ss.plugins.core.config.type.data.ConfigFloatDataType
 import com.github.syari.ss.plugins.core.config.type.data.ConfigIntDataType
 import com.github.syari.ss.plugins.core.config.type.data.ConfigInventoryDataType
 import com.github.syari.ss.plugins.core.config.type.data.ConfigItemConverter
-import com.github.syari.ss.plugins.core.config.type.data.ConfigItemsDataType
+import com.github.syari.ss.plugins.core.config.type.data.ConfigItemDataType
+import com.github.syari.ss.plugins.core.config.type.data.ConfigItemListDataType
 import com.github.syari.ss.plugins.core.config.type.data.ConfigLocationDataType
 import com.github.syari.ss.plugins.core.config.type.data.ConfigLongDataType
 import com.github.syari.ss.plugins.core.config.type.data.ConfigMaterialDataType
@@ -88,7 +89,8 @@ interface ConfigDataType<T> {
         val VECTOR5D = ConfigVector3DDataType
         val WORLD = ConfigWorldDataType
         val MATERIAL = ConfigMaterialDataType
-        fun ITEMS(itemConverter: ConfigItemConverter) = ConfigItemsDataType(itemConverter)
+        fun ITEM(itemConverter: ConfigItemConverter) = ConfigItemDataType(itemConverter)
+        fun ITEMLIST(itemConverter: ConfigItemConverter) = ConfigItemListDataType(itemConverter)
         fun INVENTORY(itemConverter: ConfigItemConverter) = ConfigInventoryDataType(itemConverter)
         val PARTICLE = ConfigParticleDataType
         val POTION = ConfigPotionDataType

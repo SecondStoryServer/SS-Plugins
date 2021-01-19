@@ -89,11 +89,21 @@ class Main : SSPlugin() {
                         }
                     }
                     "type" -> {
-                        val (_, item) = getHeldItem() ?: return@execute
-                        val typeName = args.getOrNull(1)?.toUpperCase() ?: return@execute sendError("アイテムタイプを入力してください")
-                        val type = Material.getMaterial(typeName) ?: return@execute sendError("存在しないアイテムタイプです")
-                        item.type = type
-                        sendWithPrefix("アイテムタイプを変更しました")
+                        val typeName = args.getOrNull(1)?.toUpperCase()
+                        if (typeName != null) {
+                            val (_, item) = getHeldItem() ?: return@execute
+                            val type = Material.getMaterial(typeName) ?: return@execute sendError("存在しないアイテムタイプです")
+                            item.type = type
+                            sendWithPrefix("アイテムタイプを変更しました")
+                        } else {
+                            val item = player.inventory.itemInMainHand
+                            val itemTypeName = item.type.name
+                            sendWithPrefix(
+                                buildJson {
+                                    append(itemTypeName, JsonBuilder.Hover.Text("&6コピー"), JsonBuilder.Click.Clipboard(itemTypeName))
+                                }
+                            )
+                        }
                     }
                     "model" -> {
                         val (_, item) = getHeldItem() ?: return@execute
@@ -135,6 +145,7 @@ class Main : SSPlugin() {
                         sendHelp(
                             "citem name [Name]" to "アイテム名を変更します", //
                             "citem lore" to "説明文を変更します", //
+                            "citem type" to "アイテムタイプを出力します", //
                             "citem type [Material]" to "アイテムタイプを変更します", //
                             "citem model [Value]" to "モデルデータ値を変更します", //
                             "citem unbreak" to "耐久無限を変更します", //
