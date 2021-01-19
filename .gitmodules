@@ -1,3 +1,3 @@
-[submodule "SS-Core/src/main/kotlin/com/github/syari/ss/tempalte/message"]
-	path = SS-Core/src/main/kotlin/com/github/syari/ss/tempalte/message
+[submodule "SS-Core/src/main/kotlin/com/github/syari/ss/template/message"]
+	path = SS-Core/src/main/kotlin/com/github/syari/ss/template/message
 	url = https://github.com/SecondStoryServer/SS-Plugins-Message
