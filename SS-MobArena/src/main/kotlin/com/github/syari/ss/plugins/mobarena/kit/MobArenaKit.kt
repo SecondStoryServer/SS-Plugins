@@ -1,5 +1,6 @@
 package com.github.syari.ss.plugins.mobarena.kit
 
+import com.github.syari.ss.plugins.core.code.StringEditor.toUncolor
 import com.github.syari.ss.plugins.core.inventory.CreateInventory.inventory
 import com.github.syari.ss.plugins.core.item.CustomItemStack
 import com.github.syari.ss.plugins.mobarena.MobArenaManager
@@ -38,8 +39,8 @@ class MobArenaKit(
                             kit.icon.clone {
                                 editLore {
                                     add("")
-                                    add("&a使用アリーナ")
-                                    addAll(MobArenaManager.arenas.filter { it.kits.contains(kit.id) }.map { "&7- ${it.id}" })
+                                    add("&a使用アリーナ:")
+                                    addAll(MobArenaManager.arenas.filter { it.kits.contains(kit.id) }.map { " &7- ${it.id}" })
                                 }
                             }
                         ).event {
@@ -72,16 +73,16 @@ class MobArenaKit(
     }
 
     val icon = icon.clone {
-        display = name
+        display = "&b$name"
         editLore {
             add(description)
             add("")
-            add("&6" + "⭐".repeat(difficulty))
+            add("&7難易度: &6" + "⭐".repeat(difficulty))
         }
     }
 
     fun openPreview(player: Player, onClose: () -> Unit) {
-        inventory(name, 6) {
+        inventory("&9&l${name.toUncolor}", 6) {
             var slot = 0
             for (i in 9 until 36) {
                 items[i]?.let { item(slot, it) }
@@ -92,7 +93,7 @@ class MobArenaKit(
                 slot ++
             }
             slot += 2
-            for (i in 36..40) {
+            for (i in 40 downTo 36) {
                 items[i]?.let { item(slot, it) }
                 slot ++
             }
