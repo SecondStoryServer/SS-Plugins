@@ -102,7 +102,7 @@ object ConfigLoader : OnEnable {
             plugin.configDir(sender, "Kit") {
                 val id = fileNameWithoutExtension
                 val name = get("name", ConfigDataType.STRING, id)
-                val icon = CustomItemStack.create(get("icon", ConfigDataType.ITEM(itemConverter)))
+                val icon = CustomItemStack.create(get("icon", ConfigDataType.ITEM(itemConverter), ItemStack(Material.STONE)))
                 val description = get("description", ConfigDataType.STRING, "")
                 val difficulty = get("difficulty", ConfigDataType.INT, 1)
                 val items = get("items", ConfigDataType.INVENTORY(itemConverter), mapOf())
