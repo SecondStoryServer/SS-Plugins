@@ -80,7 +80,7 @@ class MobArena(
         )
     }
 
-    fun unsetChatChannel(player: Player) {
+    private fun unsetChatChannel(player: Player) {
         PluginMessage.send(
             PluginMessageTemplateChatChannel(
                 PluginMessageTemplateChatChannel.UpdateTask.RemovePlayer,
