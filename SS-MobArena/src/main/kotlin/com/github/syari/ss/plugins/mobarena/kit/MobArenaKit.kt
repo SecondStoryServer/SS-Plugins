@@ -12,7 +12,7 @@ class MobArenaKit(
     val id: String,
     val name: String,
     icon: CustomItemStack,
-    description: String,
+    description: List<String>,
     difficulty: Int,
     val items: Map<Int, ItemStack>
 ) {
@@ -75,7 +75,7 @@ class MobArenaKit(
     val icon = icon.clone {
         display = "&b$name"
         editLore {
-            add(description)
+            addAll(description)
             add("")
             add("&7難易度: &6" + "⭐".repeat(difficulty))
         }
