@@ -44,7 +44,7 @@ open class Project(val version: String, groupName: String = "") {
     }
 
     open class Dependency(version: String) : Project(version, "Dependency") {
-        object CrackShot : Dependency("0.98.9") {
+        object CrackShot : Dependency("0.98.11") {
             override val dependProject = listOf(Core)
             override val dependPlugin = listOf("CrackShot")
         }
@@ -54,7 +54,7 @@ open class Project(val version: String, groupName: String = "") {
             override val dependPlugin = listOf("CrackShotPlus")
         }
 
-        object MythicMobs : Dependency("4.11.0-build-3527") {
+        object MythicMobs : Dependency("4.11.0-beta-1") {
             override val dependProject = listOf(Core)
             override val dependPlugin = listOf("MythicMobs")
         }
