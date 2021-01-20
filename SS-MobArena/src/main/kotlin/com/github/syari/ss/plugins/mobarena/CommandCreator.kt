@@ -27,7 +27,7 @@ object CommandCreator : OnEnable {
                     if (player != null) {
                         val arenaPlayer = player.arenaPlayer
                         when {
-                            arenaPlayer == null -> element("join", "spec", "shop")
+                            arenaPlayer == null -> element("join", "spec", "shop", "kit")
                             arenaPlayer.play -> element("leave", "ready", "notready", "kit")
                             else -> element("join", "leave")
                         }
@@ -70,14 +70,18 @@ object CommandCreator : OnEnable {
                     }
                     "kit" -> {
                         val player = sender as? Player ?: return@execute sendError(ErrorMessage.OnlyPlayer)
-                        val arenaPlayer = player.arenaPlayer ?: return@execute sendError("モブアリーナに入っていません")
-                        if (arenaPlayer.play) {
-                            val id = args.getOrNull(1) ?: return@execute sendError("キット名を入力してください")
-                            val kit = MobArenaKit.getKit(id) ?: return@execute sendError("存在しないキットです")
-                            if (arenaPlayer.arena.availableKit(kit).not()) return@execute sendError("使用不可能なキットです")
-                            arenaPlayer.loadKit(kit)
+                        val arenaPlayer = player.arenaPlayer
+                        if (arenaPlayer != null) {
+                            if (arenaPlayer.play) {
+                                val id = args.getOrNull(1) ?: return@execute sendError("キット名を入力してください")
+                                val kit = MobArenaKit.getKit(id) ?: return@execute sendError("存在しないキットです")
+                                if (arenaPlayer.arena.availableKit(kit).not()) return@execute sendError("使用不可能なキットです")
+                                arenaPlayer.loadKit(kit)
+                            } else {
+                                sendError("モブアリーナに参加していません")
+                            }
                         } else {
-                            sendError("モブアリーナに参加していません")
+                            MobArenaKit.openPreviewList(player)
                         }
                     }
                     "ready", "r" -> {

@@ -78,7 +78,7 @@ open class Project(val version: String, groupName: String = "") {
 
     object Kotlin : Project("1.4.21")
 
-    object MobArena : Project(10) {
+    object MobArena : Project(11) {
         override val dependProject = listOf(Core, Dependency.CrackShot, Dependency.CrackShotPlus, Dependency.MythicMobs, PlayerDataStore)
     }
 

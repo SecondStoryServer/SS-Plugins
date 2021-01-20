@@ -6,6 +6,7 @@ import com.github.syari.ss.plugins.core.config.CreateConfig.configDir
 import com.github.syari.ss.plugins.core.config.type.ConfigDataType
 import com.github.syari.ss.plugins.core.config.type.ConfigSectionType
 import com.github.syari.ss.plugins.core.config.type.data.ConfigItemConverter
+import com.github.syari.ss.plugins.core.item.CustomItemStack
 import com.github.syari.ss.plugins.core.message.Message.send
 import com.github.syari.ss.plugins.dependency.crackshot.CrackShotAPI
 import com.github.syari.ss.plugins.dependency.crackshotplus.CrackShotPlusAPI
@@ -101,8 +102,11 @@ object ConfigLoader : OnEnable {
             plugin.configDir(sender, "Kit") {
                 val id = fileNameWithoutExtension
                 val name = get("name", ConfigDataType.STRING, id)
+                val icon = CustomItemStack.create(get("icon", ConfigDataType.ITEM(itemConverter), ItemStack(Material.STONE)))
+                val description = get("description", ConfigDataType.STRING, "")
+                val difficulty = get("difficulty", ConfigDataType.INT, 1)
                 val items = get("items", ConfigDataType.INVENTORY(itemConverter), mapOf())
-                put(id, MobArenaKit(id, name, items))
+                put(id, MobArenaKit(id, name, icon, description, difficulty, items))
             }
         }
     }
