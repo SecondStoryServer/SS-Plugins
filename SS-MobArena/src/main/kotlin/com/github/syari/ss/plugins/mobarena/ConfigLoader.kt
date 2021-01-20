@@ -131,7 +131,15 @@ object ConfigLoader : OnEnable {
 
     private val itemTypeMap = mapOf<String, (String, Int) -> CustomItemStack?>(
         "mc" to { id, amount ->
-            Material.getMaterial(id.toUpperCase())?.let { CustomItemStack.create(it, amount) }
+            val typeName = id.substringBefore(':').toUpperCase()
+            val model = id.substringAfter(':', "")
+            Material.getMaterial(typeName)?.let { material ->
+                CustomItemStack.create(material, amount).apply {
+                    model.toIntOrNull()?.let {
+                        customModelData = it
+                    }
+                }
+            }
         },
         "mm" to { id, amount ->
             MythicMobsAPI.getItem(id, amount)
