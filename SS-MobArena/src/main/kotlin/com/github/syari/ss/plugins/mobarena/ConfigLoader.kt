@@ -103,7 +103,7 @@ object ConfigLoader : OnEnable {
                 val id = fileNameWithoutExtension
                 val name = get("name", ConfigDataType.STRING, id)
                 val icon = CustomItemStack.create(get("icon", ConfigDataType.ITEM(itemConverter), ItemStack(Material.STONE)))
-                val description = get("description", ConfigDataType.STRING, "")
+                val description = get("description", ConfigDataType.STRINGLIST).orEmpty()
                 val difficulty = get("difficulty", ConfigDataType.INT, 1)
                 val items = get("items", ConfigDataType.INVENTORY(itemConverter), mapOf())
                 put(id, MobArenaKit(id, name, icon, description, difficulty, items))
