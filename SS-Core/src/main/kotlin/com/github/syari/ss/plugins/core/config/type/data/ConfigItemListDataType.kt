@@ -4,9 +4,9 @@ package com.github.syari.ss.plugins.core.config.type.data
 
 import com.github.syari.ss.plugins.core.config.CustomConfig
 import com.github.syari.ss.plugins.core.config.type.ConfigDataType
-import org.bukkit.inventory.ItemStack
+import com.github.syari.ss.plugins.core.item.CustomItemStack
 
-class ConfigItemListDataType(private val itemConverter: ConfigItemConverter) : ConfigDataType<List<ItemStack>> {
+class ConfigItemListDataType(private val itemConverter: ConfigItemConverter) : ConfigDataType<List<CustomItemStack>> {
     override val typeName = "List<Item>"
 
     @OptIn(ExperimentalStdlibApi::class)
@@ -14,7 +14,7 @@ class ConfigItemListDataType(private val itemConverter: ConfigItemConverter) : C
         config: CustomConfig,
         path: String,
         notFoundError: Boolean
-    ): List<ItemStack> {
+    ): List<CustomItemStack> {
         return buildList {
             config.get(path, ConfigDataType.STRINGLIST, notFoundError)?.forEach {
                 val item = itemConverter.get(it) ?: return@forEach config.nullError("$path.$it", itemConverter.things)

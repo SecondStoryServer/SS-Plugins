@@ -1,6 +1,7 @@
 package com.github.syari.ss.plugins.mobarena.wave
 
 import com.github.syari.ss.plugins.core.bossBar.CustomBossBar.Companion.bossBar
+import com.github.syari.ss.plugins.core.item.CustomItemStack
 import com.github.syari.ss.plugins.core.scheduler.CreateScheduler.runTimer
 import com.github.syari.ss.plugins.mobarena.Main.Companion.plugin
 import com.github.syari.ss.plugins.mobarena.arena.MobArena
@@ -10,7 +11,6 @@ import org.bukkit.attribute.Attribute
 import org.bukkit.boss.BarColor
 import org.bukkit.boss.BarStyle
 import org.bukkit.entity.LivingEntity
-import org.bukkit.inventory.ItemStack
 
 class MobArenaWave(
     private val arena: MobArena,
@@ -19,7 +19,7 @@ class MobArenaWave(
     val stop: Boolean,
     mobs: List<MobArenaMob>,
     private val boss: MobArenaBoss?,
-    val upgrade: List<ItemStack>
+    val upgrade: List<CustomItemStack>
 ) {
     private val withPriorityList: List<Pair<IntRange, MobArenaMob>>
     private val maxPriority: Int

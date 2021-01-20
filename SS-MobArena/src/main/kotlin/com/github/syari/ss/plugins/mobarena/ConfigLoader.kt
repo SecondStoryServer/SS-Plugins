@@ -25,7 +25,6 @@ import com.github.syari.ss.plugins.mobarena.wave.mob.MobArenaMob
 import com.github.syari.ss.plugins.mobarena.wave.mob.MobArenaMythicMobsMob
 import org.bukkit.Material
 import org.bukkit.command.CommandSender
-import org.bukkit.inventory.ItemStack
 
 object ConfigLoader : OnEnable {
     override fun onEnable() {
@@ -63,7 +62,7 @@ object ConfigLoader : OnEnable {
                         var mobAmount = 5
                         var mobs = listOf<MobArenaMob>()
                         var boss: MobArenaBoss? = null
-                        var upgradeItem = listOf<ItemStack>()
+                        var upgradeItem = listOf<CustomItemStack>()
                         waves.forEach { wave ->
                             if (wave != 1) add(
                                 MobArenaWave(
@@ -102,7 +101,7 @@ object ConfigLoader : OnEnable {
             plugin.configDir(sender, "Kit") {
                 val id = fileNameWithoutExtension
                 val name = get("name", ConfigDataType.STRING, id)
-                val icon = CustomItemStack.create(get("icon", ConfigDataType.ITEM(itemConverter), ItemStack(Material.STONE)))
+                val icon = get("icon", ConfigDataType.ITEM(itemConverter), CustomItemStack.create(Material.STONE))
                 val description = get("description", ConfigDataType.STRINGLIST).orEmpty()
                 val difficulty = get("difficulty", ConfigDataType.INT, 1)
                 val items = get("items", ConfigDataType.INVENTORY(itemConverter), mapOf())
@@ -130,18 +129,18 @@ object ConfigLoader : OnEnable {
         sender.send("&b[MobArena] &a${Shop.list.size} &f個のショップを読み込みました")
     }
 
-    private val itemTypeMap = mapOf<String, (String, Int) -> ItemStack?>(
+    private val itemTypeMap = mapOf<String, (String, Int) -> CustomItemStack?>(
         "mc" to { id, amount ->
-            Material.getMaterial(id.toUpperCase())?.let { ItemStack(it, amount) }
+            Material.getMaterial(id.toUpperCase())?.let { CustomItemStack.create(it, amount) }
         },
         "mm" to { id, amount ->
-            MythicMobsAPI.getItem(id, amount)?.toOneItemStack
+            MythicMobsAPI.getItem(id, amount)
         },
         "cs" to { id, amount ->
-            CrackShotAPI.getItem(id, amount)?.toOneItemStack
+            CrackShotAPI.getItem(id, amount)
         },
         "csp" to { id, amount ->
-            CrackShotPlusAPI.getAttachment(id, amount)?.toOneItemStack
+            CrackShotPlusAPI.getAttachment(id, amount)
         }
     )
 
