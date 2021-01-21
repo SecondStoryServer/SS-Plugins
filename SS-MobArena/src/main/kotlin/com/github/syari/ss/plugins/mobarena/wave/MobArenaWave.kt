@@ -25,13 +25,13 @@ class MobArenaWave(
     private val maxPriority: Int
 
     init {
-        var sum = 0
+        var priority = 0
         withPriorityList = mobs.map {
-            val pre = sum
-            sum += it.priority
-            pre..sum to it
+            val lastPriority = priority
+            priority += it.priority
+            lastPriority..priority to it
         }
-        maxPriority = sum
+        maxPriority = priority
     }
 
     fun spawn() {

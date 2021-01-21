@@ -25,7 +25,7 @@ sealed class ShopElement {
         private val type: Material,
         private val model: Int?
     ) : ShopElement() {
-        override fun give(player: Player) = Shop.get(id)?.open(player)?.run { false } ?: true
+        override fun give(player: Player) = Shop.get(id)?.openShop(player)?.run { false } ?: true
 
         override val display by lazy { CustomItemStack.create(type, "&6${Shop.get(id)?.name}", customModelData = model) }
         override val targetText = "クリックで開く"
