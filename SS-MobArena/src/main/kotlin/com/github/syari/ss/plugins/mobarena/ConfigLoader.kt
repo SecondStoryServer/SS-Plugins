@@ -1,7 +1,7 @@
 package com.github.syari.ss.plugins.mobarena
 
 import com.github.syari.ss.plugins.core.Main.Companion.console
-import com.github.syari.ss.plugins.core.code.OnEnable
+import com.github.syari.ss.plugins.core.code.IConfigLoader
 import com.github.syari.ss.plugins.core.config.CreateConfig.configDir
 import com.github.syari.ss.plugins.core.config.type.ConfigDataType
 import com.github.syari.ss.plugins.core.config.type.ConfigSectionType
@@ -26,12 +26,12 @@ import com.github.syari.ss.plugins.mobarena.wave.mob.MobArenaMythicMobsMob
 import org.bukkit.Material
 import org.bukkit.command.CommandSender
 
-object ConfigLoader : OnEnable {
+object ConfigLoader : IConfigLoader {
     override fun onEnable() {
         load(console)
     }
 
-    fun load(sender: CommandSender) {
+    override fun load(sender: CommandSender) {
         loadArena(sender)
         loadKit(sender)
         loadShop(sender)

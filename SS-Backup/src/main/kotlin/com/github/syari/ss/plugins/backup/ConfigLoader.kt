@@ -2,17 +2,17 @@ package com.github.syari.ss.plugins.backup
 
 import com.github.syari.ss.plugins.backup.Main.Companion.plugin
 import com.github.syari.ss.plugins.core.Main.Companion.console
-import com.github.syari.ss.plugins.core.code.OnEnable
+import com.github.syari.ss.plugins.core.code.IConfigLoader
 import com.github.syari.ss.plugins.core.config.CreateConfig.config
 import com.github.syari.ss.plugins.core.config.type.ConfigDataType
 import org.bukkit.command.CommandSender
 
-object ConfigLoader : OnEnable {
+object ConfigLoader : IConfigLoader {
     override fun onEnable() {
         load(console)
     }
 
-    fun load(sender: CommandSender) {
+    override fun load(sender: CommandSender) {
         plugin.config(sender, "config.yml") {
             Backup.groups = section("group")?.map { name ->
                 val preCommands = get("group.$name.settings.command.pre", ConfigDataType.STRINGLIST, listOf(), false)

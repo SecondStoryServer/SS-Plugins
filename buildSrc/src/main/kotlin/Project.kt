@@ -27,11 +27,11 @@ open class Project(val version: String, groupName: String = "") {
         list.add(this)
     }
 
-    object AutoCommand : Project(3) {
+    object AutoCommand : Project(4) {
         override val dependProject = listOf(Core)
     }
 
-    object Backup : Project(11) {
+    object Backup : Project(12) {
         override val dependProject = listOf(Core)
     }
 
@@ -39,7 +39,7 @@ open class Project(val version: String, groupName: String = "") {
         override val dependProject = listOf(Core)
     }
 
-    object Core : Project(27) {
+    object Core : Project(28) {
         override val dependProject = listOf(Kotlin)
     }
 
@@ -78,11 +78,11 @@ open class Project(val version: String, groupName: String = "") {
 
     object Kotlin : Project("1.4.21")
 
-    object MobArena : Project(13) {
+    object MobArena : Project(14) {
         override val dependProject = listOf(Core, Dependency.CrackShot, Dependency.CrackShotPlus, Dependency.MythicMobs, PlayerDataStore)
     }
 
-    object PlayerDataStore : Project(5) {
+    object PlayerDataStore : Project(6) {
         override val dependProject = listOf(Core)
     }
 
