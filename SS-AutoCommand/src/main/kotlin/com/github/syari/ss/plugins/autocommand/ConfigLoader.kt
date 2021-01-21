@@ -2,7 +2,7 @@ package com.github.syari.ss.plugins.autocommand
 
 import com.github.syari.ss.plugins.autocommand.Main.Companion.plugin
 import com.github.syari.ss.plugins.core.Main.Companion.console
-import com.github.syari.ss.plugins.core.code.OnEnable
+import com.github.syari.ss.plugins.core.code.IConfigLoader
 import com.github.syari.ss.plugins.core.command.RunCommand
 import com.github.syari.ss.plugins.core.config.CreateConfig.config
 import com.github.syari.ss.plugins.core.config.CustomConfig
@@ -16,12 +16,12 @@ import com.github.syari.ss.plugins.core.time.TimeScheduler.scheduleEveryWeekAt
 import org.bukkit.command.CommandSender
 import java.time.DayOfWeek
 
-object ConfigLoader : OnEnable {
+object ConfigLoader : IConfigLoader {
     override fun onEnable() {
         load(console)
     }
 
-    fun load(sender: CommandSender) {
+    override fun load(sender: CommandSender) {
         plugin.clearTimeScheduler()
         plugin.config(sender, "config.yml") {
             sender.send("&b[AutoCommand] &f自動コマンド一覧")
