@@ -1,6 +1,5 @@
 package com.github.syari.ss.plugins.mobarena
 
-import com.github.syari.ss.plugins.core.Main.Companion.console
 import com.github.syari.ss.plugins.core.code.OnEnable
 import com.github.syari.ss.plugins.core.command.create.CommandCreator.Companion.command
 import com.github.syari.ss.plugins.core.command.create.CommandTabElement.Companion.element
@@ -125,7 +124,7 @@ object CommandCreator : OnEnable {
                     }
                     "reload" -> {
                         sendWithPrefix("コンフィグを読み込みます")
-                        ConfigLoader.load(console)
+                        ConfigLoader.load(sender)
                     }
                     else -> sendHelp(
                         "ma join" to "モブアリーナに参加します", //
