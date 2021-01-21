@@ -37,7 +37,8 @@ class MobArena(
     val mobSpawn: Location,
     private val waveInterval: Long,
     private val playerLimit: Int,
-    private val kitLimit: Int
+    private val kitLimit: Int,
+    private val defaultEntityLimit: Int
 ) {
     var players = mutableListOf<MobArenaPlayer>()
     var status = MobArenaStatus.StandBy
@@ -47,7 +48,7 @@ class MobArena(
 
     var waveList = listOf<MobArenaWave>()
     var lastWave = 0
-    var waitAllKill = false
+    var entityLimit = defaultEntityLimit
 
     private val board = plugin.board("&a&lMobArena", 1) {
         val arenaPlayer = getPlayer(it)
@@ -326,15 +327,11 @@ class MobArena(
         val waveData = waveList.firstOrNull { wave in it.waveRange }
         if (wave < lastWave + 1 && waveData != null) {
             announce("&b[MobArena] &a${wave}ウェーブ&fに突入します")
-            val stop = waveData.stop
-            waitAllKill = stop
-            if (stop.not()) {
-                giveItem(waveData)
-                mainTask = plugin.runLater(5 * 20) {
-                    nextWaveTask = plugin.runLater(waveInterval) {
-                        nextWave()
-                    }
-                }
+            giveItem(waveData)
+            entityLimit = if (waveData.stop) {
+                1
+            } else {
+                defaultEntityLimit
             }
             waveData.spawn()
         } else {
@@ -349,10 +346,10 @@ class MobArena(
 
     private fun checkDis() {
         if (status != MobArenaStatus.NowPlay) return
-        if (mobs.isEmpty() && waitAllKill) {
-            val waveData = waveList.firstOrNull { w -> wave in w.waveRange } ?: return
-            giveItem(waveData)
-            nextWave()
+        if (mobs.size < entityLimit) {
+            nextWaveTask = plugin.runLater(waveInterval) {
+                nextWave()
+            }
         } else {
             checkDisTask?.cancel()
             checkDisTask = plugin.runLater(40 * 20) {

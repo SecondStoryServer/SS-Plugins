@@ -27,7 +27,7 @@ object MobArenaManager : OnDisable {
                     arena.checkDisTask = it.checkDisTask
                     arena.bar = it.bar
                     arena.allowStart = it.allowStart
-                    arena.waitAllKill = it.waitAllKill
+                    arena.entityLimit = it.entityLimit
                     arena.publicChest = it.publicChest
                 }
             }

@@ -50,8 +50,9 @@ object ConfigLoader : IConfigLoader {
             val kits = get("kit", ConfigDataType.STRINGLIST, listOf())
             val playerLimit = get("limit.player", ConfigDataType.INT, 5)
             val kitLimit = get("limit.kit", ConfigDataType.INT, 1, false)
+            val entityLimit = get("limit.entity", ConfigDataType.INT, 30, false)
             val waveInterval = get("wave-interval", ConfigDataType.LONG, 200, false)
-            val arena = MobArena(id, name, kits, lobby, play, spec, spawn, waveInterval, playerLimit, kitLimit)
+            val arena = MobArena(id, name, kits, lobby, play, spec, spawn, waveInterval, playerLimit, kitLimit, entityLimit)
             val waves = section("wave", ConfigSectionType.INT)?.toMutableList()
             if (waves != null) {
                 waves.sort()
