@@ -151,6 +151,7 @@ class MobArena(
         broadcast("もぶありーなはじまるよ！！！！！！！！！！！")
         allowStart = false
         status = MobArenaStatus.WaitReady
+        bar = bossBar("&a&l$name &f&lが始まります", BarColor.GREEN, BarStyle.SOLID, true)
         mainTask = plugin.runRepeatTimes(20, 90) {
             bar?.progress = repeatRemain / 90.0
         }?.onEndRepeat {
