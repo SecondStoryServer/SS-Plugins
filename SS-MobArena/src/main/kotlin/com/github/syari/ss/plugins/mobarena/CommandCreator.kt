@@ -37,6 +37,9 @@ object CommandCreator : OnEnable {
                 arg("join", "j", "spec", "s", "start", "end") {
                     element(arenas.map(MobArena::id))
                 }
+                arg("shop") {
+                    element(Shop.names)
+                }
                 arg("kit") {
                     val player = sender as? Player ?: return@arg null
                     element(player.arenaPlayer?.arena?.kits)
