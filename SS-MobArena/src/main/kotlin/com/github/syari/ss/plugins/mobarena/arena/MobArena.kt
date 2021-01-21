@@ -333,7 +333,8 @@ class MobArena(
         mainTask = null
     }
 
-    var checkEntityCountTask: CustomTask? = null
+    var checkEntityTask: CustomTask? = null
+    var checkDeadEntityTask: CustomTask? = null
 
     private fun checkEntityCount() {
         if (status != MobArenaStatus.NowPlay) return
@@ -341,14 +342,17 @@ class MobArena(
             if (mainTask == null) {
                 mainTask = plugin.runLater(waveInterval) {
                     nextWave()
+                    checkEntityTask?.cancel()
+                    checkEntityTask = plugin.runLater(waveInterval) {
+                        checkEntityCount()
+                    }
                 }
             }
-        } else {
-            checkEntityCountTask?.cancel()
-            checkEntityCountTask = plugin.runLater(40 * 20) {
-                mobs.removeIf { plugin.server.getEntity(it) == null }
-                checkEntityCount()
-            }
+        }
+        checkDeadEntityTask?.cancel()
+        checkDeadEntityTask = plugin.runLater(40 * 20) {
+            mobs.removeIf { plugin.server.getEntity(it) == null }
+            checkEntityCount()
         }
     }
 
