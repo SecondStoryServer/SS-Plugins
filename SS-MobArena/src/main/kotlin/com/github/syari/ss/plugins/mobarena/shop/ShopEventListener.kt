@@ -11,10 +11,10 @@ import org.bukkit.event.player.PlayerInteractEvent
 object ShopEventListener : Listener {
     @EventHandler
     fun onCreateShop(e: SignChangeEvent) {
-        val p = e.player
+        val player = e.player
         val lines = e.lines.toUncolor
         if (lines[0].equals("[MA_Shop]", true)) {
-            if (p.isOp) {
+            if (player.isOp) {
                 e.lines.forEachIndexed { index, line ->
                     e.setLine(index, line.toColor)
                 }
@@ -29,7 +29,7 @@ object ShopEventListener : Listener {
         val sign = e.clickedBlock?.state as? Sign ?: return
         val lines = sign.lines.toUncolor
         if (lines[0].equals("[MA_Shop]", true)) {
-            Shop.get(lines[1])?.open(e.player)
+            Shop.get(lines[1])?.openShop(e.player)
         }
     }
 }

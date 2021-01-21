@@ -65,7 +65,7 @@ object CommandCreator : OnEnable {
                         val player = sender as? Player ?: return@execute sendError(ErrorMessage.OnlyPlayer)
                         val id = args.getOrNull(1) ?: return@execute sendError(ErrorMessage.NotEnterId)
                         val shopData = Shop.get(id) ?: return@execute sendError(ErrorMessage.NotExistId)
-                        shopData.open(player)
+                        shopData.openShop(player)
                     }
                     "kit" -> {
                         val player = sender as? Player ?: return@execute sendError(ErrorMessage.OnlyPlayer)

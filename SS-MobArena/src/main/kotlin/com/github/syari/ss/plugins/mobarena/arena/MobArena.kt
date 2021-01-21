@@ -14,7 +14,6 @@ import com.github.syari.ss.plugins.core.scheduler.CustomTask
 import com.github.syari.ss.plugins.core.scoreboard.CreateScoreBoard.board
 import com.github.syari.ss.plugins.mobarena.Main.Companion.plugin
 import com.github.syari.ss.plugins.mobarena.MobArenaManager.arenaPlayer
-import com.github.syari.ss.plugins.mobarena.MobArenaManager.inMobArena
 import com.github.syari.ss.plugins.mobarena.kit.MobArenaKit
 import com.github.syari.ss.plugins.mobarena.wave.MobArenaWave
 import com.github.syari.ss.plugins.playerdatastore.PlayerData
@@ -31,9 +30,9 @@ class MobArena(
     val id: String,
     private val name: String,
     val kits: List<String>,
-    val lobby: Area,
-    val play: Area,
-    val spec: Area,
+    val lobbyArea: Area,
+    val playArea: Area,
+    val specArea: Area,
     val mobSpawn: Location,
     private val waveInterval: Long,
     private val playerLimit: Int,
@@ -56,9 +55,9 @@ class MobArena(
             &e&m------------------------
             &a&lウェーブ &7≫ &e$wave
             
-            &a&l残り人数 &7≫ &e${livingPlayers.count()}人
+            &a&l生存者数 &7≫ &e${livingPlayers.count()}
             
-            &a&lキット &7≫ &e${if (arenaPlayer != null && arenaPlayer.play) arenaPlayer.kit?.name ?: "&c未設定" else "&b&l観戦者"}
+            &a&lキット &7≫ &e${if (arenaPlayer != null && arenaPlayer.play) arenaPlayer.kit?.name ?: "&c未設定" else "&b観戦者"}
             &e&m------------------------
         """.trimIndent()
     }
@@ -103,8 +102,6 @@ class MobArena(
 
     val livingPlayers get() = players.filter { it.play }
 
-    private val isEmptyLivingPlayers get() = livingPlayers.isEmpty()
-
     fun availableKit(kit: MobArenaKit) = kits.contains(kit.id) && players.count { it.kit == kit } < kitLimit
 
     fun loadKit(arenaPlayer: MobArenaPlayer, kit: MobArenaKit) {
@@ -134,18 +131,15 @@ class MobArena(
     }
 
     private fun checkReady(): Int {
-        val count = players.count { f -> f.play && !f.ready }
-        if (count == 0) {
-            if (allowStart) {
+        return players.count { it.play && it.ready.not() }.also {
+            if (it == 0 && allowStart) {
                 start()
             }
         }
-        return count
     }
 
-    fun checkReady(p: Player) {
-        val count = checkReady()
-        announce("&b[MobArena] &a${p.displayName}&fが準備完了しました &f残り${count}人です")
+    fun checkReady(player: Player) {
+        announce("&b[MobArena] &a${player.displayName}&fが準備完了しました &f残り${checkReady()}人です")
     }
 
     var bar: CustomBossBar? = null
@@ -158,7 +152,7 @@ class MobArena(
         allowStart = false
         status = MobArenaStatus.WaitReady
         mainTask = plugin.runRepeatTimes(20, 90) {
-            bar?.progress = repeatRemain.toDouble() / 90
+            bar?.progress = repeatRemain / 90.0
         }?.onEndRepeat {
             allowStart = true
             if (checkReady() != 0) {
@@ -167,71 +161,70 @@ class MobArena(
         }
     }
 
-    fun join(p: Player) {
+    fun join(player: Player) {
         if (status == MobArenaStatus.NowPlay) {
-            return p.send("&b[MobArena] &c既にゲームが始まっています /ma-debug s $id で観戦しましょう")
+            return player.send("&b[MobArena] &c既にゲームが始まっています /ma-debug s $id で観戦しましょう")
         }
-        val m = p.arenaPlayer
-        if (m != null) {
-            if (m.play) {
-                return p.send("&b[MobArena] &c既にモブアリーナに参加しています")
+        val arenaPlayer = player.arenaPlayer
+        if (arenaPlayer != null) {
+            if (arenaPlayer.play) {
+                return player.send("&b[MobArena] &c既にモブアリーナに参加しています")
             } else {
-                m.arena.leave(p, false)
+                arenaPlayer.arena.leave(player, false)
             }
         } else {
-            PlayerData.saveStoreData(p)
-            p.inventory.clear()
+            PlayerData.saveStoreData(player)
+            player.inventory.clear()
         }
         if (playerLimit <= players.size) {
-            return p.send("&b[MobArena] &c制限人数に達しています /ma-debug s $id で観戦しましょう")
+            return player.send("&b[MobArena] &c制限人数に達しています /ma-debug s $id で観戦しましょう")
         }
         if (players.isEmpty()) {
             firstJoin()
         }
-        players.add(MobArenaPlayer(this, p, true))
-        p.closeInventory()
-        p.teleport(lobby.spawn)
-        board.addPlayer(p)
-        setChatChannel(p)
+        players.add(MobArenaPlayer(this, player, true))
+        player.closeInventory()
+        player.teleport(lobbyArea.spawn)
+        board.addPlayer(player)
+        setChatChannel(player)
         updateAllBoard()
     }
 
-    fun spec(p: Player) {
-        val m = p.arenaPlayer
-        if (m != null) {
-            if (m.play) {
-                m.arena.leave(p, false)
+    fun spec(player: Player) {
+        val arenaPlayer = player.arenaPlayer
+        if (arenaPlayer != null) {
+            if (arenaPlayer.play) {
+                arenaPlayer.arena.leave(player, false)
             } else {
-                return p.send("&b[MobArena] &c既にモブアリーナに参加しています")
+                return player.send("&b[MobArena] &c既にモブアリーナに参加しています")
             }
         } else {
-            PlayerData.saveStoreData(p)
-            p.inventory.clear()
+            PlayerData.saveStoreData(player)
+            player.inventory.clear()
         }
-        p.closeInventory()
-        players.add(MobArenaPlayer(this, p, false))
-        p.teleport(spec.spawn)
-        board.addPlayer(p)
+        player.closeInventory()
+        players.add(MobArenaPlayer(this, player, false))
+        player.teleport(specArea.spawn)
+        board.addPlayer(player)
     }
 
-    fun leave(p: Player, loadItem: Boolean = true) {
-        if (!p.inMobArena) {
-            return p.send("&b[MobArena] &cモブアリーナに参加していません")
+    fun leave(player: Player, loadItem: Boolean = true) {
+        val arenaPlayer = getPlayer(player)
+        if (arenaPlayer != null) {
+            players.remove(arenaPlayer)
+        } else {
+            return player.send("&b[MobArena] &cモブアリーナに参加していません")
         }
-        val m = getPlayer(p)
-        if (m != null) {
-            players.remove(m)
-        }
-        if (isEmptyLivingPlayers && status != MobArenaStatus.StandBy) {
+        if (livingPlayers.isEmpty() && status != MobArenaStatus.StandBy) {
             end(false)
         }
-        p.closeInventory()
+        player.closeInventory()
         if (loadItem) {
-            p.inventory.clear()
-            PlayerData.loadStoreData(p)
+            player.inventory.clear()
+            PlayerData.loadStoreData(player)
         }
-        board.removePlayer(p)
-        unsetChatChannel(p)
+        board.removePlayer(player)
+        unsetChatChannel(player)
         updateAllBoard()
     }
 
@@ -239,15 +232,14 @@ class MobArena(
         bar?.delete()
         bar = bossBar("&e&lWave", BarColor.BLUE, BarStyle.SOLID)
         status = MobArenaStatus.NowPlay
-        bar?.delete()
         mainTask?.cancel()
-        players.forEach { m ->
-            if (m.play) {
-                val p = m.player
-                p.teleport(play.spawn)
-                p.activePotionEffects.clear()
-                p.health = p.getAttribute(Attribute.GENERIC_MAX_HEALTH)!!.value
-                p.foodLevel = 20
+        players.forEach {
+            if (it.play) {
+                val player = it.player
+                player.teleport(playArea.spawn)
+                player.activePotionEffects.clear()
+                player.health = player.getAttribute(Attribute.GENERIC_MAX_HEALTH)!!.value
+                player.foodLevel = 20
                 firstMemberSize++
             }
         }
@@ -260,7 +252,7 @@ class MobArena(
     fun end(force: Boolean) {
         when (status) {
             MobArenaStatus.NowPlay -> {
-                nextWaveTask?.cancel()
+                mainTask?.cancel()
                 mobs.toList().forEach {
                     plugin.server.getEntity(it)?.remove()
                 }
@@ -289,9 +281,9 @@ class MobArena(
         reloadProgress()
     }
 
-    fun onDeath(p: Player) {
+    fun onDeath(player: Player) {
         plugin.runLater(3) {
-            leave(p)
+            leave(player)
         }
     }
 
@@ -310,8 +302,6 @@ class MobArena(
             players.clear()
         }
     }
-
-    var nextWaveTask: CustomTask? = null
 
     private fun giveItem(waveData: MobArenaWave) {
         players.forEach {
@@ -342,27 +332,25 @@ class MobArena(
         updateAllBoard()
     }
 
-    var checkDisTask: CustomTask? = null
+    var checkEntityCountTask: CustomTask? = null
 
-    private fun checkDis() {
+    private fun checkEntityCount() {
         if (status != MobArenaStatus.NowPlay) return
         if (mobs.size < entityLimit) {
-            nextWaveTask = plugin.runLater(waveInterval) {
+            mainTask = plugin.runLater(waveInterval) {
                 nextWave()
             }
         } else {
-            checkDisTask?.cancel()
-            checkDisTask = plugin.runLater(40 * 20) {
-                mobs.removeIf { uuid ->
-                    plugin.server.getEntity(uuid) == null
-                }
-                checkDis()
+            checkEntityCountTask?.cancel()
+            checkEntityCountTask = plugin.runLater(40 * 20) {
+                mobs.removeIf { plugin.server.getEntity(it) == null }
+                checkEntityCount()
             }
         }
     }
 
-    fun onKillEntity(e: LivingEntity) {
-        mobs.remove(e.uniqueId)
-        checkDis()
+    fun onKillEntity(entity: LivingEntity) {
+        mobs.remove(entity.uniqueId)
+        checkEntityCount()
     }
 }

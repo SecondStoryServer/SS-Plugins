@@ -23,8 +23,7 @@ object MobArenaManager : OnDisable {
                     arena.mobs = it.mobs
                     arena.wave = it.wave
                     arena.mainTask = it.mainTask
-                    arena.nextWaveTask = it.nextWaveTask
-                    arena.checkDisTask = it.checkDisTask
+                    arena.checkEntityCountTask = it.checkEntityCountTask
                     arena.bar = it.bar
                     arena.allowStart = it.allowStart
                     arena.entityLimit = it.entityLimit
@@ -51,7 +50,7 @@ object MobArenaManager : OnDisable {
 
     fun getArena(entity: Entity) = arenas.firstOrNull { entity.uniqueId in it.mobs }
 
-    fun getArenaInPlay(loc: Location) = arenas.firstOrNull { it.play.region.inRegion(loc) }
+    fun getArenaInPlay(loc: Location) = arenas.firstOrNull { it.playArea.region.inRegion(loc) }
 
     fun endAllArena() {
         arenas.forEach {

@@ -17,7 +17,7 @@ data class Shop(
             get() = list.keys
     }
 
-    fun open(player: Player) {
+    fun openShop(player: Player) {
         inventory(name, line) {
             list.forEach { (index, action) ->
                 var canBuy = true
@@ -48,7 +48,7 @@ data class Shop(
                             it.remove(player)
                         }
                     }
-                    if (isReopen) this@Shop.open(player)
+                    if (isReopen) openShop(player)
                 }
             }
         }.open(player)
