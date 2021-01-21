@@ -245,9 +245,8 @@ class MobArena(
             }
         }
         reloadProgress()
-        mainTask = plugin.runLater(10 * 20) {
-            nextWave()
-        }
+        mainTask = null
+        checkEntityCount()
     }
 
     fun end(force: Boolean) {
@@ -331,6 +330,7 @@ class MobArena(
         }
         reloadProgress()
         updateAllBoard()
+        mainTask = null
     }
 
     var checkEntityCountTask: CustomTask? = null
@@ -338,8 +338,10 @@ class MobArena(
     private fun checkEntityCount() {
         if (status != MobArenaStatus.NowPlay) return
         if (mobs.size < entityLimit) {
-            mainTask = plugin.runLater(waveInterval) {
-                nextWave()
+            if (mainTask == null) {
+                mainTask = plugin.runLater(waveInterval) {
+                    nextWave()
+                }
             }
         } else {
             checkEntityCountTask?.cancel()
