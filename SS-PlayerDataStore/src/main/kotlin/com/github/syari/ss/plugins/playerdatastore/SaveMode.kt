@@ -2,12 +2,12 @@ package com.github.syari.ss.plugins.playerdatastore
 
 import com.github.syari.ss.plugins.core.config.CustomConfig
 import com.github.syari.ss.plugins.core.config.CustomFileConfig
-import org.bukkit.entity.Player
+import com.github.syari.ss.plugins.core.player.UUIDPlayer
 import com.github.syari.ss.plugins.core.config.type.ConfigDataType as IConfigDataType
 
-enum class SaveMode(val condition: (Player) -> Boolean) {
+enum class SaveMode(val condition: (UUIDPlayer) -> Boolean) {
     Everyone({ true }),
-    OnlyAdmin(Player::isOp),
+    OnlyAdmin({ it.offlinePlayer?.isOp ?: false }),
     Disable({ false });
 
     companion object {

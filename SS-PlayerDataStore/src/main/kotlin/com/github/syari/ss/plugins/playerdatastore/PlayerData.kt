@@ -5,22 +5,31 @@ import com.github.syari.ss.plugins.core.config.CreateConfig.config
 import com.github.syari.ss.plugins.core.config.type.ConfigDataType
 import com.github.syari.ss.plugins.core.config.type.data.ConfigItemConverter
 import com.github.syari.ss.plugins.core.item.Base64Item
+import com.github.syari.ss.plugins.core.player.UUIDPlayer
 import com.github.syari.ss.plugins.playerdatastore.Main.Companion.plugin
 import org.bukkit.Material
 import org.bukkit.entity.Player
 
-class PlayerData(private val player: Player) {
+class PlayerData(private val uuidPlayer: UUIDPlayer) {
     companion object {
+        private val storeDataList = mutableMapOf<UUIDPlayer, PlayerData>()
+
+        private val UUIDPlayer.storeData
+            get() = storeDataList.getOrPut(this) { PlayerData(this) }
+
+        private val Player.storeData
+            get() = UUIDPlayer(this).storeData
+
         fun loadStoreData(player: Player) {
-            PlayerData(player).load()
+            player.storeData.load()
         }
 
         fun saveStoreData(player: Player) {
-            PlayerData(player).save()
+            player.storeData.save()
         }
     }
 
-    private val config by lazy { plugin.config(console, "data/${player.uniqueId}.yml") }
+    private val config by lazy { plugin.config(console, "data/$uuidPlayer.yml") }
 
     @OptIn(ExperimentalStdlibApi::class)
     private val inventory
@@ -29,11 +38,14 @@ class PlayerData(private val player: Player) {
     private val location
         get() = config.get("location", ConfigDataType.LOCATION, false)
 
-    private val isEnableInventory = player.let(ConfigLoader.saveInventoryMode.condition)
+    private val isEnableInventory
+        get() = uuidPlayer.let(ConfigLoader.saveInventoryMode.condition)
 
-    private val isEnableLocation = player.let(ConfigLoader.saveLocationMode.condition)
+    private val isEnableLocation
+        get() = uuidPlayer.let(ConfigLoader.saveLocationMode.condition)
 
-    private val isEnableSave = isEnableInventory || isEnableLocation
+    private val isEnableSave
+        get() = isEnableInventory || isEnableLocation
 
     private var isLoadedInventory = false
 
@@ -41,6 +53,7 @@ class PlayerData(private val player: Player) {
 
     fun load() {
         if (isEnableSave.not()) return
+        val player = uuidPlayer.player ?: return
         if (isEnableInventory && isLoadedInventory.not()) {
             isLoadedInventory = true
             inventory?.forEach { (slot, item) ->
@@ -55,6 +68,7 @@ class PlayerData(private val player: Player) {
 
     fun save() {
         if (isEnableSave.not()) return
+        val player = uuidPlayer.player ?: return
         if (isLoadedInventory) {
             isLoadedInventory = false
             if (isEnableInventory) {
