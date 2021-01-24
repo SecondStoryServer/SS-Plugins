@@ -6,6 +6,7 @@ import com.github.syari.ss.plugins.core.config.type.ConfigDataType
 import com.github.syari.ss.plugins.core.config.type.data.ConfigItemConverter
 import com.github.syari.ss.plugins.core.item.Base64Item
 import com.github.syari.ss.plugins.core.player.UUIDPlayer
+import com.github.syari.ss.plugins.core.scheduler.CreateScheduler.runLater
 import com.github.syari.ss.plugins.playerdatastore.Main.Companion.plugin
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -53,16 +54,18 @@ class PlayerData(private val uuidPlayer: UUIDPlayer) {
 
     fun load() {
         if (isEnableSave.not()) return
-        val player = uuidPlayer.player ?: return
-        if (isEnableInventory && isLoadedInventory.not()) {
-            isLoadedInventory = true
-            inventory?.forEach { (slot, item) ->
-                player.inventory.setItem(slot, item)
+        plugin.runLater(1) {
+            val player = uuidPlayer.player ?: return@runLater
+            if (isEnableInventory && isLoadedInventory.not()) {
+                isLoadedInventory = true
+                inventory?.forEach { (slot, item) ->
+                    player.inventory.setItem(slot, item)
+                }
             }
-        }
-        if (isEnableLocation && isLoadedLocation.not()) {
-            isLoadedLocation = true
-            location?.let { player.teleport(it) }
+            if (isEnableLocation && isLoadedLocation.not()) {
+                isLoadedLocation = true
+                location?.let { player.teleport(it) }
+            }
         }
     }
 
