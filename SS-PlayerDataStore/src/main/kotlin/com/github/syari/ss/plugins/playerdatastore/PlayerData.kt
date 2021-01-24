@@ -35,35 +35,47 @@ class PlayerData(private val player: Player) {
 
     private val isEnableSave = isEnableInventory || isEnableLocation
 
+    private var isLoadedInventory = false
+
+    private var isLoadedLocation = false
+
     fun load() {
         if (isEnableSave.not()) return
-        if (isEnableInventory) {
+        if (isEnableInventory && isLoadedInventory.not()) {
+            isLoadedInventory = true
             inventory?.forEach { (slot, item) ->
                 player.inventory.setItem(slot, item)
             }
         }
-        if (isEnableLocation) {
+        if (isEnableLocation && isLoadedLocation.not()) {
+            isLoadedLocation = true
             location?.let { player.teleport(it) }
         }
     }
 
     fun save() {
         if (isEnableSave.not()) return
-        if (isEnableInventory) {
-            player.inventory.contents.forEachIndexed { slot, item ->
-                if (item != null && item.type != Material.AIR) {
-                    config.setUnsafe("inventory.$slot", Base64Item.toBase64(item))
-                } else {
-                    config.setUnsafe("inventory.$slot", null)
+        if (isLoadedInventory) {
+            isLoadedInventory = false
+            if (isEnableInventory) {
+                player.inventory.contents.forEachIndexed { slot, item ->
+                    if (item != null && item.type != Material.AIR) {
+                        config.setUnsafe("inventory.$slot", Base64Item.toBase64(item))
+                    } else {
+                        config.setUnsafe("inventory.$slot", null)
+                    }
                 }
+            } else {
+                config.setUnsafe("inventory", null)
             }
-        } else {
-            config.setUnsafe("inventory", null)
         }
-        if (isEnableLocation) {
-            config.set("location", ConfigDataType.LOCATION, player.location)
-        } else {
-            config.setUnsafe("location", null)
+        if (isLoadedLocation) {
+            isLoadedLocation = false
+            if (isEnableLocation) {
+                config.set("location", ConfigDataType.LOCATION, player.location)
+            } else {
+                config.setUnsafe("location", null)
+            }
         }
         config.save()
     }
