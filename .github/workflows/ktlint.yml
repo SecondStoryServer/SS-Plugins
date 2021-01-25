@@ -1,20 +1,17 @@
-name: ktlint
-on:
-  pull_request:
-    branches:
-      - master
+name: Check Ktlint On PullRequest
+on: [pull_request]
 jobs:
-  build:
+  ktlint:
+    name: Check Code Quality
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/cache@v2
+      - name: Clone repo
+        uses: actions/checkout@master
         with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-      - name: Run ktlintCheck
-        run: ./gradlew ktlintCheck
+          fetch-depth: 1
+      - name: ktlint
+        uses: ScaCap/action-ktlint@master
+        with:
+          github_token: ${{ secrets.github_token }}
+          reporter: github-pr-review # Change reporter
