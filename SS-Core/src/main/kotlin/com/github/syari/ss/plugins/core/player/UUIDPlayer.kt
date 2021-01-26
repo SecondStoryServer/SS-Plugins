@@ -12,7 +12,7 @@ import java.util.UUID
 /**
  * [UUID] としてプレイヤーを保存しておく
  */
-data class UUIDPlayer(private val uniqueId: UUID) {
+data class UUIDPlayer(private val uniqueId: UUID) : Comparable<UUIDPlayer> {
     constructor(player: OfflinePlayer) : this(player.uniqueId)
 
     /**
@@ -34,6 +34,11 @@ data class UUIDPlayer(private val uniqueId: UUID) {
      * オンラインか取得します
      */
     val isOnline get() = offlinePlayer?.isOnline ?: false
+
+    /**
+     * [UUID.compareTo]
+     */
+    override fun compareTo(other: UUIDPlayer) = uniqueId.compareTo(other.uniqueId)
 
     /**
      * UUIDを文字列として取得します

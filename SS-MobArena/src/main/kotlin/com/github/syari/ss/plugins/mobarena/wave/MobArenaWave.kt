@@ -1,6 +1,7 @@
 package com.github.syari.ss.plugins.mobarena.wave
 
 import com.github.syari.ss.plugins.core.bossBar.CustomBossBar.Companion.bossBar
+import com.github.syari.ss.plugins.core.entity.UUIDEntity
 import com.github.syari.ss.plugins.core.item.CustomItemStack
 import com.github.syari.ss.plugins.core.scheduler.CreateScheduler.runTimer
 import com.github.syari.ss.plugins.mobarena.Main.Companion.plugin
@@ -38,11 +39,11 @@ class MobArenaWave(
         for (i in 0 until mobAmount) {
             val mob = withPriorityList.firstOrNull { (0..maxPriority).random() in it.first }?.second ?: continue
             val entity = mob.spawn(arena.mobSpawn) ?: continue
-            arena.mobs.add(entity.uniqueId)
+            arena.mobs.add(UUIDEntity(entity))
         }
         if (boss != null) {
             val entity = boss.spawn(arena.mobSpawn) ?: return
-            arena.mobs.add(entity.uniqueId)
+            arena.mobs.add(UUIDEntity(entity))
             if (entity is LivingEntity) {
                 val bar = bossBar(entity.customName ?: "null", BarColor.RED, BarStyle.SOLID)
                 arena.players.forEach { bar.addPlayer(it.player) }
