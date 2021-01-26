@@ -2,6 +2,7 @@ package com.github.syari.ss.plugins.mobarena.arena
 
 import com.github.syari.ss.plugins.core.bossBar.CustomBossBar
 import com.github.syari.ss.plugins.core.bossBar.CustomBossBar.Companion.bossBar
+import com.github.syari.ss.plugins.core.entity.UUIDEntity
 import com.github.syari.ss.plugins.core.inventory.CreateInventory.inventory
 import com.github.syari.ss.plugins.core.item.CustomItemStack
 import com.github.syari.ss.plugins.core.item.ItemStackPlus.give
@@ -24,7 +25,6 @@ import org.bukkit.boss.BarColor
 import org.bukkit.boss.BarStyle
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
-import java.util.UUID
 
 class MobArena(
     val id: String,
@@ -41,7 +41,7 @@ class MobArena(
 ) {
     var players = mutableListOf<MobArenaPlayer>()
     var status = MobArenaStatus.StandBy
-    var mobs = mutableListOf<UUID>()
+    var mobs = mutableListOf<UUIDEntity>()
     var wave = 0
     var firstMemberSize = 0
 
@@ -254,7 +254,7 @@ class MobArena(
             MobArenaStatus.NowPlay -> {
                 mainTask?.cancel()
                 mobs.toList().forEach {
-                    plugin.server.getEntity(it)?.remove()
+                    it.entity?.remove()
                 }
                 mobs.clear()
             }
@@ -351,13 +351,13 @@ class MobArena(
         }
         checkDeadEntityTask?.cancel()
         checkDeadEntityTask = plugin.runLater(40 * 20) {
-            mobs.removeIf { plugin.server.getEntity(it) == null }
+            mobs.removeIf(UUIDEntity::isDead)
             checkEntityCount()
         }
     }
 
     fun onKillEntity(entity: LivingEntity) {
-        mobs.remove(entity.uniqueId)
+        mobs.remove(UUIDEntity(entity))
         checkEntityCount()
     }
 }

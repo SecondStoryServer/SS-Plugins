@@ -1,6 +1,7 @@
 package com.github.syari.ss.plugins.mobarena
 
 import com.github.syari.ss.plugins.core.code.OnDisable
+import com.github.syari.ss.plugins.core.entity.UUIDEntity
 import com.github.syari.ss.plugins.mobarena.arena.MobArena
 import com.github.syari.ss.plugins.mobarena.arena.MobArenaPlayer
 import org.bukkit.Location
@@ -48,7 +49,7 @@ object MobArenaManager : OnDisable {
 
     fun getArena(id: String) = arenas.firstOrNull { it.id.equals(id, ignoreCase = true) }
 
-    fun getArena(entity: Entity) = arenas.firstOrNull { entity.uniqueId in it.mobs }
+    fun getArena(entity: Entity) = arenas.firstOrNull { UUIDEntity(entity) in it.mobs }
 
     fun getArenaInPlay(loc: Location) = arenas.firstOrNull { it.playArea.region.inRegion(loc) }
 
