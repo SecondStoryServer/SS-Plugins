@@ -44,7 +44,15 @@ class Main : SSPlugin() {
                         2 < pitch -> updatePitch(2F)
                         else -> {
                             config.pitch = pitch
-                            item(49, Material.LIME_STAINED_GLASS_PANE, "&fピッチ &a${String.format("%.1f", pitch)}", "&6L: -0.5", "&6SL: -0.1", "&6SR: +0.1", "&6R: +0.5").event(ClickType.LEFT) {
+                            item(
+                                49,
+                                Material.LIME_STAINED_GLASS_PANE,
+                                "&fピッチ &a${String.format("%.1f", pitch)}",
+                                "&6L: -0.5",
+                                "&6SL: -0.1",
+                                "&6SR: +0.1",
+                                "&6R: +0.5"
+                            ).event(ClickType.LEFT) {
                                 updatePitch(pitch - 0.5F)
                             }.event(ClickType.SHIFT_LEFT) {
                                 updatePitch(pitch - 0.1F)
@@ -60,7 +68,7 @@ class Main : SSPlugin() {
                 }
 
                 soundList[config.page].forEachIndexed { i, sound ->
-                    item(i, soundToMaterial(sound), "&6${sound.name}").event {
+                    item(i, soundToMaterial(sound), "&6${sound.name} &7${sound.key.key}").event {
                         config.sound = sound
                         playSound()
                     }

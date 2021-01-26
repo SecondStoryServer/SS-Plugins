@@ -90,7 +90,7 @@ open class Project(val version: String, groupName: String = "") {
         override val dependProject = listOf(Core)
     }
 
-    object SoundChecker : Project(3) {
+    object SoundChecker : Project(4) {
         override val dependProject = listOf(Core)
     }
 }

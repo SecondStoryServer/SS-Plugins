@@ -22,5 +22,5 @@ All Paper Plugins For SecondStory.
 | SS-MobArena | 16 |
 | SS-PlayerDataStore | 7 |
 | SS-PluginManager | 8 |
-| SS-SoundChecker | 3 |
+| SS-SoundChecker | 4 |
 <!-- Generate Versions -->
