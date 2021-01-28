@@ -1,16 +1,17 @@
-package com.github.syari.ss.plugins.soundchecker
+package com.github.syari.ss.plugins.developassist.soundchecker
 
-import com.github.syari.ss.plugins.core.code.SSPlugin
+import com.github.syari.ss.plugins.core.code.OnEnable
 import com.github.syari.ss.plugins.core.command.create.CommandCreator.Companion.command
 import com.github.syari.ss.plugins.core.inventory.CreateInventory.inventory
+import com.github.syari.ss.plugins.developassist.Main.Companion.plugin
 import org.bukkit.Material
 import org.bukkit.Sound
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 
-class Main : SSPlugin() {
+object SoundChecker : OnEnable {
     override fun onEnable() {
-        command("csound", "SS-SoundChecker") {
+        plugin.command("csound", "SoundChecker") {
             execute {
                 val player = sender as? Player ?: return@execute sendError("プレイヤーからのみ実行可能です")
                 player.openSoundList()

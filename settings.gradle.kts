@@ -8,12 +8,11 @@ include(
     "SS-Dependency-MythicMobs",
     "SS-Dependency-CrackShot",
     "SS-Dependency-CrackShotPlus",
+    "SS-DevelopAssist",
     "SS-GlobalPlayers",
-    "SS-ItemCreator",
     "SS-ItemFrameCommand",
     "SS-Kotlin",
     "SS-MobArena",
     "SS-PlayerDataStore",
-    "SS-PluginManager",
-    "SS-SoundChecker"
+    "SS-PluginManager"
 )

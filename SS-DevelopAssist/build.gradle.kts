@@ -1,4 +1,4 @@
-val project = Project.ItemCreator
+val project = Project.DevelopAssist
 group = project.group
 
 dependencies {

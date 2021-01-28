@@ -1,4 +1,4 @@
-package com.github.syari.ss.plugins.soundchecker
+package com.github.syari.ss.plugins.developassist.soundchecker
 
 import org.bukkit.Material
 import org.bukkit.Sound
