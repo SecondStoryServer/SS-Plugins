@@ -1,6 +1,6 @@
-package com.github.syari.ss.plugins.itemcreator
+package com.github.syari.ss.plugins.developassist.itemcreator
 
-import com.github.syari.ss.plugins.core.code.SSPlugin
+import com.github.syari.ss.plugins.core.code.OnEnable
 import com.github.syari.ss.plugins.core.command.create.CommandCreator.Companion.command
 import com.github.syari.ss.plugins.core.command.create.CommandTabElement.Companion.element
 import com.github.syari.ss.plugins.core.command.create.ErrorMessage
@@ -10,15 +10,16 @@ import com.github.syari.ss.plugins.core.item.ItemStackPlus.give
 import com.github.syari.ss.plugins.core.message.JsonBuilder
 import com.github.syari.ss.plugins.core.message.JsonBuilder.Companion.buildJson
 import com.github.syari.ss.plugins.core.message.Message.send
+import com.github.syari.ss.plugins.developassist.Main.Companion.plugin
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
-class Main : SSPlugin() {
+object ItemCreator : OnEnable {
     override fun onEnable() {
         fun String.replaceSpace() = replace("<sp>", " ")
 
-        command("citem", "ItemCreator") {
+        plugin.command("citem", "ItemCreator") {
             tab {
                 arg { element("name", "lore", "type", "model", "unbreak", "base64") }
                 arg("lore") { element("edit", "insert", "add", "remove", "clear") }

@@ -60,15 +60,15 @@ open class Project(val version: String, groupName: String = "") {
         }
     }
 
+    object DevelopAssist : Project(1) {
+        override val dependProject = listOf(Core)
+    }
+
     object GlobalPlayers : Project(3) {
         override val dependProject = listOf(Core)
     }
 
     object Discord : Project(1) {
-        override val dependProject = listOf(Core)
-    }
-
-    object ItemCreator : Project(7) {
         override val dependProject = listOf(Core)
     }
 
@@ -87,10 +87,6 @@ open class Project(val version: String, groupName: String = "") {
     }
 
     object PluginManager : Project(8) {
-        override val dependProject = listOf(Core)
-    }
-
-    object SoundChecker : Project(4) {
         override val dependProject = listOf(Core)
     }
 }
