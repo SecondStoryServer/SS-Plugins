@@ -44,6 +44,11 @@ object TextureChecker : IConfigLoader {
                         }
                     }
                     else -> {
+                        sendHelp(
+                            "ctexture open" to "コンフィグで設定した一覧を開きます",
+                            "ctexture open [material]" to "指定したマテリアルのテクスチャを確認します",
+                            "ctexture reload" to "コンフィグを再読み込みします"
+                        )
                     }
                 }
             }
