@@ -18,7 +18,7 @@ object ConfigMaterialListDataType : ConfigDataType.WithSet<List<Material>> {
     ): List<Material> {
         return buildList {
             config.get(path, ConfigDataType.STRINGLIST, notFoundError)?.forEach {
-                val type = Material.getMaterial(it) ?: return@forEach config.nullError("$path.$it", "Material")
+                val type = Material.getMaterial(it.toUpperCase()) ?: return@forEach config.nullError("$path.$it", "Material")
                 add(type)
             }
         }
