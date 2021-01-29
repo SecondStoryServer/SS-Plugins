@@ -16,7 +16,7 @@ object ConfigMaterialDataType : ConfigDataType.WithSet<Material> {
         notFoundError: Boolean
     ): Material? {
         val getValue = config.get(path, ConfigDataType.STRING, notFoundError) ?: return null
-        return Material.getMaterial(getValue)
+        return Material.getMaterial(getValue.toUpperCase())
     }
 
     override fun set(config: CustomFileConfig, path: String, value: Material?) {
