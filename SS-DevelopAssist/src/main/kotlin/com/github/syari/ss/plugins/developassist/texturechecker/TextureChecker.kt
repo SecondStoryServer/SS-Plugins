@@ -83,6 +83,9 @@ object TextureChecker : IConfigLoader {
                 item(47, Material.ORANGE_STAINED_GLASS_PANE, "&d<<").event {
                     openMaterial(player, material, page - 1)
                 }
+                item(49, Material.RED_STAINED_GLASS_PANE, "&c戻る").event {
+                    openMaterialList(player)
+                }
                 item(51, Material.ORANGE_STAINED_GLASS_PANE, "&d>>").event {
                     openMaterial(player, material, page + 1)
                 }
