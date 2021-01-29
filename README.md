@@ -15,7 +15,7 @@ All Paper Plugins For SecondStory.
 | SS-Dependency-CrackShot | 0.98.11 |
 | SS-Dependency-CrackShotPlus | 1.97 |
 | SS-Dependency-MythicMobs | 4.11.0-beta-1 |
-| SS-DevelopAssist | 1 |
+| SS-DevelopAssist | 2 |
 | SS-GlobalPlayers | 3 |
 | SS-ItemFrameCommand | 1 |
 | SS-Kotlin | 1.4.21 |
