@@ -15,6 +15,7 @@ import com.github.syari.ss.plugins.core.config.type.data.ConfigItemListDataType
 import com.github.syari.ss.plugins.core.config.type.data.ConfigLocationDataType
 import com.github.syari.ss.plugins.core.config.type.data.ConfigLongDataType
 import com.github.syari.ss.plugins.core.config.type.data.ConfigMaterialDataType
+import com.github.syari.ss.plugins.core.config.type.data.ConfigMaterialListDataType
 import com.github.syari.ss.plugins.core.config.type.data.ConfigMySQLDataType
 import com.github.syari.ss.plugins.core.config.type.data.ConfigNumberDataType
 import com.github.syari.ss.plugins.core.config.type.data.ConfigParticleDataType
@@ -89,6 +90,7 @@ interface ConfigDataType<T> {
         val VECTOR5D = ConfigVector3DDataType
         val WORLD = ConfigWorldDataType
         val MATERIAL = ConfigMaterialDataType
+        val MATERIALLIST = ConfigMaterialListDataType
         fun ITEM(itemConverter: ConfigItemConverter) = ConfigItemDataType(itemConverter)
         fun ITEMLIST(itemConverter: ConfigItemConverter) = ConfigItemListDataType(itemConverter)
         fun INVENTORY(itemConverter: ConfigItemConverter) = ConfigInventoryDataType(itemConverter)
