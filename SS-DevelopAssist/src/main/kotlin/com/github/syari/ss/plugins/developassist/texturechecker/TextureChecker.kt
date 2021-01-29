@@ -16,6 +16,7 @@ import org.bukkit.entity.Player
 object TextureChecker : IConfigLoader {
     override fun onEnable() {
         load(console)
+        registerCommand()
     }
 
     private lateinit var parentMaterials: List<Material>
