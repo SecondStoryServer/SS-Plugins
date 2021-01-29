@@ -72,7 +72,7 @@ object TextureChecker : IConfigLoader {
             else -> inventory("&9&l${material.name}", 6) {
                 val modelDataOffset = (page * 45)
                 for (i in 0 until 45) {
-                    item(i, material, "&6&l${i + modelDataOffset}", customModelData = modelDataOffset)
+                    item(i, material, "&6&l${i + modelDataOffset}", customModelData = i + modelDataOffset)
                 }
                 item(45..53, Material.BLACK_STAINED_GLASS_PANE)
                 item(47, Material.ORANGE_STAINED_GLASS_PANE, "&d<<").event {
