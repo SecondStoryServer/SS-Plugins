@@ -20,6 +20,6 @@ All Paper Plugins For SecondStory.
 | SS-ItemFrameCommand | 2 |
 | SS-Kotlin | 1.4.21 |
 | SS-MobArena | 17 |
-| SS-PlayerDataStore | 8 |
+| SS-PlayerDataStore | 9 |
 | SS-PluginManager | 8 |
 <!-- Generate Versions -->
