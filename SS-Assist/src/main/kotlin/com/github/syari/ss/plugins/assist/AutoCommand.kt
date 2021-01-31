@@ -4,8 +4,6 @@ import com.github.syari.ss.plugins.assist.Main.Companion.plugin
 import com.github.syari.ss.plugins.core.Main.Companion.console
 import com.github.syari.ss.plugins.core.code.IConfigLoader
 import com.github.syari.ss.plugins.core.command.RunCommand
-import com.github.syari.ss.plugins.core.command.create.CommandCreator.Companion.command
-import com.github.syari.ss.plugins.core.command.create.CommandTabElement
 import com.github.syari.ss.plugins.core.config.CreateConfig.config
 import com.github.syari.ss.plugins.core.config.CustomConfig
 import com.github.syari.ss.plugins.core.config.type.ConfigDataType
@@ -20,29 +18,12 @@ import java.time.DayOfWeek
 
 object AutoCommand : IConfigLoader {
     override fun onEnable() {
-        registerCommand()
         load(console)
-    }
-
-    private fun registerCommand() {
-        plugin.command("auto-command", "AutoCommand") {
-            tab {
-                arg { CommandTabElement.element("reload") }
-            }
-            execute {
-                when (args.whenIndex(0)) {
-                    "reload" -> {
-                        sendWithPrefix("コンフィグを再読み込みします")
-                        AutoCommand.load(sender)
-                    }
-                }
-            }
-        }
     }
 
     override fun load(sender: CommandSender) {
         plugin.clearTimeScheduler()
-        plugin.config(sender, "config.yml") {
+        plugin.config(sender, "auto-command.yml") {
             sender.send("&b[AutoCommand] &f自動コマンド一覧")
             section("every", ConfigTimeSectionType, false)?.forEach { (hour, minute, key) ->
                 val commandList = get("every.$key", ConfigDataType.STRINGLIST) ?: return@forEach
