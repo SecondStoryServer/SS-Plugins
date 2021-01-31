@@ -33,11 +33,14 @@ object DoubleJump : Gadget(Material.LEATHER_BOOTS, "ダブルジャンプ", "lob
     object EventListener : EventRegister {
         private val allowFlightPlayers = mutableSetOf<UUIDPlayer>()
 
-        private val Player.useDoubleJump: Boolean
+        private inline val Player.isEquipBoots: Boolean
             get() = inventory.boots?.itemMeta?.displayName == leatherBoots.itemMeta?.displayName
 
-        private val Player.availableDoubleJump: Boolean
-            get() = gameMode == GameMode.ADVENTURE && useDoubleJump
+        private inline val Player.isAdventure
+            get() = gameMode == GameMode.ADVENTURE
+
+        private inline val Player.availableDoubleJump: Boolean
+            get() = isAdventure && isEquipBoots
 
         override fun ListenerFunctions.events() {
             event<PlayerJoinEvent> { e ->
@@ -52,7 +55,7 @@ object DoubleJump : Gadget(Material.LEATHER_BOOTS, "ダブルジャンプ", "lob
             event<PlayerToggleFlightEvent> { e ->
                 val player = e.player
                 val uuidPlayer = UUIDPlayer(player)
-                if (player.availableDoubleJump.not()) {
+                if (player.isAdventure.not()) {
                     if (player.gameMode != GameMode.CREATIVE) {
                         player.isFlying = false
                         player.allowFlight = false
