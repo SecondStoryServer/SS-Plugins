@@ -15,7 +15,7 @@ open class Gadget(
     override val item = CustomItemStack.create(
         material,
         "&d[Gadget] &6$name",
-        "&b手に持って左クリックで切り替え"
+        "&b手に持ってクリックで切り替え"
     ).apply {
         addItemFlag(ItemFlag.HIDE_ENCHANTS)
     }.toOneItemStack
