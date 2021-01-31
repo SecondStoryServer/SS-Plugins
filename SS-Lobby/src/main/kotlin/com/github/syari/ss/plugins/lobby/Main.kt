@@ -1,6 +1,7 @@
 package com.github.syari.ss.plugins.lobby
 
 import com.github.syari.ss.plugins.core.code.SSPlugin
+import com.github.syari.ss.plugins.lobby.gadget.DoubleJump
 import org.bukkit.plugin.java.JavaPlugin
 
 class Main : SSPlugin() {
@@ -8,7 +9,7 @@ class Main : SSPlugin() {
         internal lateinit var plugin: JavaPlugin
     }
 
-    override val events = listOf(EventListener)
+    override val events = listOf(EventListener, DoubleJump.EventListener)
 
     override fun onEnable() {
         plugin = this
