@@ -4,6 +4,7 @@ import com.github.syari.ss.plugins.assist.Main.Companion.plugin
 import com.github.syari.ss.plugins.core.code.OnEnable
 import com.github.syari.ss.plugins.core.command.create.CommandCreator.Companion.command
 import com.github.syari.ss.plugins.core.command.create.CommandTabElement.Companion.element
+import com.github.syari.ss.plugins.core.message.Message.send
 
 object CommandCreator : OnEnable {
     override fun onEnable() {
@@ -19,6 +20,11 @@ object CommandCreator : OnEnable {
                         AutoCommand.load(sender)
                     }
                 }
+            }
+        }
+        plugin.command("self", "") {
+            execute {
+                sender.send(args.joinToString(" "))
             }
         }
     }
