@@ -10,14 +10,14 @@ class Main : SSPlugin() {
         internal lateinit var plugin: JavaPlugin
     }
 
-    override val listeners = listOf(EventListener, ShopEventListener, MythicMobsRegister)
+    override val events = listOf(EventListener, ShopEventListener, MythicMobsRegister)
     override val onEnables = listOf(ConfigLoader, CommandCreator)
     override val onDisables = listOf(MobArenaManager)
 
     override fun onEnable() {
         plugin = this
         runOnEnable()
-        registerListeners()
+        registerEvents()
     }
 
     override fun onDisable() {

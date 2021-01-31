@@ -3,18 +3,18 @@
 package com.github.syari.ss.plugins.core.time
 
 import com.github.syari.ss.plugins.core.Main.Companion.plugin
+import com.github.syari.ss.plugins.core.code.EventRegister
+import com.github.syari.ss.plugins.core.code.ListenerFunctions
 import com.github.syari.ss.plugins.core.code.OnEnable
 import com.github.syari.ss.plugins.core.scheduler.CreateScheduler.runLater
 import com.github.syari.ss.plugins.core.time.event.NextDayEvent
 import com.github.syari.ss.plugins.core.time.event.NextHourEvent
 import com.github.syari.ss.plugins.core.time.event.NextMinuteEvent
-import org.bukkit.event.EventHandler
-import org.bukkit.event.Listener
 import org.bukkit.plugin.java.JavaPlugin
 import java.time.DayOfWeek
 import java.time.LocalDateTime
 
-object TimeScheduler : OnEnable, Listener {
+object TimeScheduler : OnEnable, EventRegister {
     class TimeSchedules {
         val everyWeekScheduler = mutableMapOf<ScheduleTimeEveryWeek, MutableSet<() -> Unit>>()
         val everyDayScheduler = mutableMapOf<ScheduleTimeEveryDay, MutableSet<() -> Unit>>()
@@ -112,15 +112,16 @@ object TimeScheduler : OnEnable, Listener {
         }
     }
 
-    @EventHandler
-    fun onNextMinute(e: NextMinuteEvent) {
-        schedules.values.forEach { list ->
-            val everyWeek = e.scheduleTime
-            list.everyWeekScheduler[everyWeek]?.forEach { it() }
-            val everyDay = everyWeek.everyDay
-            list.everyDayScheduler[everyDay]?.forEach { it() }
-            val everyHour = everyDay.everyHour
-            list.everyHourScheduler[everyHour]?.forEach { it() }
+    override fun ListenerFunctions.events() {
+        event<NextMinuteEvent> { e ->
+            schedules.values.forEach { list ->
+                val everyWeek = e.scheduleTime
+                list.everyWeekScheduler[everyWeek]?.forEach { it() }
+                val everyDay = everyWeek.everyDay
+                list.everyDayScheduler[everyDay]?.forEach { it() }
+                val everyHour = everyDay.everyHour
+                list.everyHourScheduler[everyHour]?.forEach { it() }
+            }
         }
     }
 }

@@ -23,7 +23,7 @@ class Main : SSPlugin() {
         lateinit var console: ConsoleCommandSender
     }
 
-    override val listeners = listOf(CustomBossBar, CreateInventory, TimeScheduler)
+    override val events = listOf(CustomBossBar, CreateInventory, TimeScheduler)
     override val onEnables = listOf(TimeScheduler, PluginMessage)
     override val onDisables = listOf(CustomBossBar)
 
@@ -31,7 +31,7 @@ class Main : SSPlugin() {
         plugin = this
         console = server.consoleSender
         runOnEnable()
-        registerListeners()
+        registerEvents()
     }
 
     override fun onDisable() {

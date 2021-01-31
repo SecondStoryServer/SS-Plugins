@@ -1,5 +1,7 @@
 package com.github.syari.ss.plugins.globalplayers
 
+import com.github.syari.ss.plugins.core.code.EventRegister
+import com.github.syari.ss.plugins.core.code.ListenerFunctions
 import com.github.syari.ss.plugins.core.code.StringEditor.toColor
 import com.github.syari.ss.plugins.core.pluginMessage.SSPluginMessageEvent
 import com.github.syari.ss.plugins.core.scheduler.CreateScheduler.runLater
@@ -14,19 +16,18 @@ import org.bukkit.craftbukkit.v1_16_R3.CraftServer
 import org.bukkit.craftbukkit.v1_16_R3.CraftWorld
 import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer
 import org.bukkit.craftbukkit.v1_16_R3.util.CraftChatMessage
-import org.bukkit.event.EventHandler
-import org.bukkit.event.Listener
 
-object TabUpdater : Listener {
+object TabUpdater : EventRegister {
     private var lastPlayerList = listOf<String>()
 
-    @EventHandler
-    fun on(e: SSPluginMessageEvent) {
-        val template = e.template as? PluginMessageTemplateTabList ?: return
-        val playerList = template.playerNameList
-        updateTabPlayers(EnumPlayerInfoAction.ADD_PLAYER, playerList)
-        updateTabPlayers(EnumPlayerInfoAction.REMOVE_PLAYER, lastPlayerList.filterNot { playerList.contains(it) })
-        lastPlayerList = playerList
+    override fun ListenerFunctions.events() {
+        event<SSPluginMessageEvent> { e ->
+            val template = e.template as? PluginMessageTemplateTabList ?: return@event
+            val playerList = template.playerNameList
+            updateTabPlayers(EnumPlayerInfoAction.ADD_PLAYER, playerList)
+            updateTabPlayers(EnumPlayerInfoAction.REMOVE_PLAYER, lastPlayerList.filterNot { playerList.contains(it) })
+            lastPlayerList = playerList
+        }
     }
 
     private fun updateTabPlayers(action: EnumPlayerInfoAction, list: List<String>) {

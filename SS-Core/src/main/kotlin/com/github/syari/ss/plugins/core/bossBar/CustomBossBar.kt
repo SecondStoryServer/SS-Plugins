@@ -4,6 +4,8 @@ package com.github.syari.ss.plugins.core.bossBar
 
 import com.github.syari.ss.plugins.core.Main.Companion.plugin
 import com.github.syari.ss.plugins.core.bossBar.CustomBossBar.Companion.bossBar
+import com.github.syari.ss.plugins.core.code.EventRegister
+import com.github.syari.ss.plugins.core.code.ListenerFunctions
 import com.github.syari.ss.plugins.core.code.OnDisable
 import com.github.syari.ss.plugins.core.code.StringEditor.toColor
 import org.bukkit.OfflinePlayer
@@ -11,8 +13,6 @@ import org.bukkit.boss.BarColor
 import org.bukkit.boss.BarStyle
 import org.bukkit.boss.BossBar
 import org.bukkit.entity.Player
-import org.bukkit.event.EventHandler
-import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
 
@@ -25,23 +25,19 @@ class CustomBossBar internal constructor(
     style: BarStyle,
     private val public: Boolean
 ) {
-    companion object : Listener, OnDisable {
+    companion object : EventRegister, OnDisable {
         private val barList = mutableListOf<CustomBossBar>()
 
-        /**
-         * バーを自動で表示します
-         * @see [CustomBossBar.onLogin]
-         */
-        @EventHandler
-        fun onJoin(e: PlayerJoinEvent) {
-            val player = e.player
-            barList.forEach { it.onLogin(player) }
-        }
+        override fun ListenerFunctions.events() {
+            event<PlayerJoinEvent> { e ->
+                val player = e.player
+                barList.forEach { it.onLogin(player) }
+            }
 
-        @EventHandler
-        fun onQuit(e: PlayerQuitEvent) {
-            val player = e.player
-            barList.forEach { it.onLogout(player) }
+            event<PlayerQuitEvent> { e ->
+                val player = e.player
+                barList.forEach { it.onLogout(player) }
+            }
         }
 
         /**

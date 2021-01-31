@@ -2,21 +2,20 @@ package com.github.syari.ss.plugins.backup
 
 import com.github.syari.ss.plugins.backup.event.PostBackupEvent
 import com.github.syari.ss.plugins.backup.event.PreBackupEvent
-import org.bukkit.event.EventHandler
-import org.bukkit.event.Listener
+import com.github.syari.ss.plugins.core.code.EventRegister
+import com.github.syari.ss.plugins.core.code.ListenerFunctions
 
-object EventListener : Listener {
-    @EventHandler
-    fun on(e: PreBackupEvent) {
-        e.groups.forEach {
-            it.settings.runPreCommand()
+object EventListener : EventRegister {
+    override fun ListenerFunctions.events() {
+        event<PreBackupEvent> { e ->
+            e.groups.forEach {
+                it.settings.runPreCommand()
+            }
         }
-    }
-
-    @EventHandler
-    fun on(e: PostBackupEvent) {
-        e.groups.forEach {
-            it.settings.runPostCommand()
+        event<PostBackupEvent> { e ->
+            e.groups.forEach {
+                it.settings.runPostCommand()
+            }
         }
     }
 }
