@@ -27,7 +27,7 @@ open class Project(val version: String, groupName: String = "") {
         list.add(this)
     }
 
-    object AutoCommand : Project(4) {
+    object Assist : Project(1) {
         override val dependProject = listOf(Core)
     }
 

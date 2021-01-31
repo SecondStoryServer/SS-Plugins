@@ -8,7 +8,7 @@ All Paper Plugins For SecondStory.
 <!-- Generate Versions -->
 | Name | Version |
 |:-----|--------:|
-| SS-AutoCommand | 4 |
+| SS-Assist | 1 |
 | SS-Backup | 13 |
 | SS-CommandBlocker | 2 |
 | SS-Core | 31 |

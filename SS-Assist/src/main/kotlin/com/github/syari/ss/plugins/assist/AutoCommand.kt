@@ -1,9 +1,11 @@
-package com.github.syari.ss.plugins.autocommand
+package com.github.syari.ss.plugins.assist
 
-import com.github.syari.ss.plugins.autocommand.Main.Companion.plugin
+import com.github.syari.ss.plugins.assist.Main.Companion.plugin
 import com.github.syari.ss.plugins.core.Main.Companion.console
 import com.github.syari.ss.plugins.core.code.IConfigLoader
 import com.github.syari.ss.plugins.core.command.RunCommand
+import com.github.syari.ss.plugins.core.command.create.CommandCreator.Companion.command
+import com.github.syari.ss.plugins.core.command.create.CommandTabElement
 import com.github.syari.ss.plugins.core.config.CreateConfig.config
 import com.github.syari.ss.plugins.core.config.CustomConfig
 import com.github.syari.ss.plugins.core.config.type.ConfigDataType
@@ -16,9 +18,26 @@ import com.github.syari.ss.plugins.core.time.TimeScheduler.scheduleEveryWeekAt
 import org.bukkit.command.CommandSender
 import java.time.DayOfWeek
 
-object ConfigLoader : IConfigLoader {
+object AutoCommand : IConfigLoader {
     override fun onEnable() {
+        registerCommand()
         load(console)
+    }
+
+    private fun registerCommand() {
+        plugin.command("auto-command", "AutoCommand") {
+            tab {
+                arg { CommandTabElement.element("reload") }
+            }
+            execute {
+                when (args.whenIndex(0)) {
+                    "reload" -> {
+                        sendWithPrefix("コンフィグを再読み込みします")
+                        AutoCommand.load(sender)
+                    }
+                }
+            }
+        }
     }
 
     override fun load(sender: CommandSender) {
