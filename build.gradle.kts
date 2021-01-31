@@ -25,14 +25,12 @@ subprojects {
     configurations["implementation"].extendsFrom(shadowImplementation)
 
     repositories {
-        maven {
-            url = uri("https://papermc.io/repo/repository/maven-public/")
-        }
+        maven("https://repo.pl3x.net/")
     }
 
     dependencies {
         implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-        implementation("com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT")
+        implementation("net.pl3x.purpur:purpur-api:1.16.5-R0.1-SNAPSHOT")
     }
 
     tasks.withType<KotlinCompile> {

@@ -1,7 +1,7 @@
 rootProject.name = "SS-Plugins"
 
 include(
-    "SS-AutoCommand",
+    "SS-Assist",
     "SS-Backup",
     "SS-CommandBlocker",
     "SS-Core",

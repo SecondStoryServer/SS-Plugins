@@ -2,7 +2,8 @@
 
 package com.github.syari.ss.plugins.core.inventory
 
-import com.github.syari.ss.plugins.core.Main.Companion.plugin
+import com.github.syari.ss.plugins.core.code.EventRegister
+import com.github.syari.ss.plugins.core.code.ListenerFunctions
 import com.github.syari.ss.plugins.core.code.StringEditor.toColor
 import com.github.syari.ss.plugins.core.inventory.CreateInventory.runWithId
 import com.github.syari.ss.plugins.core.player.UUIDPlayer
@@ -11,45 +12,42 @@ import org.bukkit.Bukkit.createInventory
 import org.bukkit.OfflinePlayer
 import org.bukkit.entity.HumanEntity
 import org.bukkit.entity.Player
-import org.bukkit.event.EventHandler
-import org.bukkit.event.Listener
 import org.bukkit.event.inventory.ClickType
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.inventory.InventoryType
 import org.bukkit.inventory.Inventory
 
-object CreateInventory : Listener {
-    @EventHandler
-    fun onInventoryClick(e: InventoryClickEvent) {
-        val player = e.whoClicked as Player
-        val uuidPlayer = UUIDPlayer(player)
-        uuidPlayer.menuPlayer?.run {
-            if (cancel) {
-                e.isCancelled = true
-            }
-            if (e.inventory == e.clickedInventory) {
-                runEvent(e.slot, e.click)
-            }
-            onClick(e)
-            if (e.click == ClickType.MIDDLE && player.isOp) {
-                e.currentItem?.let { item ->
+object CreateInventory : EventRegister {
+    override fun ListenerFunctions.events() {
+        event<InventoryClickEvent> { e ->
+            val player = e.whoClicked as Player
+            val uuidPlayer = UUIDPlayer(player)
+            uuidPlayer.menuPlayer?.run {
+                if (cancel) {
                     e.isCancelled = true
-                    player.inventory.addItem(item.asQuantity(64))
+                }
+                if (e.inventory == e.clickedInventory) {
+                    runEvent(e.slot, e.click)
+                }
+                onClick(e)
+                if (e.click == ClickType.MIDDLE && player.isOp) {
+                    e.currentItem?.let { item ->
+                        e.isCancelled = true
+                        player.inventory.addItem(item.asQuantity(64))
+                    }
                 }
             }
         }
-    }
-
-    @EventHandler
-    fun onInventoryClose(e: InventoryCloseEvent) {
-        val player = e.player as Player
-        val uuidPlayer = UUIDPlayer(player)
-        uuidPlayer.menuPlayer?.run {
-            onClose(e)
-            uuidPlayer.menuPlayer = null
-            plugin.runLater(5) {
-                player.updateInventory()
+        event<InventoryCloseEvent> { e ->
+            val player = e.player as Player
+            val uuidPlayer = UUIDPlayer(player)
+            uuidPlayer.menuPlayer?.run {
+                onClose(e)
+                uuidPlayer.menuPlayer = null
+                plugin.runLater(5) {
+                    player.updateInventory()
+                }
             }
         }
     }

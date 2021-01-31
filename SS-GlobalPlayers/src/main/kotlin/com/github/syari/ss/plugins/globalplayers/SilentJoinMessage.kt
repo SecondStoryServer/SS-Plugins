@@ -1,18 +1,17 @@
 package com.github.syari.ss.plugins.globalplayers
 
-import org.bukkit.event.EventHandler
-import org.bukkit.event.Listener
+import com.github.syari.ss.plugins.core.code.EventRegister
+import com.github.syari.ss.plugins.core.code.ListenerFunctions
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
 
-object SilentJoinMessage : Listener {
-    @EventHandler
-    fun on(e: PlayerJoinEvent) {
-        e.joinMessage = null
-    }
-
-    @EventHandler
-    fun on(e: PlayerQuitEvent) {
-        e.quitMessage = null
+object SilentJoinMessage : EventRegister {
+    override fun ListenerFunctions.events() {
+        event<PlayerJoinEvent> {
+            it.joinMessage = null
+        }
+        event<PlayerQuitEvent> {
+            it.quitMessage = null
+        }
     }
 }

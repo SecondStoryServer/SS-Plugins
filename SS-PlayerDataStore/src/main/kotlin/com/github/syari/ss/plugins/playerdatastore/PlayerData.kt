@@ -18,7 +18,7 @@ class PlayerData(private val uuidPlayer: UUIDPlayer) {
         private val UUIDPlayer.storeData
             get() = storeDataList.getOrPut(this) { PlayerData(this) }
 
-        private val Player.storeData
+        val Player.storeData
             get() = UUIDPlayer(this).storeData
 
         fun loadStoreData(player: Player) {
@@ -42,7 +42,7 @@ class PlayerData(private val uuidPlayer: UUIDPlayer) {
     private val isEnableInventory
         get() = uuidPlayer.let(ConfigLoader.saveInventoryMode.condition)
 
-    private val isEnableLocation
+    val isEnableLocation
         get() = uuidPlayer.let(ConfigLoader.saveLocationMode.condition)
 
     private val isEnableSave

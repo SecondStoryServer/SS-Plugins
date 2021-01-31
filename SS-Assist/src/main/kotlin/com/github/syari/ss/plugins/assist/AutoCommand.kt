@@ -1,6 +1,6 @@
-package com.github.syari.ss.plugins.autocommand
+package com.github.syari.ss.plugins.assist
 
-import com.github.syari.ss.plugins.autocommand.Main.Companion.plugin
+import com.github.syari.ss.plugins.assist.Main.Companion.plugin
 import com.github.syari.ss.plugins.core.Main.Companion.console
 import com.github.syari.ss.plugins.core.code.IConfigLoader
 import com.github.syari.ss.plugins.core.command.RunCommand
@@ -16,14 +16,14 @@ import com.github.syari.ss.plugins.core.time.TimeScheduler.scheduleEveryWeekAt
 import org.bukkit.command.CommandSender
 import java.time.DayOfWeek
 
-object ConfigLoader : IConfigLoader {
+object AutoCommand : IConfigLoader {
     override fun onEnable() {
         load(console)
     }
 
     override fun load(sender: CommandSender) {
         plugin.clearTimeScheduler()
-        plugin.config(sender, "config.yml") {
+        plugin.config(sender, "auto-command.yml") {
             sender.send("&b[AutoCommand] &f自動コマンド一覧")
             section("every", ConfigTimeSectionType, false)?.forEach { (hour, minute, key) ->
                 val commandList = get("every.$key", ConfigDataType.STRINGLIST) ?: return@forEach

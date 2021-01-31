@@ -1,4 +1,4 @@
-val project = Project.AutoCommand
+val project = Project.Assist
 group = project.group
 
 dependencies {

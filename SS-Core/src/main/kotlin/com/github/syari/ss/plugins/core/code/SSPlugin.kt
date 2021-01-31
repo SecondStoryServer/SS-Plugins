@@ -2,11 +2,10 @@
 
 package com.github.syari.ss.plugins.core.code
 
-import org.bukkit.event.Listener
 import org.bukkit.plugin.java.JavaPlugin
 
 open class SSPlugin : JavaPlugin() {
-    open val listeners = listOf<Listener>()
+    open val events = listOf<EventRegister>()
     open val onEnables = listOf<OnEnable>()
     open val onDisables = listOf<OnDisable>()
 
@@ -21,9 +20,12 @@ open class SSPlugin : JavaPlugin() {
      *
      * @see org.bukkit.plugin.PluginManager.registerEvents
      */
-    fun registerListeners() {
-        listeners.forEach {
-            server.pluginManager.registerEvents(it, this@SSPlugin)
+    fun registerEvents() {
+        val listener = ListenerFunctions(this)
+        events.forEach {
+            it.run {
+                listener.events()
+            }
         }
     }
 
