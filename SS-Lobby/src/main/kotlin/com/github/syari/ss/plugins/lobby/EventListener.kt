@@ -1,8 +1,10 @@
 package com.github.syari.ss.plugins.lobby
 
+import com.github.syari.ss.plugins.core.code.CoolTime
 import com.github.syari.ss.plugins.core.code.EventRegister
 import com.github.syari.ss.plugins.core.code.ListenerFunctions
 import com.github.syari.ss.plugins.core.item.CustomItemStack
+import com.github.syari.ss.plugins.core.player.UUIDPlayer
 import com.github.syari.ss.plugins.core.scheduler.CreateScheduler.runLater
 import org.bukkit.GameMode
 import org.bukkit.event.player.PlayerDropItemEvent
@@ -22,13 +24,19 @@ object EventListener : EventRegister {
                 it.isCancelled = true
             }
         }
+        val gadgetCoolTime = CoolTime<UUIDPlayer>(plugin)
         event<PlayerInteractEvent> { e ->
-            val item = e.item
-            LobbyInventory.inventory.values.firstOrNull {
-                it.item.isSimilar(item)
-            }?.let {
-                it.toggle(e.player, CustomItemStack.create(item))
-                e.isCancelled = true
+            val item = e.item ?: return@event
+            val player = e.player
+            val uuidPlayer = UUIDPlayer(player)
+            if (gadgetCoolTime.isAvailable(uuidPlayer)) {
+                LobbyInventory.inventory.values.firstOrNull {
+                    it.item.itemMeta?.displayName == item.itemMeta?.displayName
+                }?.let {
+                    it.toggle(player, CustomItemStack.create(item))
+                    gadgetCoolTime.add(uuidPlayer, 10)
+                    e.isCancelled = true
+                }
             }
         }
     }
