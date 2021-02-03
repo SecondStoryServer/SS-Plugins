@@ -8,7 +8,7 @@ All Paper Plugins For SecondStory.
 <!-- Generate Versions -->
 | Name | Version |
 |:-----|--------:|
-| SS-Assist | 1 |
+| SS-Assist | 2 |
 | SS-Backup | 13 |
 | SS-CommandBlocker | 2 |
 | SS-Core | 31 |
@@ -20,7 +20,7 @@ All Paper Plugins For SecondStory.
 | SS-ItemFrameCommand | 2 |
 | SS-Kotlin | 1.4.21 |
 | SS-Lobby | 1 |
-| SS-MobArena | 17 |
-| SS-PlayerDataStore | 9 |
+| SS-MobArena | 18 |
+| SS-PlayerDataStore | 10 |
 | SS-PluginManager | 8 |
 <!-- Generate Versions -->
