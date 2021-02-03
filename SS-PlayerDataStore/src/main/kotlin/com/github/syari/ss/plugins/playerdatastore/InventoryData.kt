@@ -27,20 +27,17 @@ class InventoryData(playerData: PlayerData) : LoadableDataType(playerData) {
     }
 
     override fun save() {
-        if (isLoaded) {
-            isLoaded = false
-            if (isEnable) {
-                val player = playerData.uuidPlayer.player ?: return
-                player.inventory.contents.forEachIndexed { slot, item ->
-                    if (item != null && item.type != Material.AIR) {
-                        playerData.config.setUnsafe("inventory.$slot", Base64Item.toBase64(item))
-                    } else {
-                        playerData.config.setUnsafe("inventory.$slot", null)
-                    }
+        if (isEnable) {
+            val player = playerData.uuidPlayer.player ?: return
+            player.inventory.contents.forEachIndexed { slot, item ->
+                if (item != null && item.type != Material.AIR) {
+                    playerData.config.setUnsafe("inventory.$slot", Base64Item.toBase64(item))
+                } else {
+                    playerData.config.setUnsafe("inventory.$slot", null)
                 }
-            } else {
-                playerData.config.setUnsafe("inventory", null)
             }
+        } else {
+            playerData.config.setUnsafe("inventory", null)
         }
     }
 }

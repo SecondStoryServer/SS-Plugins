@@ -14,8 +14,8 @@ object EventListener : EventRegister {
         }
         event<PlayerQuitEvent> {
             it.player.storeData.run {
-                inventory.save()
-                location.save()
+                inventory.unload()
+                location.unload()
                 save()
             }
         }

@@ -175,8 +175,8 @@ class MobArena(
             }
         } else {
             player.storeData.run {
-                inventory.save()
-                location.save()
+                inventory.unload()
+                location.unload()
                 save()
             }
             player.inventory.clear()
@@ -205,8 +205,8 @@ class MobArena(
             }
         } else {
             player.storeData.run {
-                inventory.save()
-                location.save()
+                inventory.unload()
+                location.unload()
                 save()
             }
             player.inventory.clear()
