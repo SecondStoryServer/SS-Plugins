@@ -25,6 +25,7 @@ object Elytra : Gadget(Material.ELYTRA, "エリトラ", "lobby.gadget.elytra") {
 
     override fun onEnable(player: Player, itemStack: CustomItemStack) {
         player.inventory.chestplate = elytra
+        player.inventory.setItemInOffHand(fireworkRocket)
         plugin.runTimer(0, 20) {
             player.inventory.setItemInOffHand(fireworkRocket)
         }?.let {
