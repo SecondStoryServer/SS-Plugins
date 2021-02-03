@@ -17,7 +17,7 @@ import com.github.syari.ss.plugins.mobarena.Main.Companion.plugin
 import com.github.syari.ss.plugins.mobarena.MobArenaManager.arenaPlayer
 import com.github.syari.ss.plugins.mobarena.kit.MobArenaKit
 import com.github.syari.ss.plugins.mobarena.wave.MobArenaWave
-import com.github.syari.ss.plugins.playerdatastore.PlayerData
+import com.github.syari.ss.plugins.playerdatastore.PlayerData.Companion.storeData
 import com.github.syari.ss.template.message.PluginMessageTemplateChatChannel
 import org.bukkit.Location
 import org.bukkit.attribute.Attribute
@@ -174,7 +174,11 @@ class MobArena(
                 arenaPlayer.arena.leave(player, false)
             }
         } else {
-            PlayerData.saveStoreData(player)
+            player.storeData.run {
+                inventory.save()
+                location.save()
+                save()
+            }
             player.inventory.clear()
         }
         if (playerLimit <= players.size) {
@@ -200,7 +204,11 @@ class MobArena(
                 return player.send("&b[MobArena] &c既にモブアリーナに参加しています")
             }
         } else {
-            PlayerData.saveStoreData(player)
+            player.storeData.run {
+                inventory.save()
+                location.save()
+                save()
+            }
             player.inventory.clear()
         }
         player.closeInventory()
@@ -222,7 +230,12 @@ class MobArena(
         player.closeInventory()
         if (loadItem) {
             player.inventory.clear()
-            PlayerData.loadStoreData(player)
+            player.storeData.run {
+                inventory.load()
+                location.get()?.let {
+                    player.teleport(it)
+                }
+            }
         }
         board.removePlayer(player)
         unsetChatChannel(player)
