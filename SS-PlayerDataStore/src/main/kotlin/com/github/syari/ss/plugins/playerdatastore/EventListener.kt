@@ -13,11 +13,7 @@ object EventListener : EventRegister {
             it.player.storeData.inventory.load()
         }
         event<PlayerQuitEvent> {
-            it.player.storeData.run {
-                inventory.save()
-                location.save()
-                save()
-            }
+            it.player.storeData.unloadAll()
         }
         event<PlayerSpawnLocationEvent> {
             it.spawnLocation = it.player.storeData.location.get() ?: return@event

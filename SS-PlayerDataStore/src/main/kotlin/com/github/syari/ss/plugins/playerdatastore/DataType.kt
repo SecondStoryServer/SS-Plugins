@@ -5,5 +5,12 @@ abstract class DataType(val playerData: PlayerData) {
 
     var isLoaded = false
 
+    fun unload() {
+        if (isLoaded) {
+            isLoaded = false
+            save()
+        }
+    }
+
     abstract fun save()
 }

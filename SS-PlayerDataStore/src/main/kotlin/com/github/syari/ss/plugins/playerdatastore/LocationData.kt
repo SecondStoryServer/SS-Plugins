@@ -20,14 +20,11 @@ class LocationData(playerData: PlayerData) : DataType(playerData) {
     }
 
     override fun save() {
-        if (isLoaded) {
-            isLoaded = false
-            val player = playerData.uuidPlayer.player ?: return
-            if (isEnable) {
-                playerData.config.set("location", ConfigDataType.LOCATION, player.location)
-            } else {
-                playerData.config.setUnsafe("location", null)
-            }
+        val player = playerData.uuidPlayer.player ?: return
+        if (isEnable) {
+            playerData.config.set("location", ConfigDataType.LOCATION, player.location)
+        } else {
+            playerData.config.setUnsafe("location", null)
         }
     }
 }

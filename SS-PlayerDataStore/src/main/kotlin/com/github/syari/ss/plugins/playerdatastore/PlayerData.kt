@@ -23,7 +23,15 @@ class PlayerData(val uuidPlayer: UUIDPlayer) {
 
     val location = LocationData(this)
 
-    fun save() {
+    fun saveAll() {
+        inventory.save()
+        location.save()
+        config.save()
+    }
+
+    fun unloadAll() {
+        inventory.unload()
+        location.unload()
         config.save()
     }
 }
