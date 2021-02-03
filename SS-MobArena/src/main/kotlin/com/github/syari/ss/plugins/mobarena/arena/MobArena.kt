@@ -174,11 +174,7 @@ class MobArena(
                 arenaPlayer.arena.leave(player, false)
             }
         } else {
-            player.storeData.run {
-                inventory.unload()
-                location.unload()
-                save()
-            }
+            player.storeData.unloadAll()
             player.inventory.clear()
         }
         if (playerLimit <= players.size) {
@@ -204,11 +200,7 @@ class MobArena(
                 return player.send("&b[MobArena] &c既にモブアリーナに参加しています")
             }
         } else {
-            player.storeData.run {
-                inventory.unload()
-                location.unload()
-                save()
-            }
+            player.storeData.unloadAll()
             player.inventory.clear()
         }
         player.closeInventory()
