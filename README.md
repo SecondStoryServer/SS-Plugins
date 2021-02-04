@@ -6,21 +6,21 @@ All Paper Plugins For SecondStory.
 ## Plugins
 
 <!-- Generate Versions -->
-| Name | Version |
-|:-----|--------:|
-| SS-Assist | 2 |
-| SS-Backup | 13 |
-| SS-CommandBlocker | 2 |
-| SS-Core | 31 |
-| SS-Dependency-CrackShot | 0.98.11 |
-| SS-Dependency-CrackShotPlus | 1.97 |
-| SS-Dependency-MythicMobs | 4.11.0-beta-1 |
-| SS-DevelopAssist | 2 |
-| SS-GlobalPlayers | 4 |
-| SS-ItemFrameCommand | 2 |
-| SS-Kotlin | 1.4.21 |
-| SS-Lobby | 1 |
-| SS-MobArena | 18 |
-| SS-PlayerDataStore | 10 |
-| SS-PluginManager | 8 |
+| Name | Version | Dependency |
+|:-----|--------:|-----------:|
+| SS-Assist | 3 |  |
+| SS-Backup | 14 |  |
+| SS-CommandBlocker | 3 |  |
+| SS-Core | 32 |  |
+| SS-Dependency-CrackShot | 1 | 0.98.11 |
+| SS-Dependency-CrackShotPlus | 1 | 1.97 |
+| SS-Dependency-MythicMobs | 1 | 4.11.0-beta-1 |
+| SS-DevelopAssist | 3 |  |
+| SS-GlobalPlayers | 5 |  |
+| SS-ItemFrameCommand | 3 |  |
+| SS-Kotlin | 1 | 1.4.30 |
+| SS-Lobby | 2 |  |
+| SS-MobArena | 19 |  |
+| SS-PlayerDataStore | 11 |  |
+| SS-PluginManager | 9 |  |
 <!-- Generate Versions -->

@@ -5,7 +5,8 @@ open class Project(val version: String, groupName: String = "") {
         val list = mutableListOf<Project>()
     }
 
-    constructor(buildVersion: Int) : this(buildVersion.toString())
+    constructor(buildVersion: Int, groupName: String = "") : this(buildVersion.toString(), groupName)
+    constructor(buildVersion: Int, dependencyVersion: String, groupName: String = "") : this("$buildVersion($dependencyVersion)", groupName)
 
     private val simpleName = javaClass.simpleName
     val name by lazy { "SS-${if (groupName.isEmpty()) "" else "$groupName-"}$simpleName" }
@@ -27,70 +28,70 @@ open class Project(val version: String, groupName: String = "") {
         list.add(this)
     }
 
-    object Assist : Project(2) {
+    object Assist : Project(3) {
         override val dependProject = listOf(Core)
     }
 
-    object Backup : Project(13) {
+    object Backup : Project(14) {
         override val dependProject = listOf(Core)
     }
 
-    object CommandBlocker : Project(2) {
+    object CommandBlocker : Project(3) {
         override val dependProject = listOf(Core)
     }
 
-    object Core : Project(31) {
+    object Core : Project(32) {
         override val dependProject = listOf(Kotlin)
     }
 
-    open class Dependency(version: String) : Project(version, "Dependency") {
-        object CrackShot : Dependency("0.98.11") {
+    open class Dependency(buildVersion: Int, version: String) : Project(buildVersion, version, "Dependency") {
+        object CrackShot : Dependency(1, "0.98.11") {
             override val dependProject = listOf(Core)
             override val dependPlugin = listOf("CrackShot")
         }
 
-        object CrackShotPlus : Dependency("1.97") {
+        object CrackShotPlus : Dependency(1, "1.97") {
             override val dependProject = listOf(Core)
             override val dependPlugin = listOf("CrackShotPlus")
         }
 
-        object MythicMobs : Dependency("4.11.0-beta-1") {
+        object MythicMobs : Dependency(1, "4.11.0-beta-1") {
             override val dependProject = listOf(Core)
             override val dependPlugin = listOf("MythicMobs")
         }
     }
 
-    object DevelopAssist : Project(2) {
+    object DevelopAssist : Project(3) {
         override val dependProject = listOf(Core)
     }
 
-    object GlobalPlayers : Project(4) {
+    object GlobalPlayers : Project(5) {
         override val dependProject = listOf(Core)
     }
 
-    object Discord : Project(1) {
+    object Discord : Project(2) {
         override val dependProject = listOf(Core)
     }
 
-    object ItemFrameCommand : Project(2) {
+    object ItemFrameCommand : Project(3) {
         override val dependProject = listOf(Core)
     }
 
-    object Kotlin : Project("1.4.21")
+    object Kotlin : Project(1, dependencyVersion = "1.4.30")
 
-    object Lobby : Project(1) {
+    object Lobby : Project(2) {
         override val dependProject = listOf(Core)
     }
 
-    object MobArena : Project(18) {
+    object MobArena : Project(19) {
         override val dependProject = listOf(Core, Dependency.CrackShot, Dependency.CrackShotPlus, Dependency.MythicMobs, PlayerDataStore)
     }
 
-    object PlayerDataStore : Project(10) {
+    object PlayerDataStore : Project(11) {
         override val dependProject = listOf(Core)
     }
 
-    object PluginManager : Project(8) {
+    object PluginManager : Project(9) {
         override val dependProject = listOf(Core)
     }
 }

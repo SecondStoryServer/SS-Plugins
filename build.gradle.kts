@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jlleitschuh.gradle.ktlint.KtlintExtension
 
 plugins {
-    kotlin("jvm") version "1.4.21"
+    kotlin("jvm") version "1.4.30"
     id("com.github.johnrengelman.shadow") version "6.1.0" apply false
     id("net.minecrell.plugin-yml.bukkit") version "0.3.0" apply false
     id("org.jlleitschuh.gradle.ktlint") version "9.4.1"
@@ -37,6 +37,7 @@ subprojects {
         kotlinOptions {
             jvmTarget = "11"
             freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
+            useIR = true
         }
     }
 
@@ -64,12 +65,20 @@ task("updateVersions") {
                     appendln(outputBlockComment)
                     appendln(
                         """
-                    | Name | Version |
-                    |:-----|--------:|
+                    | Name | Version | Dependency |
+                    |:-----|--------:|-----------:|
                         """.trimIndent()
                     )
                     Project.list.sortedBy { it.name }.forEach {
-                        appendln("| ${it.name} | ${it.version} |")
+                        val (buildVersion, dependencyVersion) = if (it.version.contains('(')) {
+                            val separateIndex = it.version.indexOf('(')
+                            val buildVersion = it.version.substring(0, separateIndex)
+                            val dependencyVersion = it.version.substring(separateIndex + 1, it.version.length - 1)
+                            buildVersion to dependencyVersion
+                        } else {
+                            it.version to ""
+                        }
+                        appendln("| ${it.name} | $buildVersion | $dependencyVersion |")
                     }
                     append(outputBlockComment)
                 }
