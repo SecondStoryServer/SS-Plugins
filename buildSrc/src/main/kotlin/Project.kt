@@ -5,7 +5,8 @@ open class Project(val version: String, groupName: String = "") {
         val list = mutableListOf<Project>()
     }
 
-    constructor(buildVersion: Int) : this(buildVersion.toString())
+    constructor(buildVersion: Int, groupName: String = "") : this(buildVersion.toString(), groupName)
+    constructor(buildVersion: Int, dependencyVersion: String, groupName: String = "") : this("$buildVersion($dependencyVersion)", groupName)
 
     private val simpleName = javaClass.simpleName
     val name by lazy { "SS-${if (groupName.isEmpty()) "" else "$groupName-"}$simpleName" }
@@ -43,18 +44,18 @@ open class Project(val version: String, groupName: String = "") {
         override val dependProject = listOf(Kotlin)
     }
 
-    open class Dependency(version: String) : Project(version, "Dependency") {
-        object CrackShot : Dependency("0.98.11") {
+    open class Dependency(buildVersion: Int, version: String) : Project(buildVersion, version, "Dependency") {
+        object CrackShot : Dependency(1, "0.98.11") {
             override val dependProject = listOf(Core)
             override val dependPlugin = listOf("CrackShot")
         }
 
-        object CrackShotPlus : Dependency("1.97") {
+        object CrackShotPlus : Dependency(1, "1.97") {
             override val dependProject = listOf(Core)
             override val dependPlugin = listOf("CrackShotPlus")
         }
 
-        object MythicMobs : Dependency("4.11.0-beta-1") {
+        object MythicMobs : Dependency(1, "4.11.0-beta-1") {
             override val dependProject = listOf(Core)
             override val dependPlugin = listOf("MythicMobs")
         }
@@ -76,7 +77,7 @@ open class Project(val version: String, groupName: String = "") {
         override val dependProject = listOf(Core)
     }
 
-    object Kotlin : Project("1.4.30")
+    object Kotlin : Project(1, dependencyVersion = "1.4.30")
 
     object Lobby : Project(2) {
         override val dependProject = listOf(Core)

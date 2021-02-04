@@ -12,13 +12,13 @@ All Paper Plugins For SecondStory.
 | SS-Backup | 14 |
 | SS-CommandBlocker | 3 |
 | SS-Core | 32 |
-| SS-Dependency-CrackShot | 0.98.11 |
-| SS-Dependency-CrackShotPlus | 1.97 |
-| SS-Dependency-MythicMobs | 4.11.0-beta-1 |
+| SS-Dependency-CrackShot | 1(0.98.11) |
+| SS-Dependency-CrackShotPlus | 1(1.97) |
+| SS-Dependency-MythicMobs | 1(4.11.0-beta-1) |
 | SS-DevelopAssist | 3 |
 | SS-GlobalPlayers | 5 |
 | SS-ItemFrameCommand | 3 |
-| SS-Kotlin | 1.4.30 |
+| SS-Kotlin | 1(1.4.30) |
 | SS-Lobby | 2 |
 | SS-MobArena | 19 |
 | SS-PlayerDataStore | 11 |
