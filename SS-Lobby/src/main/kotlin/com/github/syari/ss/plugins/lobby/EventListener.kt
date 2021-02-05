@@ -2,7 +2,7 @@ package com.github.syari.ss.plugins.lobby
 
 import com.github.syari.ss.plugins.core.code.CoolTime
 import com.github.syari.ss.plugins.core.code.EventRegister
-import com.github.syari.ss.plugins.core.code.ListenerFunctions
+import com.github.syari.ss.plugins.core.code.Events
 import com.github.syari.ss.plugins.core.item.CustomItemStack
 import com.github.syari.ss.plugins.core.player.UUIDPlayer
 import com.github.syari.ss.plugins.core.scheduler.CreateScheduler.runLater
@@ -18,7 +18,7 @@ import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerSwapHandItemsEvent
 
 object EventListener : EventRegister {
-    override fun ListenerFunctions.events() {
+    override fun Events.register() {
         event<PlayerJoinEvent> {
             plugin.runLater(1) {
                 LobbyInventory.applyToPlayer(it.player)

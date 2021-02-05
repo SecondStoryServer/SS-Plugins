@@ -1,7 +1,7 @@
 package com.github.syari.ss.plugins.globalplayers
 
 import com.github.syari.ss.plugins.core.code.EventRegister
-import com.github.syari.ss.plugins.core.code.ListenerFunctions
+import com.github.syari.ss.plugins.core.code.Events
 import com.github.syari.ss.plugins.core.code.StringEditor.toColor
 import com.github.syari.ss.plugins.core.pluginMessage.SSPluginMessageEvent
 import com.github.syari.ss.plugins.core.scheduler.CreateScheduler.runLater
@@ -20,7 +20,7 @@ import org.bukkit.craftbukkit.v1_16_R3.util.CraftChatMessage
 object TabUpdater : EventRegister {
     private var lastPlayerList = listOf<String>()
 
-    override fun ListenerFunctions.events() {
+    override fun Events.register() {
         event<SSPluginMessageEvent> {
             val template = it.template as? PluginMessageTemplateTabList ?: return@event
             val playerList = template.playerNameList

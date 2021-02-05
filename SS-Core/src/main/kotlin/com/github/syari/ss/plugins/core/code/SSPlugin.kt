@@ -21,10 +21,10 @@ open class SSPlugin : JavaPlugin() {
      * @see org.bukkit.plugin.PluginManager.registerEvents
      */
     fun registerEvents() {
-        val listener = ListenerFunctions(this)
+        val listener = Events(this)
         events.forEach {
             it.run {
-                listener.events()
+                listener.register()
             }
         }
     }

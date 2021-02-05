@@ -3,7 +3,7 @@
 package com.github.syari.ss.plugins.core.inventory
 
 import com.github.syari.ss.plugins.core.code.EventRegister
-import com.github.syari.ss.plugins.core.code.ListenerFunctions
+import com.github.syari.ss.plugins.core.code.Events
 import com.github.syari.ss.plugins.core.code.StringEditor.toColor
 import com.github.syari.ss.plugins.core.inventory.CreateInventory.runWithId
 import com.github.syari.ss.plugins.core.player.UUIDPlayer
@@ -19,7 +19,7 @@ import org.bukkit.event.inventory.InventoryType
 import org.bukkit.inventory.Inventory
 
 object CreateInventory : EventRegister {
-    override fun ListenerFunctions.events() {
+    override fun Events.register() {
         event<InventoryClickEvent> { e ->
             val player = e.whoClicked as Player
             val uuidPlayer = UUIDPlayer(player)

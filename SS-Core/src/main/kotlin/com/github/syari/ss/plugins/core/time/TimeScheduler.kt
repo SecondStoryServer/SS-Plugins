@@ -4,7 +4,7 @@ package com.github.syari.ss.plugins.core.time
 
 import com.github.syari.ss.plugins.core.Main.Companion.plugin
 import com.github.syari.ss.plugins.core.code.EventRegister
-import com.github.syari.ss.plugins.core.code.ListenerFunctions
+import com.github.syari.ss.plugins.core.code.Events
 import com.github.syari.ss.plugins.core.code.OnEnable
 import com.github.syari.ss.plugins.core.scheduler.CreateScheduler.runLater
 import com.github.syari.ss.plugins.core.time.event.NextDayEvent
@@ -112,7 +112,7 @@ object TimeScheduler : OnEnable, EventRegister {
         }
     }
 
-    override fun ListenerFunctions.events() {
+    override fun Events.register() {
         event<NextMinuteEvent> {
             schedules.values.forEach { list ->
                 val everyWeek = it.scheduleTime

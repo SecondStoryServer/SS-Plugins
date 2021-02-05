@@ -5,7 +5,7 @@ package com.github.syari.ss.plugins.core.bossBar
 import com.github.syari.ss.plugins.core.Main.Companion.plugin
 import com.github.syari.ss.plugins.core.bossBar.CustomBossBar.Companion.bossBar
 import com.github.syari.ss.plugins.core.code.EventRegister
-import com.github.syari.ss.plugins.core.code.ListenerFunctions
+import com.github.syari.ss.plugins.core.code.Events
 import com.github.syari.ss.plugins.core.code.OnDisable
 import com.github.syari.ss.plugins.core.code.StringEditor.toColor
 import org.bukkit.OfflinePlayer
@@ -28,7 +28,7 @@ class CustomBossBar internal constructor(
     companion object : EventRegister, OnDisable {
         private val barList = mutableListOf<CustomBossBar>()
 
-        override fun ListenerFunctions.events() {
+        override fun Events.register() {
             event<PlayerJoinEvent> { e ->
                 val player = e.player
                 barList.forEach { it.onLogin(player) }
@@ -122,7 +122,6 @@ class CustomBossBar internal constructor(
 
     /**
      * 自動で実行されます
-     * @see onJoin
      */
     private fun onLogin(player: Player) {
         if (public) {
@@ -135,7 +134,6 @@ class CustomBossBar internal constructor(
 
     /**
      * 自動で実行されます
-     * @see onQuit
      */
     private fun onLogout(player: Player) {
         if (public) return
