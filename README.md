@@ -1,5 +1,5 @@
 # SS-Plugins
-All Paper Plugins For SecondStory.
+All Purpur Plugins For SecondStory.
 
 ![total lines](https://img.shields.io/tokei/lines/github/SecondStoryServer/SS-Plugins) ![size](https://img.shields.io/github/repo-size/SecondStoryServer/SS-Plugins?label=size) ![license](https://img.shields.io/github/license/SecondStoryServer/SS-Plugins)
 
