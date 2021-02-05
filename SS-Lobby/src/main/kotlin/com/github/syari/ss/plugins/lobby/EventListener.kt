@@ -6,6 +6,7 @@ import com.github.syari.ss.plugins.core.code.Events
 import com.github.syari.ss.plugins.core.item.CustomItemStack
 import com.github.syari.ss.plugins.core.player.UUIDPlayer
 import com.github.syari.ss.plugins.core.scheduler.CreateScheduler.runLater
+import com.github.syari.ss.plugins.lobby.gadget.Gadget
 import org.bukkit.GameMode
 import org.bukkit.entity.Player
 import org.bukkit.event.entity.EntityAirChangeEvent
@@ -35,11 +36,11 @@ object EventListener : EventRegister {
             val player = e.player
             val uuidPlayer = UUIDPlayer(player)
             if (gadgetCoolTime.contains(uuidPlayer).not()) {
-                LobbyInventory.inventory.values.firstOrNull {
-                    it.item.itemMeta?.displayName == item.itemMeta?.displayName
-                }?.let {
-                    it.toggle(player, CustomItemStack.create(item))
-                    gadgetCoolTime.add(uuidPlayer, 10)
+                LobbyInventory.getItem(item)?.let {
+                    if (it is Gadget) {
+                        it.toggle(player, CustomItemStack.create(item))
+                        gadgetCoolTime.add(uuidPlayer, 10)
+                    }
                 }
             }
         }
