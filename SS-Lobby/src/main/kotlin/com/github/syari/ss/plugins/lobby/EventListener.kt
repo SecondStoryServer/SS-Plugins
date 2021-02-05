@@ -32,16 +32,14 @@ object EventListener : EventRegister {
         val gadgetCoolTime = plugin.coolTime<UUIDPlayer>()
         event<PlayerInteractEvent> { e ->
             val item = e.item ?: return@event
-            e.isCancelled = true
             val player = e.player
             val uuidPlayer = UUIDPlayer(player)
-            if (gadgetCoolTime.contains(uuidPlayer).not()) {
-                LobbyInventory.getItem(item)?.let {
-                    if (it is Gadget) {
-                        it.toggle(player, CustomItemStack.create(item))
-                        gadgetCoolTime.add(uuidPlayer, 10)
-                    }
+            LobbyInventory.getItem(item)?.let {
+                if (it is Gadget && gadgetCoolTime.contains(uuidPlayer).not()) {
+                    it.toggle(player, CustomItemStack.create(item))
+                    gadgetCoolTime.add(uuidPlayer, 10)
                 }
+                e.isCancelled = true
             }
         }
         cancelEvent<EntityAirChangeEvent> {
