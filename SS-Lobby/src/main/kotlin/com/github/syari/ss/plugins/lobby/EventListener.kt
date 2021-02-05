@@ -1,6 +1,6 @@
 package com.github.syari.ss.plugins.lobby
 
-import com.github.syari.ss.plugins.core.code.CoolTime
+import com.github.syari.ss.plugins.core.code.CoolTime.Companion.coolTime
 import com.github.syari.ss.plugins.core.code.EventRegister
 import com.github.syari.ss.plugins.core.code.Events
 import com.github.syari.ss.plugins.core.item.CustomItemStack
@@ -28,13 +28,13 @@ object EventListener : EventRegister {
             val player = it.player
             player.isOp.not() || player.gameMode != GameMode.CREATIVE
         }
-        val gadgetCoolTime = CoolTime<UUIDPlayer>(plugin)
+        val gadgetCoolTime = plugin.coolTime<UUIDPlayer>()
         event<PlayerInteractEvent> { e ->
             val item = e.item ?: return@event
             e.isCancelled = true
             val player = e.player
             val uuidPlayer = UUIDPlayer(player)
-            if (gadgetCoolTime.isAvailable(uuidPlayer)) {
+            if (gadgetCoolTime.contains(uuidPlayer).not()) {
                 LobbyInventory.inventory.values.firstOrNull {
                     it.item.itemMeta?.displayName == item.itemMeta?.displayName
                 }?.let {

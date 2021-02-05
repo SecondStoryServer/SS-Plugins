@@ -11,16 +11,11 @@ import org.bukkit.plugin.java.JavaPlugin
  * @param plugin スケジューラに使用するプラグイン
  */
 class CoolTime<T>(private val plugin: JavaPlugin) {
-    private val coolTimeList = mutableSetOf<T>()
-
-    /**
-     * 使用可能かどうか(クールタイム中ではないか)を取得します
-     * @param value データ
-     * @return [Boolean]
-     */
-    fun isAvailable(value: T): Boolean {
-        return !contains(value)
+    companion object {
+        fun <T> JavaPlugin.coolTime() = CoolTime<T>(this)
     }
+
+    private val coolTimeList = mutableSetOf<T>()
 
     /**
      * クールタイム中かどうかを取得します
