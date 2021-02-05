@@ -113,9 +113,9 @@ object TimeScheduler : OnEnable, EventRegister {
     }
 
     override fun ListenerFunctions.events() {
-        event<NextMinuteEvent> { e ->
+        event<NextMinuteEvent> {
             schedules.values.forEach { list ->
-                val everyWeek = e.scheduleTime
+                val everyWeek = it.scheduleTime
                 list.everyWeekScheduler[everyWeek]?.forEach { it() }
                 val everyDay = everyWeek.everyDay
                 list.everyDayScheduler[everyDay]?.forEach { it() }

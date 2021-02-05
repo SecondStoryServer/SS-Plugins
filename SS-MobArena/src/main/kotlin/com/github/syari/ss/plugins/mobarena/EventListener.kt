@@ -46,92 +46,83 @@ object EventListener : EventRegister {
         }
 
     override fun ListenerFunctions.events() {
-        event<InventoryClickEvent>(ignoreCancelled = true) { e ->
-            val player = e.whoClicked as? Player ?: return@event
+        event<InventoryClickEvent>(ignoreCancelled = true) {
+            val player = it.whoClicked as? Player ?: return@event
             if (player.inMobArena.not()) return@event
-            if (CustomItemStack.create(e.insertItem).lore.contains("&c受け渡し不可".toColor)) {
-                e.isCancelled = true
+            if (CustomItemStack.create(it.insertItem).lore.contains("&c受け渡し不可".toColor)) {
+                it.isCancelled = true
             }
         }
-        event<PlayerQuitEvent> { e ->
-            val player = e.player
+        event<PlayerQuitEvent> {
+            val player = it.player
             val arena = player.arena ?: return@event
             arena.leave(player)
         }
-        event<PlayerDeathEvent> { e ->
-            val player = e.entity
+        event<PlayerDeathEvent> {
+            val player = it.entity
             val arena = player.arena ?: return@event
-            e.deathMessage = null
-            e.isCancelled = true
+            it.deathMessage = null
+            it.isCancelled = true
             arena.onDeath(player)
         }
-        event<EntityDeathEvent> { e ->
-            val entity = e.entity
+        event<EntityDeathEvent> {
+            val entity = it.entity
             val arena = getArena(entity) ?: return@event
-            e.droppedExp = 0
-            e.drops.clear()
+            it.droppedExp = 0
+            it.drops.clear()
             arena.onKillEntity(entity)
         }
-        event<PlayerInteractEvent> { e ->
-            val player = e.player
-            val block = e.clickedBlock ?: return@event
+        event<PlayerInteractEvent> {
+            val player = it.player
+            val block = it.clickedBlock ?: return@event
             val arena = player.arena ?: return@event
-            e.isCancelled = true
-            if (block.type == Material.CHEST && e.action == Action.RIGHT_CLICK_BLOCK) {
+            it.isCancelled = true
+            if (block.type == Material.CHEST && it.action == Action.RIGHT_CLICK_BLOCK) {
                 arena.publicChest.open(player)
             }
         }
-        event<PlayerItemDamageEvent>(ignoreCancelled = true) { e ->
-            val player = e.player
-            if (player.inMobArena) {
-                e.isCancelled = true
-            }
+        cancelEvent<PlayerItemDamageEvent> {
+            it.player.inMobArena
         }
-        event<EntityDamageByEntityEvent>(ignoreCancelled = true) { e ->
-            val victim = e.entity
-            val attacker = when (e.damager) {
-                is Projectile -> (e.damager as Projectile).shooter as? Entity
-                else -> e.damager
+        event<EntityDamageByEntityEvent>(ignoreCancelled = true) {
+            val victim = it.entity
+            val attacker = when (it.damager) {
+                is Projectile -> (it.damager as Projectile).shooter as? Entity
+                else -> it.damager
             }
             if (victim is Player) {
                 if (attacker is Player && (victim.inMobArena || attacker.inMobArena)) {
-                    e.isCancelled = true
+                    it.isCancelled = true
                 }
             } else if (attacker != null) {
                 val victimArena = getArena(victim)
                 if (victimArena != null && victimArena == getArena(attacker)) {
-                    e.isCancelled = true
+                    it.isCancelled = true
                 }
             }
         }
-        event<PlayerDropItemEvent>(ignoreCancelled = true) { e ->
-            val player = e.player
-            if (player.inMobArena) {
-                e.isCancelled = true
-            }
+        cancelEvent<PlayerDropItemEvent> {
+            it.player.inMobArena
         }
-        event<ItemSpawnEvent>(ignoreCancelled = true) { e ->
-            val location = e.location
-            if (getArenaInPlay(location) != null) {
-                e.isCancelled = true
-            }
+        cancelEvent<ItemSpawnEvent> {
+            getArenaInPlay(it.location) != null
         }
-        event<FoodLevelChangeEvent>(ignoreCancelled = true) { e ->
-            val player = e.entity as Player
-            if (player.inMobArena) e.isCancelled = true
+        cancelEvent<FoodLevelChangeEvent> {
+            val player = it.entity as Player
+            player.inMobArena
         }
-        event<EntityTargetEvent> { e ->
-            val entity = e.entity
+        event<EntityTargetEvent> {
+            val entity = it.entity
             val arena = getArena(entity) ?: return@event
-            if (e.target !is Player) e.target = arena.livingPlayers.random().player
+            if (it.target !is Player) it.target = arena.livingPlayers.random().player
         }
-        event<EntityCombustEvent> { e ->
-            val entity = e.entity
+        event<EntityCombustEvent>(ignoreCancelled = true) {
+            val entity = it.entity
             if (getArena(entity) == null) return@event
-            if (e is EntityCombustByBlockEvent || e is EntityDamageByEntityEvent) {
+            if (it is EntityCombustByBlockEvent || it is EntityDamageByEntityEvent) {
                 return@event
             }
-            e.isCancelled = true
+            it.isCancelled = true
         }
     }
 }
