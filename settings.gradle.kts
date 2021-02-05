@@ -14,6 +14,5 @@ include(
     "SS-Kotlin",
     "SS-Lobby",
     "SS-MobArena",
-    "SS-PlayerDataStore",
-    "SS-PluginManager"
+    "SS-PlayerDataStore"
 )

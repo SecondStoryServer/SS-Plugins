@@ -11,7 +11,7 @@ All Purpur Plugins For SecondStory.
 <!-- Generate Versions -->
 | Name | Version | Dependency |
 |:-----|--------:|-----------:|
-| SS-Assist | 3 |  |
+| SS-Assist | 4 |  |
 | SS-Backup | 14 |  |
 | SS-CommandBlocker | 4 |  |
 | SS-Core | 33 |  |
@@ -25,5 +25,4 @@ All Purpur Plugins For SecondStory.
 | SS-Lobby | 4 |  |
 | SS-MobArena | 20 |  |
 | SS-PlayerDataStore | 11 |  |
-| SS-PluginManager | 9 |  |
 <!-- Generate Versions -->
