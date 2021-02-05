@@ -41,15 +41,11 @@ object EventListener : EventRegister {
                 e.isCancelled = true
             }
         }
-        event<PlayerDropItemEvent>(ignoreCancelled = true) { e ->
-            if (e.itemDrop.itemStack.isFrameCommandsItem) {
-                e.isCancelled = true
-            }
+        cancelEvent<PlayerDropItemEvent> { e ->
+            e.itemDrop.itemStack.isFrameCommandsItem
         }
-        event<ItemSpawnEvent>(ignoreCancelled = true) { e ->
-            if (e.entity.itemStack.isFrameCommandsItem) {
-                e.isCancelled = true
-            }
+        cancelEvent<ItemSpawnEvent> { e ->
+            e.entity.itemStack.isFrameCommandsItem
         }
     }
 }

@@ -14,7 +14,7 @@ All Purpur Plugins For SecondStory.
 | SS-Assist | 3 |  |
 | SS-Backup | 14 |  |
 | SS-CommandBlocker | 3 |  |
-| SS-Core | 32 |  |
+| SS-Core | 33 |  |
 | SS-Dependency-CrackShot | 1 | 0.98.11 |
 | SS-Dependency-CrackShotPlus | 1 | 1.97 |
 | SS-Dependency-MythicMobs | 1 | 4.11.0-beta-1 |

@@ -81,11 +81,8 @@ object EventListener : EventRegister {
                 arena.publicChest.open(player)
             }
         }
-        event<PlayerItemDamageEvent>(ignoreCancelled = true) { e ->
-            val player = e.player
-            if (player.inMobArena) {
-                e.isCancelled = true
-            }
+        cancelEvent<PlayerItemDamageEvent> { e ->
+            e.player.inMobArena
         }
         event<EntityDamageByEntityEvent>(ignoreCancelled = true) { e ->
             val victim = e.entity
@@ -104,28 +101,22 @@ object EventListener : EventRegister {
                 }
             }
         }
-        event<PlayerDropItemEvent>(ignoreCancelled = true) { e ->
-            val player = e.player
-            if (player.inMobArena) {
-                e.isCancelled = true
-            }
+        cancelEvent<PlayerDropItemEvent> { e ->
+            e.player.inMobArena
         }
-        event<ItemSpawnEvent>(ignoreCancelled = true) { e ->
-            val location = e.location
-            if (getArenaInPlay(location) != null) {
-                e.isCancelled = true
-            }
+        cancelEvent<ItemSpawnEvent> { e ->
+            getArenaInPlay(e.location) != null
         }
-        event<FoodLevelChangeEvent>(ignoreCancelled = true) { e ->
+        cancelEvent<FoodLevelChangeEvent> { e ->
             val player = e.entity as Player
-            if (player.inMobArena) e.isCancelled = true
+            player.inMobArena
         }
         event<EntityTargetEvent> { e ->
             val entity = e.entity
             val arena = getArena(entity) ?: return@event
             if (e.target !is Player) e.target = arena.livingPlayers.random().player
         }
-        event<EntityCombustEvent> { e ->
+        event<EntityCombustEvent>(ignoreCancelled = true) { e ->
             val entity = e.entity
             if (getArena(entity) == null) return@event
             if (e is EntityCombustByBlockEvent || e is EntityDamageByEntityEvent) {

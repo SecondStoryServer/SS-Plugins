@@ -1,5 +1,6 @@
 package com.github.syari.ss.plugins.core.code
 
+import org.bukkit.event.Cancellable
 import org.bukkit.event.Event
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
@@ -28,5 +29,14 @@ class ListenerFunctions(val plugin: JavaPlugin) : Listener {
             plugin,
             ignoreCancelled
         )
+    }
+
+    inline fun <reified T> cancelEvent(
+        priority: EventPriority = EventPriority.NORMAL,
+        crossinline action: (T) -> Boolean
+    ) where T : Event, T : Cancellable {
+        event<T>(priority, true) {
+            it.isCancelled = action(it)
+        }
     }
 }

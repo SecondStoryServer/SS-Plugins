@@ -24,11 +24,9 @@ object EventListener : EventRegister {
                 LobbyInventory.applyToPlayer(it.player)
             }
         }
-        event<PlayerDropItemEvent>(ignoreCancelled = true) {
+        cancelEvent<PlayerDropItemEvent> {
             val player = it.player
-            if (player.isOp.not() || player.gameMode != GameMode.CREATIVE) {
-                it.isCancelled = true
-            }
+            player.isOp.not() || player.gameMode != GameMode.CREATIVE
         }
         val gadgetCoolTime = CoolTime<UUIDPlayer>(plugin)
         event<PlayerInteractEvent> { e ->
@@ -45,29 +43,21 @@ object EventListener : EventRegister {
                 }
             }
         }
-        event<EntityAirChangeEvent>(ignoreCancelled = true) {
-            if (it.entity is Player) {
-                it.isCancelled = true
-            }
+        cancelEvent<EntityAirChangeEvent> {
+            it.entity is Player
         }
-        event<EntityCombustEvent>(ignoreCancelled = true) {
-            if (it.entity is Player) {
-                it.isCancelled = true
-            }
+        cancelEvent<EntityCombustEvent> {
+            it.entity is Player
         }
-        event<EntityDamageEvent>(ignoreCancelled = true) {
-            if (it.entity is Player) {
-                it.isCancelled = true
-            }
+        cancelEvent<EntityDamageEvent> {
+            it.entity is Player
         }
-        event<PlayerSwapHandItemsEvent>(ignoreCancelled = true) {
-            it.isCancelled = true
+        cancelEvent<PlayerSwapHandItemsEvent> {
+            true
         }
-        event<InventoryClickEvent>(ignoreCancelled = true) {
+        cancelEvent<InventoryClickEvent> {
             val cancelSlots = 36..40
-            if (it.isShiftClick || it.slot in cancelSlots || it.rawSlot in cancelSlots) {
-                it.isCancelled = true
-            }
+            it.isShiftClick || it.slot in cancelSlots || it.rawSlot in cancelSlots
         }
     }
 }

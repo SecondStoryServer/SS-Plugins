@@ -40,7 +40,7 @@ open class Project(val version: String, groupName: String = "") {
         override val dependProject = listOf(Core)
     }
 
-    object Core : Project(32) {
+    object Core : Project(33) {
         override val dependProject = listOf(Kotlin)
     }
 
@@ -73,17 +73,17 @@ open class Project(val version: String, groupName: String = "") {
         override val dependProject = listOf(Core)
     }
 
-    object ItemFrameCommand : Project(3) {
+    object ItemFrameCommand : Project(4) {
         override val dependProject = listOf(Core)
     }
 
     object Kotlin : Project(1, dependencyVersion = "1.4.30")
 
-    object Lobby : Project(3) {
+    object Lobby : Project(4) {
         override val dependProject = listOf(Core)
     }
 
-    object MobArena : Project(19) {
+    object MobArena : Project(20) {
         override val dependProject = listOf(Core, Dependency.CrackShot, Dependency.CrackShotPlus, Dependency.MythicMobs, PlayerDataStore)
     }
 
