@@ -10,24 +10,24 @@ import org.bukkit.event.player.PlayerInteractEvent
 
 object ShopEventListener : EventRegister {
     override fun ListenerFunctions.events() {
-        event<SignChangeEvent> { e ->
-            val player = e.player
-            val lines = e.lines.toUncolor
+        event<SignChangeEvent> {
+            val player = it.player
+            val lines = it.lines.toUncolor
             if (lines[0].equals("[MA_Shop]", true)) {
                 if (player.isOp) {
-                    e.lines.forEachIndexed { index, line ->
-                        e.setLine(index, line.toColor)
+                    it.lines.forEachIndexed { index, line ->
+                        it.setLine(index, line.toColor)
                     }
                 } else {
-                    e.isCancelled = true
+                    it.isCancelled = true
                 }
             }
         }
-        event<PlayerInteractEvent> { e ->
-            val sign = e.clickedBlock?.state as? Sign ?: return@event
+        event<PlayerInteractEvent> {
+            val sign = it.clickedBlock?.state as? Sign ?: return@event
             val lines = sign.lines.toUncolor
             if (lines[0].equals("[MA_Shop]", true)) {
-                Shop.get(lines[1])?.openShop(e.player)
+                Shop.get(lines[1])?.openShop(it.player)
             }
         }
     }

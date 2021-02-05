@@ -9,17 +9,17 @@ import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMechanicLoadEvent
 
 object MythicMobsRegister : EventRegister {
     override fun ListenerFunctions.events() {
-        event<MythicConditionLoadEvent> { e ->
-            when (e.conditionName.toLowerCase()) {
-                InArenaCondition.NAME -> InArenaCondition(e.config.line)
+        event<MythicConditionLoadEvent> {
+            when (it.conditionName.toLowerCase()) {
+                InArenaCondition.NAME -> InArenaCondition(it.config.line)
                 else -> return@event
-            }.let { e.register(it) }
+            }.run { it.register(this) }
         }
-        event<MythicMechanicLoadEvent> { e ->
-            when (e.mechanicName.toLowerCase()) {
-                ArenaAnnounce.NAME -> ArenaAnnounce(e.container.configLine, e.config)
+        event<MythicMechanicLoadEvent> {
+            when (it.mechanicName.toLowerCase()) {
+                ArenaAnnounce.NAME -> ArenaAnnounce(it.container.configLine, it.config)
                 else -> return@event
-            }.let { e.register(it) }
+            }.run { it.register(this) }
         }
     }
 }

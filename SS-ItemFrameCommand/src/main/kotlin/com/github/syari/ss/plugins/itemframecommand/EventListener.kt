@@ -24,28 +24,28 @@ object EventListener : EventRegister {
                 runCommand(player, it)
             }
         }
-        event<EntityDamageEvent>(ignoreCancelled = true) { e ->
-            val frame = e.entity as? ItemFrame ?: return@event
+        event<EntityDamageEvent>(ignoreCancelled = true) {
+            val frame = it.entity as? ItemFrame ?: return@event
             if (frame.item.isFrameCommandsItem) {
-                if (e is EntityDamageByEntityEvent) {
-                    val player = e.damager as? Player
+                if (it is EntityDamageByEntityEvent) {
+                    val player = it.damager as? Player
                     if (player != null && player.isOp && player.isSneaking) return@event
                 }
-                e.isCancelled = true
+                it.isCancelled = true
             }
         }
-        event<EntityPickupItemEvent>(ignoreCancelled = true) { e ->
-            if (e.item.itemStack.isFrameCommandsItem) {
-                val player = e.entity as? Player
+        event<EntityPickupItemEvent>(ignoreCancelled = true) {
+            if (it.item.itemStack.isFrameCommandsItem) {
+                val player = it.entity as? Player
                 if (player != null && player.isOp) return@event
-                e.isCancelled = true
+                it.isCancelled = true
             }
         }
-        cancelEvent<PlayerDropItemEvent> { e ->
-            e.itemDrop.itemStack.isFrameCommandsItem
+        cancelEvent<PlayerDropItemEvent> {
+            it.itemDrop.itemStack.isFrameCommandsItem
         }
-        cancelEvent<ItemSpawnEvent> { e ->
-            e.entity.itemStack.isFrameCommandsItem
+        cancelEvent<ItemSpawnEvent> {
+            it.entity.itemStack.isFrameCommandsItem
         }
     }
 }

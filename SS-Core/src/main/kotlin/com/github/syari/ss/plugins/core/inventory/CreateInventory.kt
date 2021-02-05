@@ -32,18 +32,18 @@ object CreateInventory : EventRegister {
                 }
                 onClick(e)
                 if (e.click == ClickType.MIDDLE && player.isOp) {
-                    e.currentItem?.let { item ->
+                    e.currentItem?.let {
                         e.isCancelled = true
-                        player.inventory.addItem(item.asQuantity(64))
+                        player.inventory.addItem(it.asQuantity(64))
                     }
                 }
             }
         }
-        event<InventoryCloseEvent> { e ->
-            val player = e.player as Player
+        event<InventoryCloseEvent> {
+            val player = it.player as Player
             val uuidPlayer = UUIDPlayer(player)
             uuidPlayer.menuPlayer?.run {
-                onClose(e)
+                onClose(it)
                 uuidPlayer.menuPlayer = null
                 plugin.runLater(5) {
                     player.updateInventory()

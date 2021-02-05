@@ -9,19 +9,19 @@ import org.bukkit.event.player.PlayerCommandSendEvent
 
 object EventListener : EventRegister {
     override fun ListenerFunctions.events() {
-        event<PlayerCommandSendEvent> { e ->
-            val p = e.player
-            if (p.isOp) return@event
-            e.commands.clear()
-            e.commands.addAll(p.availableCommands)
+        event<PlayerCommandSendEvent> {
+            val player = it.player
+            if (player.isOp) return@event
+            it.commands.clear()
+            it.commands.addAll(player.availableCommands)
         }
-        event<PlayerCommandPreprocessEvent> { e ->
-            val p = e.player
-            if (p.isOp) return@event
-            val label = e.message.split(Regex("\\s+"), 2)[0].substring(1).toLowerCase()
-            if (p.availableCommands.contains(label)) return@event
-            e.isCancelled = true
-            p.action("&c&l&n実行できないコマンドです")
+        event<PlayerCommandPreprocessEvent> {
+            val player = it.player
+            if (player.isOp) return@event
+            val label = it.message.split(Regex("\\s+"), 2)[0].substring(1).toLowerCase()
+            if (player.availableCommands.contains(label)) return@event
+            it.isCancelled = true
+            player.action("&c&l&n実行できないコマンドです")
         }
     }
 }

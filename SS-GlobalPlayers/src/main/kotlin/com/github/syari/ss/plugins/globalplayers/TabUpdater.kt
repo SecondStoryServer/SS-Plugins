@@ -21,8 +21,8 @@ object TabUpdater : EventRegister {
     private var lastPlayerList = listOf<String>()
 
     override fun ListenerFunctions.events() {
-        event<SSPluginMessageEvent> { e ->
-            val template = e.template as? PluginMessageTemplateTabList ?: return@event
+        event<SSPluginMessageEvent> {
+            val template = it.template as? PluginMessageTemplateTabList ?: return@event
             val playerList = template.playerNameList
             updateTabPlayers(EnumPlayerInfoAction.ADD_PLAYER, playerList)
             updateTabPlayers(EnumPlayerInfoAction.REMOVE_PLAYER, lastPlayerList.filterNot { playerList.contains(it) })

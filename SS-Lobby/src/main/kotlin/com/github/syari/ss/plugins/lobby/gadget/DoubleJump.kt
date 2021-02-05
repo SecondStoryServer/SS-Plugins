@@ -43,8 +43,8 @@ object DoubleJump : Gadget(Material.LEATHER_BOOTS, "ダブルジャンプ", "lob
             get() = isAdventure && isEquipBoots
 
         override fun ListenerFunctions.events() {
-            event<PlayerJoinEvent> { e ->
-                val player = e.player
+            event<PlayerJoinEvent> {
+                val player = it.player
                 val uuidPlayer = UUIDPlayer(player)
                 if (allowFlightPlayers.contains(uuidPlayer)) {
                     allowFlightPlayers.remove(uuidPlayer)
@@ -52,8 +52,8 @@ object DoubleJump : Gadget(Material.LEATHER_BOOTS, "ダブルジャンプ", "lob
                     player.isFlying = false
                 }
             }
-            event<PlayerToggleFlightEvent> { e ->
-                val player = e.player
+            event<PlayerToggleFlightEvent> {
+                val player = it.player
                 val uuidPlayer = UUIDPlayer(player)
                 if (player.isAdventure.not()) {
                     if (player.gameMode != GameMode.CREATIVE) {
@@ -62,7 +62,7 @@ object DoubleJump : Gadget(Material.LEATHER_BOOTS, "ダブルジャンプ", "lob
                     }
                     return@event
                 }
-                e.isCancelled = true
+                it.isCancelled = true
                 player.allowFlight = false
                 player.isFlying = false
                 player.velocity = player.location.direction.multiply(1.0).setY(1)
@@ -77,8 +77,8 @@ object DoubleJump : Gadget(Material.LEATHER_BOOTS, "ダブルジャンプ", "lob
                     }
                 }
             }
-            event<PlayerMoveEvent> { e ->
-                val player = e.player
+            event<PlayerMoveEvent> {
+                val player = it.player
                 val location = player.location
                 val underBlock = location.subtract(0.0, 1.0, 0.0).block
                 if (player.availableDoubleJump && underBlock.type != Material.AIR) {

@@ -36,7 +36,7 @@ open class Project(val version: String, groupName: String = "") {
         override val dependProject = listOf(Core)
     }
 
-    object CommandBlocker : Project(3) {
+    object CommandBlocker : Project(4) {
         override val dependProject = listOf(Core)
     }
 
@@ -65,7 +65,7 @@ open class Project(val version: String, groupName: String = "") {
         override val dependProject = listOf(Core)
     }
 
-    object GlobalPlayers : Project(5) {
+    object GlobalPlayers : Project(6) {
         override val dependProject = listOf(Core)
     }
 
