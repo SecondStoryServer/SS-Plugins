@@ -1,14 +1,14 @@
 package com.github.syari.ss.plugins.assist
 
 import com.github.syari.ss.plugins.core.code.EventRegister
-import com.github.syari.ss.plugins.core.code.ListenerFunctions
+import com.github.syari.ss.plugins.core.code.Events
 import org.bukkit.Location
 import org.bukkit.event.EventPriority
 import org.bukkit.event.player.PlayerRespawnEvent
 import org.spigotmc.event.player.PlayerSpawnLocationEvent
 
 object SpawnOverride : EventRegister {
-    override fun ListenerFunctions.events() {
+    override fun Events.register() {
         event<PlayerRespawnEvent> {
             it.respawnLocation = location ?: return@event
         }

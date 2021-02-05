@@ -1,7 +1,7 @@
 package com.github.syari.ss.plugins.itemframecommand
 
 import com.github.syari.ss.plugins.core.code.EventRegister
-import com.github.syari.ss.plugins.core.code.ListenerFunctions
+import com.github.syari.ss.plugins.core.code.Events
 import com.github.syari.ss.plugins.core.command.RunCommand.runCommand
 import com.github.syari.ss.plugins.itemframecommand.ItemFrameCommand.frameCommands
 import com.github.syari.ss.plugins.itemframecommand.ItemFrameCommand.isFrameCommandsItem
@@ -15,7 +15,7 @@ import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.event.player.PlayerInteractEntityEvent
 
 object EventListener : EventRegister {
-    override fun ListenerFunctions.events() {
+    override fun Events.register() {
         event<PlayerInteractEntityEvent> { e ->
             val player = e.player
             if (player.isOp && player.isSneaking) return@event

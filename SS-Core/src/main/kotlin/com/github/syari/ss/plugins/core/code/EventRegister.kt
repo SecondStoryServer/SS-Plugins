@@ -8,12 +8,12 @@ import org.bukkit.plugin.java.JavaPlugin
 
 interface EventRegister {
     /**
-     * [ListenerFunctions.event] を実行できます
+     * [Events.event] を実行できます
      */
-    fun ListenerFunctions.events()
+    fun Events.register()
 }
 
-class ListenerFunctions(val plugin: JavaPlugin) : Listener {
+class Events(val plugin: JavaPlugin) : Listener {
     inline fun <reified T : Event> event(
         priority: EventPriority = EventPriority.NORMAL,
         ignoreCancelled: Boolean = false,

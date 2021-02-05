@@ -1,11 +1,12 @@
 package com.github.syari.ss.plugins.lobby
 
-import com.github.syari.ss.plugins.core.code.CoolTime
+import com.github.syari.ss.plugins.core.code.CoolTime.Companion.coolTime
 import com.github.syari.ss.plugins.core.code.EventRegister
-import com.github.syari.ss.plugins.core.code.ListenerFunctions
+import com.github.syari.ss.plugins.core.code.Events
 import com.github.syari.ss.plugins.core.item.CustomItemStack
 import com.github.syari.ss.plugins.core.player.UUIDPlayer
 import com.github.syari.ss.plugins.core.scheduler.CreateScheduler.runLater
+import com.github.syari.ss.plugins.lobby.gadget.Gadget
 import org.bukkit.GameMode
 import org.bukkit.entity.Player
 import org.bukkit.event.entity.EntityAirChangeEvent
@@ -18,7 +19,7 @@ import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerSwapHandItemsEvent
 
 object EventListener : EventRegister {
-    override fun ListenerFunctions.events() {
+    override fun Events.register() {
         event<PlayerJoinEvent> {
             plugin.runLater(1) {
                 LobbyInventory.applyToPlayer(it.player)
@@ -28,19 +29,17 @@ object EventListener : EventRegister {
             val player = it.player
             player.isOp.not() || player.gameMode != GameMode.CREATIVE
         }
-        val gadgetCoolTime = CoolTime<UUIDPlayer>(plugin)
+        val gadgetCoolTime = plugin.coolTime<UUIDPlayer>()
         event<PlayerInteractEvent> { e ->
             val item = e.item ?: return@event
-            e.isCancelled = true
             val player = e.player
             val uuidPlayer = UUIDPlayer(player)
-            if (gadgetCoolTime.isAvailable(uuidPlayer)) {
-                LobbyInventory.inventory.values.firstOrNull {
-                    it.item.itemMeta?.displayName == item.itemMeta?.displayName
-                }?.let {
+            LobbyInventory.getItem(item)?.let {
+                if (it is Gadget && gadgetCoolTime.contains(uuidPlayer).not()) {
                     it.toggle(player, CustomItemStack.create(item))
                     gadgetCoolTime.add(uuidPlayer, 10)
                 }
+                e.isCancelled = true
             }
         }
         cancelEvent<EntityAirChangeEvent> {

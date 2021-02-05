@@ -1,7 +1,7 @@
 package com.github.syari.ss.plugins.mobarena
 
 import com.github.syari.ss.plugins.core.code.EventRegister
-import com.github.syari.ss.plugins.core.code.ListenerFunctions
+import com.github.syari.ss.plugins.core.code.Events
 import com.github.syari.ss.plugins.core.code.StringEditor.toColor
 import com.github.syari.ss.plugins.core.item.CustomItemStack
 import com.github.syari.ss.plugins.mobarena.MobArenaManager.arena
@@ -45,7 +45,7 @@ object EventListener : EventRegister {
             }
         }
 
-    override fun ListenerFunctions.events() {
+    override fun Events.register() {
         event<InventoryClickEvent>(ignoreCancelled = true) {
             val player = it.whoClicked as? Player ?: return@event
             if (player.inMobArena.not()) return@event

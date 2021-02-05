@@ -2,13 +2,13 @@ package com.github.syari.ss.plugins.commandblocker
 
 import com.github.syari.ss.plugins.commandblocker.AvailableCommand.availableCommands
 import com.github.syari.ss.plugins.core.code.EventRegister
-import com.github.syari.ss.plugins.core.code.ListenerFunctions
+import com.github.syari.ss.plugins.core.code.Events
 import com.github.syari.ss.plugins.core.message.Message.action
 import org.bukkit.event.player.PlayerCommandPreprocessEvent
 import org.bukkit.event.player.PlayerCommandSendEvent
 
 object EventListener : EventRegister {
-    override fun ListenerFunctions.events() {
+    override fun Events.register() {
         event<PlayerCommandSendEvent> {
             val player = it.player
             if (player.isOp) return@event

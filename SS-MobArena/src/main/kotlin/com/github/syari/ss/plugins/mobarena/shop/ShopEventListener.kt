@@ -1,7 +1,7 @@
 package com.github.syari.ss.plugins.mobarena.shop
 
 import com.github.syari.ss.plugins.core.code.EventRegister
-import com.github.syari.ss.plugins.core.code.ListenerFunctions
+import com.github.syari.ss.plugins.core.code.Events
 import com.github.syari.ss.plugins.core.code.StringEditor.toColor
 import com.github.syari.ss.plugins.core.code.StringEditor.toUncolor
 import org.bukkit.block.Sign
@@ -9,7 +9,7 @@ import org.bukkit.event.block.SignChangeEvent
 import org.bukkit.event.player.PlayerInteractEvent
 
 object ShopEventListener : EventRegister {
-    override fun ListenerFunctions.events() {
+    override fun Events.register() {
         event<SignChangeEvent> {
             val player = it.player
             val lines = it.lines.toUncolor
