@@ -79,7 +79,7 @@ open class Project(val version: String, groupName: String = "") {
 
     object Kotlin : Project(1, dependencyVersion = "1.4.30")
 
-    object Lobby : Project(2) {
+    object Lobby : Project(3) {
         override val dependProject = listOf(Core)
     }
 

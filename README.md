@@ -19,7 +19,7 @@ All Paper Plugins For SecondStory.
 | SS-GlobalPlayers | 5 |  |
 | SS-ItemFrameCommand | 3 |  |
 | SS-Kotlin | 1 | 1.4.30 |
-| SS-Lobby | 2 |  |
+| SS-Lobby | 3 |  |
 | SS-MobArena | 19 |  |
 | SS-PlayerDataStore | 11 |  |
 | SS-PluginManager | 9 |  |
