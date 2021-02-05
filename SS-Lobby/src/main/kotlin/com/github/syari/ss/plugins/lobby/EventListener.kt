@@ -11,9 +11,11 @@ import org.bukkit.entity.Player
 import org.bukkit.event.entity.EntityAirChangeEvent
 import org.bukkit.event.entity.EntityCombustEvent
 import org.bukkit.event.entity.EntityDamageEvent
+import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerJoinEvent
+import org.bukkit.event.player.PlayerSwapHandItemsEvent
 
 object EventListener : EventRegister {
     override fun ListenerFunctions.events() {
@@ -31,6 +33,7 @@ object EventListener : EventRegister {
         val gadgetCoolTime = CoolTime<UUIDPlayer>(plugin)
         event<PlayerInteractEvent> { e ->
             val item = e.item ?: return@event
+            e.isCancelled = true
             val player = e.player
             val uuidPlayer = UUIDPlayer(player)
             if (gadgetCoolTime.isAvailable(uuidPlayer)) {
@@ -39,7 +42,6 @@ object EventListener : EventRegister {
                 }?.let {
                     it.toggle(player, CustomItemStack.create(item))
                     gadgetCoolTime.add(uuidPlayer, 10)
-                    e.isCancelled = true
                 }
             }
         }
@@ -55,6 +57,15 @@ object EventListener : EventRegister {
         }
         event<EntityDamageEvent>(ignoreCancelled = true) {
             if (it.entity is Player) {
+                it.isCancelled = true
+            }
+        }
+        event<PlayerSwapHandItemsEvent>(ignoreCancelled = true) {
+            it.isCancelled = true
+        }
+        event<InventoryClickEvent>(ignoreCancelled = true) {
+            val cancelSlots = 36..40
+            if (it.isShiftClick || it.slot in cancelSlots || it.rawSlot in cancelSlots) {
                 it.isCancelled = true
             }
         }
