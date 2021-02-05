@@ -7,6 +7,7 @@ import com.github.syari.ss.plugins.core.item.CustomItemStack
 import com.github.syari.ss.plugins.core.player.UUIDPlayer
 import com.github.syari.ss.plugins.core.scheduler.CreateScheduler.runLater
 import org.bukkit.GameMode
+import org.bukkit.event.entity.EntityAirChangeEvent
 import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerJoinEvent
@@ -38,6 +39,9 @@ object EventListener : EventRegister {
                     e.isCancelled = true
                 }
             }
+        }
+        event<EntityAirChangeEvent> {
+            it.isCancelled = true
         }
     }
 }
