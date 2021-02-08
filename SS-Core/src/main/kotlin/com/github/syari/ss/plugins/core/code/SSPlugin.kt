@@ -2,6 +2,8 @@
 
 package com.github.syari.ss.plugins.core.code
 
+import com.github.syari.spigot.api.event.register.EventRegister
+import com.github.syari.spigot.api.event.register.EventRegister.Companion.registerEvents
 import org.bukkit.plugin.java.JavaPlugin
 
 open class SSPlugin : JavaPlugin() {
@@ -21,12 +23,7 @@ open class SSPlugin : JavaPlugin() {
      * @see org.bukkit.plugin.PluginManager.registerEvents
      */
     fun registerEvents() {
-        val listener = Events(this)
-        events.forEach {
-            it.run {
-                listener.register()
-            }
-        }
+        registerEvents(*events.toTypedArray())
     }
 
     /**

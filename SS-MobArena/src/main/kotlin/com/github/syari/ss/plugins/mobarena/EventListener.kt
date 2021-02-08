@@ -1,7 +1,7 @@
 package com.github.syari.ss.plugins.mobarena
 
-import com.github.syari.ss.plugins.core.code.EventRegister
-import com.github.syari.ss.plugins.core.code.Events
+import com.github.syari.spigot.api.event.register.EventRegister
+import com.github.syari.spigot.api.event.register.Events
 import com.github.syari.ss.plugins.core.code.StringEditor.toColor
 import com.github.syari.ss.plugins.core.item.CustomItemStack
 import com.github.syari.ss.plugins.mobarena.MobArenaManager.arena
@@ -81,7 +81,7 @@ object EventListener : EventRegister {
                 arena.publicChest.open(player)
             }
         }
-        cancelEvent<PlayerItemDamageEvent> {
+        cancelEventIf<PlayerItemDamageEvent> {
             it.player.inMobArena
         }
         event<EntityDamageByEntityEvent>(ignoreCancelled = true) {
@@ -101,13 +101,13 @@ object EventListener : EventRegister {
                 }
             }
         }
-        cancelEvent<PlayerDropItemEvent> {
+        cancelEventIf<PlayerDropItemEvent> {
             it.player.inMobArena
         }
-        cancelEvent<ItemSpawnEvent> {
+        cancelEventIf<ItemSpawnEvent> {
             getArenaInPlay(it.location) != null
         }
-        cancelEvent<FoodLevelChangeEvent> {
+        cancelEventIf<FoodLevelChangeEvent> {
             val player = it.entity as Player
             player.inMobArena
         }

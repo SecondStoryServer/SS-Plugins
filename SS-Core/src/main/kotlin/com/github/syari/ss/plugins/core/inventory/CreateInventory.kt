@@ -2,8 +2,8 @@
 
 package com.github.syari.ss.plugins.core.inventory
 
-import com.github.syari.ss.plugins.core.code.EventRegister
-import com.github.syari.ss.plugins.core.code.Events
+import com.github.syari.spigot.api.event.register.EventRegister
+import com.github.syari.spigot.api.event.register.Events
 import com.github.syari.ss.plugins.core.code.StringEditor.toColor
 import com.github.syari.ss.plugins.core.inventory.CreateInventory.runWithId
 import com.github.syari.ss.plugins.core.player.UUIDPlayer

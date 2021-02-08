@@ -11,18 +11,18 @@ All Purpur Plugins For SecondStory.
 <!-- Generate Versions -->
 | Name | Version | Dependency |
 |:-----|--------:|-----------:|
-| SS-Assist | 4 |  |
-| SS-Backup | 14 |  |
-| SS-CommandBlocker | 4 |  |
-| SS-Core | 33 |  |
+| SS-Assist | 5 |  |
+| SS-Backup | 15 |  |
+| SS-CommandBlocker | 5 |  |
+| SS-Core | 34 |  |
 | SS-Dependency-CrackShot | 1 | 0.98.11 |
 | SS-Dependency-CrackShotPlus | 1 | 1.97 |
 | SS-Dependency-MythicMobs | 1 | 4.11.0-beta-1 |
 | SS-DevelopAssist | 3 |  |
-| SS-GlobalPlayers | 6 |  |
+| SS-GlobalPlayers | 7 |  |
 | SS-ItemFrameCommand | 4 |  |
 | SS-Kotlin | 1 | 1.4.30 |
-| SS-Lobby | 4 |  |
-| SS-MobArena | 20 |  |
-| SS-PlayerDataStore | 11 |  |
+| SS-Lobby | 5 |  |
+| SS-MobArena | 21 |  |
+| SS-PlayerDataStore | 12 |  |
 <!-- Generate Versions -->
