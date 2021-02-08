@@ -2,9 +2,9 @@
 
 package com.github.syari.ss.plugins.core.time
 
+import com.github.syari.spigot.api.event.register.EventRegister
+import com.github.syari.spigot.api.event.register.Events
 import com.github.syari.ss.plugins.core.Main.Companion.plugin
-import com.github.syari.ss.plugins.core.code.EventRegister
-import com.github.syari.ss.plugins.core.code.Events
 import com.github.syari.ss.plugins.core.code.OnEnable
 import com.github.syari.ss.plugins.core.scheduler.CreateScheduler.runLater
 import com.github.syari.ss.plugins.core.time.event.NextDayEvent

@@ -1,8 +1,8 @@
 package com.github.syari.ss.plugins.lobby
 
+import com.github.syari.spigot.api.event.register.EventRegister
+import com.github.syari.spigot.api.event.register.Events
 import com.github.syari.ss.plugins.core.code.CoolTime.Companion.coolTime
-import com.github.syari.ss.plugins.core.code.EventRegister
-import com.github.syari.ss.plugins.core.code.Events
 import com.github.syari.ss.plugins.core.item.CustomItemStack
 import com.github.syari.ss.plugins.core.player.UUIDPlayer
 import com.github.syari.ss.plugins.core.scheduler.CreateScheduler.runLater
@@ -25,7 +25,7 @@ object EventListener : EventRegister {
                 LobbyInventory.applyToPlayer(it.player)
             }
         }
-        cancelEvent<PlayerDropItemEvent> {
+        cancelEventIf<PlayerDropItemEvent> {
             val player = it.player
             player.isOp.not() || player.gameMode != GameMode.CREATIVE
         }
@@ -42,19 +42,19 @@ object EventListener : EventRegister {
                 e.isCancelled = true
             }
         }
-        cancelEvent<EntityAirChangeEvent> {
+        cancelEventIf<EntityAirChangeEvent> {
             it.entity is Player
         }
-        cancelEvent<EntityCombustEvent> {
+        cancelEventIf<EntityCombustEvent> {
             it.entity is Player
         }
-        cancelEvent<EntityDamageEvent> {
+        cancelEventIf<EntityDamageEvent> {
             it.entity is Player
         }
-        cancelEvent<PlayerSwapHandItemsEvent> {
+        cancelEventIf<PlayerSwapHandItemsEvent> {
             true
         }
-        cancelEvent<InventoryClickEvent> {
+        cancelEventIf<InventoryClickEvent> {
             val cancelSlots = 36..40
             it.isShiftClick || it.slot in cancelSlots || it.rawSlot in cancelSlots
         }

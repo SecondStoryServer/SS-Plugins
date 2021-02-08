@@ -22,7 +22,9 @@ subprojects {
     apply(plugin = "org.jlleitschuh.gradle.ktlint")
 
     val shadowImplementation by configurations.creating
+    val shadowApi by configurations.creating
     configurations["implementation"].extendsFrom(shadowImplementation)
+    configurations["api"].extendsFrom(shadowApi)
 
     repositories {
         maven("https://repo.pl3x.net/")
@@ -42,7 +44,7 @@ subprojects {
     }
 
     tasks.withType<ShadowJar> {
-        configurations = listOf(shadowImplementation)
+        configurations = listOf(shadowImplementation, shadowApi)
         archiveClassifier.set("")
         destinationDirectory.set(file("../jars"))
     }

@@ -2,10 +2,10 @@
 
 package com.github.syari.ss.plugins.core.bossBar
 
+import com.github.syari.spigot.api.event.register.EventRegister
+import com.github.syari.spigot.api.event.register.Events
 import com.github.syari.ss.plugins.core.Main.Companion.plugin
 import com.github.syari.ss.plugins.core.bossBar.CustomBossBar.Companion.bossBar
-import com.github.syari.ss.plugins.core.code.EventRegister
-import com.github.syari.ss.plugins.core.code.Events
 import com.github.syari.ss.plugins.core.code.OnDisable
 import com.github.syari.ss.plugins.core.code.StringEditor.toColor
 import org.bukkit.OfflinePlayer

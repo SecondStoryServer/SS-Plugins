@@ -1,7 +1,7 @@
 package com.github.syari.ss.plugins.itemframecommand
 
-import com.github.syari.ss.plugins.core.code.EventRegister
-import com.github.syari.ss.plugins.core.code.Events
+import com.github.syari.spigot.api.event.register.EventRegister
+import com.github.syari.spigot.api.event.register.Events
 import com.github.syari.ss.plugins.core.command.RunCommand.runCommand
 import com.github.syari.ss.plugins.itemframecommand.ItemFrameCommand.frameCommands
 import com.github.syari.ss.plugins.itemframecommand.ItemFrameCommand.isFrameCommandsItem
@@ -41,10 +41,10 @@ object EventListener : EventRegister {
                 it.isCancelled = true
             }
         }
-        cancelEvent<PlayerDropItemEvent> {
+        cancelEventIf<PlayerDropItemEvent> {
             it.itemDrop.itemStack.isFrameCommandsItem
         }
-        cancelEvent<ItemSpawnEvent> {
+        cancelEventIf<ItemSpawnEvent> {
             it.entity.itemStack.isFrameCommandsItem
         }
     }
