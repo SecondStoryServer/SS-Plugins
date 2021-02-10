@@ -13,7 +13,7 @@ All Purpur Plugins For SecondStory.
 |:-----|--------:|-----------:|
 | SS-Assist | 5 |  |
 | SS-Backup | 15 |  |
-| SS-CommandBlocker | 5 |  |
+| SS-CommandBlocker | 6 |  |
 | SS-Core | 35 |  |
 | SS-Dependency-CrackShot | 1 | 0.98.11 |
 | SS-Dependency-CrackShotPlus | 1 | 1.97 |
@@ -21,7 +21,7 @@ All Purpur Plugins For SecondStory.
 | SS-DevelopAssist | 3 |  |
 | SS-GlobalPlayers | 7 |  |
 | SS-ItemFrameCommand | 4 |  |
-| SS-Lobby | 5 |  |
-| SS-MobArena | 21 |  |
-| SS-PlayerDataStore | 12 |  |
+| SS-Lobby | 6 |  |
+| SS-MobArena | 22 |  |
+| SS-PlayerDataStore | 13 |  |
 <!-- Generate Versions -->

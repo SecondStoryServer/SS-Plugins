@@ -2,10 +2,10 @@
 
 package com.github.syari.ss.plugins.core.inventory
 
+import com.github.syari.spigot.api.util.uuid.UUIDPlayer
 import com.github.syari.ss.plugins.core.code.StringEditor.toColor
 import com.github.syari.ss.plugins.core.inventory.CreateInventory.menuPlayer
 import com.github.syari.ss.plugins.core.item.CustomItemStack
-import com.github.syari.ss.plugins.core.player.UUIDPlayer
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.Player
@@ -297,7 +297,7 @@ class CustomInventory internal constructor(
      */
     fun open(player: Player): CustomInventory {
         player.openInventory(inventory)
-        val uuidPlayer = UUIDPlayer(player)
+        val uuidPlayer = UUIDPlayer.from(player)
         uuidPlayer.menuPlayer = InventoryPlayerData(id, cancel, onEvent, onClick, onClose, events)
         return this
     }

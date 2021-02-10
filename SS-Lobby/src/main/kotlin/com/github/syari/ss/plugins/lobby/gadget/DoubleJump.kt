@@ -1,8 +1,8 @@
 package com.github.syari.ss.plugins.lobby.gadget
 
 import com.github.syari.spigot.api.event.register.EventRegister
+import com.github.syari.spigot.api.util.uuid.UUIDPlayer
 import com.github.syari.ss.plugins.core.item.CustomItemStack
-import com.github.syari.ss.plugins.core.player.UUIDPlayer
 import com.github.syari.ss.plugins.core.scheduler.CreateScheduler.runLater
 import org.bukkit.Effect
 import org.bukkit.GameMode
@@ -44,7 +44,7 @@ object DoubleJump : Gadget(Material.LEATHER_BOOTS, "ダブルジャンプ", "lob
         override fun com.github.syari.spigot.api.event.register.Events.register() {
             event<PlayerJoinEvent> {
                 val player = it.player
-                val uuidPlayer = UUIDPlayer(player)
+                val uuidPlayer = UUIDPlayer.from(player)
                 if (allowFlightPlayers.contains(uuidPlayer)) {
                     allowFlightPlayers.remove(uuidPlayer)
                     player.allowFlight = false
@@ -53,7 +53,7 @@ object DoubleJump : Gadget(Material.LEATHER_BOOTS, "ダブルジャンプ", "lob
             }
             event<PlayerToggleFlightEvent> {
                 val player = it.player
-                val uuidPlayer = UUIDPlayer(player)
+                val uuidPlayer = UUIDPlayer.from(player)
                 if (player.isAdventure.not()) {
                     if (player.gameMode != GameMode.CREATIVE) {
                         player.isFlying = false

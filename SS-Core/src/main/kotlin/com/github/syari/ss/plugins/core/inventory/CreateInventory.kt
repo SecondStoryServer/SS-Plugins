@@ -4,9 +4,9 @@ package com.github.syari.ss.plugins.core.inventory
 
 import com.github.syari.spigot.api.event.register.EventRegister
 import com.github.syari.spigot.api.event.register.Events
+import com.github.syari.spigot.api.util.uuid.UUIDPlayer
 import com.github.syari.ss.plugins.core.code.StringEditor.toColor
 import com.github.syari.ss.plugins.core.inventory.CreateInventory.runWithId
-import com.github.syari.ss.plugins.core.player.UUIDPlayer
 import com.github.syari.ss.plugins.core.scheduler.CreateScheduler.runLater
 import org.bukkit.Bukkit.createInventory
 import org.bukkit.OfflinePlayer
@@ -22,7 +22,7 @@ object CreateInventory : EventRegister {
     override fun Events.register() {
         event<InventoryClickEvent> { e ->
             val player = e.whoClicked as Player
-            val uuidPlayer = UUIDPlayer(player)
+            val uuidPlayer = UUIDPlayer.from(player)
             uuidPlayer.menuPlayer?.run {
                 if (cancel) {
                     e.isCancelled = true
@@ -41,7 +41,7 @@ object CreateInventory : EventRegister {
         }
         event<InventoryCloseEvent> {
             val player = it.player as Player
-            val uuidPlayer = UUIDPlayer(player)
+            val uuidPlayer = UUIDPlayer.from(player)
             uuidPlayer.menuPlayer?.run {
                 onClose(it)
                 uuidPlayer.menuPlayer = null
@@ -134,7 +134,7 @@ object CreateInventory : EventRegister {
         player: OfflinePlayer,
         vararg id: String
     ): Boolean {
-        return UUIDPlayer(player).menuPlayer?.isOpenInventory(id) ?: false
+        return UUIDPlayer.from(player).menuPlayer?.isOpenInventory(id) ?: false
     }
 
     /**
@@ -178,7 +178,7 @@ object CreateInventory : EventRegister {
      * @param player プレイヤー
      */
     fun isOpenInventory(player: OfflinePlayer): Boolean {
-        return isOpenInventory(UUIDPlayer(player))
+        return isOpenInventory(UUIDPlayer.from(player))
     }
 
     /**
