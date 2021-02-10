@@ -11,7 +11,6 @@ include(
     "SS-DevelopAssist",
     "SS-GlobalPlayers",
     "SS-ItemFrameCommand",
-    "SS-Kotlin",
     "SS-Lobby",
     "SS-MobArena",
     "SS-PlayerDataStore"

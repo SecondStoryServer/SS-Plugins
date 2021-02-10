@@ -1,8 +1,8 @@
 package com.github.syari.ss.plugins.mobarena.arena
 
+import com.github.syari.spigot.api.util.uuid.UUIDEntity
 import com.github.syari.ss.plugins.core.bossBar.CustomBossBar
 import com.github.syari.ss.plugins.core.bossBar.CustomBossBar.Companion.bossBar
-import com.github.syari.ss.plugins.core.entity.UUIDEntity
 import com.github.syari.ss.plugins.core.inventory.CreateInventory.inventory
 import com.github.syari.ss.plugins.core.item.CustomItemStack
 import com.github.syari.ss.plugins.core.item.ItemStackPlus.give
@@ -356,13 +356,13 @@ class MobArena(
         }
         checkDeadEntityTask?.cancel()
         checkDeadEntityTask = plugin.runLater(40 * 20) {
-            mobs.removeIf(UUIDEntity::isDead)
+            mobs.removeIf { it.entity?.isDead == true }
             checkEntityCount()
         }
     }
 
     fun onKillEntity(entity: LivingEntity) {
-        mobs.remove(UUIDEntity(entity))
+        mobs.remove(UUIDEntity.from(entity))
         checkEntityCount()
     }
 }

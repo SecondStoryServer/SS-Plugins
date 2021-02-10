@@ -1,7 +1,7 @@
 package com.github.syari.ss.plugins.lobby.gadget
 
+import com.github.syari.spigot.api.util.uuid.UUIDPlayer
 import com.github.syari.ss.plugins.core.item.CustomItemStack
-import com.github.syari.ss.plugins.core.player.UUIDPlayer
 import com.github.syari.ss.plugins.core.scheduler.CreateScheduler.runTimer
 import com.github.syari.ss.plugins.core.scheduler.CustomTask
 import com.github.syari.ss.plugins.lobby.Main.Companion.plugin
@@ -29,7 +29,7 @@ object Elytra : Gadget(Material.ELYTRA, "エリトラ", "lobby.gadget.elytra") {
         plugin.runTimer(0, 20) {
             player.inventory.setItemInOffHand(fireworkRocket)
         }?.let {
-            giveFireworkTask[UUIDPlayer(player)] = it
+            giveFireworkTask[UUIDPlayer.from(player)] = it
         }
         super.onEnable(player, itemStack)
     }
@@ -37,7 +37,7 @@ object Elytra : Gadget(Material.ELYTRA, "エリトラ", "lobby.gadget.elytra") {
     override fun onDisable(player: Player, itemStack: CustomItemStack) {
         player.inventory.chestplate = null
         player.inventory.setItemInOffHand(null)
-        giveFireworkTask.remove(UUIDPlayer(player))?.cancel()
+        giveFireworkTask.remove(UUIDPlayer.from(player))?.cancel()
         super.onDisable(player, itemStack)
     }
 }

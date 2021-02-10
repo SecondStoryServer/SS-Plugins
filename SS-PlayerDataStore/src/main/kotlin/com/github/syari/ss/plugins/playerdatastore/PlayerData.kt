@@ -1,8 +1,8 @@
 package com.github.syari.ss.plugins.playerdatastore
 
+import com.github.syari.spigot.api.util.uuid.UUIDPlayer
 import com.github.syari.ss.plugins.core.Main.Companion.console
 import com.github.syari.ss.plugins.core.config.CreateConfig.config
-import com.github.syari.ss.plugins.core.player.UUIDPlayer
 import com.github.syari.ss.plugins.playerdatastore.Main.Companion.plugin
 import org.bukkit.entity.Player
 
@@ -14,7 +14,7 @@ class PlayerData(val uuidPlayer: UUIDPlayer) {
             get() = storeDataList.getOrPut(this) { PlayerData(this) }
 
         val Player.storeData
-            get() = UUIDPlayer(this).storeData
+            get() = UUIDPlayer.from(this).storeData
     }
 
     val config by lazy { plugin.config(console, "data/$uuidPlayer.yml") }

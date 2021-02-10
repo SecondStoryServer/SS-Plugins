@@ -2,8 +2,8 @@
 
 package com.github.syari.ss.plugins.core.scoreboard
 
+import com.github.syari.spigot.api.util.uuid.UUIDPlayer
 import com.github.syari.ss.plugins.core.code.StringEditor.toColor
-import com.github.syari.ss.plugins.core.player.UUIDPlayer
 import com.github.syari.ss.plugins.core.scoreboard.CreateScoreBoard.board
 import com.github.syari.ss.plugins.core.scoreboard.ScoreBoardPlayer.Companion.scoreBoardPlayer
 import org.bukkit.entity.Player
@@ -24,7 +24,7 @@ class CustomScoreBoard internal constructor(
      * @param players プレイヤー
      */
     fun updatePlayer(vararg players: Player) {
-        players.forEach { UUIDPlayer(it).scoreBoardPlayer.updateBoard(this) }
+        players.forEach { UUIDPlayer.from(it).scoreBoardPlayer.updateBoard(this) }
     }
 
     /**
@@ -32,7 +32,7 @@ class CustomScoreBoard internal constructor(
      * @param players プレイヤー
      */
     fun addPlayer(vararg players: Player) {
-        players.forEach { UUIDPlayer(it).scoreBoardPlayer.addBoard(this) }
+        players.forEach { UUIDPlayer.from(it).scoreBoardPlayer.addBoard(this) }
     }
 
     /**
@@ -40,7 +40,7 @@ class CustomScoreBoard internal constructor(
      * @param players プレイヤー
      */
     fun removePlayer(vararg players: Player) {
-        players.forEach { UUIDPlayer(it).scoreBoardPlayer.removeBoard(this) }
+        players.forEach { UUIDPlayer.from(it).scoreBoardPlayer.removeBoard(this) }
     }
 
     /**
