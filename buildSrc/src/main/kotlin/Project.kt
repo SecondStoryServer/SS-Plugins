@@ -43,7 +43,7 @@ open class Project(val version: String, groupName: String = "") {
     object Core : Project(36)
 
     object DemonKill : Project(1) {
-        override val dependProject = listOf(Core)
+        override val dependProject = listOf(Core, Dependency.CrackShot, Dependency.CrackShotPlus, Dependency.MythicMobs)
     }
 
     open class Dependency(buildVersion: Int, version: String) : Project(buildVersion, version, "Dependency") {
