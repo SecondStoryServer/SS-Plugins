@@ -1,10 +1,13 @@
 package com.github.syari.ss.plugins.mobarena
 
+import com.github.syari.spigot.api.command.command
+import com.github.syari.spigot.api.command.tab.CommandTabArgument.Companion.argument
 import com.github.syari.ss.plugins.core.code.OnEnable
-import com.github.syari.ss.plugins.core.command.create.CommandCreator.Companion.command
-import com.github.syari.ss.plugins.core.command.create.CommandTabElement.Companion.element
-import com.github.syari.ss.plugins.core.command.create.ErrorMessage
-import com.github.syari.ss.plugins.core.message.Message.send
+import com.github.syari.ss.plugins.core.message.template.ConstantMessage.NotEnterId
+import com.github.syari.ss.plugins.core.message.template.ConstantMessage.NotExistId
+import com.github.syari.ss.plugins.core.message.template.ConstantMessage.OnlyPlayer
+import com.github.syari.ss.plugins.core.message.template.ConstantMessage.ReloadConfig
+import com.github.syari.ss.plugins.core.message.template.templateMessage
 import com.github.syari.ss.plugins.mobarena.Main.Companion.plugin
 import com.github.syari.ss.plugins.mobarena.MobArenaManager.arena
 import com.github.syari.ss.plugins.mobarena.MobArenaManager.arenaPlayer
@@ -19,129 +22,133 @@ import org.bukkit.entity.Player
 
 object CommandCreator : OnEnable {
     override fun onEnable() {
-        plugin.command("ma", "MobArena") {
+        plugin.command("ma") {
             tab {
-                arg {
+                argument {
                     val player = sender as? Player
                     if (player != null) {
                         val arenaPlayer = player.arenaPlayer
                         when {
-                            arenaPlayer == null -> element("join", "spec", "shop", "kit")
-                            arenaPlayer.play -> element("leave", "ready", "notready", "kit")
-                            else -> element("join", "leave")
+                            arenaPlayer == null -> add("join", "spec", "shop", "kit")
+                            arenaPlayer.play -> add("leave", "ready", "notready", "kit")
+                            else -> add("join", "leave")
                         }
-                    } else {
-                        element()
-                    }.join("start", "end", "reload")
+                    }
+                    add("start", "end", "reload")
                 }
-                arg("join", "j", "spec", "s", "start", "end") {
-                    element(arenas.map(MobArena::id))
+                argument("join", "j", "spec", "s", "start", "end") {
+                    addAll(arenas.map(MobArena::id))
                 }
-                arg("shop") {
-                    element(Shop.names)
+                argument("shop") {
+                    addAll(Shop.names)
                 }
-                arg("kit") {
-                    val player = sender as? Player ?: return@arg null
-                    element(player.arenaPlayer?.arena?.kits)
+                argument("kit") {
+                    val player = sender as? Player
+                    val arenaPlayer = player?.arenaPlayer ?: return@argument
+                    addAll(arenaPlayer.arena.kits)
                 }
             }
             execute {
-                when (args.whenIndex(0)) {
+                val template = templateMessage("MobArena")
+                when (args.lowerOrNull(0)) {
                     "join", "j" -> {
-                        val player = sender as? Player ?: return@execute sendError(ErrorMessage.OnlyPlayer)
-                        val id = args.getOrNull(1) ?: return@execute sendError("モブアリーナを入力してください")
-                        val arena = getArena(id) ?: return@execute sendError("モブアリーナが見つかりませんでした")
+                        val player = sender as? Player ?: return@execute template.sendError(OnlyPlayer)
+                        val id = args.getOrNull(1) ?: return@execute template.sendError(NotEnterId)
+                        val arena = getArena(id) ?: return@execute template.sendError(NotFoundArena)
                         arena.join(player)
                     }
                     "leave", "l" -> {
-                        val player = sender as? Player ?: return@execute sendError(ErrorMessage.OnlyPlayer)
-                        val arena = player.arena ?: return@execute sendError("モブアリーナに入っていません")
+                        val player = sender as? Player ?: return@execute template.sendError(OnlyPlayer)
+                        val arena = player.arena ?: return@execute template.sendError(NotJoinArena)
                         arena.leave(player)
                     }
                     "spec", "s" -> {
-                        val player = sender as? Player ?: return@execute sendError(ErrorMessage.OnlyPlayer)
-                        val id = args.getOrNull(1) ?: return@execute sendError("モブアリーナを入力してください")
-                        val arena = getArena(id) ?: return@execute sendError("モブアリーナが見つかりませんでした")
+                        val player = sender as? Player ?: return@execute template.sendError(OnlyPlayer)
+                        val id = args.getOrNull(1) ?: return@execute template.sendError(NotEnterId)
+                        val arena = getArena(id) ?: return@execute template.sendError(NotFoundArena)
                         arena.spec(player)
                     }
                     "shop" -> {
-                        val player = sender as? Player ?: return@execute sendError(ErrorMessage.OnlyPlayer)
-                        val id = args.getOrNull(1) ?: return@execute sendError(ErrorMessage.NotEnterId)
-                        val shopData = Shop.get(id) ?: return@execute sendError(ErrorMessage.NotExistId)
+                        val player = sender as? Player ?: return@execute template.sendError(OnlyPlayer)
+                        val id = args.getOrNull(1) ?: return@execute template.sendError(NotEnterId)
+                        val shopData = Shop.get(id) ?: return@execute template.sendError(NotExistId)
                         shopData.openShop(player)
                     }
                     "kit" -> {
-                        val player = sender as? Player ?: return@execute sendError(ErrorMessage.OnlyPlayer)
+                        val player = sender as? Player ?: return@execute template.sendError(OnlyPlayer)
                         val arenaPlayer = player.arenaPlayer
                         if (arenaPlayer != null) {
                             if (arenaPlayer.play) {
-                                val id = args.getOrNull(1) ?: return@execute sendError("キット名を入力してください")
-                                val kit = MobArenaKit.getKit(id) ?: return@execute sendError("存在しないキットです")
-                                if (arenaPlayer.arena.availableKit(kit).not()) return@execute sendError("使用不可能なキットです")
+                                val id = args.getOrNull(1) ?: return@execute template.sendError("キット名を入力してください")
+                                val kit = MobArenaKit.getKit(id) ?: return@execute template.sendError("存在しないキットです")
+                                if (arenaPlayer.arena.availableKit(kit).not()) return@execute template.sendError("使用不可能なキットです")
                                 arenaPlayer.loadKit(kit)
                             } else {
-                                sendError("モブアリーナに参加していません")
+                                template.sendError(NotJoinArena)
                             }
                         } else {
                             MobArenaKit.openPreviewList(player)
                         }
                     }
                     "ready", "r" -> {
-                        val player = sender as? Player ?: return@execute sendError(ErrorMessage.OnlyPlayer)
-                        val arenaPlayer = player.arenaPlayer ?: return@execute sendError("モブアリーナに入っていません")
+                        val player = sender as? Player ?: return@execute template.sendError(OnlyPlayer)
+                        val arenaPlayer = player.arenaPlayer ?: return@execute template.sendError(NotJoinArena)
                         if (arenaPlayer.play) {
-                            if (arenaPlayer.kit == null) return@execute sendError("キットを選択していません")
-                            if (arenaPlayer.ready) return@execute sendError("既に準備完了しています")
+                            if (arenaPlayer.kit == null) return@execute template.sendError("キットを選択していません")
+                            if (arenaPlayer.ready) return@execute template.sendError("既に準備完了しています")
                             arenaPlayer.ready = true
                         } else {
-                            sendError("モブアリーナに参加していません")
+                            template.sendError(NotJoinArena)
                         }
                     }
                     "notready", "nr" -> {
-                        val player = sender as? Player ?: return@execute sendError(ErrorMessage.OnlyPlayer)
-                        val arenaPlayer = player.arenaPlayer ?: return@execute sendError("モブアリーナに入っていません")
+                        val player = sender as? Player ?: return@execute template.sendError(OnlyPlayer)
+                        val arenaPlayer = player.arenaPlayer ?: return@execute template.sendError(NotJoinArena)
                         if (arenaPlayer.play) {
-                            if (arenaPlayer.ready.not()) return@execute sendError("まだ準備完了していません")
+                            if (arenaPlayer.ready.not()) return@execute template.sendError("まだ準備完了していません")
                             arenaPlayer.ready = false
                         } else {
-                            sendError("モブアリーナに参加していません")
+                            template.sendError(NotJoinArena)
                         }
                     }
                     "start" -> {
-                        val id = args.getOrNull(1) ?: return@execute sendError("アリーナIDを入力してください")
-                        val arena = getArena(id) ?: return@execute sendError("モブアリーナが見つかりませんでした")
-                        if (arena.status != MobArenaStatus.WaitReady) return@execute sendError("準備待機中のアリーナではありません")
+                        val id = args.getOrNull(1) ?: return@execute template.sendError(NotEnterId)
+                        val arena = getArena(id) ?: return@execute template.sendError(NotFoundArena)
+                        if (arena.status != MobArenaStatus.WaitReady) return@execute template.sendError("準備待機中のアリーナではありません")
                         arena.start()
-                        sender.send("&b[MobArena] &a$id&fのゲームを強制的に始めました")
+                        template.send("&a$id&fのゲームを強制的に始めました")
                     }
                     "end" -> {
-                        val id = args.getOrNull(1) ?: return@execute sendError("アリーナIDを入力してください")
+                        val id = args.getOrNull(1) ?: return@execute template.sendError(NotEnterId)
                         if (id.toLowerCase() == "all") {
                             endAllArena()
-                            sendWithPrefix("全てのアリーナを強制終了しました")
+                            template.send("全てのアリーナを強制終了しました")
                         } else {
-                            val arena = getArena(id) ?: return@execute sendError("モブアリーナが見つかりませんでした")
+                            val arena = getArena(id) ?: return@execute template.sendError(NotFoundArena)
                             arena.end(true)
-                            sendError("&a$id &fのゲームを強制的終了しました")
+                            template.sendError("&a$id &fのゲームを強制的終了しました")
                         }
                     }
                     "reload" -> {
-                        sendWithPrefix("コンフィグを読み込みます")
+                        template.send(ReloadConfig)
                         ConfigLoader.load(sender)
                     }
-                    else -> sendHelp(
-                        "ma join" to "モブアリーナに参加します", //
-                        "ma leave" to "モブアリーナから脱退します", //
-                        "ma spec" to "モブアリーナを観戦します", //
-                        "ma kit" to "キットを選択します", //
-                        "ma ready" to "準備完了します", //
-                        "ma notready" to "準備完了を取り消します", //
-                        "ma start" to "モブアリーナを強制で開始します", //
-                        "ma end" to "モブアリーナを強制で終了します", //
-                        "ma reload" to "コンフィグを再読み込みします"
+                    else -> template.sendCommandHelp(
+                        "$label join" to "モブアリーナに参加します",
+                        "$label leave" to "モブアリーナから脱退します",
+                        "$label spec" to "モブアリーナを観戦します",
+                        "$label kit" to "キットを選択します",
+                        "$label ready" to "準備完了します",
+                        "$label notready" to "準備完了を取り消します",
+                        "$label start" to "モブアリーナを強制で開始します",
+                        "$label end" to "モブアリーナを強制で終了します",
+                        "$label reload" to "コンフィグを再読み込みします"
                     )
                 }
             }
         }
     }
+
+    private const val NotFoundArena = "モブアリーナが見つかりませんでした"
+    private const val NotJoinArena = "モブアリーナに参加していません"
 }
