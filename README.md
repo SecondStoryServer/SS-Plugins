@@ -6,6 +6,12 @@ All Purpur Plugins For SecondStory.
 このリポジトリは、問題を早期に解決する目的・プラグインの参考にしてもらう目的で公開されています。
 非公開の情報も含まれているため、このリポジトリから得られた情報を公言しないようお願いします。
 
+## Library
+
+### [EasySpigotAPI](https://github.com/sya-ri/EasySpigotAPI)
+
+SS-Core の中で使っています。基本的な機能を簡単に扱えるようにしたライブラリです。
+
 ## Plugins
 
 <!-- Generate Versions -->
