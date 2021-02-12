@@ -21,6 +21,7 @@ SS-Core の中で使っています。基本的な機能を簡単に扱えるよ
 | SS-Backup | 16 |  |
 | SS-CommandBlocker | 6 |  |
 | SS-Core | 36 |  |
+| SS-DemonKill | 1 |  |
 | SS-Dependency-CrackShot | 1 | 0.98.11 |
 | SS-Dependency-CrackShotPlus | 1 | 1.97 |
 | SS-Dependency-MythicMobs | 1 | 4.11.0-beta-1 |
