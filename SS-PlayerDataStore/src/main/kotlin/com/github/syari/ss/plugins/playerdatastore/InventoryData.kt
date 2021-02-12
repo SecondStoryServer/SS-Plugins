@@ -1,9 +1,9 @@
 package com.github.syari.ss.plugins.playerdatastore
 
+import com.github.syari.spigot.api.scheduler.runTaskLater
 import com.github.syari.ss.plugins.core.config.type.ConfigDataType
 import com.github.syari.ss.plugins.core.config.type.data.ConfigItemConverter
 import com.github.syari.ss.plugins.core.item.Base64Item
-import com.github.syari.ss.plugins.core.scheduler.CreateScheduler.runLater
 import com.github.syari.ss.plugins.playerdatastore.Main.Companion.plugin
 import org.bukkit.Material
 
@@ -17,8 +17,8 @@ class InventoryData(playerData: PlayerData) : LoadableDataType(playerData) {
     override fun load() {
         if (isLoaded.not()) {
             isLoaded = true
-            plugin.runLater(1) {
-                val player = playerData.uuidPlayer.player ?: return@runLater
+            plugin.runTaskLater(1) {
+                val player = playerData.uuidPlayer.player ?: return@runTaskLater
                 inventory?.forEach { (slot, item) ->
                     player.inventory.setItem(slot, item)
                 }

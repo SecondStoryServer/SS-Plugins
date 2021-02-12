@@ -1,13 +1,15 @@
 package com.github.syari.ss.plugins.developassist.texturechecker
 
+import com.github.syari.spigot.api.command.command
+import com.github.syari.spigot.api.command.tab.CommandTabArgument.Companion.argument
 import com.github.syari.ss.plugins.core.Main.Companion.console
 import com.github.syari.ss.plugins.core.code.IConfigLoader
-import com.github.syari.ss.plugins.core.command.create.CommandCreator.Companion.command
-import com.github.syari.ss.plugins.core.command.create.CommandTabElement.Companion.element
-import com.github.syari.ss.plugins.core.command.create.ErrorMessage
 import com.github.syari.ss.plugins.core.config.CreateConfig.config
 import com.github.syari.ss.plugins.core.config.type.ConfigDataType
 import com.github.syari.ss.plugins.core.inventory.CreateInventory.inventory
+import com.github.syari.ss.plugins.core.message.template.ConstantMessage.OnlyPlayer
+import com.github.syari.ss.plugins.core.message.template.ConstantMessage.ReloadConfig
+import com.github.syari.ss.plugins.core.message.template.templateMessage
 import com.github.syari.ss.plugins.developassist.Main.Companion.plugin
 import org.bukkit.Material
 import org.bukkit.command.CommandSender
@@ -22,32 +24,33 @@ object TextureChecker : IConfigLoader {
     private lateinit var parentMaterials: List<Material>
 
     private fun registerCommand() {
-        plugin.command("ctexture", "TextureChecker") {
+        plugin.command("ctexture") {
             tab {
-                arg { element("reload", "open") }
-                arg("open") { element(Material.values().map(Material::name)) }
+                argument { add("reload", "open") }
+                argument("open") { addAll(Material.values().map(Material::name)) }
             }
             execute {
-                when (args.whenIndex(0)) {
+                val template = templateMessage("TextureChecker")
+                when (args.lowerOrNull(0)) {
                     "reload" -> {
-                        sendWithPrefix("コンフィグを読み込みます")
+                        template.send(ReloadConfig)
                         load(sender)
                     }
                     "open" -> {
-                        val player = sender as? Player ?: return@execute sendError(ErrorMessage.OnlyPlayer)
+                        val player = sender as? Player ?: return@execute template.sendError(OnlyPlayer)
                         val typeName = args.getOrNull(1)
                         if (typeName != null) {
-                            val type = Material.getMaterial(typeName.toUpperCase()) ?: return@execute sendError("存在しないマテリアルです")
+                            val type = Material.getMaterial(typeName.toUpperCase()) ?: return@execute template.sendError("存在しないマテリアルです")
                             openMaterial(player, type)
                         } else {
                             openMaterialList(player)
                         }
                     }
                     else -> {
-                        sendHelp(
-                            "ctexture open" to "コンフィグで設定した一覧を開きます",
-                            "ctexture open [material]" to "指定したマテリアルのテクスチャを確認します",
-                            "ctexture reload" to "コンフィグを再読み込みします"
+                        template.sendCommandHelp(
+                            "$label open" to "コンフィグで設定した一覧を開きます",
+                            "$label open [material]" to "指定したマテリアルのテクスチャを確認します",
+                            "$label reload" to "コンフィグを再読み込みします"
                         )
                     }
                 }

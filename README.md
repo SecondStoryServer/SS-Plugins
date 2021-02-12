@@ -6,22 +6,28 @@ All Purpur Plugins For SecondStory.
 このリポジトリは、問題を早期に解決する目的・プラグインの参考にしてもらう目的で公開されています。
 サーバーとして公開していない情報も含まれているため、このリポジトリから得られたサーバーに関する情報を公言しないようお願いします。
 
+## Library
+
+### [EasySpigotAPI](https://github.com/sya-ri/EasySpigotAPI)
+
+SS-Core の中で使っています。基本的な機能を簡単に扱えるようにしたライブラリです。
+
 ## Plugins
 
 <!-- Generate Versions -->
 | Name | Version | Dependency |
 |:-----|--------:|-----------:|
-| SS-Assist | 5 |  |
-| SS-Backup | 15 |  |
+| SS-Assist | 6 |  |
+| SS-Backup | 16 |  |
 | SS-CommandBlocker | 6 |  |
-| SS-Core | 35 |  |
+| SS-Core | 36 |  |
 | SS-Dependency-CrackShot | 1 | 0.98.11 |
 | SS-Dependency-CrackShotPlus | 1 | 1.97 |
 | SS-Dependency-MythicMobs | 1 | 4.11.0-beta-1 |
-| SS-DevelopAssist | 3 |  |
+| SS-DevelopAssist | 4 |  |
 | SS-GlobalPlayers | 7 |  |
 | SS-ItemFrameCommand | 4 |  |
 | SS-Lobby | 6 |  |
-| SS-MobArena | 22 |  |
+| SS-MobArena | 23 |  |
 | SS-PlayerDataStore | 13 |  |
 <!-- Generate Versions -->

@@ -2,7 +2,7 @@
 
 package com.github.syari.ss.plugins.core.code
 
-import com.github.syari.ss.plugins.core.scheduler.CreateScheduler.runLater
+import com.github.syari.spigot.api.scheduler.runTaskLater
 import org.bukkit.plugin.java.JavaPlugin
 
 /**
@@ -37,7 +37,7 @@ class CoolTime<T>(private val plugin: JavaPlugin) {
     ) {
         val success = coolTimeList.add(value)
         if (!success) return
-        plugin.runLater(coolTime) {
+        plugin.runTaskLater(coolTime) {
             coolTimeList.remove(value)
         }
     }

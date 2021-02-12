@@ -4,10 +4,10 @@ package com.github.syari.ss.plugins.core.inventory
 
 import com.github.syari.spigot.api.event.register.EventRegister
 import com.github.syari.spigot.api.event.register.Events
+import com.github.syari.spigot.api.scheduler.runTaskLater
 import com.github.syari.spigot.api.util.uuid.UUIDPlayer
 import com.github.syari.ss.plugins.core.code.StringEditor.toColor
 import com.github.syari.ss.plugins.core.inventory.CreateInventory.runWithId
-import com.github.syari.ss.plugins.core.scheduler.CreateScheduler.runLater
 import org.bukkit.Bukkit.createInventory
 import org.bukkit.OfflinePlayer
 import org.bukkit.entity.HumanEntity
@@ -45,7 +45,7 @@ object CreateInventory : EventRegister {
             uuidPlayer.menuPlayer?.run {
                 onClose(it)
                 uuidPlayer.menuPlayer = null
-                plugin.runLater(5) {
+                plugin.runTaskLater(5) {
                     player.updateInventory()
                 }
             }

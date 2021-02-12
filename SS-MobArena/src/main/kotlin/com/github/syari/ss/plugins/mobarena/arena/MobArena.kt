@@ -1,5 +1,7 @@
 package com.github.syari.ss.plugins.mobarena.arena
 
+import com.github.syari.spigot.api.scheduler.runTaskLater
+import com.github.syari.spigot.api.scheduler.runTaskTimer
 import com.github.syari.spigot.api.util.uuid.UUIDEntity
 import com.github.syari.ss.plugins.core.bossBar.CustomBossBar
 import com.github.syari.ss.plugins.core.bossBar.CustomBossBar.Companion.bossBar
@@ -9,9 +11,6 @@ import com.github.syari.ss.plugins.core.item.ItemStackPlus.give
 import com.github.syari.ss.plugins.core.message.Message.broadcast
 import com.github.syari.ss.plugins.core.message.Message.send
 import com.github.syari.ss.plugins.core.pluginMessage.PluginMessage
-import com.github.syari.ss.plugins.core.scheduler.CreateScheduler.runLater
-import com.github.syari.ss.plugins.core.scheduler.CreateScheduler.runRepeatTimes
-import com.github.syari.ss.plugins.core.scheduler.CustomTask
 import com.github.syari.ss.plugins.core.scoreboard.CreateScoreBoard.board
 import com.github.syari.ss.plugins.mobarena.Main.Companion.plugin
 import com.github.syari.ss.plugins.mobarena.MobArenaManager.arenaPlayer
@@ -25,6 +24,7 @@ import org.bukkit.boss.BarColor
 import org.bukkit.boss.BarStyle
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
+import org.bukkit.scheduler.BukkitTask
 
 class MobArena(
     val id: String,
@@ -143,7 +143,7 @@ class MobArena(
     }
 
     var bar: CustomBossBar? = null
-    var mainTask: CustomTask? = null
+    var mainTask: BukkitTask? = null
     var allowStart = false
     var publicChest = inventory("&0&l共有チェスト", 2) {}
 
@@ -152,12 +152,16 @@ class MobArena(
         allowStart = false
         status = MobArenaStatus.WaitReady
         bar = bossBar("&a&l$name &f&lが始まります", BarColor.GREEN, BarStyle.SOLID, true)
-        mainTask = plugin.runRepeatTimes(20, 90) {
-            bar?.progress = repeatRemain / 90.0
-        }?.onEndRepeat {
-            allowStart = true
-            if (checkReady() != 0) {
-                announce("&b[MobArena] &f全員が準備完了をしたらゲームを開始します")
+        var progress = 0
+        mainTask = plugin.runTaskTimer(90) {
+            bar?.progress = progress / 90.0
+            progress ++
+            if (progress == 90) {
+                cancel()
+                allowStart = true
+                if (checkReady() != 0) {
+                    announce("&b[MobArena] &f全員が準備完了をしたらゲームを開始します")
+                }
             }
         }
     }
@@ -287,7 +291,7 @@ class MobArena(
     }
 
     fun onDeath(player: Player) {
-        plugin.runLater(3) {
+        plugin.runTaskLater(3) {
             leave(player)
         }
     }
@@ -299,7 +303,7 @@ class MobArena(
             &fクリア者: &a${livingPlayers.joinToString(", ") { it.player.displayName }}
             """.trimIndent()
         )
-        plugin.runLater(10 * 20) {
+        plugin.runTaskLater(10 * 20) {
             livingPlayers.forEach {
                 leave(it.player)
             }
@@ -338,24 +342,24 @@ class MobArena(
         mainTask = null
     }
 
-    var checkEntityTask: CustomTask? = null
-    var checkDeadEntityTask: CustomTask? = null
+    var checkEntityTask: BukkitTask? = null
+    var checkDeadEntityTask: BukkitTask? = null
 
     private fun checkEntityCount() {
         if (status != MobArenaStatus.NowPlay) return
         if (mobs.size < entityLimit) {
             if (mainTask == null) {
-                mainTask = plugin.runLater(waveInterval) {
+                mainTask = plugin.runTaskLater(waveInterval) {
                     nextWave()
                     checkEntityTask?.cancel()
-                    checkEntityTask = plugin.runLater(waveInterval) {
+                    checkEntityTask = plugin.runTaskLater(waveInterval) {
                         checkEntityCount()
                     }
                 }
             }
         }
         checkDeadEntityTask?.cancel()
-        checkDeadEntityTask = plugin.runLater(40 * 20) {
+        checkDeadEntityTask = plugin.runTaskLater(40 * 20) {
             mobs.removeIf { it.entity?.isDead == true }
             checkEntityCount()
         }
