@@ -2,10 +2,10 @@ package com.github.syari.ss.plugins.lobby
 
 import com.github.syari.spigot.api.event.register.EventRegister
 import com.github.syari.spigot.api.event.register.Events
+import com.github.syari.spigot.api.scheduler.runTaskLater
 import com.github.syari.spigot.api.util.uuid.UUIDPlayer
 import com.github.syari.ss.plugins.core.code.CoolTime.Companion.coolTime
 import com.github.syari.ss.plugins.core.item.CustomItemStack
-import com.github.syari.ss.plugins.core.scheduler.CreateScheduler.runLater
 import com.github.syari.ss.plugins.lobby.gadget.Gadget
 import org.bukkit.GameMode
 import org.bukkit.entity.Player
@@ -21,7 +21,7 @@ import org.bukkit.event.player.PlayerSwapHandItemsEvent
 object EventListener : EventRegister {
     override fun Events.register() {
         event<PlayerJoinEvent> {
-            plugin.runLater(1) {
+            plugin.runTaskLater(1) {
                 LobbyInventory.applyToPlayer(it.player)
             }
         }

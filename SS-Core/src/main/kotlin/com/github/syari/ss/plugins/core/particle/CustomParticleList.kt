@@ -2,8 +2,8 @@
 
 package com.github.syari.ss.plugins.core.particle
 
-import com.github.syari.ss.plugins.core.scheduler.CreateScheduler.runListWithDelay
-import com.github.syari.ss.plugins.core.scheduler.CustomTask
+import com.github.syari.ss.plugins.core.scheduler.TaskId
+import com.github.syari.ss.plugins.core.scheduler.runTaskLaterList
 import org.bukkit.Location
 import org.bukkit.entity.Entity
 import org.bukkit.plugin.java.JavaPlugin
@@ -35,8 +35,8 @@ class CustomParticleList(val plugin: JavaPlugin) {
      * 実行します
      * @param action 実行する処理
      */
-    private fun run(action: (CustomParticle) -> Unit): Set<CustomTask> {
-        return plugin.runListWithDelay(listWithDelay, action)
+    private fun run(action: (CustomParticle) -> Unit): Set<TaskId> {
+        return plugin.runTaskLaterList(listWithDelay, action)
     }
 
     /**
@@ -53,7 +53,7 @@ class CustomParticleList(val plugin: JavaPlugin) {
      * パーティクルを生成します
      * @param location 場所
      */
-    fun spawn(location: Location): Set<CustomTask> {
+    fun spawn(location: Location): Set<TaskId> {
         return run { it.spawn(location) }
     }
 
@@ -61,7 +61,7 @@ class CustomParticleList(val plugin: JavaPlugin) {
      * パーティクルを生成します
      * @param entity 場所
      */
-    fun spawn(entity: Entity): Set<CustomTask> {
+    fun spawn(entity: Entity): Set<TaskId> {
         return run { it.spawn(entity) }
     }
 

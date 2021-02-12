@@ -1,9 +1,9 @@
 package com.github.syari.ss.plugins.mobarena.wave
 
+import com.github.syari.spigot.api.scheduler.runTaskTimer
 import com.github.syari.spigot.api.util.uuid.UUIDEntity
 import com.github.syari.ss.plugins.core.bossBar.CustomBossBar.Companion.bossBar
 import com.github.syari.ss.plugins.core.item.CustomItemStack
-import com.github.syari.ss.plugins.core.scheduler.CreateScheduler.runTimer
 import com.github.syari.ss.plugins.mobarena.Main.Companion.plugin
 import com.github.syari.ss.plugins.mobarena.arena.MobArena
 import com.github.syari.ss.plugins.mobarena.wave.boss.MobArenaBoss
@@ -47,7 +47,7 @@ class MobArenaWave(
             if (entity is LivingEntity) {
                 val bar = bossBar(entity.customName ?: "null", BarColor.RED, BarStyle.SOLID)
                 arena.players.forEach { bar.addPlayer(it.player) }
-                plugin.runTimer(20) {
+                plugin.runTaskTimer(20) {
                     if (entity.isDead) {
                         bar.delete()
                         cancel()

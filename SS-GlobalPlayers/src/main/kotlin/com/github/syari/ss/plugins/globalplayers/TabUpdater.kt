@@ -2,9 +2,9 @@ package com.github.syari.ss.plugins.globalplayers
 
 import com.github.syari.spigot.api.event.register.EventRegister
 import com.github.syari.spigot.api.event.register.Events
+import com.github.syari.spigot.api.scheduler.runTaskLater
 import com.github.syari.ss.plugins.core.code.StringEditor.toColor
 import com.github.syari.ss.plugins.core.pluginMessage.SSPluginMessageEvent
-import com.github.syari.ss.plugins.core.scheduler.CreateScheduler.runLater
 import com.github.syari.ss.plugins.globalplayers.Main.Companion.plugin
 import com.github.syari.ss.template.message.PluginMessageTemplateTabList
 import com.mojang.authlib.GameProfile
@@ -31,7 +31,7 @@ object TabUpdater : EventRegister {
     }
 
     private fun updateTabPlayers(action: EnumPlayerInfoAction, list: List<String>) {
-        plugin.runLater(5) {
+        plugin.runTaskLater(5) {
             val server = (plugin.server as CraftServer).server
             val world = (plugin.server.worlds.first() as CraftWorld).handle
             val manager = PlayerInteractManager(world)

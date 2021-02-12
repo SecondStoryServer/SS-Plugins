@@ -1,12 +1,12 @@
 package com.github.syari.ss.plugins.lobby.gadget
 
+import com.github.syari.spigot.api.scheduler.runTaskTimer
 import com.github.syari.spigot.api.util.uuid.UUIDPlayer
 import com.github.syari.ss.plugins.core.item.CustomItemStack
-import com.github.syari.ss.plugins.core.scheduler.CreateScheduler.runTimer
-import com.github.syari.ss.plugins.core.scheduler.CustomTask
 import com.github.syari.ss.plugins.lobby.Main.Companion.plugin
 import org.bukkit.Material
 import org.bukkit.entity.Player
+import org.bukkit.scheduler.BukkitTask
 
 object Elytra : Gadget(Material.ELYTRA, "エリトラ", "lobby.gadget.elytra") {
     private val elytra = CustomItemStack.create(
@@ -21,15 +21,13 @@ object Elytra : Gadget(Material.ELYTRA, "エリトラ", "lobby.gadget.elytra") {
         "&d花火"
     ).toOneItemStack
 
-    private val giveFireworkTask = mutableMapOf<UUIDPlayer, CustomTask>()
+    private val giveFireworkTask = mutableMapOf<UUIDPlayer, BukkitTask>()
 
     override fun onEnable(player: Player, itemStack: CustomItemStack) {
         player.inventory.chestplate = elytra
         player.inventory.setItemInOffHand(fireworkRocket)
-        plugin.runTimer(0, 20) {
+        giveFireworkTask[UUIDPlayer.from(player)] = plugin.runTaskTimer(20) {
             player.inventory.setItemInOffHand(fireworkRocket)
-        }?.let {
-            giveFireworkTask[UUIDPlayer.from(player)] = it
         }
         super.onEnable(player, itemStack)
     }

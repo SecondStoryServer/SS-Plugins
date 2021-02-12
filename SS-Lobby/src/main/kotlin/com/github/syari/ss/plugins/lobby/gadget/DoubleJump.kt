@@ -1,9 +1,9 @@
 package com.github.syari.ss.plugins.lobby.gadget
 
 import com.github.syari.spigot.api.event.register.EventRegister
+import com.github.syari.spigot.api.scheduler.runTaskLater
 import com.github.syari.spigot.api.util.uuid.UUIDPlayer
 import com.github.syari.ss.plugins.core.item.CustomItemStack
-import com.github.syari.ss.plugins.core.scheduler.CreateScheduler.runLater
 import org.bukkit.Effect
 import org.bukkit.GameMode
 import org.bukkit.Material
@@ -69,7 +69,7 @@ object DoubleJump : Gadget(Material.LEATHER_BOOTS, "ダブルジャンプ", "lob
                 val location = player.location
                 location.world.playEffect(location, Effect.SMOKE, 5)
                 location.world.playSound(location, Sound.ENTITY_ENDER_DRAGON_SHOOT, 2.0f, 0.0f)
-                plugin.runLater(20) {
+                plugin.runTaskLater(20) {
                     if (player.isFlying) {
                         player.allowFlight = false
                         allowFlightPlayers.remove(uuidPlayer)

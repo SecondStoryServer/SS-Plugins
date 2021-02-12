@@ -4,9 +4,9 @@ package com.github.syari.ss.plugins.core.time
 
 import com.github.syari.spigot.api.event.register.EventRegister
 import com.github.syari.spigot.api.event.register.Events
+import com.github.syari.spigot.api.scheduler.runTaskLater
 import com.github.syari.ss.plugins.core.Main.Companion.plugin
 import com.github.syari.ss.plugins.core.code.OnEnable
-import com.github.syari.ss.plugins.core.scheduler.CreateScheduler.runLater
 import com.github.syari.ss.plugins.core.time.event.NextDayEvent
 import com.github.syari.ss.plugins.core.time.event.NextHourEvent
 import com.github.syari.ss.plugins.core.time.event.NextMinuteEvent
@@ -92,7 +92,7 @@ object TimeScheduler : OnEnable, EventRegister {
      */
     override fun onEnable() {
         val now = LocalDateTime.now()
-        plugin.runLater(60 - now.second.toLong()) {
+        plugin.runTaskLater(60 - now.second.toLong()) {
             nextMinute(ScheduleTimeEveryWeek.create(now.dayOfWeek, now.hour, now.minute + 1))
         }
     }
@@ -107,7 +107,7 @@ object TimeScheduler : OnEnable, EventRegister {
         } else {
             NextMinuteEvent(time.dayOfWeek, time.hour, time.minute)
         }.callEvent()
-        plugin.runLater(60 * 20) {
+        plugin.runTaskLater(60 * 20) {
             nextMinute(time.getNextMinute())
         }
     }

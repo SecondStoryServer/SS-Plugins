@@ -2,8 +2,8 @@
 
 package com.github.syari.ss.plugins.core.sound
 
-import com.github.syari.ss.plugins.core.scheduler.CreateScheduler.runListWithDelay
-import com.github.syari.ss.plugins.core.scheduler.CustomTask
+import com.github.syari.ss.plugins.core.scheduler.TaskId
+import com.github.syari.ss.plugins.core.scheduler.runTaskLaterList
 import org.bukkit.Location
 import org.bukkit.entity.Entity
 import org.bukkit.plugin.java.JavaPlugin
@@ -35,15 +35,15 @@ class CustomSoundList(val plugin: JavaPlugin) {
      * 実行します
      * @param action 実行する処理
      */
-    private fun run(action: (CustomSound) -> Unit): Set<CustomTask> {
-        return plugin.runListWithDelay(listWithDelay, action)
+    private fun run(action: (CustomSound) -> Unit): Set<TaskId> {
+        return plugin.runTaskLaterList(listWithDelay, action)
     }
 
     /**
      * サウンドを再生します
      * @param location 場所
      */
-    fun play(location: Location): Set<CustomTask> {
+    fun play(location: Location): Set<TaskId> {
         return run { it.play(location) }
     }
 
@@ -51,7 +51,7 @@ class CustomSoundList(val plugin: JavaPlugin) {
      * サウンドを再生します
      * @param entity 場所
      */
-    fun play(entity: Entity): Set<CustomTask> {
+    fun play(entity: Entity): Set<TaskId> {
         return run { it.play(entity) }
     }
 
