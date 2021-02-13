@@ -33,6 +33,6 @@ SS-Core の中で使っています。基本的な機能を簡単に扱えるよ
 | SS-GlobalPlayers | 7 |  |
 | SS-ItemFrameCommand | 4 |  |
 | SS-Lobby | 6 |  |
-| SS-MobArena | 23 |  |
+| SS-MobArena | 24 |  |
 | SS-PlayerDataStore | 13 |  |
 <!-- Generate Versions -->

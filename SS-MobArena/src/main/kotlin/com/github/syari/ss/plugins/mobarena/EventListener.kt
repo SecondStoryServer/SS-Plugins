@@ -86,6 +86,7 @@ object EventListener : EventRegister {
         }
         event<EntityDamageByEntityEvent>(ignoreCancelled = true) {
             val victim = it.entity
+            if (victim == it.damager) return@event
             val attacker = when (it.damager) {
                 is Projectile -> (it.damager as Projectile).shooter as? Entity
                 else -> it.damager
