@@ -1,4 +1,5 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import net.minecrell.pluginyml.bukkit.BukkitPluginDescription
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jlleitschuh.gradle.ktlint.KtlintExtension
 
@@ -26,13 +27,53 @@ subprojects {
     configurations["implementation"].extendsFrom(shadowImplementation)
     configurations["api"].extendsFrom(shadowApi)
 
+    val project = when (project.name) {
+        "SS-Assist" -> Project.Assist
+        "SS-Backup" -> Project.Backup
+        "SS-CommandBlocker" -> Project.CommandBlocker
+        "SS-Core" -> Project.Core
+        "SS-DemonKill" -> Project.DemonKill
+        "SS-Dependency-CrackShot" -> Project.Dependency.CrackShot
+        "SS-Dependency-CrackShotPlus" -> Project.Dependency.CrackShotPlus
+        "SS-Dependency-MythicMobs" -> Project.Dependency.MythicMobs
+        "SS-DevelopAssist" -> Project.DevelopAssist
+        "SS-GlobalPlayers" -> Project.GlobalPlayers
+        "SS-ItemFrameCommand" -> Project.ItemFrameCommand
+        "SS-Lobby" -> Project.Lobby
+        "SS-MobArena" -> Project.MobArena
+        "SS-PlayerDataStore" -> Project.PlayerDataStore
+        else -> error("Not Found Project ${project.name}")
+    }
+
     repositories {
         maven("https://repo.pl3x.net/")
     }
 
     dependencies {
-        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+        when (project) {
+            Project.Core -> {
+                shadowImplementation(kotlin("stdlib-jdk8"))
+                api(files("dependencyJar/patched_1.16.5.jar"))
+                shadowApi("com.github.sya-ri:EasySpigotAPI:1.2.1") {
+                    exclude(group = "org.spigotmc", module = "spigot-api")
+                    exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib")
+                }
+            }
+            Project.Dependency.CrackShot -> {
+                api(files("dependencyJar/CrackShot.jar"))
+            }
+            Project.Dependency.CrackShotPlus -> {
+                api(files("dependencyJar/CrackShotPlus.jar"))
+            }
+            Project.Dependency.MythicMobs -> {
+                api(files("dependencyJar/MythicMobs-4.11.0-BETA.jar"))
+            }
+            else -> {
+                implementation(kotlin("stdlib-jdk8"))
+            }
+        }
         implementation("net.pl3x.purpur:purpur-api:1.16.5-R0.1-SNAPSHOT")
+        project.implementationProjects.forEach { implementation(project(":$it")) }
     }
 
     tasks.withType<KotlinCompile> {
@@ -41,6 +82,16 @@ subprojects {
             freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
             useIR = true
         }
+    }
+
+    configure<BukkitPluginDescription> {
+        name = project.name
+        version = project.version
+        main = project.main
+        author = project.author
+        apiVersion = project.apiVersion
+        depend = project.allDependPlugin
+        softDepend = project.allSoftDependPlugin
     }
 
     tasks.withType<ShadowJar> {
