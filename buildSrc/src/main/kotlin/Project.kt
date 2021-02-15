@@ -20,6 +20,7 @@ open class Project(val version: String, groupName: String = "") {
     val allDependPlugin by lazy { dependProjectName + dependPlugin }
     open val softDependProject = listOf<Project>()
     open val softDependPlugin = listOf<String>()
+    open val dependJarFile = listOf<String>()
     val softDependProjectName by lazy { softDependProject.map { it.name } }
     val allSoftDependPlugin by lazy { softDependProjectName + softDependPlugin }
     val implementationProjects by lazy { dependProjectName + softDependProjectName }
@@ -40,7 +41,9 @@ open class Project(val version: String, groupName: String = "") {
         override val dependProject = listOf(Core)
     }
 
-    object Core : Project(36)
+    object Core : Project(36) {
+        override val dependJarFile = listOf("patched_1.16.5")
+    }
 
     object DemonKill : Project(1) {
         override val dependProject = listOf(Core, Dependency.CrackShot, Dependency.CrackShotPlus, Dependency.MythicMobs)
@@ -50,16 +53,19 @@ open class Project(val version: String, groupName: String = "") {
         object CrackShot : Dependency(1, "0.98.11") {
             override val dependProject = listOf(Core)
             override val dependPlugin = listOf("CrackShot")
+            override val dependJarFile = listOf("CrackShot")
         }
 
         object CrackShotPlus : Dependency(1, "1.97") {
             override val dependProject = listOf(Core)
             override val dependPlugin = listOf("CrackShotPlus")
+            override val dependJarFile = listOf("CrackShotPlus")
         }
 
         object MythicMobs : Dependency(1, "4.11.0-beta-1") {
             override val dependProject = listOf(Core)
             override val dependPlugin = listOf("MythicMobs")
+            override val dependJarFile = listOf("MythicMobs-4.11.0-BETA")
         }
     }
 
