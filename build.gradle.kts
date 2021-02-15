@@ -53,20 +53,10 @@ subprojects {
         when (project) {
             Project.Core -> {
                 shadowImplementation(kotlin("stdlib-jdk8"))
-                api(files("dependencyJar/patched_1.16.5.jar"))
                 shadowApi("com.github.sya-ri:EasySpigotAPI:1.2.1") {
                     exclude(group = "org.spigotmc", module = "spigot-api")
                     exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib")
                 }
-            }
-            Project.Dependency.CrackShot -> {
-                api(files("dependencyJar/CrackShot.jar"))
-            }
-            Project.Dependency.CrackShotPlus -> {
-                api(files("dependencyJar/CrackShotPlus.jar"))
-            }
-            Project.Dependency.MythicMobs -> {
-                api(files("dependencyJar/MythicMobs-4.11.0-BETA.jar"))
             }
             else -> {
                 implementation(kotlin("stdlib-jdk8"))
@@ -74,6 +64,7 @@ subprojects {
         }
         implementation("net.pl3x.purpur:purpur-api:1.16.5-R0.1-SNAPSHOT")
         project.implementationProjects.forEach { implementation(project(":$it")) }
+        project.dependJarFile.forEach { api(files("../dependJars/$it.jar")) }
     }
 
     tasks.withType<KotlinCompile> {
