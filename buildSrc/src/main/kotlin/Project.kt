@@ -2,7 +2,24 @@
 
 open class Project(val version: String, groupName: String = "") {
     companion object {
-        val list = mutableListOf<Project>()
+        val list = listOf(
+            Assist,
+            Backup,
+            CommandBlocker,
+            Core,
+            DemonKill,
+            Dependency.CrackShot,
+            Dependency.CrackShotPlus,
+            Dependency.MythicMobs,
+            DevelopAssist,
+            GlobalPlayers,
+            ItemFrameCommand,
+            Lobby,
+            MobArena,
+            PlayerDataStore
+        )
+
+        fun get(name: String) = list.firstOrNull { it.name == name }
     }
 
     constructor(buildVersion: Int, groupName: String = "") : this(buildVersion.toString(), groupName)
@@ -24,10 +41,6 @@ open class Project(val version: String, groupName: String = "") {
     val softDependProjectName by lazy { softDependProject.map { it.name } }
     val allSoftDependPlugin by lazy { softDependProjectName + softDependPlugin }
     val implementationProjects by lazy { dependProjectName + softDependProjectName }
-
-    init {
-        list.add(this)
-    }
 
     object Assist : Project(6) {
         override val dependProject = listOf(Core)
@@ -74,10 +87,6 @@ open class Project(val version: String, groupName: String = "") {
     }
 
     object GlobalPlayers : Project(7) {
-        override val dependProject = listOf(Core)
-    }
-
-    object Discord : Project(2) {
         override val dependProject = listOf(Core)
     }
 
