@@ -78,7 +78,7 @@ open class Project(val version: String, groupName: String = "") {
         object MythicMobs : Dependency(1, "4.11.0-beta-1") {
             override val dependProject = listOf(Core)
             override val dependPlugin = listOf("MythicMobs")
-            override val dependJarFile = listOf("MythicMobs-4.11.0-BETA")
+            override val dependJarFile = listOf("MythicMobs-4.11.0-build-3560")
         }
     }
 
