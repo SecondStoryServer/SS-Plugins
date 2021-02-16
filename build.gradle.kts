@@ -11,8 +11,14 @@ plugins {
 }
 
 allprojects {
+    apply(plugin = "org.jlleitschuh.gradle.ktlint")
+
     repositories {
         mavenCentral()
+    }
+
+    configure<KtlintExtension> {
+        version.set("0.40.0")
     }
 }
 
@@ -20,30 +26,13 @@ subprojects {
     apply(plugin = "kotlin")
     apply(plugin = "com.github.johnrengelman.shadow")
     apply(plugin = "net.minecrell.plugin-yml.bukkit")
-    apply(plugin = "org.jlleitschuh.gradle.ktlint")
 
     val shadowImplementation by configurations.creating
     val shadowApi by configurations.creating
     configurations["implementation"].extendsFrom(shadowImplementation)
     configurations["api"].extendsFrom(shadowApi)
 
-    val project = when (project.name) {
-        "SS-Assist" -> Project.Assist
-        "SS-Backup" -> Project.Backup
-        "SS-CommandBlocker" -> Project.CommandBlocker
-        "SS-Core" -> Project.Core
-        "SS-DemonKill" -> Project.DemonKill
-        "SS-Dependency-CrackShot" -> Project.Dependency.CrackShot
-        "SS-Dependency-CrackShotPlus" -> Project.Dependency.CrackShotPlus
-        "SS-Dependency-MythicMobs" -> Project.Dependency.MythicMobs
-        "SS-DevelopAssist" -> Project.DevelopAssist
-        "SS-GlobalPlayers" -> Project.GlobalPlayers
-        "SS-ItemFrameCommand" -> Project.ItemFrameCommand
-        "SS-Lobby" -> Project.Lobby
-        "SS-MobArena" -> Project.MobArena
-        "SS-PlayerDataStore" -> Project.PlayerDataStore
-        else -> error("Not Found Project ${project.name}")
-    }
+    val project = Project.get(project.name) ?: error("Not Found Project ${project.name}")
 
     repositories {
         maven("https://repo.pl3x.net/")
@@ -89,10 +78,6 @@ subprojects {
         configurations = listOf(shadowImplementation, shadowApi)
         archiveClassifier.set("")
         destinationDirectory.set(file("../jars"))
-    }
-
-    configure<KtlintExtension> {
-        version.set("0.40.0")
     }
 }
 
