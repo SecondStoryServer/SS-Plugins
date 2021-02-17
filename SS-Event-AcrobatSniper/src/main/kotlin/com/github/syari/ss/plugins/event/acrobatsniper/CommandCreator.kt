@@ -15,20 +15,23 @@ object CommandCreator : OnEnable {
             aliases = listOf("as")
             tab {
                 argument { add("match", "reload") }
-                argument("match") { add("start") }
-                argument("match start", "match start *") { addAll(plugin.server.onlinePlayers.map(Player::getName)) }
+                argument("match") { add("test") }
+                argument("match test **") { addAll(plugin.server.onlinePlayers.map(Player::getName)) }
             }
             execute {
                 val template = templateMessage("AcrobatSniper")
                 when (args.lowerOrNull(0)) {
                     "match" -> {
                         when (args.lowerOrNull(1)) {
-                            "start" -> { // TODO テスト用処理
+                            "test" -> {
                                 val player1 = args.getPlayer(2, template) ?: return@execute
                                 val player2 = args.getPlayer(3, template) ?: return@execute
                                 Match(player1, player2).start()
                             }
                             else -> {
+                                template.sendCommandHelp(
+                                    "$label match test [Player] [Player]" to "対戦のテストを行います"
+                                )
                             }
                         }
                     }
