@@ -12,7 +12,7 @@ class Main : SSPlugin() {
         plugin = this
     }
 
-    override val events = listOf(DoubleJump, Match.EventListener)
+    override val events = listOf(EventListener, DoubleJump, Match.EventListener)
     override val onEnables = listOf(CommandCreator, ConfigLoader)
 
     override fun onEnable() {
