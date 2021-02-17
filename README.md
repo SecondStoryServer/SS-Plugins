@@ -1,5 +1,5 @@
 # SS-Plugins
-All Purpur Plugins For SecondStory.
+All Yatopia Plugins For SecondStory.
 
 ![total lines](https://img.shields.io/tokei/lines/github/SecondStoryServer/SS-Plugins)
 ![size](https://img.shields.io/github/repo-size/SecondStoryServer/SS-Plugins?label=size)

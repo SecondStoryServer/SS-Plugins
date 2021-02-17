@@ -55,7 +55,7 @@ open class Project(val version: String, groupName: String = "") {
     }
 
     object Core : Project(36) {
-        override val dependJarFile = listOf("patched_1.16.5")
+        override val dependJarFile = listOf("1.16.5-patched")
     }
 
     object DemonKill : Project(1) {
