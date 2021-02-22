@@ -62,7 +62,7 @@ object CommandCreator : OnEnable {
                             "test" -> {
                                 val player1 = args.getPlayer(2, template) ?: return@execute
                                 val player2 = args.getPlayer(3, template) ?: return@execute
-                                Match(player1, player2).start()
+                                Match.start(player1, player2)
                             }
                             else -> {
                                 template.sendCommandHelp(
