@@ -25,9 +25,10 @@ class Match(private val player1: MatchPlayer, private val player2: MatchPlayer) 
     }
 
     fun start() {
-        teleportSpawn()
+        addPotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 5 * 20)
         addPotionEffect(PotionEffectType.WEAKNESS, 5 * 20)
         addPotionEffect(PotionEffectType.SLOW, 5 * 20)
+        teleportSpawn()
         startCountDown()
     }
 
@@ -87,7 +88,7 @@ class Match(private val player1: MatchPlayer, private val player2: MatchPlayer) 
                     broadcast("&b[AcrobatSniper] &6$enemyName &fが &6$playerName &fに勝ちました")
                     MatchPlayer.remove(player)
                     val spawnLocation = player.world.spawnLocation
-                    matchPlayer.match.addPotionEffect(PotionEffectType.WEAKNESS, 7 * 20)
+                    matchPlayer.match.addPotionEffect(PotionEffectType.WEAKNESS, 10 * 20)
                     var index = 0
                     plugin.runTaskTimer(10) {
                         if (14 < index) {
