@@ -63,8 +63,7 @@ object EventListener : EventRegister {
             true
         }
         cancelEventIf<InventoryClickEvent> {
-            val cancelSlots = 36..40
-            it.isShiftClick || it.slot in cancelSlots || it.rawSlot in cancelSlots
+            true
         }
     }
 }
