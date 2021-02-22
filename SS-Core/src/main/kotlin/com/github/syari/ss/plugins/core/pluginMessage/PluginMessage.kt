@@ -5,14 +5,18 @@ package com.github.syari.ss.plugins.core.pluginMessage
 import com.github.syari.ss.plugins.core.Main.Companion.plugin
 import com.github.syari.ss.plugins.core.code.OnEnable
 import com.github.syari.ss.template.message.PluginMessageTemplate
+import com.google.common.io.ByteArrayDataOutput
 import com.google.common.io.ByteStreams
 import org.bukkit.entity.Player
 import org.bukkit.plugin.messaging.PluginMessageListener
 
 object PluginMessage : OnEnable, PluginMessageListener {
+    private const val BungeeCord = "BungeeCord"
+
     override fun onEnable() {
         plugin.server.messenger.registerIncomingPluginChannel(plugin, PluginMessageTemplate.ChannelName, this)
         plugin.server.messenger.registerOutgoingPluginChannel(plugin, PluginMessageTemplate.ChannelName)
+        plugin.server.messenger.registerOutgoingPluginChannel(plugin, BungeeCord)
     }
 
     @Suppress("UnstableApiUsage")
@@ -24,11 +28,20 @@ object PluginMessage : OnEnable, PluginMessageListener {
         }
     }
 
+    fun send(template: PluginMessageTemplate, player: Player? = null) {
+        send(PluginMessageTemplate.ChannelName, player) {
+            writeUTF(template.subChannel)
+            template.writeTo(this)
+        }
+    }
+
+    fun sendBungee(player: Player? = null, action: ByteArrayDataOutput.() -> Unit) {
+        send(BungeeCord, player, action)
+    }
+
     @Suppress("UnstableApiUsage")
-    fun send(template: PluginMessageTemplate) {
-        val dataOutput = ByteStreams.newDataOutput()
-        dataOutput.writeUTF(template.subChannel)
-        template.writeTo(dataOutput)
-        plugin.server.sendPluginMessage(plugin, PluginMessageTemplate.ChannelName, dataOutput.toByteArray())
+    private fun send(channelName: String, player: Player? = null, action: ByteArrayDataOutput.() -> Unit) {
+        val dataOutput = ByteStreams.newDataOutput().apply(action)
+        (player ?: plugin.server).sendPluginMessage(plugin, channelName, dataOutput.toByteArray())
     }
 }
