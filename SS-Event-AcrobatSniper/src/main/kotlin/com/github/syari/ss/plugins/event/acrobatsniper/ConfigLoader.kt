@@ -12,6 +12,9 @@ object ConfigLoader : IConfigLoader {
             Match.spawnLocation1 = get("match.spawn1", ConfigDataType.LOCATION)
             Match.spawnLocation2 = get("match.spawn2", ConfigDataType.LOCATION)
             MatchPlayer.maxLife = get("match.life", ConfigDataType.INT, 1)
+            LocationSelector.lobbyServerName = get("selector.lobby", ConfigDataType.STRING, "lobby")
+            LocationSelector.spectateLocation = get("selector.spectate", ConfigDataType.LOCATION)
+            LocationSelector.practiceLocation = get("selector.practice", ConfigDataType.LOCATION)
         }
     }
 }
