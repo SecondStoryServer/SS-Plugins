@@ -30,6 +30,7 @@ SS-Core の中で使っています。基本的な機能を簡単に扱えるよ
 | SS-Dependency-CrackShotPlus | 1 | 1.97 |
 | SS-Dependency-MythicMobs | 1 | 4.11.0-beta-1 |
 | SS-DevelopAssist | 4 |  |
+| SS-Event-AcrobatSniper | 1 |  |
 | SS-GlobalPlayers | 7 |  |
 | SS-ItemFrameCommand | 4 |  |
 | SS-Lobby | 6 |  |

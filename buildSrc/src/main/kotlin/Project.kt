@@ -12,6 +12,7 @@ open class Project(val version: String, groupName: String = "") {
             Dependency.CrackShotPlus,
             Dependency.MythicMobs,
             DevelopAssist,
+            Event.AcrobatSniper,
             GlobalPlayers,
             ItemFrameCommand,
             Lobby,
@@ -84,6 +85,12 @@ open class Project(val version: String, groupName: String = "") {
 
     object DevelopAssist : Project(4) {
         override val dependProject = listOf(Core)
+    }
+
+    open class Event(buildVersion: Int) : Project(buildVersion, "Event") {
+        object AcrobatSniper : Event(1) {
+            override val dependProject = listOf(Core)
+        }
     }
 
     object GlobalPlayers : Project(7) {
