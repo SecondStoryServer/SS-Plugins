@@ -7,6 +7,7 @@ import com.github.syari.spigot.api.util.uuid.UUIDPlayer
 import com.github.syari.ss.plugins.core.code.CoolTime.Companion.coolTime
 import com.github.syari.ss.plugins.core.item.CustomItemStack
 import com.github.syari.ss.plugins.lobby.gadget.Gadget
+import com.github.syari.ss.plugins.lobby.item.ClickableLobbyItem
 import org.bukkit.GameMode
 import org.bukkit.entity.Player
 import org.bukkit.event.entity.EntityAirChangeEvent
@@ -35,9 +36,16 @@ object EventListener : EventRegister {
             val player = e.player
             val uuidPlayer = UUIDPlayer.from(player)
             LobbyInventory.getItem(item)?.let {
-                if (it is Gadget && gadgetCoolTime.contains(uuidPlayer).not()) {
-                    it.toggle(player, CustomItemStack.create(item))
-                    gadgetCoolTime.add(uuidPlayer, 10)
+                when (it) {
+                    is Gadget -> {
+                        if (gadgetCoolTime.contains(uuidPlayer).not()) {
+                            it.toggle(player, CustomItemStack.create(item))
+                            gadgetCoolTime.add(uuidPlayer, 10)
+                        }
+                    }
+                    is ClickableLobbyItem -> {
+                        it.onClick(player)
+                    }
                 }
                 e.isCancelled = true
             }
@@ -55,8 +63,7 @@ object EventListener : EventRegister {
             true
         }
         cancelEventIf<InventoryClickEvent> {
-            val cancelSlots = 36..40
-            it.isShiftClick || it.slot in cancelSlots || it.rawSlot in cancelSlots
+            true
         }
     }
 }

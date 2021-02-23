@@ -1,6 +1,7 @@
 package com.github.syari.ss.plugins.lobby.gadget
 
 import com.github.syari.ss.plugins.core.item.CustomItemStack
+import com.github.syari.ss.plugins.core.message.Message.action
 import com.github.syari.ss.plugins.lobby.LobbyItem
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
@@ -35,6 +36,8 @@ open class Gadget(
             } else {
                 onEnable(player, itemStack)
             }
+        } else {
+            player.action("&c&l必要な権限がありません")
         }
     }
 }

@@ -6,6 +6,8 @@ import org.bukkit.entity.Player
 object AvailableCommand {
     private val list = mutableMapOf<UUIDPlayer, List<String>>()
 
+    var globalAvailableCommands = listOf<String>()
+
     val Player.availableCommands
-        get() = list[UUIDPlayer.from(this)].orEmpty()
+        get() = list[UUIDPlayer.from(this)].orEmpty() + globalAvailableCommands
 }
