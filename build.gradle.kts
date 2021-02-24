@@ -35,7 +35,7 @@ subprojects {
     val project = Project.get(project.name) ?: error("Not Found Project ${project.name}")
 
     repositories {
-        maven("https://repo.pl3x.net/")
+        maven("https://repo.codemc.io/repository/maven-public/")
     }
 
     dependencies {
@@ -51,7 +51,7 @@ subprojects {
                 implementation(kotlin("stdlib-jdk8"))
             }
         }
-        implementation("net.pl3x.purpur:purpur-api:1.16.5-R0.1-SNAPSHOT")
+        implementation("org.yatopiamc:yatopia-api:1.16.5-R0.1-SNAPSHOT")
         project.implementationProjects.forEach { implementation(project(":$it")) }
         project.dependJarFile.forEach { api(files("../dependJars/$it.jar")) }
     }
