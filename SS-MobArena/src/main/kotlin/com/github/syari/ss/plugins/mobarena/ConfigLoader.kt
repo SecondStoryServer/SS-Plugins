@@ -8,7 +8,6 @@ import com.github.syari.ss.plugins.core.config.ConfigItemConverter
 import com.github.syari.ss.plugins.core.config.Inventory
 import com.github.syari.ss.plugins.core.config.Item
 import com.github.syari.ss.plugins.core.config.ItemList
-import com.github.syari.ss.plugins.core.console
 import com.github.syari.ss.plugins.core.item.itemStack
 import com.github.syari.ss.plugins.core.message.Message.send
 import com.github.syari.ss.plugins.dependency.crackshot.CrackShotAPI
@@ -31,10 +30,6 @@ import org.bukkit.command.CommandSender
 import org.bukkit.inventory.ItemStack
 
 object ConfigLoader : IConfigLoader {
-    override fun onEnable() {
-        load(console)
-    }
-
     override fun load(sender: CommandSender) {
         loadArena(sender)
         loadKit(sender)
