@@ -3,7 +3,6 @@
 package com.github.syari.ss.plugins.core.message
 
 import com.github.syari.ss.plugins.core.code.StringEditor.toColor
-import com.github.syari.ss.plugins.core.item.CustomItemStack
 import com.github.syari.ss.plugins.core.item.NBTItem.nbtTag
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.HoverEvent
@@ -114,7 +113,6 @@ class JsonBuilder {
          */
         class Item(item: net.md_5.bungee.api.chat.hover.content.Item) : Hover(HoverEvent.Action.SHOW_ITEM, item) {
             constructor(item: ItemStack) : this(Item(item.type.key.key, 1, ItemTag.ofNbt(item.nbtTag)))
-            constructor(item: CustomItemStack) : this(item.toOneItemStack)
         }
     }
 

@@ -1,14 +1,14 @@
 package com.github.syari.ss.plugins.event.acrobatsniper
 
 import com.github.syari.ss.plugins.core.inventory.CreateInventory.inventory
-import com.github.syari.ss.plugins.core.item.CustomItemStack
+import com.github.syari.ss.plugins.core.item.itemStack
 import com.github.syari.ss.plugins.core.pluginMessage.PluginMessage
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.entity.Player
 
 object LocationSelector {
-    val item = CustomItemStack.create(Material.COMPASS, "&aテレポート")
+    val item = itemStack(Material.COMPASS, "&aテレポート")
 
     var lobbyServerName: String? = null
     var spectateLocation: Location? = null

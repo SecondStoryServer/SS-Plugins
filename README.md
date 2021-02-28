@@ -26,9 +26,9 @@ SS-Core の中で使っています。基本的な機能を簡単に扱えるよ
 | SS-CommandBlocker | 7 |  |
 | SS-Core | 37 |  |
 | SS-DemonKill | 2 |  |
-| SS-Dependency-CrackShot | 1 | 0.98.11 |
-| SS-Dependency-CrackShotPlus | 1 | 1.97 |
-| SS-Dependency-MythicMobs | 1 | 4.11.0-beta-1 |
+| SS-Dependency-CrackShot | 2 | 0.98.11 |
+| SS-Dependency-CrackShotPlus | 2 | 1.97 |
+| SS-Dependency-MythicMobs | 2 | 4.11.0-beta-1 |
 | SS-DevelopAssist | 5 |  |
 | SS-Event-AcrobatSniper | 2 |  |
 | SS-GlobalPlayers | 7 |  |

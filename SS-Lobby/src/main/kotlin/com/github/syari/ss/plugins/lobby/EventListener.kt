@@ -5,7 +5,6 @@ import com.github.syari.spigot.api.event.register.Events
 import com.github.syari.spigot.api.scheduler.runTaskLater
 import com.github.syari.spigot.api.util.uuid.UUIDPlayer
 import com.github.syari.ss.plugins.core.code.CoolTime.Companion.coolTime
-import com.github.syari.ss.plugins.core.item.CustomItemStack
 import com.github.syari.ss.plugins.lobby.gadget.Gadget
 import com.github.syari.ss.plugins.lobby.item.ClickableLobbyItem
 import org.bukkit.GameMode
@@ -39,7 +38,7 @@ object EventListener : EventRegister {
                 when (it) {
                     is Gadget -> {
                         if (gadgetCoolTime.contains(uuidPlayer).not()) {
-                            it.toggle(player, CustomItemStack.create(item))
+                            it.toggle(player, item)
                             gadgetCoolTime.add(uuidPlayer, 10)
                         }
                     }

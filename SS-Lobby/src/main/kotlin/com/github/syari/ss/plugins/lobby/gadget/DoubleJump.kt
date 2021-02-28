@@ -3,7 +3,7 @@ package com.github.syari.ss.plugins.lobby.gadget
 import com.github.syari.spigot.api.event.register.EventRegister
 import com.github.syari.spigot.api.scheduler.runTaskLater
 import com.github.syari.spigot.api.util.uuid.UUIDPlayer
-import com.github.syari.ss.plugins.core.item.CustomItemStack
+import com.github.syari.ss.plugins.core.item.itemStack
 import org.bukkit.Effect
 import org.bukkit.GameMode
 import org.bukkit.Material
@@ -12,19 +12,17 @@ import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerMoveEvent
 import org.bukkit.event.player.PlayerToggleFlightEvent
+import org.bukkit.inventory.ItemStack
 
 object DoubleJump : Gadget(Material.LEATHER_BOOTS, "ダブルジャンプ", "lobby.gadget.doublejump") {
-    private val leatherBoots = CustomItemStack.create(
-        Material.LEATHER_BOOTS,
-        "&dダブルジャンプの靴"
-    ).toOneItemStack
+    private val leatherBoots = itemStack(Material.LEATHER_BOOTS, "&dダブルジャンプの靴")
 
-    override fun onEnable(player: Player, itemStack: CustomItemStack) {
+    override fun onEnable(player: Player, itemStack: ItemStack) {
         player.inventory.boots = leatherBoots
         super.onEnable(player, itemStack)
     }
 
-    override fun onDisable(player: Player, itemStack: CustomItemStack) {
+    override fun onDisable(player: Player, itemStack: ItemStack) {
         player.inventory.boots = null
         super.onDisable(player, itemStack)
     }

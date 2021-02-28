@@ -64,19 +64,19 @@ open class Project(val version: String, groupName: String = "") {
     }
 
     open class Dependency(buildVersion: Int, version: String) : Project(buildVersion, version, "Dependency") {
-        object CrackShot : Dependency(1, "0.98.11") {
+        object CrackShot : Dependency(2, "0.98.11") {
             override val dependProject = listOf(Core)
             override val dependPlugin = listOf("CrackShot")
             override val dependJarFile = listOf("CrackShot")
         }
 
-        object CrackShotPlus : Dependency(1, "1.97") {
+        object CrackShotPlus : Dependency(2, "1.97") {
             override val dependProject = listOf(Core)
             override val dependPlugin = listOf("CrackShotPlus")
             override val dependJarFile = listOf("CrackShotPlus")
         }
 
-        object MythicMobs : Dependency(1, "4.11.0-beta-1") {
+        object MythicMobs : Dependency(2, "4.11.0-beta-1") {
             override val dependProject = listOf(Core)
             override val dependPlugin = listOf("MythicMobs")
             override val dependJarFile = listOf("MythicMobs-4.11.0-build-3560")

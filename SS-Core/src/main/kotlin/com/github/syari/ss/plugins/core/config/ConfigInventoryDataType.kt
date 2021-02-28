@@ -19,7 +19,7 @@ class ConfigInventoryDataType(private val itemConverter: ConfigItemConverter) : 
         val itemDataType = ConfigDataType.Item(itemConverter)
         return buildMap {
             config.section(path, ConfigSectionType.Int, notFoundError)?.forEach {
-                this[it] = config.get("$path.$it", itemDataType)?.toOneItemStack ?: return@forEach
+                this[it] = config.get("$path.$it", itemDataType) ?: return@forEach
             }
         }
     }

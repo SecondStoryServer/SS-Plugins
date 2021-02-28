@@ -28,14 +28,6 @@ object ItemStackPlus {
     }
 
     /**
-     * プレイヤーにアイテムを渡します
-     * @param item アイテム
-     */
-    fun HumanEntity.give(item: CustomItemStack) {
-        give(item.toItemStack)
-    }
-
-    /**
      * プレイヤーにアイテムを渡しますが、インベントリが一杯の場合はその場に落とします
      * @param item アイテム
      */
@@ -58,22 +50,14 @@ object ItemStackPlus {
     }
 
     /**
-     * プレイヤーにアイテムを渡しますが、インベントリが一杯の場合はその場に落とします
-     * @param item アイテム
-     */
-    fun HumanEntity.giveOrDrop(item: CustomItemStack) {
-        giveOrDrop(item.toItemStack)
-    }
-
-    /**
      * プレイヤーがアイテムを持っているか判定します
      * @param item アイテム
      * @return [Boolean]
      */
-    fun HumanEntity.hasItem(item: CustomItemStack): Boolean {
+    fun HumanEntity.hasItem(item: ItemStack, amount: Int): Boolean {
         return Bukkit.createInventory(null, InventoryType.PLAYER).apply {
             this.contents = inventory.contents
-        }.removeItem(item)
+        }.removeItem(item, amount)
     }
 
     /**
@@ -81,8 +65,8 @@ object ItemStackPlus {
      * @param item アイテム
      * @return [Boolean]
      */
-    fun HumanEntity.removeItem(item: CustomItemStack): Boolean {
-        return inventory.removeItem(item)
+    fun HumanEntity.removeItem(item: ItemStack, amount: Int): Boolean {
+        return inventory.removeItem(item, amount)
     }
 
     /**
@@ -90,17 +74,17 @@ object ItemStackPlus {
      * @param item アイテム
      * @return [Boolean]
      */
-    fun Inventory.removeItem(item: CustomItemStack): Boolean {
+    fun Inventory.removeItem(item: ItemStack, amount: Int): Boolean {
         val contents = this.contents
-        var amount = item.amount
-        contents.map { CustomItemStack.create(it) }.forEach {
-            if (it.type == item.type && it.damage == item.damage && (it.hasItemMeta == item.hasItemMeta) && it.display == item.display) {
+        var remain = amount
+        contents.forEach {
+            if (it.type == item.type && it.damage == item.damage && (it.hasItemMeta() == item.hasItemMeta()) && it.displayName == item.displayName) {
                 val a = it.amount
-                if (a < amount) {
-                    amount -= a
+                if (a < remain) {
+                    remain -= a
                     it.amount = 0
                 } else {
-                    it.amount = a - amount
+                    it.amount = a - remain
                     this.contents = contents
                     return true
                 }

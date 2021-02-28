@@ -9,7 +9,7 @@ import com.github.syari.ss.plugins.core.config.ConfigItemConverter
 import com.github.syari.ss.plugins.core.config.Inventory
 import com.github.syari.ss.plugins.core.config.Item
 import com.github.syari.ss.plugins.core.config.ItemList
-import com.github.syari.ss.plugins.core.item.CustomItemStack
+import com.github.syari.ss.plugins.core.item.itemStack
 import com.github.syari.ss.plugins.core.message.Message.send
 import com.github.syari.ss.plugins.dependency.crackshot.CrackShotAPI
 import com.github.syari.ss.plugins.dependency.crackshotplus.CrackShotPlusAPI
@@ -28,6 +28,7 @@ import com.github.syari.ss.plugins.mobarena.wave.mob.MobArenaMob
 import com.github.syari.ss.plugins.mobarena.wave.mob.MobArenaMythicMobsMob
 import org.bukkit.Material
 import org.bukkit.command.CommandSender
+import org.bukkit.inventory.ItemStack
 
 object ConfigLoader : IConfigLoader {
     override fun onEnable() {
@@ -66,7 +67,7 @@ object ConfigLoader : IConfigLoader {
                         var mobAmount = 5
                         var mobs = listOf<MobArenaMob>()
                         var boss: MobArenaBoss? = null
-                        var upgradeItem = listOf<CustomItemStack>()
+                        var upgradeItem = listOf<ItemStack>()
                         waves.forEach { wave ->
                             if (wave != 1) add(
                                 MobArenaWave(
@@ -105,7 +106,7 @@ object ConfigLoader : IConfigLoader {
             plugin.configDirectory(sender, "Kit") {
                 val id = file.nameWithoutExtension
                 val name = get("name", ConfigDataType.String, id)
-                val icon = get("icon", ConfigDataType.Item(itemConverter), CustomItemStack.create(Material.STONE))
+                val icon = get("icon", ConfigDataType.Item(itemConverter), itemStack(Material.STONE))
                 val description = get("description", ConfigDataType.StringList).orEmpty()
                 val difficulty = get("difficulty", ConfigDataType.Int, 1)
                 val items = get("items", ConfigDataType.Inventory(itemConverter), mapOf())
@@ -133,16 +134,12 @@ object ConfigLoader : IConfigLoader {
         sender.send("&b[MobArena] &a${Shop.list.size} &f個のショップを読み込みました")
     }
 
-    private val itemTypeMap = mapOf<String, (String, Int) -> CustomItemStack?>(
+    private val itemTypeMap = mapOf<String, (String, Int) -> ItemStack?>(
         "mc" to { id, amount ->
             val typeName = id.substringBefore(':').toUpperCase()
             val model = id.substringAfter(':', "")
             Material.getMaterial(typeName)?.let { material ->
-                CustomItemStack.create(material, amount).apply {
-                    model.toIntOrNull()?.let {
-                        customModelData = it
-                    }
-                }
+                itemStack(material, customModelData = model.toIntOrNull(), amount = amount)
             }
         },
         "mm" to { id, amount ->
