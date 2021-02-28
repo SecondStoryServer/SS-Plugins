@@ -14,7 +14,6 @@ open class Project(val version: String, groupName: String = "") {
             DevelopAssist,
             Event.AcrobatSniper,
             GlobalPlayers,
-            ItemFrameCommand,
             Lobby,
             MobArena,
             PlayerDataStore
@@ -94,10 +93,6 @@ open class Project(val version: String, groupName: String = "") {
     }
 
     object GlobalPlayers : Project(7) {
-        override val dependProject = listOf(Core)
-    }
-
-    object ItemFrameCommand : Project(4) {
         override val dependProject = listOf(Core)
     }
 
