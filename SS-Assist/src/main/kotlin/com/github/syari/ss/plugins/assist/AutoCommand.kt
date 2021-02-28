@@ -7,7 +7,6 @@ import com.github.syari.spigot.api.config.type.ConfigSectionType
 import com.github.syari.ss.plugins.assist.Main.Companion.plugin
 import com.github.syari.ss.plugins.core.code.IConfigLoader
 import com.github.syari.ss.plugins.core.command.RunCommand
-import com.github.syari.ss.plugins.core.console
 import com.github.syari.ss.plugins.core.message.Message.send
 import com.github.syari.ss.plugins.core.time.TimeScheduler.clearTimeScheduler
 import com.github.syari.ss.plugins.core.time.TimeScheduler.getFormatTime
@@ -17,10 +16,6 @@ import org.bukkit.command.CommandSender
 import java.time.DayOfWeek
 
 object AutoCommand : IConfigLoader {
-    override fun onEnable() {
-        load(console)
-    }
-
     override fun load(sender: CommandSender) {
         plugin.clearTimeScheduler()
         plugin.config(sender, "auto-command.yml") {

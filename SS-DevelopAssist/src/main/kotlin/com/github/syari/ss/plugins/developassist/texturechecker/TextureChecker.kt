@@ -5,7 +5,6 @@ import com.github.syari.spigot.api.command.tab.CommandTabArgument.Companion.argu
 import com.github.syari.spigot.api.config.config
 import com.github.syari.spigot.api.config.type.ConfigDataType
 import com.github.syari.ss.plugins.core.code.IConfigLoader
-import com.github.syari.ss.plugins.core.console
 import com.github.syari.ss.plugins.core.inventory.CreateInventory.inventory
 import com.github.syari.ss.plugins.core.message.template.ConstantMessage.OnlyPlayer
 import com.github.syari.ss.plugins.core.message.template.ConstantMessage.ReloadConfig
@@ -17,7 +16,7 @@ import org.bukkit.entity.Player
 
 object TextureChecker : IConfigLoader {
     override fun onEnable() {
-        load(console)
+        super.onEnable()
         registerCommand()
     }
 
