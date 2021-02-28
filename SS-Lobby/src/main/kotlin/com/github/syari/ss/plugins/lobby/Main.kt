@@ -9,12 +9,10 @@ class Main : SSPlugin() {
         internal lateinit var plugin: JavaPlugin
     }
 
+    init {
+        plugin = this
+    }
+
     override val onEnables = listOf(ConfigLoader, CommandCreator)
     override val events = listOf(EventListener, DoubleJump.EventListener)
-
-    override fun onEnable() {
-        plugin = this
-        runOnEnable()
-        registerEvents()
-    }
 }

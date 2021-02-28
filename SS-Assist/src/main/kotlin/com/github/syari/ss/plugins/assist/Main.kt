@@ -8,12 +8,10 @@ class Main : SSPlugin() {
         internal lateinit var plugin: JavaPlugin
     }
 
+    init {
+        plugin = this
+    }
+
     override val events = listOf(SpawnOverride)
     override val onEnables = listOf(AutoCommand, CommandCreator, ConfigLoader)
-
-    override fun onEnable() {
-        plugin = this
-        runOnEnable()
-        registerEvents()
-    }
 }

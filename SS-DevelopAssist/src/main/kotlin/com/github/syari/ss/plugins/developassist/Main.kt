@@ -11,10 +11,9 @@ class Main : SSPlugin() {
         internal lateinit var plugin: JavaPlugin
     }
 
-    override val onEnables = listOf(ItemCreator, SoundChecker, TextureChecker)
-
-    override fun onEnable() {
+    init {
         plugin = this
-        runOnEnable()
     }
+
+    override val onEnables = listOf(ItemCreator, SoundChecker, TextureChecker)
 }

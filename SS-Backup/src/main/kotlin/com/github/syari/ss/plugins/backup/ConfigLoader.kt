@@ -3,8 +3,8 @@ package com.github.syari.ss.plugins.backup
 import com.github.syari.spigot.api.config.config
 import com.github.syari.spigot.api.config.type.ConfigDataType
 import com.github.syari.ss.plugins.backup.Main.Companion.plugin
-import com.github.syari.ss.plugins.core.Main.Companion.console
 import com.github.syari.ss.plugins.core.code.IConfigLoader
+import com.github.syari.ss.plugins.core.console
 import org.bukkit.command.CommandSender
 
 object ConfigLoader : IConfigLoader {
