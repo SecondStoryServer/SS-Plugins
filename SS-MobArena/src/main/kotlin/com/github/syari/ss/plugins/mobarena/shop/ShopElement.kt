@@ -1,6 +1,6 @@
 package com.github.syari.ss.plugins.mobarena.shop
 
-import com.github.syari.ss.plugins.core.config.CustomConfig
+import com.github.syari.spigot.api.config.CustomConfig
 import com.github.syari.ss.plugins.core.item.CustomItemStack
 import com.github.syari.ss.plugins.core.item.ItemStackPlus.give
 import com.github.syari.ss.plugins.core.item.ItemStackPlus.hasItem
@@ -10,7 +10,7 @@ import com.github.syari.ss.plugins.dependency.crackshotplus.CrackShotPlusAPI
 import com.github.syari.ss.plugins.dependency.mythicmobs.MythicMobsAPI
 import org.bukkit.Material
 import org.bukkit.entity.Player
-import com.github.syari.ss.plugins.core.config.type.ConfigDataType as IConfigDataType
+import com.github.syari.spigot.api.config.type.ConfigDataType as IConfigDataType
 
 sealed class ShopElement {
     open fun give(player: Player) = true
@@ -75,7 +75,7 @@ sealed class ShopElement {
         override val typeName = "ShopElement"
 
         override fun get(config: CustomConfig, path: String, notFoundError: Boolean): List<ShopElement>? {
-            return config.get(path, IConfigDataType.STRINGLIST)?.map { line ->
+            return config.get(path, IConfigDataType.StringList)?.map { line ->
                 val split = line.split("\\s+".toRegex())
                 when (val elementType = split[0].toLowerCase()) {
                     "jump" -> {
@@ -143,6 +143,10 @@ sealed class ShopElement {
                     else -> UnAvailable
                 }
             }
+        }
+
+        override fun set(config: CustomConfig, path: String, value: List<ShopElement>?) {
+            throw UnsupportedOperationException()
         }
     }
 }

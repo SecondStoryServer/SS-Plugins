@@ -43,23 +43,23 @@ open class Project(val version: String, groupName: String = "") {
     val allSoftDependPlugin by lazy { softDependProjectName + softDependPlugin }
     val implementationProjects by lazy { dependProjectName + softDependProjectName }
 
-    object Assist : Project(6) {
+    object Assist : Project(7) {
         override val dependProject = listOf(Core)
     }
 
-    object Backup : Project(16) {
+    object Backup : Project(17) {
         override val dependProject = listOf(Core)
     }
 
-    object CommandBlocker : Project(6) {
+    object CommandBlocker : Project(7) {
         override val dependProject = listOf(Core)
     }
 
-    object Core : Project(36) {
+    object Core : Project(37) {
         override val dependJarFile = listOf("1.16.5-patched")
     }
 
-    object DemonKill : Project(1) {
+    object DemonKill : Project(2) {
         override val dependProject = listOf(Core, Dependency.CrackShot, Dependency.CrackShotPlus, Dependency.MythicMobs)
     }
 
@@ -83,12 +83,12 @@ open class Project(val version: String, groupName: String = "") {
         }
     }
 
-    object DevelopAssist : Project(4) {
+    object DevelopAssist : Project(5) {
         override val dependProject = listOf(Core)
     }
 
     open class Event(buildVersion: Int) : Project(buildVersion, "Event") {
-        object AcrobatSniper : Event(1) {
+        object AcrobatSniper : Event(2) {
             override val dependProject = listOf(Core)
         }
     }
@@ -101,15 +101,15 @@ open class Project(val version: String, groupName: String = "") {
         override val dependProject = listOf(Core)
     }
 
-    object Lobby : Project(6) {
+    object Lobby : Project(7) {
         override val dependProject = listOf(Core)
     }
 
-    object MobArena : Project(24) {
+    object MobArena : Project(25) {
         override val dependProject = listOf(Core, Dependency.CrackShot, Dependency.CrackShotPlus, Dependency.MythicMobs, PlayerDataStore)
     }
 
-    object PlayerDataStore : Project(13) {
+    object PlayerDataStore : Project(14) {
         override val dependProject = listOf(Core)
     }
 }

@@ -1,6 +1,6 @@
 @file:Suppress("unused", "MemberVisibilityCanBePrivate")
 
-package com.github.syari.ss.plugins.core.config.type.data
+package com.github.syari.ss.plugins.core.config
 
 import com.github.syari.ss.plugins.core.item.Base64Item
 import com.github.syari.ss.plugins.core.item.CustomItemStack

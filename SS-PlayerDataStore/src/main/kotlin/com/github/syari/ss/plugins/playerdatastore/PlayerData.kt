@@ -1,8 +1,8 @@
 package com.github.syari.ss.plugins.playerdatastore
 
+import com.github.syari.spigot.api.config.config
 import com.github.syari.spigot.api.util.uuid.UUIDPlayer
 import com.github.syari.ss.plugins.core.Main.Companion.console
-import com.github.syari.ss.plugins.core.config.CreateConfig.config
 import com.github.syari.ss.plugins.playerdatastore.Main.Companion.plugin
 import org.bukkit.entity.Player
 

@@ -1,9 +1,9 @@
 @file:Suppress("unused", "MemberVisibilityCanBePrivate")
 
-package com.github.syari.ss.plugins.core.config.type.data
+package com.github.syari.ss.plugins.core.config
 
-import com.github.syari.ss.plugins.core.config.CustomConfig
-import com.github.syari.ss.plugins.core.config.type.ConfigDataType
+import com.github.syari.spigot.api.config.CustomConfig
+import com.github.syari.spigot.api.config.type.ConfigDataType
 import com.github.syari.ss.plugins.core.item.CustomItemStack
 
 class ConfigItemListDataType(private val itemConverter: ConfigItemConverter) : ConfigDataType<List<CustomItemStack>> {
@@ -16,10 +16,14 @@ class ConfigItemListDataType(private val itemConverter: ConfigItemConverter) : C
         notFoundError: Boolean
     ): List<CustomItemStack> {
         return buildList {
-            config.get(path, ConfigDataType.STRINGLIST, notFoundError)?.forEach {
+            config.get(path, ConfigDataType.StringList, notFoundError)?.forEach {
                 val item = itemConverter.get(it) ?: return@forEach config.nullError("$path.$it", itemConverter.things)
                 add(item)
             }
         }
+    }
+
+    override fun set(config: CustomConfig, path: String, value: List<CustomItemStack>?) {
+        throw UnsupportedOperationException()
     }
 }

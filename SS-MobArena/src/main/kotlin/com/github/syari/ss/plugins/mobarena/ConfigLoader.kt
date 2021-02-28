@@ -1,11 +1,14 @@
 package com.github.syari.ss.plugins.mobarena
 
+import com.github.syari.spigot.api.config.configDirectory
+import com.github.syari.spigot.api.config.type.ConfigDataType
+import com.github.syari.spigot.api.config.type.ConfigSectionType
 import com.github.syari.ss.plugins.core.Main.Companion.console
 import com.github.syari.ss.plugins.core.code.IConfigLoader
-import com.github.syari.ss.plugins.core.config.CreateConfig.configDir
-import com.github.syari.ss.plugins.core.config.type.ConfigDataType
-import com.github.syari.ss.plugins.core.config.type.ConfigSectionType
-import com.github.syari.ss.plugins.core.config.type.data.ConfigItemConverter
+import com.github.syari.ss.plugins.core.config.ConfigItemConverter
+import com.github.syari.ss.plugins.core.config.Inventory
+import com.github.syari.ss.plugins.core.config.Item
+import com.github.syari.ss.plugins.core.config.ItemList
 import com.github.syari.ss.plugins.core.item.CustomItemStack
 import com.github.syari.ss.plugins.core.message.Message.send
 import com.github.syari.ss.plugins.dependency.crackshot.CrackShotAPI
@@ -40,20 +43,20 @@ object ConfigLoader : IConfigLoader {
     @OptIn(ExperimentalStdlibApi::class)
     private fun loadArena(sender: CommandSender) {
         val arenas = mutableListOf<MobArena>()
-        plugin.configDir(sender, "MobArena") {
-            val id = fileNameWithoutExtension
-            val name = get("name", ConfigDataType.STRING, id)
-            val lobby = get("lobby", Area.ConfigDataType) ?: return@configDir
-            val play = get("play", Area.ConfigDataType) ?: return@configDir
-            val spec = get("spec", Area.ConfigDataType) ?: return@configDir
-            val spawn = get("spawn", ConfigDataType.LOCATION) ?: return@configDir nullError("spawn", "Location")
-            val kits = get("kit", ConfigDataType.STRINGLIST, listOf())
-            val playerLimit = get("limit.player", ConfigDataType.INT, 5)
-            val kitLimit = get("limit.kit", ConfigDataType.INT, 1, false)
-            val entityLimit = get("limit.entity", ConfigDataType.INT, 30, false)
-            val waveInterval = get("wave-interval", ConfigDataType.LONG, 200, false)
+        plugin.configDirectory(sender, "MobArena") {
+            val id = file.nameWithoutExtension
+            val name = get("name", ConfigDataType.String, id)
+            val lobby = get("lobby", Area.ConfigDataType) ?: return@configDirectory
+            val play = get("play", Area.ConfigDataType) ?: return@configDirectory
+            val spec = get("spec", Area.ConfigDataType) ?: return@configDirectory
+            val spawn = get("spawn", ConfigDataType.Location) ?: return@configDirectory nullError("spawn", "Location")
+            val kits = get("kit", ConfigDataType.StringList, listOf())
+            val playerLimit = get("limit.player", ConfigDataType.Int, 5)
+            val kitLimit = get("limit.kit", ConfigDataType.Int, 1, false)
+            val entityLimit = get("limit.entity", ConfigDataType.Int, 30, false)
+            val waveInterval = get("wave-interval", ConfigDataType.Long, 200, false)
             val arena = MobArena(id, name, kits, lobby, play, spec, spawn, waveInterval, playerLimit, kitLimit, entityLimit)
-            val waves = section("wave", ConfigSectionType.INT)?.toMutableList()
+            val waves = section("wave", ConfigSectionType.Int)?.toMutableList()
             if (waves != null) {
                 waves.sort()
                 if (waves.first() == 1) {
@@ -70,16 +73,16 @@ object ConfigLoader : IConfigLoader {
                                     arena, lastWave until wave, mobAmount, stop, mobs, boss, upgradeItem
                                 )
                             )
-                            stop = get("wave.$wave.stop", ConfigDataType.BOOLEAN, false, notFoundError = false)
-                            mobAmount = get("wave.$wave.mob.amount", ConfigDataType.INT, mobAmount, false)
+                            stop = get("wave.$wave.stop", ConfigDataType.Boolean, false, notFoundError = false)
+                            mobAmount = get("wave.$wave.mob.amount", ConfigDataType.Int, mobAmount, false)
                             mobs = section("wave.$wave.mob.list", false)?.map {
-                                val priority = get("wave.$wave.mob.list.$it", ConfigDataType.INT, 1)
+                                val priority = get("wave.$wave.mob.list.$it", ConfigDataType.Int, 1)
                                 MobArenaMythicMobsMob(it, priority)
                             } ?: mobs
-                            boss = get("wave.$wave.boss", ConfigDataType.STRING, false)?.let {
+                            boss = get("wave.$wave.boss", ConfigDataType.String, false)?.let {
                                 MobArenaMythicMobsBoss(it)
                             }
-                            upgradeItem = get("wave.$wave.upgrade", ConfigDataType.ITEMLIST(itemConverter), listOf(), false)
+                            upgradeItem = get("wave.$wave.upgrade", ConfigDataType.ItemList(itemConverter), listOf(), false)
                             lastWave = wave
                         }
                         add(MobArenaWave(arena, lastWave..lastWave, mobAmount, true, mobs, boss, upgradeItem))
@@ -99,13 +102,13 @@ object ConfigLoader : IConfigLoader {
     @OptIn(ExperimentalStdlibApi::class)
     private fun loadKit(sender: CommandSender) {
         MobArenaKit.kits = buildMap {
-            plugin.configDir(sender, "Kit") {
-                val id = fileNameWithoutExtension
-                val name = get("name", ConfigDataType.STRING, id)
-                val icon = get("icon", ConfigDataType.ITEM(itemConverter), CustomItemStack.create(Material.STONE))
-                val description = get("description", ConfigDataType.STRINGLIST).orEmpty()
-                val difficulty = get("difficulty", ConfigDataType.INT, 1)
-                val items = get("items", ConfigDataType.INVENTORY(itemConverter), mapOf())
+            plugin.configDirectory(sender, "Kit") {
+                val id = file.nameWithoutExtension
+                val name = get("name", ConfigDataType.String, id)
+                val icon = get("icon", ConfigDataType.Item(itemConverter), CustomItemStack.create(Material.STONE))
+                val description = get("description", ConfigDataType.StringList).orEmpty()
+                val difficulty = get("difficulty", ConfigDataType.Int, 1)
+                val items = get("items", ConfigDataType.Inventory(itemConverter), mapOf())
                 put(id, MobArenaKit(id, name, icon, description, difficulty, items))
             }
         }
@@ -114,12 +117,12 @@ object ConfigLoader : IConfigLoader {
     @OptIn(ExperimentalStdlibApi::class)
     private fun loadShop(sender: CommandSender) {
         Shop.list = buildMap {
-            plugin.configDir(sender, "Shop") {
+            plugin.configDirectory(sender, "Shop") {
                 section("")?.forEach { id ->
-                    val name = get("$id.name", ConfigDataType.STRING, id)
-                    val line = get("$id.line", ConfigDataType.INT, 3, false)
+                    val name = get("$id.name", ConfigDataType.String, id)
+                    val line = get("$id.line", ConfigDataType.Int, 3, false)
                     val list = mutableMapOf<Int, ShopAction>()
-                    section("$id.list", ConfigSectionType.INT, false)?.forEach { slot ->
+                    section("$id.list", ConfigSectionType.Int, false)?.forEach { slot ->
                         val elements = get("$id.list.$slot", ShopElement.ConfigDataType)
                         ShopAction.from(elements)?.let { list[slot] = it }
                     }

@@ -1,15 +1,16 @@
 package com.github.syari.ss.plugins.playerdatastore
 
+import com.github.syari.spigot.api.config.type.ConfigDataType
 import com.github.syari.spigot.api.scheduler.runTaskLater
-import com.github.syari.ss.plugins.core.config.type.ConfigDataType
-import com.github.syari.ss.plugins.core.config.type.data.ConfigItemConverter
+import com.github.syari.ss.plugins.core.config.ConfigItemConverter
+import com.github.syari.ss.plugins.core.config.Inventory
 import com.github.syari.ss.plugins.core.item.Base64Item
 import com.github.syari.ss.plugins.playerdatastore.Main.Companion.plugin
 import org.bukkit.Material
 
 class InventoryData(playerData: PlayerData) : LoadableDataType(playerData) {
     private val inventory
-        get() = playerData.config.get("inventory", ConfigDataType.INVENTORY(ConfigItemConverter.Base64), false)
+        get() = playerData.config.get("inventory", ConfigDataType.Inventory(ConfigItemConverter.Base64), false)
 
     override val isEnable
         get() = playerData.uuidPlayer.let(ConfigLoader.saveInventoryMode.condition)

@@ -1,9 +1,8 @@
 package com.github.syari.ss.plugins.playerdatastore
 
+import com.github.syari.spigot.api.config.CustomConfig
 import com.github.syari.spigot.api.util.uuid.UUIDPlayer
-import com.github.syari.ss.plugins.core.config.CustomConfig
-import com.github.syari.ss.plugins.core.config.CustomFileConfig
-import com.github.syari.ss.plugins.core.config.type.ConfigDataType as IConfigDataType
+import com.github.syari.spigot.api.config.type.ConfigDataType as IConfigDataType
 
 enum class SaveMode(val condition: (UUIDPlayer) -> Boolean) {
     Everyone({ true }),
@@ -16,7 +15,7 @@ enum class SaveMode(val condition: (UUIDPlayer) -> Boolean) {
         }
     }
 
-    object ConfigDataType : IConfigDataType.WithSet<SaveMode> {
+    object ConfigDataType : IConfigDataType<SaveMode> {
         override val typeName = "SaveMode"
 
         override fun get(
@@ -24,11 +23,11 @@ enum class SaveMode(val condition: (UUIDPlayer) -> Boolean) {
             path: String,
             notFoundError: Boolean
         ): SaveMode? {
-            return config.get(path, IConfigDataType.STRING, notFoundError)?.let(Companion::get)
+            return config.get(path, IConfigDataType.String, notFoundError)?.let(Companion::get)
         }
 
-        override fun set(config: CustomFileConfig, path: String, value: SaveMode?) {
-            config.set(path, IConfigDataType.STRING, value?.name)
+        override fun set(config: CustomConfig, path: String, value: SaveMode?) {
+            config.set(path, IConfigDataType.String, value?.name)
         }
     }
 }

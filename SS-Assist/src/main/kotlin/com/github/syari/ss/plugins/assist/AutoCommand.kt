@@ -1,13 +1,13 @@
 package com.github.syari.ss.plugins.assist
 
+import com.github.syari.spigot.api.config.CustomConfig
+import com.github.syari.spigot.api.config.config
+import com.github.syari.spigot.api.config.type.ConfigDataType
+import com.github.syari.spigot.api.config.type.ConfigSectionType
 import com.github.syari.ss.plugins.assist.Main.Companion.plugin
 import com.github.syari.ss.plugins.core.Main.Companion.console
 import com.github.syari.ss.plugins.core.code.IConfigLoader
 import com.github.syari.ss.plugins.core.command.RunCommand
-import com.github.syari.ss.plugins.core.config.CreateConfig.config
-import com.github.syari.ss.plugins.core.config.CustomConfig
-import com.github.syari.ss.plugins.core.config.type.ConfigDataType
-import com.github.syari.ss.plugins.core.config.type.ConfigSectionType
 import com.github.syari.ss.plugins.core.message.Message.send
 import com.github.syari.ss.plugins.core.time.TimeScheduler.clearTimeScheduler
 import com.github.syari.ss.plugins.core.time.TimeScheduler.getFormatTime
@@ -26,7 +26,7 @@ object AutoCommand : IConfigLoader {
         plugin.config(sender, "auto-command.yml") {
             sender.send("&b[AutoCommand] &f自動コマンド一覧")
             section("every", ConfigTimeSectionType, false)?.forEach { (hour, minute, key) ->
-                val commandList = get("every.$key", ConfigDataType.STRINGLIST) ?: return@forEach
+                val commandList = get("every.$key", ConfigDataType.StringList) ?: return@forEach
                 plugin.scheduleEveryDayAt(hour, minute) {
                     commandList.forEach(RunCommand::runCommandFromConsole)
                 }
@@ -35,7 +35,7 @@ object AutoCommand : IConfigLoader {
             DayOfWeek.values().forEach { day ->
                 val dayName = day.name.toLowerCase()
                 section(dayName, ConfigTimeSectionType, false)?.forEach nextTime@{ (hour, minute, key) ->
-                    val commandList = get("$dayName.$key", ConfigDataType.STRINGLIST) ?: return@nextTime
+                    val commandList = get("$dayName.$key", ConfigDataType.StringList) ?: return@nextTime
                     plugin.scheduleEveryWeekAt(day, hour, minute) {
                         commandList.forEach(RunCommand::runCommandFromConsole)
                     }
