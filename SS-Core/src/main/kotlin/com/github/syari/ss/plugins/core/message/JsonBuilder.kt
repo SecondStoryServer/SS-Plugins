@@ -2,7 +2,7 @@
 
 package com.github.syari.ss.plugins.core.message
 
-import com.github.syari.ss.plugins.core.code.StringEditor.toColor
+import com.github.syari.spigot.api.util.string.toColor
 import com.github.syari.ss.plugins.core.item.NBTItem.nbtTag
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.HoverEvent
@@ -67,12 +67,12 @@ class JsonBuilder {
             messages.forEach { message ->
                 when (message) {
                     is JsonMessage.Text -> addExtra(
-                        TextComponent(message.text.toColor).apply {
+                        TextComponent(message.text.toColor()).apply {
                             message.hover?.let {
                                 hoverEvent = HoverEvent(it.event, it.content)
                             }
                             message.click?.let {
-                                clickEvent = ClickEvent(it.event, it.content.toColor)
+                                clickEvent = ClickEvent(it.event, it.content.toColor())
                             }
                         }
                     )
@@ -105,7 +105,7 @@ class JsonBuilder {
          * 文字列を表示します
          * @param text 表示する文字列
          */
-        class Text(text: String) : Hover(HoverEvent.Action.SHOW_TEXT, net.md_5.bungee.api.chat.hover.content.Text(text.toColor))
+        class Text(text: String) : Hover(HoverEvent.Action.SHOW_TEXT, net.md_5.bungee.api.chat.hover.content.Text(text.toColor()))
 
         /**
          * アイテムを表示します

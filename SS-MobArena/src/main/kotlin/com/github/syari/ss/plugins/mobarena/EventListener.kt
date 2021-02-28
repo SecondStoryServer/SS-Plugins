@@ -2,7 +2,7 @@ package com.github.syari.ss.plugins.mobarena
 
 import com.github.syari.spigot.api.event.register.EventRegister
 import com.github.syari.spigot.api.event.register.Events
-import com.github.syari.ss.plugins.core.code.StringEditor.toColor
+import com.github.syari.spigot.api.util.string.toColor
 import com.github.syari.ss.plugins.mobarena.MobArenaManager.arena
 import com.github.syari.ss.plugins.mobarena.MobArenaManager.getArena
 import com.github.syari.ss.plugins.mobarena.MobArenaManager.getArenaInPlay
@@ -49,7 +49,7 @@ object EventListener : EventRegister {
             val player = it.whoClicked as? Player ?: return@event
             if (player.inMobArena.not()) return@event
             val lore = it.insertItem?.lore ?: return@event
-            if (lore.contains("&c受け渡し不可".toColor)) {
+            if (lore.contains("&c受け渡し不可".toColor())) {
                 it.isCancelled = true
             }
         }

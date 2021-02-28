@@ -2,7 +2,7 @@
 
 package com.github.syari.ss.plugins.core.inventory
 
-import com.github.syari.ss.plugins.core.code.StringEditor.toColor
+import com.github.syari.spigot.api.util.string.toColor
 import org.bukkit.event.inventory.ClickType
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
@@ -47,7 +47,7 @@ internal data class InventoryPlayerData(
      * [id] から始まるインベントリを開いているかどうかを取得します
      */
     fun isOpenInventory(id: Array<out String>): Boolean {
-        val joinedId = id.joinToString("-").toColor
+        val joinedId = id.joinToString("-").toColor()
         return this.id.startsWith(joinedId)
     }
 }

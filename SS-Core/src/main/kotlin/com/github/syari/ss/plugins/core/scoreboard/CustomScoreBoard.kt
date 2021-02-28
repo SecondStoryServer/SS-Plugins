@@ -2,8 +2,8 @@
 
 package com.github.syari.ss.plugins.core.scoreboard
 
+import com.github.syari.spigot.api.util.string.toColor
 import com.github.syari.spigot.api.util.uuid.UUIDPlayer
-import com.github.syari.ss.plugins.core.code.StringEditor.toColor
 import com.github.syari.ss.plugins.core.scoreboard.CreateScoreBoard.board
 import com.github.syari.ss.plugins.core.scoreboard.ScoreBoardPlayer.Companion.scoreBoardPlayer
 import org.bukkit.entity.Player
@@ -51,11 +51,11 @@ class CustomScoreBoard internal constructor(
         val player = scoreBoardPlayer.uuidPlayer.player ?: return
         val board = plugin.server.scoreboardManager.newScoreboard
         val boardName = player.uniqueId.toString().substring(0 until 16)
-        val scoreboard = board.registerNewObjective(boardName, "dummy", title.toColor).apply {
+        val scoreboard = board.registerNewObjective(boardName, "dummy", title.toColor()).apply {
             displaySlot = DisplaySlot.SIDEBAR
             var lineNumber = 0
             action(player).lines().forEachIndexed { index, text ->
-                getScore((text + "&" + "%x".format(lineNumber)).toColor).score = -index
+                getScore((text + "&" + "%x".format(lineNumber)).toColor()).score = -index
                 lineNumber++
             }
         }.scoreboard ?: return
