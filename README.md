@@ -32,7 +32,6 @@ SS-Core の中で使っています。基本的な機能を簡単に扱えるよ
 | SS-DevelopAssist | 5 |  |
 | SS-Event-AcrobatSniper | 2 |  |
 | SS-GlobalPlayers | 7 |  |
-| SS-ItemFrameCommand | 4 |  |
 | SS-Lobby | 7 |  |
 | SS-MobArena | 25 |  |
 | SS-PlayerDataStore | 14 |  |

@@ -12,7 +12,6 @@ include(
     "SS-DevelopAssist",
     "SS-Event-AcrobatSniper",
     "SS-GlobalPlayers",
-    "SS-ItemFrameCommand",
     "SS-Lobby",
     "SS-MobArena",
     "SS-PlayerDataStore"
