@@ -3,12 +3,12 @@ package com.github.syari.ss.plugins.mobarena
 import com.github.syari.spigot.api.config.configDirectory
 import com.github.syari.spigot.api.config.type.ConfigDataType
 import com.github.syari.spigot.api.config.type.ConfigSectionType
-import com.github.syari.ss.plugins.core.Main.Companion.console
 import com.github.syari.ss.plugins.core.code.IConfigLoader
 import com.github.syari.ss.plugins.core.config.ConfigItemConverter
 import com.github.syari.ss.plugins.core.config.Inventory
 import com.github.syari.ss.plugins.core.config.Item
 import com.github.syari.ss.plugins.core.config.ItemList
+import com.github.syari.ss.plugins.core.console
 import com.github.syari.ss.plugins.core.item.itemStack
 import com.github.syari.ss.plugins.core.message.Message.send
 import com.github.syari.ss.plugins.dependency.crackshot.CrackShotAPI

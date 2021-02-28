@@ -8,10 +8,9 @@ class Main : SSPlugin() {
         internal lateinit var plugin: JavaPlugin
     }
 
-    override val events = listOf(TabUpdater, SilentJoinMessage)
-
-    override fun onEnable() {
+    init {
         plugin = this
-        registerEvents()
     }
+
+    override val events = listOf(TabUpdater, SilentJoinMessage)
 }

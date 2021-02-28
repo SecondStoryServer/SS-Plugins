@@ -11,44 +11,12 @@ open class SSPlugin : JavaPlugin() {
     open val onEnables = listOf<OnEnable>()
     open val onDisables = listOf<OnDisable>()
 
-    /**
-     * ```
-     * override val listeners = listOf(...)
-     *
-     * override fun onEnable(){
-     *      registerListeners()
-     * }
-     * ```
-     *
-     * @see org.bukkit.plugin.PluginManager.registerEvents
-     */
-    fun registerEvents() {
+    override fun onEnable() {
         registerEvents(*events.toTypedArray())
-    }
-
-    /**
-     * ```
-     * override val onEnables = listOf(...)
-     *
-     * override fun onEnable(){
-     *      runOnEnable()
-     * }
-     * ```
-     */
-    fun runOnEnable() {
         onEnables.forEach(OnEnable::onEnable)
     }
 
-    /**
-     * ```
-     * override val onDisables = listOf(...)
-     *
-     * override fun onDisable(){
-     *      runOnDisable()
-     * }
-     * ```
-     */
-    fun runOnDisable() {
+    override fun onDisable() {
         onDisables.forEach(OnDisable::onDisable)
     }
 }
