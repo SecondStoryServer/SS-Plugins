@@ -1,16 +1,15 @@
 package com.github.syari.ss.plugins.demonkill.craft
 
-import com.github.syari.ss.plugins.core.item.CustomItemStack
 import org.bukkit.Material
 import org.bukkit.entity.Player
+import org.bukkit.inventory.ItemStack
 
-open class DependItem(val item: CustomItemStack) {
+open class DependItem(val item: ItemStack) {
     companion object {
         fun <T : DependItem> getFromInventory(list: Set<T>, player: Player): T? {
-            player.inventory.forEach { itemStack ->
-                val item = CustomItemStack.create(itemStack)
+            player.inventory.forEach { item ->
                 if (item.type != Material.AIR) {
-                    list.firstOrNull { it.item.type == item.type && it.item.display == item.display }?.let {
+                    list.firstOrNull { it.item.type == item.type && it.item.displayName == item.displayName }?.let {
                         return it
                     }
                 }

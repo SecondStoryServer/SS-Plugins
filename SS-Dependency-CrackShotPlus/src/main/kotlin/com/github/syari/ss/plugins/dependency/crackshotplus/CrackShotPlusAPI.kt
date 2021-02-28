@@ -1,10 +1,10 @@
 package com.github.syari.ss.plugins.dependency.crackshotplus
 
-import com.github.syari.ss.plugins.core.item.CustomItemStack
 import me.DeeCaaD.CrackShotPlus.CSPapi
+import org.bukkit.inventory.ItemStack
 
 object CrackShotPlusAPI {
-    fun getAttachment(id: String, amount: Int): CustomItemStack? {
-        return CustomItemStack.fromNullable(CSPapi.getAttachmentItemStack(id), amount)
+    fun getAttachment(id: String, amount: Int): ItemStack? {
+        return CSPapi.getAttachmentItemStack(id)?.asQuantity(amount)
     }
 }

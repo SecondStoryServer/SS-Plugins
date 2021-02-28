@@ -1,9 +1,9 @@
 package com.github.syari.ss.plugins.demonkill.craft
 
-import com.github.syari.ss.plugins.core.item.CustomItemStack
 import org.bukkit.entity.Player
+import org.bukkit.inventory.ItemStack
 
-class Weapon(item: CustomItemStack, val upgrade: Map<CustomItemStack, Upgrade>) : Upgradeable(item) {
+class Weapon(item: ItemStack, val upgrade: Map<ItemStack, Upgrade>) : Upgradeable(item) {
     companion object {
         var list = setOf<Weapon>()
 
@@ -12,5 +12,5 @@ class Weapon(item: CustomItemStack, val upgrade: Map<CustomItemStack, Upgrade>) 
         }
     }
 
-    class Upgrade(override val request: List<CustomItemStack>) : Upgradeable.Upgrade
+    class Upgrade(override val request: List<ItemStack>) : Upgradeable.Upgrade
 }

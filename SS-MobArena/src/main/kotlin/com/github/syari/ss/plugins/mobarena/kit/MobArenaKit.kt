@@ -1,8 +1,8 @@
 package com.github.syari.ss.plugins.mobarena.kit
 
+import com.github.syari.spigot.api.util.item.editLore
 import com.github.syari.ss.plugins.core.code.StringEditor.toUncolor
 import com.github.syari.ss.plugins.core.inventory.CreateInventory.inventory
-import com.github.syari.ss.plugins.core.item.CustomItemStack
 import com.github.syari.ss.plugins.mobarena.MobArenaManager
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -11,7 +11,7 @@ import org.bukkit.inventory.ItemStack
 class MobArenaKit(
     val id: String,
     val name: String,
-    icon: CustomItemStack,
+    icon: ItemStack,
     description: List<String>,
     difficulty: Int,
     val items: Map<Int, ItemStack>
@@ -36,7 +36,7 @@ class MobArenaKit(
                     kitPage[page].forEachIndexed { i, kit ->
                         item(
                             i,
-                            kit.icon.clone {
+                            kit.icon.clone().apply {
                                 editLore {
                                     add("")
                                     add("&a使用アリーナ:")
@@ -72,8 +72,8 @@ class MobArenaKit(
         }
     }
 
-    val icon = icon.clone {
-        display = "&b$name"
+    val icon = icon.clone().apply {
+        setDisplayName("&b$name")
         editLore {
             addAll(description)
             add("")

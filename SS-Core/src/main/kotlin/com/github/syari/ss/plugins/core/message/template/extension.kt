@@ -21,14 +21,8 @@ fun CommandSender.sendTemplateError(prefix: String, message: String) {
 }
 
 fun CommandSender.sendTemplateList(prefix: String, description: String?, list: Iterable<String>) {
-    if (description.isNullOrEmpty()) sendTemplate(prefix, "&f$description")
-    send(
-        buildString {
-            list.forEach {
-                appendLine("&7- &a$it")
-            }
-        }
-    )
+    if (description.isNullOrEmpty().not()) sendTemplate(prefix, "&f$description")
+    sendMessage(list.joinToString("\n") { "&7- &a$it" })
 }
 
 fun CommandSender.sendTemplateCommandHelp(prefix: String, vararg command: Pair<String, String>) {

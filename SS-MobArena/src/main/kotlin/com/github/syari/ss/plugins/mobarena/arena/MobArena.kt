@@ -6,7 +6,6 @@ import com.github.syari.spigot.api.util.uuid.UUIDEntity
 import com.github.syari.ss.plugins.core.bossBar.CustomBossBar
 import com.github.syari.ss.plugins.core.bossBar.CustomBossBar.Companion.bossBar
 import com.github.syari.ss.plugins.core.inventory.CreateInventory.inventory
-import com.github.syari.ss.plugins.core.item.CustomItemStack
 import com.github.syari.ss.plugins.core.item.ItemStackPlus.give
 import com.github.syari.ss.plugins.core.message.Message.broadcast
 import com.github.syari.ss.plugins.core.message.Message.send
@@ -315,7 +314,7 @@ class MobArena(
     private fun giveItem(waveData: MobArenaWave) {
         players.forEach {
             if (it.play) {
-                it.player.give(waveData.upgrade.flatMap(CustomItemStack::toItemStack))
+                it.player.give(waveData.upgrade)
             }
         }
     }

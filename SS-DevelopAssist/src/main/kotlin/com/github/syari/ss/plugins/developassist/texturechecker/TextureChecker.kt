@@ -2,10 +2,10 @@ package com.github.syari.ss.plugins.developassist.texturechecker
 
 import com.github.syari.spigot.api.command.command
 import com.github.syari.spigot.api.command.tab.CommandTabArgument.Companion.argument
+import com.github.syari.spigot.api.config.config
+import com.github.syari.spigot.api.config.type.ConfigDataType
 import com.github.syari.ss.plugins.core.Main.Companion.console
 import com.github.syari.ss.plugins.core.code.IConfigLoader
-import com.github.syari.ss.plugins.core.config.CreateConfig.config
-import com.github.syari.ss.plugins.core.config.type.ConfigDataType
 import com.github.syari.ss.plugins.core.inventory.CreateInventory.inventory
 import com.github.syari.ss.plugins.core.message.template.ConstantMessage.OnlyPlayer
 import com.github.syari.ss.plugins.core.message.template.ConstantMessage.ReloadConfig
@@ -60,7 +60,7 @@ object TextureChecker : IConfigLoader {
 
     override fun load(sender: CommandSender) {
         plugin.config(sender, "texture-checker.yml") {
-            parentMaterials = get("type", ConfigDataType.MATERIALLIST).orEmpty()
+            parentMaterials = get("type", ConfigDataType.MaterialList).orEmpty()
         }
     }
 

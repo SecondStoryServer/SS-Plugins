@@ -1,11 +1,11 @@
 package com.github.syari.ss.plugins.playerdatastore
 
-import com.github.syari.ss.plugins.core.config.type.ConfigDataType
+import com.github.syari.spigot.api.config.type.ConfigDataType
 import org.bukkit.Location
 
 class LocationData(playerData: PlayerData) : DataType(playerData) {
     private val location
-        get() = playerData.config.get("location", ConfigDataType.LOCATION, false)
+        get() = playerData.config.get("location", ConfigDataType.Location, false)
 
     override val isEnable: Boolean
         get() = playerData.uuidPlayer.let(ConfigLoader.saveLocationMode.condition)
@@ -22,7 +22,7 @@ class LocationData(playerData: PlayerData) : DataType(playerData) {
     override fun save() {
         val player = playerData.uuidPlayer.player ?: return
         if (isEnable) {
-            playerData.config.set("location", ConfigDataType.LOCATION, player.location)
+            playerData.config.set("location", ConfigDataType.Location, player.location)
         } else {
             playerData.config.setUnsafe("location", null)
         }

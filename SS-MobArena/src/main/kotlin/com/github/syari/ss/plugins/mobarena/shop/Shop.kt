@@ -1,5 +1,6 @@
 package com.github.syari.ss.plugins.mobarena.shop
 
+import com.github.syari.spigot.api.util.item.editLore
 import com.github.syari.ss.plugins.core.inventory.CreateInventory.inventory
 import org.bukkit.entity.Player
 
@@ -21,7 +22,7 @@ data class Shop(
         inventory(name, line) {
             list.forEach { (index, action) ->
                 var canBuy = true
-                val item = action.target.display.clone {
+                val item = action.target.display.clone().apply {
                     editLore {
                         if (isNotEmpty()) add("")
                         if (action is ShopAction.Paid) {

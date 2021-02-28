@@ -2,9 +2,9 @@ package com.github.syari.ss.plugins.demonkill.craft
 
 import com.github.syari.ss.plugins.core.inventory.CreateInventory.inventory
 import com.github.syari.ss.plugins.core.inventory.CustomInventory
-import com.github.syari.ss.plugins.core.item.CustomItemStack
 import org.bukkit.Material
 import org.bukkit.entity.Player
+import org.bukkit.inventory.ItemStack
 
 object CraftInterface {
     fun openRoot(player: Player) {
@@ -71,7 +71,7 @@ object CraftInterface {
         }
     }
 
-    private fun openUpgrade(player: Player, baseItem: Upgradeable, upgradeItem: CustomItemStack, request: List<CustomItemStack>, onClose: (Player) -> Unit) {
+    private fun openUpgrade(player: Player, baseItem: Upgradeable, upgradeItem: ItemStack, request: List<ItemStack>, onClose: (Player) -> Unit) {
         inventory("&9&lアイテム強化", 4) {
             item((0..9) + (17..18) + (26..35), Material.GRAY_STAINED_GLASS_PANE)
             item(listOf(15, 24), Material.GRAY_STAINED_GLASS_PANE)

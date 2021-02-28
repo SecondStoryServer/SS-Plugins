@@ -5,7 +5,7 @@ package com.github.syari.ss.plugins.core.inventory
 import com.github.syari.spigot.api.util.uuid.UUIDPlayer
 import com.github.syari.ss.plugins.core.code.StringEditor.toColor
 import com.github.syari.ss.plugins.core.inventory.CreateInventory.menuPlayer
-import com.github.syari.ss.plugins.core.item.CustomItemStack
+import com.github.syari.ss.plugins.core.item.itemStack
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.Player
@@ -71,9 +71,9 @@ class CustomInventory internal constructor(
         material: Material,
         customModelData: Int? = null
     ) {
-        val item = CustomItemStack.create(material, "").apply {
-            this.customModelData = customModelData
-        }.toOneItemStack
+        val item = itemStack(material, "").apply {
+            setCustomModelData(customModelData)
+        }
         index.forEach {
             item(it, item)
         }
@@ -125,25 +125,13 @@ class CustomInventory internal constructor(
     }
 
     /**
-     * @param index アイテムの場所
-     * @param item アイテム
-     * @return [ClickEvent]
-     */
-    fun item(
-        index: Int,
-        item: CustomItemStack
-    ): ClickEvent {
-        return item(index, item.toOneItemStack)
-    }
-
-    /**
      * ```
      * item(inventory.firstEmpty(), item)
      * ```
      * @param item アイテム
      * @return [ClickEvent]
      */
-    fun item(item: CustomItemStack): ClickEvent {
+    fun item(item: ItemStack): ClickEvent {
         return item(inventory.firstEmpty(), item)
     }
 
@@ -193,12 +181,12 @@ class CustomInventory internal constructor(
             index.map {
                 item(
                     it,
-                    CustomItemStack.create(
-                        material, display, *lore.toTypedArray(), customModelData = customModelData, amount = amount
+                    itemStack(
+                        material, display, lore.toList(), customModelData = customModelData, amount = amount
                     ).apply {
                         if (shine) {
-                            addEnchant(Enchantment.DURABILITY, 0)
-                            addItemFlag(ItemFlag.HIDE_ENCHANTS)
+                            addEnchant(Enchantment.DURABILITY, 0, true)
+                            addItemFlags(ItemFlag.HIDE_ENCHANTS)
                         }
                     }
                 )

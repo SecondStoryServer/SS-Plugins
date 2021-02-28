@@ -1,9 +1,9 @@
 package com.github.syari.ss.plugins.demonkill.craft
 
-import com.github.syari.ss.plugins.core.item.CustomItemStack
+import org.bukkit.inventory.ItemStack
 
-open class Upgradeable(item: CustomItemStack) : DependItem(item) {
+open class Upgradeable(item: ItemStack) : DependItem(item) {
     interface Upgrade {
-        val request: List<CustomItemStack>
+        val request: List<ItemStack>
     }
 }

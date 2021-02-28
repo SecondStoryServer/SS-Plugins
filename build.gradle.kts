@@ -4,7 +4,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jlleitschuh.gradle.ktlint.KtlintExtension
 
 plugins {
-    kotlin("jvm") version "1.4.30"
+    kotlin("jvm") version "1.4.31"
     id("com.github.johnrengelman.shadow") version "6.1.0" apply false
     id("net.minecrell.plugin-yml.bukkit") version "0.3.0" apply false
     id("org.jlleitschuh.gradle.ktlint") version "10.0.0"
@@ -35,14 +35,14 @@ subprojects {
     val project = Project.get(project.name) ?: error("Not Found Project ${project.name}")
 
     repositories {
-        maven("https://repo.pl3x.net/")
+        maven("https://repo.codemc.io/repository/maven-public/")
     }
 
     dependencies {
         when (project) {
             Project.Core -> {
                 shadowImplementation(kotlin("stdlib-jdk8"))
-                shadowApi("com.github.sya-ri:EasySpigotAPI:1.2.1") {
+                shadowApi("com.github.sya-ri:EasySpigotAPI:1.5.0") {
                     exclude(group = "org.spigotmc", module = "spigot-api")
                     exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib")
                 }
@@ -51,7 +51,7 @@ subprojects {
                 implementation(kotlin("stdlib-jdk8"))
             }
         }
-        implementation("net.pl3x.purpur:purpur-api:1.16.5-R0.1-SNAPSHOT")
+        implementation("org.yatopiamc:yatopia-api:1.16.5-R0.1-SNAPSHOT")
         project.implementationProjects.forEach { implementation(project(":$it")) }
         project.dependJarFile.forEach { api(files("../dependJars/$it.jar")) }
     }

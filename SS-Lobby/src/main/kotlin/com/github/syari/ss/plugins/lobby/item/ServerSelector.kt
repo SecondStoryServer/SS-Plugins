@@ -1,16 +1,13 @@
 package com.github.syari.ss.plugins.lobby.item
 
 import com.github.syari.ss.plugins.core.inventory.CreateInventory.inventory
-import com.github.syari.ss.plugins.core.item.CustomItemStack
+import com.github.syari.ss.plugins.core.item.itemStack
 import com.github.syari.ss.plugins.core.pluginMessage.PluginMessage
 import org.bukkit.Material
 import org.bukkit.entity.Player
 
 object ServerSelector : ClickableLobbyItem {
-    override val item = CustomItemStack.create(
-        Material.COMPASS,
-        "&6サーバー選択"
-    ).toOneItemStack
+    override val item = itemStack(Material.COMPASS, "&6サーバー選択")
 
     var servers = mapOf<Int, Server>()
 
