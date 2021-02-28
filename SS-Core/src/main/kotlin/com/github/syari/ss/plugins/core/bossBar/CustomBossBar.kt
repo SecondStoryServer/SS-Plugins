@@ -4,10 +4,10 @@ package com.github.syari.ss.plugins.core.bossBar
 
 import com.github.syari.spigot.api.event.register.EventRegister
 import com.github.syari.spigot.api.event.register.Events
+import com.github.syari.spigot.api.util.string.toColor
 import com.github.syari.ss.plugins.core.Main.Companion.plugin
 import com.github.syari.ss.plugins.core.bossBar.CustomBossBar.Companion.bossBar
 import com.github.syari.ss.plugins.core.code.OnDisable
-import com.github.syari.ss.plugins.core.code.StringEditor.toColor
 import org.bukkit.OfflinePlayer
 import org.bukkit.boss.BarColor
 import org.bukkit.boss.BarStyle
@@ -63,7 +63,7 @@ class CustomBossBar internal constructor(
         ) = CustomBossBar(title, color, style, public)
     }
 
-    private val bar: BossBar = plugin.server.createBossBar(title.toColor, color, style)
+    private val bar: BossBar = plugin.server.createBossBar(title.toColor(), color, style)
 
     init {
         if (public) {
@@ -117,7 +117,7 @@ class CustomBossBar internal constructor(
     var title
         get() = bar.title
         set(value) {
-            bar.setTitle(value.toColor)
+            bar.setTitle(value.toColor())
         }
 
     /**

@@ -5,8 +5,8 @@ package com.github.syari.ss.plugins.core.inventory
 import com.github.syari.spigot.api.event.register.EventRegister
 import com.github.syari.spigot.api.event.register.Events
 import com.github.syari.spigot.api.scheduler.runTaskLater
+import com.github.syari.spigot.api.util.string.toColor
 import com.github.syari.spigot.api.util.uuid.UUIDPlayer
-import com.github.syari.ss.plugins.core.code.StringEditor.toColor
 import com.github.syari.ss.plugins.core.inventory.CreateInventory.runWithId
 import org.bukkit.Bukkit.createInventory
 import org.bukkit.OfflinePlayer
@@ -75,7 +75,7 @@ object CreateInventory : EventRegister {
         type: InventoryType,
         vararg id: String
     ): CustomInventory {
-        return inventory(createInventory(null, type, display.toColor), *id)
+        return inventory(createInventory(null, type, display.toColor()), *id)
     }
 
     /**
@@ -107,7 +107,7 @@ object CreateInventory : EventRegister {
         vararg id: String,
         action: CustomInventory.() -> Unit
     ): CustomInventory {
-        return inventory(createInventory(null, (if (line in 1..6) line else 3) * 9, display.toColor), *id).apply(action)
+        return inventory(createInventory(null, (if (line in 1..6) line else 3) * 9, display.toColor()), *id).apply(action)
     }
 
     private val menuPlayers = mutableMapOf<UUIDPlayer, InventoryPlayerData>()

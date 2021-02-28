@@ -1,7 +1,7 @@
 package com.github.syari.ss.plugins.mobarena.kit
 
 import com.github.syari.spigot.api.util.item.editLore
-import com.github.syari.ss.plugins.core.code.StringEditor.toUncolor
+import com.github.syari.spigot.api.util.string.toUncolor
 import com.github.syari.ss.plugins.core.inventory.CreateInventory.inventory
 import com.github.syari.ss.plugins.mobarena.MobArenaManager
 import org.bukkit.Material
@@ -82,7 +82,7 @@ class MobArenaKit(
     }
 
     fun openPreview(player: Player, onClose: () -> Unit) {
-        inventory("&9&l${name.toUncolor}", 6) {
+        inventory("&9&l${name.toUncolor()}", 6) {
             var slot = 0
             for (i in 9 until 36) {
                 items[i]?.let { item(slot, it) }

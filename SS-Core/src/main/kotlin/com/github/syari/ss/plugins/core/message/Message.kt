@@ -2,8 +2,8 @@
 
 package com.github.syari.ss.plugins.core.message
 
+import com.github.syari.spigot.api.util.string.toColor
 import com.github.syari.ss.plugins.core.Main.Companion.plugin
-import com.github.syari.ss.plugins.core.code.StringEditor.toColor
 import net.md_5.bungee.api.chat.TextComponent
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -14,7 +14,7 @@ object Message {
      * @param message 送信するメッセージ
      */
     fun broadcast(message: String) {
-        val coloredMessage = message.toColor
+        val coloredMessage = message.toColor()
         plugin.server.broadcastMessage(coloredMessage)
     }
 
@@ -27,7 +27,7 @@ object Message {
         message: String,
         vararg to: CommandSender
     ) {
-        val colored = message.toColor
+        val colored = message.toColor()
         to.forEach {
             it.sendMessage(colored)
         }
@@ -78,7 +78,7 @@ object Message {
         stay: Int,
         fadeOut: Int
     ) {
-        sendTitle(main.toColor, sub.toColor, fadeIn, stay, fadeOut)
+        sendTitle(main.toColor(), sub.toColor(), fadeIn, stay, fadeOut)
     }
 
     /**
@@ -86,6 +86,6 @@ object Message {
      * @param message 本文
      */
     fun Player.action(message: String) {
-        sendActionBar(message.toColor)
+        sendActionBar(message.toColor())
     }
 }

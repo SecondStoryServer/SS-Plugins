@@ -2,8 +2,8 @@
 
 package com.github.syari.ss.plugins.core.inventory
 
+import com.github.syari.spigot.api.util.string.toColor
 import com.github.syari.spigot.api.util.uuid.UUIDPlayer
-import com.github.syari.ss.plugins.core.code.StringEditor.toColor
 import com.github.syari.ss.plugins.core.inventory.CreateInventory.menuPlayer
 import com.github.syari.ss.plugins.core.item.itemStack
 import org.bukkit.Material
@@ -22,7 +22,7 @@ class CustomInventory internal constructor(
     id: List<String>
 ) {
     private val events = mutableMapOf<Pair<Int, ClickType?>, () -> Unit>()
-    internal val id = id.joinToString("-").toColor
+    internal val id = id.joinToString("-").toColor()
 
     /**
      * クリックイベントキャンセル

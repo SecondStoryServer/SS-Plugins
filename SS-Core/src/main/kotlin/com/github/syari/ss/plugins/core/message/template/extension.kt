@@ -1,7 +1,7 @@
 package com.github.syari.ss.plugins.core.message.template
 
 import com.github.syari.spigot.api.command.execute.CommandExecuteAction
-import com.github.syari.ss.plugins.core.code.StringEditor.toColor
+import com.github.syari.spigot.api.util.string.toColor
 import com.github.syari.ss.plugins.core.message.Message.send
 import net.md_5.bungee.api.chat.TextComponent
 import org.bukkit.command.CommandSender
@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender
 fun CommandExecuteAction.templateMessage(prefix: String) = TemplateMessage(sender, prefix)
 
 fun CommandSender.sendTemplate(prefix: String, message: TextComponent) {
-    send(TextComponent("&b[$prefix] ".toColor).apply { addExtra(message) })
+    send(TextComponent("&b[$prefix] ".toColor()).apply { addExtra(message) })
 }
 
 fun CommandSender.sendTemplate(prefix: String, message: String) {
