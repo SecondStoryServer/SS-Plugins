@@ -10,11 +10,11 @@ abstract class ConfigItemConverter(val things: String) {
 
     @Suppress("FunctionName")
     companion object {
-        val Base64 = object : ConfigItemConverter("CustomItemStack(Base64)") {
+        val Base64 = object : ConfigItemConverter("ItemStack(Base64)") {
             override fun get(line: String) = Base64Item.fromBase64(line)
         }
 
-        fun Format(typeMap: Map<String, (String, Int) -> ItemStack?>) = object : ConfigItemConverter("CustomItemStack(Format{${typeMap.keys.joinToString()}})") {
+        fun Format(typeMap: Map<String, (String, Int) -> ItemStack?>) = object : ConfigItemConverter("ItemStack(Format{${typeMap.keys.joinToString()}})") {
             override fun get(line: String): ItemStack? {
                 val split = line.split("\\s+".toRegex())
                 val id = split.getOrNull(1) ?: return null
