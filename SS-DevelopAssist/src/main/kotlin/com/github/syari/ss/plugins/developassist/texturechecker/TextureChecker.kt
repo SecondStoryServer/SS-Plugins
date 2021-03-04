@@ -25,7 +25,7 @@ object TextureChecker : IConfigLoader {
     private fun registerCommand() {
         plugin.command("ctexture") {
             tab {
-                argument { add("reload", "open") }
+                argument { addAll("reload", "open") }
                 argument("open") { addAll(Material.values().map(Material::name)) }
             }
             execute {

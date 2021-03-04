@@ -2,12 +2,14 @@ package com.github.syari.ss.plugins.developassist.itemcreator
 
 import com.github.syari.spigot.api.command.command
 import com.github.syari.spigot.api.command.tab.CommandTabArgument.Companion.argument
+import com.github.syari.spigot.api.util.component.buildTextComponent
+import com.github.syari.spigot.api.util.component.clickCopyToClipboard
+import com.github.syari.spigot.api.util.component.hoverText
 import com.github.syari.spigot.api.util.item.editLore
 import com.github.syari.ss.plugins.core.code.OnEnable
+import com.github.syari.ss.plugins.core.component.hoverItem
 import com.github.syari.ss.plugins.core.item.Base64Item
 import com.github.syari.ss.plugins.core.item.ItemStackPlus.give
-import com.github.syari.ss.plugins.core.message.JsonBuilder
-import com.github.syari.ss.plugins.core.message.JsonBuilder.Companion.buildJson
 import com.github.syari.ss.plugins.core.message.Message.send
 import com.github.syari.ss.plugins.core.message.template.ConstantMessage.OnlyPlayer
 import com.github.syari.ss.plugins.core.message.template.templateMessage
@@ -22,8 +24,8 @@ object ItemCreator : OnEnable {
 
         plugin.command("citem") {
             tab {
-                argument { add("name", "lore", "type", "model", "unbreak", "base64") }
-                argument("lore") { add("edit", "insert", "add", "remove", "clear") }
+                argument { addAll("name", "lore", "type", "model", "unbreak", "base64") }
+                argument("lore") { addAll("edit", "insert", "add", "remove", "clear") }
                 argument("type") { addAll(Material.values().map(Material::name)) }
             }
             execute {
@@ -101,8 +103,8 @@ object ItemCreator : OnEnable {
                             val item = player.inventory.itemInMainHand
                             val itemTypeName = item.type.name
                             template.send(
-                                buildJson {
-                                    append(itemTypeName, JsonBuilder.Hover.Text("&6コピー"), JsonBuilder.Click.Clipboard(itemTypeName))
+                                buildTextComponent {
+                                    append(itemTypeName, hoverText("&6コピー"), clickCopyToClipboard(itemTypeName))
                                 }
                             )
                         }
@@ -135,10 +137,10 @@ object ItemCreator : OnEnable {
                             val base64 = Base64Item.toBase64(item) ?: return@execute template.sendError("Base64の取得に失敗しました")
                             val displayName = item.itemMeta?.displayName?.ifBlank { null } ?: item.i18NDisplayName ?: item.type.name
                             template.send(
-                                buildJson {
-                                    append(displayName, JsonBuilder.Hover.Item(item))
+                                buildTextComponent {
+                                    append(displayName, hoverItem(item))
                                     append("  ")
-                                    append("&b[Base64]", JsonBuilder.Hover.Text("&6コピー"), JsonBuilder.Click.Clipboard(base64))
+                                    append("&b[Base64]", hoverText("&6コピー"), clickCopyToClipboard(base64))
                                 }
                             )
                         }
