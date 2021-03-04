@@ -2,11 +2,12 @@ package com.github.syari.ss.plugins.event.acrobatsniper
 
 import com.github.syari.spigot.api.command.command
 import com.github.syari.spigot.api.command.tab.CommandTabArgument.Companion.argument
+import com.github.syari.spigot.api.util.component.buildTextComponent
+import com.github.syari.spigot.api.util.component.clickCopyToClipboard
+import com.github.syari.spigot.api.util.component.hoverText
 import com.github.syari.spigot.api.util.uuid.UUIDPlayer
 import com.github.syari.ss.plugins.core.code.OnEnable
 import com.github.syari.ss.plugins.core.command.getPlayer
-import com.github.syari.ss.plugins.core.message.JsonBuilder
-import com.github.syari.ss.plugins.core.message.JsonBuilder.Companion.buildJson
 import com.github.syari.ss.plugins.core.message.template.ConstantMessage.OnlyPlayer
 import com.github.syari.ss.plugins.core.message.template.ConstantMessage.ReloadConfig
 import com.github.syari.ss.plugins.core.message.template.templateMessage
@@ -48,10 +49,10 @@ object CommandCreator : OnEnable {
         plugin.command("acrobat-sniper-admin") {
             aliases = listOf("asa")
             tab {
-                argument { add("match", "entry", "reload") }
+                argument { addAll("match", "entry", "reload") }
                 argument("match") { add("test") }
                 argument("match test **") { addAll(plugin.server.onlinePlayers.map(Player::getName)) }
-                argument("entry") { add("list", "clear", "enable", "disable") }
+                argument("entry") { addAll("list", "clear", "enable", "disable") }
                 argument("entry list") { add("all") }
             }
             execute {
@@ -76,11 +77,11 @@ object CommandCreator : OnEnable {
                             "list" -> {
                                 val nameList = EntryList.nameList
                                 template.send(
-                                    buildJson {
+                                    buildTextComponent {
                                         append(
                                             "エントリー一覧",
-                                            JsonBuilder.Hover.Text("&6コピー"),
-                                            JsonBuilder.Click.Clipboard(nameList.joinToString("\n"))
+                                            hoverText("&6コピー"),
+                                            clickCopyToClipboard(nameList.joinToString("\n"))
                                         )
                                         val nameListLimit = if (args.lowerOrNull(2) == "all") {
                                             -1

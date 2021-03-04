@@ -29,12 +29,12 @@ object CommandCreator : OnEnable {
                     if (player != null) {
                         val arenaPlayer = player.arenaPlayer
                         when {
-                            arenaPlayer == null -> add("join", "spec", "shop", "kit")
-                            arenaPlayer.play -> add("leave", "ready", "notready", "kit")
-                            else -> add("join", "leave")
+                            arenaPlayer == null -> addAll("join", "spec", "shop", "kit")
+                            arenaPlayer.play -> addAll("leave", "ready", "notready", "kit")
+                            else -> addAll("join", "leave")
                         }
                     }
-                    add("start", "end", "reload")
+                    addAll("start", "end", "reload")
                 }
                 argument("join", "j", "spec", "s", "start", "end") {
                     addAll(arenas.map(MobArena::id))

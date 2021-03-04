@@ -11,7 +11,7 @@ object CommandCreator : OnEnable {
     override fun onEnable() {
         plugin.command("backup") {
             tab {
-                argument { add("now", "upload", "reload") }
+                argument { addAll("now", "upload", "reload") }
                 argument("now **") { addAll(Backup.groups.keys) }
             }
             execute {

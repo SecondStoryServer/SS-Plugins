@@ -24,7 +24,7 @@ SS-Core の中で使っています。基本的な機能を簡単に扱えるよ
 | SS-Assist | 7 |  |
 | SS-Backup | 17 |  |
 | SS-CommandBlocker | 7 |  |
-| SS-Core | 37 |  |
+| SS-Core | 38 |  |
 | SS-DemonKill | 2 |  |
 | SS-Dependency-CrackShot | 2 | 0.98.11 |
 | SS-Dependency-CrackShotPlus | 2 | 1.97 |
