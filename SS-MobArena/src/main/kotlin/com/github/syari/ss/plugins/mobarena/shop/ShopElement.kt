@@ -37,7 +37,7 @@ sealed class ShopElement {
         open val item: ItemStack? = null
 
         override val display by lazy {
-            item?.apply {
+            item?.clone()?.apply {
                 eDisplayName = "&b" + (displayName.ifEmpty { null } ?: i18NDisplayName) + " × " + amount
             } ?: itemStack(Material.STONE, "&cエラー")
         }
