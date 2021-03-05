@@ -1,8 +1,9 @@
 package com.github.syari.ss.plugins.core.item
 
-import com.github.syari.spigot.api.util.string.toColor
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
+import com.github.syari.spigot.api.util.item.displayName as eDisplayName
+import com.github.syari.spigot.api.util.item.lore as eLore
 
 fun itemStack(
     material: Material,
@@ -12,8 +13,8 @@ fun itemStack(
     amount: Int = 1
 ): ItemStack {
     return ItemStack(material, amount).apply {
-        setDisplayName(displayName?.toColor())
-        setLore(lore?.map(String::toColor))
+        eDisplayName = displayName
+        eLore = lore.orEmpty()
         setCustomModelData(customModelData)
     }
 }

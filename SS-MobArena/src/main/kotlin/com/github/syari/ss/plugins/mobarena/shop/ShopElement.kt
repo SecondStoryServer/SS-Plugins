@@ -12,6 +12,7 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import com.github.syari.spigot.api.config.type.ConfigDataType as IConfigDataType
+import com.github.syari.spigot.api.util.item.displayName as eDisplayName
 
 sealed class ShopElement {
     open fun give(player: Player) = true
@@ -37,7 +38,7 @@ sealed class ShopElement {
 
         override val display by lazy {
             item?.apply {
-                setDisplayName("&b" + (displayName.ifEmpty { null } ?: i18NDisplayName) + " × " + amount)
+                eDisplayName = "&b" + (displayName.ifEmpty { null } ?: i18NDisplayName) + " × " + amount
             } ?: itemStack(Material.STONE, "&cエラー")
         }
 

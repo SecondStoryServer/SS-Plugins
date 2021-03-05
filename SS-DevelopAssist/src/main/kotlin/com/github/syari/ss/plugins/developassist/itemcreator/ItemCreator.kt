@@ -17,6 +17,8 @@ import com.github.syari.ss.plugins.developassist.Main.Companion.plugin
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
+import com.github.syari.spigot.api.util.item.displayName as eDisplayName
+import com.github.syari.spigot.api.util.item.lore as eLore
 
 object ItemCreator : OnEnable {
     override fun onEnable() {
@@ -45,14 +47,14 @@ object ItemCreator : OnEnable {
                 when (args.lowerOrNull(0)) {
                     "name" -> {
                         val item = getHeldItem() ?: return@execute
-                        item.setDisplayName(args.subList(1, args.size).joinToString(" ").replaceSpace())
+                        item.eDisplayName = args.subList(1, args.size).joinToString(" ").replaceSpace()
                         template.send("アイテム名を変更しました")
                     }
                     "lore" -> {
                         val item = getHeldItem() ?: return@execute
                         when (args.lowerOrNull(1)) {
                             "edit" -> {
-                                item.lore = args.subList(2, args.size).map(String::replaceSpace)
+                                item.eLore = args.subList(2, args.size).map(String::replaceSpace)
                                 template.send("説明文を変更しました")
                             }
                             "insert" -> {
