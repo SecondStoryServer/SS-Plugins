@@ -1,5 +1,6 @@
 package com.github.syari.ss.plugins.core.item
 
+import com.github.syari.spigot.api.util.string.toColor
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 
@@ -11,8 +12,8 @@ fun itemStack(
     amount: Int = 1
 ): ItemStack {
     return ItemStack(material, amount).apply {
-        setDisplayName(displayName)
-        setLore(lore)
+        setDisplayName(displayName?.toColor())
+        setLore(lore?.map(String::toColor))
         setCustomModelData(customModelData)
     }
 }
