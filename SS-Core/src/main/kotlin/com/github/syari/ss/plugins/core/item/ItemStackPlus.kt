@@ -78,7 +78,7 @@ object ItemStackPlus {
         val contents = this.contents
         var remain = amount
         contents.forEach {
-            if (it.type == item.type && it.damage == item.damage && (it.hasItemMeta() == item.hasItemMeta()) && it.displayName == item.displayName) {
+            if (it != null && it.type == item.type && it.damage == item.damage && (it.hasItemMeta() == item.hasItemMeta()) && it.displayName == item.displayName) {
                 val a = it.amount
                 if (a < remain) {
                     remain -= a
