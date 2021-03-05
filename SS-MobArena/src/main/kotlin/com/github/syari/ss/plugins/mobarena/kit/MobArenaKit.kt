@@ -7,6 +7,7 @@ import com.github.syari.ss.plugins.mobarena.MobArenaManager
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
+import com.github.syari.spigot.api.util.item.displayName as eDisplayName
 
 class MobArenaKit(
     val id: String,
@@ -73,7 +74,7 @@ class MobArenaKit(
     }
 
     val icon = icon.clone().apply {
-        setDisplayName("&b$name")
+        eDisplayName = "&b$name"
         editLore {
             addAll(description)
             add("")
