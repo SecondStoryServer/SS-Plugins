@@ -54,28 +54,28 @@ open class Project(val version: String, groupName: String = "") {
         override val dependProject = listOf(Core)
     }
 
-    object Core : Project(38) {
+    object Core : Project(39) {
         override val dependJarFile = listOf("1.16.5-patched")
     }
 
-    object DemonKill : Project(2) {
+    object DemonKill : Project(3) {
         override val dependProject = listOf(Core, Dependency.CrackShot, Dependency.CrackShotPlus, Dependency.MythicMobs)
     }
 
     open class Dependency(buildVersion: Int, version: String) : Project(buildVersion, version, "Dependency") {
-        object CrackShot : Dependency(2, "0.98.11") {
+        object CrackShot : Dependency(3, "0.98.11") {
             override val dependProject = listOf(Core)
             override val dependPlugin = listOf("CrackShot")
             override val dependJarFile = listOf("CrackShot")
         }
 
-        object CrackShotPlus : Dependency(2, "1.97") {
+        object CrackShotPlus : Dependency(3, "1.97") {
             override val dependProject = listOf(Core)
             override val dependPlugin = listOf("CrackShotPlus")
             override val dependJarFile = listOf("CrackShotPlus")
         }
 
-        object MythicMobs : Dependency(2, "4.11.0-beta-1") {
+        object MythicMobs : Dependency(3, "4.11.0-build-3560") {
             override val dependProject = listOf(Core)
             override val dependPlugin = listOf("MythicMobs")
             override val dependJarFile = listOf("MythicMobs-4.11.0-build-3560")
@@ -100,7 +100,7 @@ open class Project(val version: String, groupName: String = "") {
         override val dependProject = listOf(Core)
     }
 
-    object MobArena : Project(25) {
+    object MobArena : Project(26) {
         override val dependProject = listOf(Core, Dependency.CrackShot, Dependency.CrackShotPlus, Dependency.MythicMobs, PlayerDataStore)
     }
 

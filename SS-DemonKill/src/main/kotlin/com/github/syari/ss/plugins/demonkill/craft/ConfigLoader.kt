@@ -5,9 +5,6 @@ import com.github.syari.spigot.api.config.type.ConfigDataType
 import com.github.syari.spigot.api.config.type.ConfigSectionType
 import com.github.syari.ss.plugins.core.code.IConfigLoader
 import com.github.syari.ss.plugins.core.config.ConfigItemConverter
-import com.github.syari.ss.plugins.core.config.Inventory
-import com.github.syari.ss.plugins.core.config.Item
-import com.github.syari.ss.plugins.core.config.ItemList
 import com.github.syari.ss.plugins.core.item.itemStack
 import com.github.syari.ss.plugins.demonkill.Main.Companion.plugin
 import com.github.syari.ss.plugins.dependency.crackshot.CrackShotAPI
@@ -29,11 +26,11 @@ object ConfigLoader : IConfigLoader {
         Weapon.list = buildSet {
             plugin.configDirectory(sender, "Craft/Weapon") {
                 section("")?.forEach { base ->
-                    val item = get("$base.item", ConfigDataType.Item(itemConverter)) ?: return@forEach
+                    val item = get("$base.item", ConfigDataType.ItemStack(itemConverter)) ?: return@forEach
                     val upgrade = buildMap<ItemStack, Weapon.Upgrade> {
                         section("$base.upgrade")?.forEach upgrade@{
-                            val upgradeItem = get("$base.upgrade.$it.item", ConfigDataType.Item(itemConverter)) ?: return@upgrade
-                            val request = get("$base.upgrade.$it.request", ConfigDataType.ItemList(itemConverter), listOf())
+                            val upgradeItem = get("$base.upgrade.$it.item", ConfigDataType.ItemStack(itemConverter)) ?: return@upgrade
+                            val request = get("$base.upgrade.$it.request", ConfigDataType.ItemStackList(itemConverter), listOf())
                             put(upgradeItem, Weapon.Upgrade(request))
                         }
                     }
@@ -48,12 +45,12 @@ object ConfigLoader : IConfigLoader {
         Armor.list = buildSet {
             plugin.configDirectory(sender, "Craft/Armor") {
                 section("")?.forEach { base ->
-                    val item = get("$base.item", ConfigDataType.Item(itemConverter)) ?: return@forEach
+                    val item = get("$base.item", ConfigDataType.ItemStack(itemConverter)) ?: return@forEach
                     val upgrade = buildMap<ItemStack, Armor.Upgrade> {
                         section("$base.upgrade")?.forEach upgrade@{
-                            val upgradeItem = get("$base.upgrade.$it.item", ConfigDataType.Item(itemConverter)) ?: return@upgrade
+                            val upgradeItem = get("$base.upgrade.$it.item", ConfigDataType.ItemStack(itemConverter)) ?: return@upgrade
                             val armor = get("$base.upgrade.$it.armor", ConfigDataType.Inventory(itemConverter), mapOf())
-                            val request = get("$base.upgrade.$it.request", ConfigDataType.ItemList(itemConverter), listOf())
+                            val request = get("$base.upgrade.$it.request", ConfigDataType.ItemStackList(itemConverter), listOf())
                             put(upgradeItem, Armor.Upgrade(armor, request))
                         }
                     }
@@ -68,11 +65,11 @@ object ConfigLoader : IConfigLoader {
         Other.list = buildSet {
             plugin.configDirectory(sender, "Craft/Other") {
                 section("")?.forEach { base ->
-                    val item = get("$base.item", ConfigDataType.Item(itemConverter)) ?: return@forEach
+                    val item = get("$base.item", ConfigDataType.ItemStack(itemConverter)) ?: return@forEach
                     val list = buildMap<Int, Pair<ItemStack, List<ItemStack>>> {
                         section("$base.create", ConfigSectionType.Int)?.forEach create@{ slot ->
-                            val createItem = get("$base.create.$slot.item", ConfigDataType.Item(itemConverter)) ?: return@create
-                            val request = get("$base.create.$slot.request", ConfigDataType.ItemList(itemConverter), listOf())
+                            val createItem = get("$base.create.$slot.item", ConfigDataType.ItemStack(itemConverter)) ?: return@create
+                            val request = get("$base.create.$slot.request", ConfigDataType.ItemStackList(itemConverter), listOf())
                             put(slot, createItem to request)
                         }
                     }
@@ -82,24 +79,24 @@ object ConfigLoader : IConfigLoader {
         }
     }
 
-    private val itemTypeMap = mapOf<String, (String, Int) -> ItemStack?>(
-        "mc" to { id, amount ->
-            val typeName = id.substringBefore(':').toUpperCase()
-            val model = id.substringAfter(':', "")
-            Material.getMaterial(typeName)?.let {
-                itemStack(it, customModelData = model.toIntOrNull(), amount = amount)
+    private val itemTypeMap = mapOf<String, (String) -> ItemStack?>(
+        "mc" to {
+            val typeName = it.substringBefore(':').toUpperCase()
+            val model = it.substringAfter(':', "")
+            Material.getMaterial(typeName)?.let { material ->
+                itemStack(material, customModelData = model.toIntOrNull())
             }
         },
-        "mm" to { id, amount ->
-            MythicMobsAPI.getItem(id, amount)
+        "mm" to {
+            MythicMobsAPI.getItem(it)
         },
-        "cs" to { id, amount ->
-            CrackShotAPI.getItem(id, amount)
+        "cs" to {
+            CrackShotAPI.getItem(it)
         },
-        "csp" to { id, amount ->
-            CrackShotPlusAPI.getAttachment(id, amount)
+        "csp" to {
+            CrackShotPlusAPI.getAttachment(it)
         }
     )
 
-    private val itemConverter = ConfigItemConverter.Format(itemTypeMap)
+    private val itemConverter = ConfigItemConverter.FromName(itemTypeMap)
 }

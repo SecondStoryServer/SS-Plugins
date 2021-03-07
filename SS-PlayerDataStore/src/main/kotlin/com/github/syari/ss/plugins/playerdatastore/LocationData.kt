@@ -24,7 +24,7 @@ class LocationData(playerData: PlayerData) : DataType(playerData) {
         if (isEnable) {
             playerData.config.set("location", ConfigDataType.Location, player.location)
         } else {
-            playerData.config.setUnsafe("location", null)
+            playerData.config.setNull("location")
         }
     }
 }

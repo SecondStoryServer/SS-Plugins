@@ -1,9 +1,13 @@
-@file:Suppress("FunctionName")
-
 package com.github.syari.ss.plugins.core.config
 
-import com.github.syari.spigot.api.config.type.ConfigDataType
+import org.bukkit.Material
+import org.bukkit.inventory.ItemStack
 
-fun ConfigDataType.Companion.Item(itemConverter: ConfigItemConverter) = ConfigItemDataType(itemConverter)
-fun ConfigDataType.Companion.ItemList(itemConverter: ConfigItemConverter) = ConfigItemListDataType(itemConverter)
-fun ConfigDataType.Companion.Inventory(itemConverter: ConfigItemConverter) = ConfigInventoryDataType(itemConverter)
+@OptIn(ExperimentalStdlibApi::class)
+fun Array<ItemStack?>.asInventoryMap() = buildMap<Int, ItemStack> {
+    forEachIndexed { slot, item ->
+        if (item != null && item.type != Material.AIR) {
+            put(slot, item)
+        }
+    }
+}

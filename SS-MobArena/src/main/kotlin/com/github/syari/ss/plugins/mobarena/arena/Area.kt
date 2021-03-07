@@ -34,7 +34,7 @@ class Area(val spawn: Location, val region: Region) {
                 val maxLocation = value.region.pos2.toLocation(value.region.world, 0F, 0F)
                 config.set("$path.pos2", IConfigDataType.Location, maxLocation)
             } else {
-                config.setUnsafe(path, null)
+                config.setNull(path)
             }
         }
     }

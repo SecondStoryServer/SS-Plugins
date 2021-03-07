@@ -36,14 +36,13 @@ subprojects {
 
     repositories {
         maven("https://repo.codemc.io/repository/maven-public/")
-        maven("https://oss.sonatype.org/content/repositories/snapshots")
     }
 
     dependencies {
         when (project) {
             Project.Core -> {
                 shadowImplementation(kotlin("stdlib-jdk8"))
-                shadowApi("com.github.sya-ri:EasySpigotAPI:1.6.1-SNAPSHOT") {
+                shadowApi("com.github.sya-ri:EasySpigotAPI:1.7.1") {
                     exclude(group = "org.spigotmc", module = "spigot-api")
                     exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib")
                 }
