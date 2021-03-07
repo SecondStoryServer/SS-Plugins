@@ -6,7 +6,7 @@ import org.bukkit.inventory.ItemStack
 object CrackShotAPI {
     private val api = CSUtility()
 
-    fun getItem(id: String, amount: Int): ItemStack? {
-        return api.generateWeapon(id)?.asQuantity(amount)
+    fun getItem(id: String): ItemStack? {
+        return api.generateWeapon(id)
     }
 }

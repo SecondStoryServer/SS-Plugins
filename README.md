@@ -24,15 +24,15 @@ SS-Core の中で使っています。基本的な機能を簡単に扱えるよ
 | SS-Assist | 7 |  |
 | SS-Backup | 17 |  |
 | SS-CommandBlocker | 7 |  |
-| SS-Core | 38 |  |
-| SS-DemonKill | 2 |  |
-| SS-Dependency-CrackShot | 2 | 0.98.11 |
-| SS-Dependency-CrackShotPlus | 2 | 1.97 |
-| SS-Dependency-MythicMobs | 2 | 4.11.0-beta-1 |
+| SS-Core | 39 |  |
+| SS-DemonKill | 3 |  |
+| SS-Dependency-CrackShot | 3 | 0.98.11 |
+| SS-Dependency-CrackShotPlus | 3 | 1.97 |
+| SS-Dependency-MythicMobs | 3 | 4.11.0-build-3560 |
 | SS-DevelopAssist | 5 |  |
 | SS-Event-AcrobatSniper | 2 |  |
 | SS-GlobalPlayers | 7 |  |
 | SS-Lobby | 7 |  |
-| SS-MobArena | 25 |  |
+| SS-MobArena | 26 |  |
 | SS-PlayerDataStore | 14 |  |
 <!-- Generate Versions -->

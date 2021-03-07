@@ -122,17 +122,17 @@ sealed class ShopElement {
                             } ?: 1
                             when (elementType) {
                                 "cs" -> {
-                                    CrackShotAPI.getItem(id, amount)
+                                    CrackShotAPI.getItem(id)
                                 }
                                 "csp" -> {
-                                    CrackShotPlusAPI.getAttachment(id, amount)
+                                    CrackShotPlusAPI.getAttachment(id)
                                 }
                                 "mm" -> {
-                                    MythicMobsAPI.getItem(id, amount)
+                                    MythicMobsAPI.getItem(id)
                                 }
                                 else -> error("Unreachable")
                             }?.let {
-                                Item.Custom(it, amount)
+                                Item.Custom(it.asQuantity(amount), amount)
                             } ?: run {
                                 config.nullError(path, "String($id)")
                                 UnAvailable

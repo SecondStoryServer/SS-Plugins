@@ -8,8 +8,8 @@ import org.bukkit.inventory.ItemStack
 object MythicMobsAPI {
     private val api = MythicMobs.inst()
 
-    fun getItem(id: String, amount: Int): ItemStack? {
-        return api.itemManager.getItemStack(id)?.asQuantity(amount)
+    fun getItem(id: String): ItemStack? {
+        return api.itemManager.getItemStack(id)
     }
 
     fun spawnMythicMobs(id: String, location: Location): ActiveMob? {
