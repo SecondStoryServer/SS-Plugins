@@ -2,10 +2,10 @@ package com.github.syari.ss.plugins.event.acrobatsniper
 
 import com.github.syari.spigot.api.command.command
 import com.github.syari.spigot.api.command.tab.CommandTabArgument.Companion.argument
-import com.github.syari.spigot.api.util.component.buildTextComponent
-import com.github.syari.spigot.api.util.component.clickCopyToClipboard
-import com.github.syari.spigot.api.util.component.hoverText
-import com.github.syari.spigot.api.util.uuid.UUIDPlayer
+import com.github.syari.spigot.api.component.buildTextComponent
+import com.github.syari.spigot.api.component.clickCopyToClipboard
+import com.github.syari.spigot.api.component.hoverText
+import com.github.syari.spigot.api.uuid.UUIDPlayer
 import com.github.syari.ss.plugins.core.code.OnEnable
 import com.github.syari.ss.plugins.core.command.getPlayer
 import com.github.syari.ss.plugins.core.message.template.ConstantMessage.OnlyPlayer

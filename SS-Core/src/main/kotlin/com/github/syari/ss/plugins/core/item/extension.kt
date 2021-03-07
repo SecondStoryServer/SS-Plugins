@@ -2,8 +2,8 @@ package com.github.syari.ss.plugins.core.item
 
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
-import com.github.syari.spigot.api.util.item.displayName as eDisplayName
-import com.github.syari.spigot.api.util.item.lore as eLore
+import com.github.syari.spigot.api.item.displayName as eDisplayName
+import com.github.syari.spigot.api.item.lore as eLore
 
 fun itemStack(
     material: Material,

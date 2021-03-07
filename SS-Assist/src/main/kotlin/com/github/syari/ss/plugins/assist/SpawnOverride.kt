@@ -1,7 +1,7 @@
 package com.github.syari.ss.plugins.assist
 
-import com.github.syari.spigot.api.event.register.EventRegister
-import com.github.syari.spigot.api.event.register.Events
+import com.github.syari.spigot.api.event.EventRegister
+import com.github.syari.spigot.api.event.Events
 import org.bukkit.Location
 import org.bukkit.event.EventPriority
 import org.bukkit.event.player.PlayerRespawnEvent

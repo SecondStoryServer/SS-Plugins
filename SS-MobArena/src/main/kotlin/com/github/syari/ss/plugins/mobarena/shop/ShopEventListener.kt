@@ -1,9 +1,9 @@
 package com.github.syari.ss.plugins.mobarena.shop
 
-import com.github.syari.spigot.api.event.register.EventRegister
-import com.github.syari.spigot.api.event.register.Events
-import com.github.syari.spigot.api.util.string.toColor
-import com.github.syari.spigot.api.util.string.toUncolor
+import com.github.syari.spigot.api.event.EventRegister
+import com.github.syari.spigot.api.event.Events
+import com.github.syari.spigot.api.string.toColor
+import com.github.syari.spigot.api.string.toUncolor
 import org.bukkit.block.Sign
 import org.bukkit.event.block.SignChangeEvent
 import org.bukkit.event.player.PlayerInteractEvent

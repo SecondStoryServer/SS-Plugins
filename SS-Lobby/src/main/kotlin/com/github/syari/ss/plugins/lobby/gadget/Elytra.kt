@@ -1,7 +1,7 @@
 package com.github.syari.ss.plugins.lobby.gadget
 
 import com.github.syari.spigot.api.scheduler.runTaskTimer
-import com.github.syari.spigot.api.util.uuid.UUIDPlayer
+import com.github.syari.spigot.api.uuid.UUIDPlayer
 import com.github.syari.ss.plugins.core.item.itemStack
 import com.github.syari.ss.plugins.lobby.Main.Companion.plugin
 import org.bukkit.Material

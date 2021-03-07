@@ -2,11 +2,11 @@ package com.github.syari.ss.plugins.developassist.itemcreator
 
 import com.github.syari.spigot.api.command.command
 import com.github.syari.spigot.api.command.tab.CommandTabArgument.Companion.argument
-import com.github.syari.spigot.api.util.component.buildTextComponent
-import com.github.syari.spigot.api.util.component.clickCopyToClipboard
-import com.github.syari.spigot.api.util.component.hoverItem
-import com.github.syari.spigot.api.util.component.hoverText
-import com.github.syari.spigot.api.util.item.editLore
+import com.github.syari.spigot.api.component.buildTextComponent
+import com.github.syari.spigot.api.component.clickCopyToClipboard
+import com.github.syari.spigot.api.component.hoverItem
+import com.github.syari.spigot.api.component.hoverText
+import com.github.syari.spigot.api.item.editLore
 import com.github.syari.ss.plugins.core.code.OnEnable
 import com.github.syari.ss.plugins.core.item.Base64Item
 import com.github.syari.ss.plugins.core.item.ItemStackPlus.give
@@ -17,8 +17,8 @@ import com.github.syari.ss.plugins.developassist.Main.Companion.plugin
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
-import com.github.syari.spigot.api.util.item.displayName as eDisplayName
-import com.github.syari.spigot.api.util.item.lore as eLore
+import com.github.syari.spigot.api.item.displayName as eDisplayName
+import com.github.syari.spigot.api.item.lore as eLore
 
 object ItemCreator : OnEnable {
     override fun onEnable() {

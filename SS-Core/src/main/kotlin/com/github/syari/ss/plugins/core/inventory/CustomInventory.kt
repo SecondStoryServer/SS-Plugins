@@ -2,8 +2,8 @@
 
 package com.github.syari.ss.plugins.core.inventory
 
-import com.github.syari.spigot.api.util.string.toColor
-import com.github.syari.spigot.api.util.uuid.UUIDPlayer
+import com.github.syari.spigot.api.string.toColor
+import com.github.syari.spigot.api.uuid.UUIDPlayer
 import com.github.syari.ss.plugins.core.inventory.CreateInventory.menuPlayer
 import com.github.syari.ss.plugins.core.item.itemStack
 import org.bukkit.Material

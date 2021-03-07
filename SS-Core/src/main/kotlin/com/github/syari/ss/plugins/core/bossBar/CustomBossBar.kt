@@ -2,9 +2,9 @@
 
 package com.github.syari.ss.plugins.core.bossBar
 
-import com.github.syari.spigot.api.event.register.EventRegister
-import com.github.syari.spigot.api.event.register.Events
-import com.github.syari.spigot.api.util.string.toColor
+import com.github.syari.spigot.api.event.EventRegister
+import com.github.syari.spigot.api.event.Events
+import com.github.syari.spigot.api.string.toColor
 import com.github.syari.ss.plugins.core.Main.Companion.plugin
 import com.github.syari.ss.plugins.core.bossBar.CustomBossBar.Companion.bossBar
 import com.github.syari.ss.plugins.core.code.OnDisable

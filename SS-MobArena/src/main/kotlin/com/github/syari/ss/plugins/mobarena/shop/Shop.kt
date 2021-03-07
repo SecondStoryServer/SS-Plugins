@@ -1,6 +1,6 @@
 package com.github.syari.ss.plugins.mobarena.shop
 
-import com.github.syari.spigot.api.util.item.editLore
+import com.github.syari.spigot.api.item.editLore
 import com.github.syari.ss.plugins.core.inventory.CreateInventory.inventory
 import org.bukkit.entity.Player
 

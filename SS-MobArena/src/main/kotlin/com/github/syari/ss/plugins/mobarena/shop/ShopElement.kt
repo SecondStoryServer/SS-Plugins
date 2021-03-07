@@ -12,7 +12,7 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import com.github.syari.spigot.api.config.type.ConfigDataType as IConfigDataType
-import com.github.syari.spigot.api.util.item.displayName as eDisplayName
+import com.github.syari.spigot.api.item.displayName as eDisplayName
 
 sealed class ShopElement {
     open fun give(player: Player) = true
