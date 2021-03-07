@@ -2,8 +2,8 @@
 
 package com.github.syari.ss.plugins.core.code
 
-import com.github.syari.spigot.api.event.register.EventRegister
-import com.github.syari.spigot.api.event.register.EventRegister.Companion.registerEvents
+import com.github.syari.spigot.api.event.EventRegister
+import com.github.syari.spigot.api.event.EventRegister.Companion.registerEvents
 import org.bukkit.plugin.java.JavaPlugin
 
 open class SSPlugin : JavaPlugin() {

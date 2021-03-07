@@ -1,6 +1,6 @@
 package com.github.syari.ss.plugins.mobarena
 
-import com.github.syari.spigot.api.util.uuid.UUIDEntity
+import com.github.syari.spigot.api.uuid.UUIDEntity
 import com.github.syari.ss.plugins.core.code.OnDisable
 import com.github.syari.ss.plugins.mobarena.arena.MobArena
 import com.github.syari.ss.plugins.mobarena.arena.MobArenaPlayer

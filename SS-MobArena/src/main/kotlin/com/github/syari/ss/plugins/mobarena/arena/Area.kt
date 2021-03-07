@@ -1,7 +1,7 @@
 package com.github.syari.ss.plugins.mobarena.arena
 
 import com.github.syari.spigot.api.config.CustomConfig
-import com.github.syari.spigot.api.util.world.Region
+import com.github.syari.spigot.api.world.Region
 import org.bukkit.Location
 import com.github.syari.spigot.api.config.type.ConfigDataType as IConfigDataType
 

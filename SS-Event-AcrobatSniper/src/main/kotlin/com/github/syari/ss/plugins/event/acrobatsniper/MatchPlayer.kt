@@ -1,6 +1,6 @@
 package com.github.syari.ss.plugins.event.acrobatsniper
 
-import com.github.syari.spigot.api.util.uuid.UUIDPlayer
+import com.github.syari.spigot.api.uuid.UUIDPlayer
 import org.bukkit.entity.Player
 
 class MatchPlayer(val player: Player, val enemy: Player) {

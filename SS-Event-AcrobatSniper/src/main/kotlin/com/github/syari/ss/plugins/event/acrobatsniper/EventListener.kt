@@ -1,7 +1,7 @@
 package com.github.syari.ss.plugins.event.acrobatsniper
 
-import com.github.syari.spigot.api.event.register.EventRegister
-import com.github.syari.spigot.api.event.register.Events
+import com.github.syari.spigot.api.event.EventRegister
+import com.github.syari.spigot.api.event.Events
 import com.github.syari.ss.plugins.core.item.itemStack
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment

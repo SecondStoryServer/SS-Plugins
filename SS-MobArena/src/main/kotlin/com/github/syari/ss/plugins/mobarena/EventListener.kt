@@ -1,8 +1,8 @@
 package com.github.syari.ss.plugins.mobarena
 
-import com.github.syari.spigot.api.event.register.EventRegister
-import com.github.syari.spigot.api.event.register.Events
-import com.github.syari.spigot.api.util.string.toColor
+import com.github.syari.spigot.api.event.EventRegister
+import com.github.syari.spigot.api.event.Events
+import com.github.syari.spigot.api.string.toColor
 import com.github.syari.ss.plugins.mobarena.MobArenaManager.arena
 import com.github.syari.ss.plugins.mobarena.MobArenaManager.getArena
 import com.github.syari.ss.plugins.mobarena.MobArenaManager.getArenaInPlay

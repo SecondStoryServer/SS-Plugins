@@ -1,8 +1,8 @@
 package com.github.syari.ss.plugins.lobby.gadget
 
-import com.github.syari.spigot.api.event.register.EventRegister
+import com.github.syari.spigot.api.event.EventRegister
 import com.github.syari.spigot.api.scheduler.runTaskLater
-import com.github.syari.spigot.api.util.uuid.UUIDPlayer
+import com.github.syari.spigot.api.uuid.UUIDPlayer
 import com.github.syari.ss.plugins.core.item.itemStack
 import org.bukkit.Effect
 import org.bukkit.GameMode
@@ -39,7 +39,7 @@ object DoubleJump : Gadget(Material.LEATHER_BOOTS, "ダブルジャンプ", "lob
         private inline val Player.availableDoubleJump: Boolean
             get() = isAdventure && isEquipBoots
 
-        override fun com.github.syari.spigot.api.event.register.Events.register() {
+        override fun com.github.syari.spigot.api.event.Events.register() {
             event<PlayerJoinEvent> {
                 val player = it.player
                 val uuidPlayer = UUIDPlayer.from(player)

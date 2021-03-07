@@ -1,7 +1,7 @@
 package com.github.syari.ss.plugins.playerdatastore
 
-import com.github.syari.spigot.api.event.register.EventRegister
-import com.github.syari.spigot.api.event.register.Events
+import com.github.syari.spigot.api.event.EventRegister
+import com.github.syari.spigot.api.event.Events
 import com.github.syari.ss.plugins.playerdatastore.PlayerData.Companion.storeData
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent

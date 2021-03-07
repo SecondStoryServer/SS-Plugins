@@ -2,7 +2,7 @@
 
 package com.github.syari.ss.plugins.core.message
 
-import com.github.syari.spigot.api.util.string.toColor
+import com.github.syari.spigot.api.string.toColor
 import com.github.syari.ss.plugins.core.Main.Companion.plugin
 import net.md_5.bungee.api.chat.TextComponent
 import org.bukkit.command.CommandSender

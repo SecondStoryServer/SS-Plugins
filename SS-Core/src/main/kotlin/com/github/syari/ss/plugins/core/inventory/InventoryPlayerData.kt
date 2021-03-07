@@ -2,7 +2,7 @@
 
 package com.github.syari.ss.plugins.core.inventory
 
-import com.github.syari.spigot.api.util.string.toColor
+import com.github.syari.spigot.api.string.toColor
 import org.bukkit.event.inventory.ClickType
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent

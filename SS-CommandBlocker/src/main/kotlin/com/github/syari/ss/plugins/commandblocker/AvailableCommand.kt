@@ -1,6 +1,6 @@
 package com.github.syari.ss.plugins.commandblocker
 
-import com.github.syari.spigot.api.util.uuid.UUIDPlayer
+import com.github.syari.spigot.api.uuid.UUIDPlayer
 import org.bukkit.entity.Player
 
 object AvailableCommand {

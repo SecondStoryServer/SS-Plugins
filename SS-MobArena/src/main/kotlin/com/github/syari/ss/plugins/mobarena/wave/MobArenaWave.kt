@@ -1,7 +1,7 @@
 package com.github.syari.ss.plugins.mobarena.wave
 
 import com.github.syari.spigot.api.scheduler.runTaskTimer
-import com.github.syari.spigot.api.util.uuid.UUIDEntity
+import com.github.syari.spigot.api.uuid.UUIDEntity
 import com.github.syari.ss.plugins.core.bossBar.CustomBossBar.Companion.bossBar
 import com.github.syari.ss.plugins.mobarena.Main.Companion.plugin
 import com.github.syari.ss.plugins.mobarena.arena.MobArena

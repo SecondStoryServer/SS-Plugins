@@ -1,7 +1,7 @@
 package com.github.syari.ss.plugins.core.message.template
 
 import com.github.syari.spigot.api.command.execute.CommandExecuteAction
-import com.github.syari.spigot.api.util.string.toColor
+import com.github.syari.spigot.api.string.toColor
 import com.github.syari.ss.plugins.core.message.Message.send
 import net.md_5.bungee.api.chat.TextComponent
 import org.bukkit.command.CommandSender

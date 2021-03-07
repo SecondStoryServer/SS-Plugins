@@ -2,7 +2,7 @@
 
 package com.github.syari.ss.plugins.core.scoreboard
 
-import com.github.syari.spigot.api.util.uuid.UUIDPlayer
+import com.github.syari.spigot.api.uuid.UUIDPlayer
 import org.bukkit.scoreboard.DisplaySlot
 
 internal class ScoreBoardPlayer(val uuidPlayer: UUIDPlayer) {

@@ -1,7 +1,7 @@
 package com.github.syari.ss.plugins.mobarena.hook
 
-import com.github.syari.spigot.api.event.register.EventRegister
-import com.github.syari.spigot.api.event.register.Events
+import com.github.syari.spigot.api.event.EventRegister
+import com.github.syari.spigot.api.event.Events
 import com.github.syari.ss.plugins.mobarena.hook.condition.InArenaCondition
 import com.github.syari.ss.plugins.mobarena.hook.mechanic.ArenaAnnounce
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicConditionLoadEvent

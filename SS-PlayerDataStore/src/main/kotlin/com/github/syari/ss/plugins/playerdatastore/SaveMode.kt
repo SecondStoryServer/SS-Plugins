@@ -1,7 +1,7 @@
 package com.github.syari.ss.plugins.playerdatastore
 
 import com.github.syari.spigot.api.config.CustomConfig
-import com.github.syari.spigot.api.util.uuid.UUIDPlayer
+import com.github.syari.spigot.api.uuid.UUIDPlayer
 import com.github.syari.spigot.api.config.type.ConfigDataType as IConfigDataType
 
 enum class SaveMode(val condition: (UUIDPlayer) -> Boolean) {

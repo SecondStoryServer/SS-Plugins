@@ -2,8 +2,8 @@
 
 package com.github.syari.ss.plugins.core.scoreboard
 
-import com.github.syari.spigot.api.util.string.toColor
-import com.github.syari.spigot.api.util.uuid.UUIDPlayer
+import com.github.syari.spigot.api.string.toColor
+import com.github.syari.spigot.api.uuid.UUIDPlayer
 import com.github.syari.ss.plugins.core.scoreboard.CreateScoreBoard.board
 import com.github.syari.ss.plugins.core.scoreboard.ScoreBoardPlayer.Companion.scoreBoardPlayer
 import org.bukkit.entity.Player

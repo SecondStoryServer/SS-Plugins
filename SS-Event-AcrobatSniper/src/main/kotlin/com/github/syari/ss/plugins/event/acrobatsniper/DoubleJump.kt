@@ -1,9 +1,9 @@
 package com.github.syari.ss.plugins.event.acrobatsniper
 
-import com.github.syari.spigot.api.event.register.EventRegister
-import com.github.syari.spigot.api.event.register.Events
+import com.github.syari.spigot.api.event.EventRegister
+import com.github.syari.spigot.api.event.Events
 import com.github.syari.spigot.api.scheduler.runTaskLater
-import com.github.syari.spigot.api.util.uuid.UUIDPlayer
+import com.github.syari.spigot.api.uuid.UUIDPlayer
 import org.bukkit.Effect
 import org.bukkit.GameMode
 import org.bukkit.Material

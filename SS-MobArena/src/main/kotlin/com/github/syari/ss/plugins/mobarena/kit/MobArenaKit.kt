@@ -1,13 +1,13 @@
 package com.github.syari.ss.plugins.mobarena.kit
 
-import com.github.syari.spigot.api.util.item.editLore
-import com.github.syari.spigot.api.util.string.toUncolor
+import com.github.syari.spigot.api.item.editLore
+import com.github.syari.spigot.api.string.toUncolor
 import com.github.syari.ss.plugins.core.inventory.CreateInventory.inventory
 import com.github.syari.ss.plugins.mobarena.MobArenaManager
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
-import com.github.syari.spigot.api.util.item.displayName as eDisplayName
+import com.github.syari.spigot.api.item.displayName as eDisplayName
 
 class MobArenaKit(
     val id: String,

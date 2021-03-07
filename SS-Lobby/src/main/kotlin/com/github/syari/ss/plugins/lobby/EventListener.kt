@@ -1,9 +1,9 @@
 package com.github.syari.ss.plugins.lobby
 
-import com.github.syari.spigot.api.event.register.EventRegister
-import com.github.syari.spigot.api.event.register.Events
+import com.github.syari.spigot.api.event.EventRegister
+import com.github.syari.spigot.api.event.Events
 import com.github.syari.spigot.api.scheduler.runTaskLater
-import com.github.syari.spigot.api.util.uuid.UUIDPlayer
+import com.github.syari.spigot.api.uuid.UUIDPlayer
 import com.github.syari.ss.plugins.core.code.CoolTime.Companion.coolTime
 import com.github.syari.ss.plugins.lobby.gadget.Gadget
 import com.github.syari.ss.plugins.lobby.item.ClickableLobbyItem
