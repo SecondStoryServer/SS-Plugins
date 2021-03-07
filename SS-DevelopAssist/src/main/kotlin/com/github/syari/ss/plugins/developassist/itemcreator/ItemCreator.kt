@@ -4,10 +4,10 @@ import com.github.syari.spigot.api.command.command
 import com.github.syari.spigot.api.command.tab.CommandTabArgument.Companion.argument
 import com.github.syari.spigot.api.util.component.buildTextComponent
 import com.github.syari.spigot.api.util.component.clickCopyToClipboard
+import com.github.syari.spigot.api.util.component.hoverItem
 import com.github.syari.spigot.api.util.component.hoverText
 import com.github.syari.spigot.api.util.item.editLore
 import com.github.syari.ss.plugins.core.code.OnEnable
-import com.github.syari.ss.plugins.core.component.hoverItem
 import com.github.syari.ss.plugins.core.item.Base64Item
 import com.github.syari.ss.plugins.core.item.ItemStackPlus.give
 import com.github.syari.ss.plugins.core.message.Message.send
