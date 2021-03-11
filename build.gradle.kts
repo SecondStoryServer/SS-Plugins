@@ -51,7 +51,9 @@ subprojects {
                 implementation(kotlin("stdlib-jdk8"))
             }
         }
-        implementation("org.yatopiamc:yatopia-api:1.16.5-R0.1-SNAPSHOT")
+        implementation("org.yatopiamc:yatopia-api:1.16.5-R0.1-SNAPSHOT") {
+            exclude("org.codehaus.plexus", "plexus-compiler-eclipse")
+        }
         project.implementationProjects.forEach { implementation(project(":$it")) }
         project.dependJarFile.forEach { api(files("../dependJars/$it.jar")) }
     }
