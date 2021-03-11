@@ -21,7 +21,7 @@ class ArenaAnnounce(skill: String, mlc: MythicLineConfig) : SkillMechanic(skill,
         if (entity is Player) {
             entity.arenaPlayer?.arena
         } else {
-            MobArenaManager.getArena(entity)
+            MobArenaManager.getArena(entity) ?: MobArenaManager.getArenaInPlay(entity.location)
         }?.announce(message)
         return true
     }
