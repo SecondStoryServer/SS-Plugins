@@ -11,15 +11,19 @@ object ServerSelector : ClickableLobbyItem {
 
     var servers = mapOf<Int, Server>()
 
-    data class Server(val name: String, val material: Material, val displayName: String, val description: List<String>)
+    data class Server(val name: String, val material: Material, val displayName: String, val description: List<String>, val hidden: Boolean)
 
     override fun onClick(player: Player) {
         inventory("&9&lサーバー選択", 1) {
             servers.forEach { (index, server) ->
-                item(index, server.material, server.displayName, server.description).event {
-                    PluginMessage.sendBungee(player) {
-                        writeUTF("Connect")
-                        writeUTF(server.name)
+                if (server.hidden.not() || player.isOp) {
+                    item(index, server.material, server.displayName, server.description).event {
+                        if (server.name.isNotBlank()) {
+                            PluginMessage.sendBungee(player) {
+                                writeUTF("Connect")
+                                writeUTF(server.name)
+                            }
+                        }
                     }
                 }
             }

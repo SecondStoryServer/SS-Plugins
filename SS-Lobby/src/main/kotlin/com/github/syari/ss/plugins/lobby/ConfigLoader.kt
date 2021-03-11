@@ -14,11 +14,12 @@ object ConfigLoader : IConfigLoader {
         plugin.config(sender, "config.yml") {
             ServerSelector.servers = buildMap {
                 section("server", ConfigSectionType.Int)?.forEach {
-                    val name = get("server.$it.name", ConfigDataType.String) ?: return@forEach
+                    val name = get("server.$it.name", ConfigDataType.String, "")
                     val material = get("server.$it.material", ConfigDataType.Material) ?: return@forEach
                     val display = get("server.$it.display", ConfigDataType.String) ?: return@forEach
                     val description = get("server.$it.description", ConfigDataType.StringList) ?: return@forEach
-                    put(it, ServerSelector.Server(name, material, display, description))
+                    val hidden = get("server.$it.hidden", ConfigDataType.Boolean, false, notFoundError = false)
+                    put(it, ServerSelector.Server(name, material, display, description, hidden))
                 }
             }
         }
