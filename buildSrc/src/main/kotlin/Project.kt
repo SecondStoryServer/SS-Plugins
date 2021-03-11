@@ -96,7 +96,7 @@ open class Project(val version: String, groupName: String = "") {
         override val dependProject = listOf(Core)
     }
 
-    object Lobby : Project(7) {
+    object Lobby : Project(8) {
         override val dependProject = listOf(Core)
     }
 

@@ -1,5 +1,6 @@
 package com.github.syari.ss.plugins.lobby
 
+import com.destroystokyo.paper.event.player.PlayerElytraBoostEvent
 import com.github.syari.spigot.api.event.EventRegister
 import com.github.syari.spigot.api.event.Events
 import com.github.syari.spigot.api.scheduler.runTaskLater
@@ -48,6 +49,9 @@ object EventListener : EventRegister {
                 }
                 e.isCancelled = true
             }
+        }
+        event<PlayerElytraBoostEvent> {
+            it.setShouldConsume(false)
         }
         cancelEventIf<EntityAirChangeEvent> {
             it.entity is Player
