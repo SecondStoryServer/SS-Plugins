@@ -27,7 +27,7 @@ import org.bukkit.scheduler.BukkitTask
 
 class MobArena(
     val id: String,
-    private val name: String,
+    val name: String,
     val kits: List<String>,
     val lobbyArea: Area,
     val playArea: Area,

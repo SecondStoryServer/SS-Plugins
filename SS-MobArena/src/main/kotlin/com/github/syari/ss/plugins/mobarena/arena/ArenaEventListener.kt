@@ -21,15 +21,12 @@ import org.bukkit.event.entity.EntityCombustEvent
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.entity.EntityDeathEvent
 import org.bukkit.event.entity.EntityTargetEvent
-import org.bukkit.event.entity.FoodLevelChangeEvent
 import org.bukkit.event.entity.ItemSpawnEvent
 import org.bukkit.event.entity.PlayerDeathEvent
 import org.bukkit.event.inventory.ClickType
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryType
-import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.event.player.PlayerInteractEvent
-import org.bukkit.event.player.PlayerItemDamageEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.inventory.ItemStack
 
@@ -85,9 +82,6 @@ object ArenaEventListener : EventRegister {
                 arena.publicChest.open(player)
             }
         }
-        cancelEventIf<PlayerItemDamageEvent> {
-            it.player.inMobArena
-        }
         event<EntityDamageByEntityEvent>(ignoreCancelled = true) {
             val victim = it.entity
             if (victim == it.damager) return@event
@@ -106,15 +100,8 @@ object ArenaEventListener : EventRegister {
                 }
             }
         }
-        cancelEventIf<PlayerDropItemEvent> {
-            it.player.inMobArena
-        }
         cancelEventIf<ItemSpawnEvent> {
             getArenaInPlay(it.location) != null
-        }
-        cancelEventIf<FoodLevelChangeEvent> {
-            val player = it.entity as Player
-            player.inMobArena
         }
         event<EntityTargetEvent> {
             val entity = it.entity

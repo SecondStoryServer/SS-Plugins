@@ -14,6 +14,7 @@ import com.github.syari.ss.plugins.mobarena.Main.Companion.plugin
 import com.github.syari.ss.plugins.mobarena.arena.Area
 import com.github.syari.ss.plugins.mobarena.arena.MobArena
 import com.github.syari.ss.plugins.mobarena.kit.MobArenaKit
+import com.github.syari.ss.plugins.mobarena.lobby.ServerSelector
 import com.github.syari.ss.plugins.mobarena.shop.Shop
 import com.github.syari.ss.plugins.mobarena.shop.ShopAction
 import com.github.syari.ss.plugins.mobarena.shop.ShopElement
@@ -31,6 +32,7 @@ object ConfigLoader : IConfigLoader {
         loadArena(sender)
         loadKit(sender)
         loadShop(sender)
+        ServerSelector.load(sender)
     }
 
     @OptIn(ExperimentalStdlibApi::class)
