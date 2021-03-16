@@ -4,9 +4,9 @@ import com.github.syari.spigot.api.event.EventRegister
 import com.github.syari.spigot.api.event.Events
 import com.github.syari.spigot.api.scheduler.runTaskLater
 import com.github.syari.spigot.api.scheduler.runTaskTimer
+import com.github.syari.spigot.api.sound.playSound
 import com.github.syari.ss.plugins.core.message.Message.broadcast
 import com.github.syari.ss.plugins.core.message.Message.title
-import com.github.syari.ss.plugins.core.sound.CreateSound.sound
 import com.github.syari.ss.plugins.event.acrobatsniper.Main.Companion.plugin
 import org.bukkit.Location
 import org.bukkit.Sound
@@ -45,7 +45,6 @@ class Match(private val player1: MatchPlayer, private val player2: MatchPlayer) 
 
     private fun startCountDown() {
         var time = 5
-        val sound = sound(Sound.ENTITY_PLAYER_LEVELUP, 1F, 2F)
         plugin.runTaskTimer(20) {
             if (time == 0) {
                 cancel()
@@ -57,7 +56,7 @@ class Match(private val player1: MatchPlayer, private val player2: MatchPlayer) 
                 }
                 listOf(player1.player, player2.player).forEach {
                     it.title("&6&l$message", "", 0, 15, 5)
-                    sound.play(it)
+                    it.playSound(Sound.ENTITY_PLAYER_LEVELUP, volume = 1F, pitch = 2F)
                 }
                 time --
             }

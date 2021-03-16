@@ -42,7 +42,7 @@ subprojects {
         when (project) {
             Project.Core -> {
                 shadowImplementation(kotlin("stdlib-jdk8"))
-                shadowApi("com.github.sya-ri:EasySpigotAPI:2.0.0") {
+                shadowApi("com.github.sya-ri:EasySpigotAPI:2.2.1") {
                     exclude(group = "org.spigotmc", module = "spigot-api")
                     exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib")
                 }

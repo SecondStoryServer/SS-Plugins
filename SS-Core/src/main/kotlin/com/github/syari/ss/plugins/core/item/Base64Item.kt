@@ -2,7 +2,6 @@
 
 package com.github.syari.ss.plugins.core.item
 
-import com.github.syari.ss.plugins.core.nms.UseNMS
 import net.minecraft.server.v1_16_R3.NBTCompressedStreamTools
 import net.minecraft.server.v1_16_R3.NBTTagCompound
 import net.minecraft.server.v1_16_R3.NBTTagList
@@ -17,7 +16,6 @@ import java.io.DataOutputStream
 import java.io.IOException
 import java.math.BigInteger
 
-@UseNMS
 object Base64Item {
     /**
      * アイテムを Base64 に変換します
