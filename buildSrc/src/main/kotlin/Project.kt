@@ -8,7 +8,6 @@ open class Project(val version: String, groupName: String = "") {
             CommandBlocker,
             Core,
             DemonKill,
-            Dependency.CrackShot,
             Dependency.CrackShotPlus,
             Dependency.MythicMobs,
             DevelopAssist,
@@ -58,21 +57,15 @@ open class Project(val version: String, groupName: String = "") {
         override val dependJarFile = listOf("1.16.5-patched")
     }
 
-    object DemonKill : Project(3) {
-        override val dependProject = listOf(Core, Dependency.CrackShot, Dependency.CrackShotPlus, Dependency.MythicMobs)
+    object DemonKill : Project(4) {
+        override val dependProject = listOf(Core, Dependency.CrackShotPlus, Dependency.MythicMobs)
     }
 
     open class Dependency(buildVersion: Int, version: String) : Project(buildVersion, version, "Dependency") {
-        object CrackShot : Dependency(3, "0.98.11") {
-            override val dependProject = listOf(Core)
-            override val dependPlugin = listOf("CrackShot")
-            override val dependJarFile = listOf("CrackShot")
-        }
-
-        object CrackShotPlus : Dependency(3, "1.97") {
+        object CrackShotPlus : Dependency(4, "1.97") {
             override val dependProject = listOf(Core)
             override val dependPlugin = listOf("CrackShotPlus")
-            override val dependJarFile = listOf("CrackShotPlus")
+            override val dependJarFile = listOf("CrackShot", "CrackShotPlus")
         }
 
         object MythicMobs : Dependency(3, "4.11.0-build-3560") {
@@ -100,8 +93,8 @@ open class Project(val version: String, groupName: String = "") {
         override val dependProject = listOf(Core)
     }
 
-    object MobArena : Project(26) {
-        override val dependProject = listOf(Core, Dependency.CrackShot, Dependency.CrackShotPlus, Dependency.MythicMobs, PlayerDataStore)
+    object MobArena : Project(27) {
+        override val dependProject = listOf(Core, Dependency.CrackShotPlus, Dependency.MythicMobs, PlayerDataStore)
     }
 
     object PlayerDataStore : Project(14) {

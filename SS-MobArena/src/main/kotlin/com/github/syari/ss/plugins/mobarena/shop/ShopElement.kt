@@ -5,7 +5,6 @@ import com.github.syari.ss.plugins.core.item.ItemStackPlus.give
 import com.github.syari.ss.plugins.core.item.ItemStackPlus.hasItem
 import com.github.syari.ss.plugins.core.item.ItemStackPlus.removeItem
 import com.github.syari.ss.plugins.core.item.itemStack
-import com.github.syari.ss.plugins.dependency.crackshot.CrackShotAPI
 import com.github.syari.ss.plugins.dependency.crackshotplus.CrackShotPlusAPI
 import com.github.syari.ss.plugins.dependency.mythicmobs.MythicMobsAPI
 import org.bukkit.Material
@@ -122,7 +121,7 @@ sealed class ShopElement {
                             } ?: 1
                             when (elementType) {
                                 "cs" -> {
-                                    CrackShotAPI.getItem(id)
+                                    CrackShotPlusAPI.getCrackShotItem(id)
                                 }
                                 "csp" -> {
                                     CrackShotPlusAPI.getAttachment(id)

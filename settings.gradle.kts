@@ -7,7 +7,6 @@ include(
     "SS-Core",
     "SS-DemonKill",
     "SS-Dependency-MythicMobs",
-    "SS-Dependency-CrackShot",
     "SS-Dependency-CrackShotPlus",
     "SS-DevelopAssist",
     "SS-Event-AcrobatSniper",

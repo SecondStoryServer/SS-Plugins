@@ -7,7 +7,6 @@ import com.github.syari.ss.plugins.core.code.IConfigLoader
 import com.github.syari.ss.plugins.core.config.ConfigItemConverter
 import com.github.syari.ss.plugins.core.item.itemStack
 import com.github.syari.ss.plugins.demonkill.Main.Companion.plugin
-import com.github.syari.ss.plugins.dependency.crackshot.CrackShotAPI
 import com.github.syari.ss.plugins.dependency.crackshotplus.CrackShotPlusAPI
 import com.github.syari.ss.plugins.dependency.mythicmobs.MythicMobsAPI
 import org.bukkit.Material
@@ -91,7 +90,7 @@ object ConfigLoader : IConfigLoader {
             MythicMobsAPI.getItem(it)
         },
         "cs" to {
-            CrackShotAPI.getItem(it)
+            CrackShotPlusAPI.getCrackShotItem(it)
         },
         "csp" to {
             CrackShotPlusAPI.getAttachment(it)

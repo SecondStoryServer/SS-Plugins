@@ -7,7 +7,6 @@ import com.github.syari.ss.plugins.core.code.IConfigLoader
 import com.github.syari.ss.plugins.core.config.ConfigItemConverter
 import com.github.syari.ss.plugins.core.item.itemStack
 import com.github.syari.ss.plugins.core.message.Message.send
-import com.github.syari.ss.plugins.dependency.crackshot.CrackShotAPI
 import com.github.syari.ss.plugins.dependency.crackshotplus.CrackShotPlusAPI
 import com.github.syari.ss.plugins.dependency.mythicmobs.MythicMobsAPI
 import com.github.syari.ss.plugins.mobarena.Main.Companion.plugin
@@ -140,7 +139,7 @@ object ConfigLoader : IConfigLoader {
             MythicMobsAPI.getItem(it)
         },
         "cs" to {
-            CrackShotAPI.getItem(it)
+            CrackShotPlusAPI.getCrackShotItem(it)
         },
         "csp" to {
             CrackShotPlusAPI.getAttachment(it)
