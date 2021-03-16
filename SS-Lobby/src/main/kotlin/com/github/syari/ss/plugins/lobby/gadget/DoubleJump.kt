@@ -31,7 +31,7 @@ object DoubleJump : Gadget(Material.LEATHER_BOOTS, "ダブルジャンプ", "lob
         private val allowFlightPlayers = mutableSetOf<UUIDPlayer>()
 
         private inline val Player.isEquipBoots: Boolean
-            get() = inventory.boots?.itemMeta?.displayName == leatherBoots.itemMeta?.displayName
+            get() = inventory.boots?.displayName == leatherBoots.displayName
 
         private inline val Player.isAdventure
             get() = gameMode == GameMode.ADVENTURE

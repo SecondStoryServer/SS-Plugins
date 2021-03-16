@@ -15,7 +15,7 @@ object LobbyInventory {
 
     fun getItem(item: ItemStack): LobbyItem? {
         return inventory.values.firstOrNull {
-            it.item.itemMeta?.displayName == item.itemMeta?.displayName
+            it.item.displayName == item.displayName
         }
     }
 

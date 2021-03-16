@@ -137,7 +137,7 @@ object ItemCreator : OnEnable {
                         } ?: run {
                             val item = getHeldItem() ?: return@execute
                             val base64 = Base64Item.toBase64(item) ?: return@execute template.sendError("Base64の取得に失敗しました")
-                            val displayName = item.itemMeta?.displayName?.ifBlank { null } ?: item.i18NDisplayName ?: item.type.name
+                            val displayName = item.displayName.ifBlank { item.i18NDisplayName ?: item.type.name }
                             template.send(
                                 buildTextComponent {
                                     append(displayName, hoverItem(item))
