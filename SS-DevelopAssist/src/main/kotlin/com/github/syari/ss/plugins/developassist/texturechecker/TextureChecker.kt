@@ -45,12 +45,16 @@ object TextureChecker : IConfigLoader {
                             openMaterialList(player)
                         }
                     }
-                    else -> {
+                    null -> {
                         template.sendCommandHelp(
                             "$label open" to "コンフィグで設定した一覧を開きます",
                             "$label open [material]" to "指定したマテリアルのテクスチャを確認します",
                             "$label reload" to "コンフィグを再読み込みします"
                         )
+                    }
+                    else -> {
+                        val player = sender as? Player ?: return@execute template.sendError(OnlyPlayer)
+                        openMaterialList(player)
                     }
                 }
             }
