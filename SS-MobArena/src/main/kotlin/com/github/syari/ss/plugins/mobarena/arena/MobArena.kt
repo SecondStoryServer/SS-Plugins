@@ -350,7 +350,7 @@ class MobArena(
         }
         checkDeadEntityTask?.cancel()
         checkDeadEntityTask = plugin.runTaskLater(40 * 20) {
-            mobs.removeIf { it.entity?.isDead == true }
+            mobs.removeIf { it.entity?.isDead != false }
             checkEntityCount()
         }
     }
