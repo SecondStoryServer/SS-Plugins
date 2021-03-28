@@ -16,6 +16,7 @@ object LobbyInventory {
     }
 
     fun applyToPlayer(player: Player) {
+        player.inventory.clear()
         inventory.forEach { (index, lobbyItem) ->
             player.inventory.setItem(index, lobbyItem.item)
         }
