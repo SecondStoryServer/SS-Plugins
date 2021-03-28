@@ -14,8 +14,8 @@ import com.github.syari.ss.plugins.core.scoreboard.CreateScoreBoard.board
 import com.github.syari.ss.plugins.mobarena.Main.Companion.plugin
 import com.github.syari.ss.plugins.mobarena.MobArenaManager.arenaPlayer
 import com.github.syari.ss.plugins.mobarena.kit.MobArenaKit
+import com.github.syari.ss.plugins.mobarena.lobby.LobbyInventory
 import com.github.syari.ss.plugins.mobarena.wave.MobArenaWave
-import com.github.syari.ss.plugins.playerdatastore.PlayerData.Companion.storeData
 import com.github.syari.ss.template.message.PluginMessageTemplateChatChannel
 import org.bukkit.Location
 import org.bukkit.attribute.Attribute
@@ -174,10 +174,9 @@ class MobArena(
             if (arenaPlayer.play) {
                 return player.send("&b[MobArena] &c既にモブアリーナに参加しています")
             } else {
-                arenaPlayer.arena.leave(player, false)
+                arenaPlayer.arena.leave(player)
             }
         } else {
-            player.storeData.unloadAll()
             player.inventory.clear()
         }
         if (playerLimit <= players.size) {
@@ -198,12 +197,11 @@ class MobArena(
         val arenaPlayer = player.arenaPlayer
         if (arenaPlayer != null) {
             if (arenaPlayer.play) {
-                arenaPlayer.arena.leave(player, false)
+                arenaPlayer.arena.leave(player)
             } else {
                 return player.send("&b[MobArena] &c既にモブアリーナに参加しています")
             }
         } else {
-            player.storeData.unloadAll()
             player.inventory.clear()
         }
         player.closeInventory()
@@ -212,7 +210,7 @@ class MobArena(
         board.addPlayer(player)
     }
 
-    fun leave(player: Player, loadItem: Boolean = true) {
+    fun leave(player: Player) {
         val arenaPlayer = getPlayer(player)
         if (arenaPlayer != null) {
             players.remove(arenaPlayer)
@@ -223,15 +221,7 @@ class MobArena(
             end(false)
         }
         player.closeInventory()
-        if (loadItem) {
-            player.inventory.clear()
-            player.storeData.run {
-                inventory.load()
-                location.get()?.let {
-                    player.teleport(it)
-                }
-            }
-        }
+        LobbyInventory.applyToPlayer(player)
         board.removePlayer(player)
         unsetChatChannel(player)
         updateAllBoard()
