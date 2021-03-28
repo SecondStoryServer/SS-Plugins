@@ -24,6 +24,7 @@ import org.bukkit.boss.BarStyle
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitTask
+import java.util.concurrent.ConcurrentSkipListSet
 
 class MobArena(
     val id: String,
@@ -40,7 +41,7 @@ class MobArena(
 ) {
     var players = mutableListOf<MobArenaPlayer>()
     var status = MobArenaStatus.StandBy
-    var mobs = mutableListOf<UUIDEntity>()
+    var mobs = ConcurrentSkipListSet<UUIDEntity>()
     var wave = 0
     var firstMemberSize = 0
 
