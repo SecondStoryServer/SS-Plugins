@@ -33,5 +33,4 @@ SS-Core の中で使っています。基本的な機能を簡単に扱えるよ
 | SS-GlobalPlayers | 7 |  |
 | SS-Lobby | 8 |  |
 | SS-MobArena | 27 |  |
-| SS-PlayerDataStore | 14 |  |
 <!-- Generate Versions -->

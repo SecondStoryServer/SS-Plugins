@@ -14,8 +14,7 @@ open class Project(val version: String, groupName: String = "") {
             Event.AcrobatSniper,
             GlobalPlayers,
             Lobby,
-            MobArena,
-            PlayerDataStore
+            MobArena
         )
 
         fun get(name: String) = list.firstOrNull { it.name == name }
@@ -94,10 +93,6 @@ open class Project(val version: String, groupName: String = "") {
     }
 
     object MobArena : Project(27) {
-        override val dependProject = listOf(Core, Dependency.CrackShotPlus, Dependency.MythicMobs, PlayerDataStore)
-    }
-
-    object PlayerDataStore : Project(14) {
-        override val dependProject = listOf(Core)
+        override val dependProject = listOf(Core, Dependency.CrackShotPlus, Dependency.MythicMobs)
     }
 }
