@@ -223,6 +223,7 @@ class MobArena(
         }
         player.closeInventory()
         LobbyInventory.applyToPlayer(player)
+        player.teleport(player.world.spawnLocation)
         board.removePlayer(player)
         unsetChatChannel(player)
         updateAllBoard()
