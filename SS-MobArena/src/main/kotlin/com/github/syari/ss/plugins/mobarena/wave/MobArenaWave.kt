@@ -39,11 +39,11 @@ class MobArenaWave(
         for (i in 0 until mobAmount) {
             val mob = withPriorityList.firstOrNull { (0..maxPriority).random() in it.first }?.second ?: continue
             val entity = mob.spawn(arena.mobSpawn) ?: continue
-            arena.mobs.add(UUIDEntity.from(entity))
+            arena.mobs[UUIDEntity.from(entity)] = mob
         }
         if (boss != null) {
             val entity = boss.spawn(arena.mobSpawn) ?: return
-            arena.mobs.add(UUIDEntity.from(entity))
+            arena.mobs[UUIDEntity.from(entity)] = boss
             if (entity is LivingEntity) {
                 val bar = bossBar(entity.customName ?: "null", BarColor.RED, BarStyle.SOLID)
                 arena.players.forEach { bar.addPlayer(it.player) }

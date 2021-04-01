@@ -16,7 +16,9 @@ import com.github.syari.ss.plugins.mobarena.MobArenaManager.arenaPlayer
 import com.github.syari.ss.plugins.mobarena.insertItem
 import com.github.syari.ss.plugins.mobarena.kit.MobArenaKit
 import com.github.syari.ss.plugins.mobarena.lobby.LobbyInventory
+import com.github.syari.ss.plugins.mobarena.wave.MobArenaEntity
 import com.github.syari.ss.plugins.mobarena.wave.MobArenaWave
+import com.github.syari.ss.plugins.mobarena.wave.boss.MobArenaBoss
 import com.github.syari.ss.template.message.PluginMessageTemplateChatChannel
 import org.bukkit.Location
 import org.bukkit.attribute.Attribute
@@ -25,7 +27,7 @@ import org.bukkit.boss.BarStyle
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitTask
-import java.util.concurrent.ConcurrentSkipListSet
+import java.util.concurrent.ConcurrentHashMap
 
 class MobArena(
     val id: String,
@@ -42,7 +44,7 @@ class MobArena(
 ) {
     var players = mutableListOf<MobArenaPlayer>()
     var status = MobArenaStatus.StandBy
-    var mobs = ConcurrentSkipListSet<UUIDEntity>()
+    var mobs = ConcurrentHashMap<UUIDEntity, MobArenaEntity>()
     var wave = 0
     var firstMemberSize = 0
 
@@ -251,7 +253,7 @@ class MobArena(
             MobArenaStatus.NowPlay -> {
                 nextWaveTask?.cancel()
                 mobs.toList().forEach {
-                    it.entity?.remove()
+                    it.first.entity?.remove()
                 }
                 mobs.clear()
             }
@@ -349,13 +351,21 @@ class MobArena(
         }
         checkDeadEntityTask?.cancel()
         checkDeadEntityTask = plugin.runTaskLater(5 * 20) {
-            mobs.removeIf { it.entity?.isDead != false }
+            mobs.toList().forEach {
+                if (it.first.entity?.isDead != false) {
+                    mobs.remove(it.first)
+                }
+            }
             checkEntityCount()
         }
     }
 
     fun onKillEntity(entity: LivingEntity) {
-        mobs.remove(UUIDEntity.from(entity))
+        mobs.remove(UUIDEntity.from(entity))?.let {
+            if (it is MobArenaBoss) {
+                announce("&b[MobArena] &a${entity.name} &fが討伐されました")
+            }
+        }
         checkEntityCount()
     }
 }

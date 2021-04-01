@@ -49,7 +49,7 @@ object MobArenaManager : OnDisable {
 
     fun getArena(id: String) = arenas.firstOrNull { it.id.equals(id, ignoreCase = true) }
 
-    fun getArena(entity: Entity) = arenas.firstOrNull { UUIDEntity.from(entity) in it.mobs }
+    fun getArena(entity: Entity) = arenas.firstOrNull { UUIDEntity.from(entity) in it.mobs.keys }
 
     fun getArenaInPlay(loc: Location) = arenas.firstOrNull { it.playArea.region.inRegion(loc) }
 
