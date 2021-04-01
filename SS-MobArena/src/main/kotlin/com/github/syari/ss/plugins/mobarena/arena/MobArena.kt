@@ -273,6 +273,7 @@ class MobArena(
         }
         wave = 0
         firstMemberSize = 0
+        nextWaveTask = null
         publicChest = initChest()
         status = MobArenaStatus.StandBy
         reloadProgress()
