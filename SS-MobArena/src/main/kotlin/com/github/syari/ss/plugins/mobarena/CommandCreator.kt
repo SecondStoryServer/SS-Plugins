@@ -79,7 +79,7 @@ object CommandCreator : OnEnable {
                         val arenaPlayer = player.arenaPlayer
                         if (arenaPlayer != null) {
                             if (arenaPlayer.play) {
-                                val id = args.getOrNull(1) ?: return@execute template.sendError("キット名を入力してください")
+                                val id = args.getOrNull(1) ?: return@execute arenaPlayer.openKitList()
                                 val kit = MobArenaKit.getKit(id) ?: return@execute template.sendError("存在しないキットです")
                                 if (arenaPlayer.arena.availableKit(kit).not()) return@execute template.sendError("使用不可能なキットです")
                                 arenaPlayer.loadKit(kit)

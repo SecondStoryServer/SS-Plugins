@@ -45,9 +45,13 @@ class MobArenaKit(
                                 }
                             }
                         ).event {
-                            kit.openPreview(player) {
-                                openPreviewList(player, page)
-                            }
+                            kit.openPreview(
+                                player,
+                                onClose = {
+                                    openPreviewList(player, page)
+                                },
+                                onSelect = {}
+                            )
                         }
                     }
                     item(45..53, Material.GRAY_STAINED_GLASS_PANE)
@@ -82,7 +86,7 @@ class MobArenaKit(
         }
     }
 
-    fun openPreview(player: Player, onClose: () -> Unit) {
+    fun openPreview(player: Player, onClose: () -> Unit, onSelect: () -> Unit) {
         inventory("&9&l${name.toUncolor()}", 6) {
             var slot = 0
             for (i in 9 until 36) {
@@ -100,6 +104,7 @@ class MobArenaKit(
             }
             item((36..37) + (43..48) + (50..53), Material.GRAY_STAINED_GLASS_PANE)
             item(49, Material.RED_STAINED_GLASS_PANE, "&c&l閉じる").event(onClose)
+            item(51, Material.LIME_STAINED_GLASS_PANE, "&6&lこのキットを使う").event(onSelect)
         }.open(player)
     }
 }
