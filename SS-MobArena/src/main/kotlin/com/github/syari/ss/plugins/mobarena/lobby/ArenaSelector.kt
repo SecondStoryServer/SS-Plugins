@@ -20,7 +20,7 @@ object ArenaSelector : LobbyItem {
                     MobArenaStatus.WaitReady -> Material.LIME_DYE to "&a"
                     MobArenaStatus.NowPlay -> Material.PINK_DYE to "&c"
                 }
-                item(index, material, color + arena.name, "&6&l◀︎ &a左クリックで参加", "&6&l▶︎ &a右クリックで観戦")
+                item(index, material, color + arena.name, "&6&l◀ &a左クリックで参加", "&6&l▶ &a右クリックで観戦")
                     .event(ClickType.LEFT) {
                         if (player.inMobArena.not()) {
                             arena.join(player)
