@@ -142,7 +142,9 @@ class MobArena(
 
     var nextWaveTask: BukkitTask? = null
     var bar: CustomBossBar? = null
-    var publicChest = inventory("&0&l共有チェスト", 2) {
+    var publicChest = initChest()
+
+    private fun initChest() = inventory("&0&l共有チェスト", 2) {
         onClick = {
             val player = it.whoClicked as? Player
             if (player != null) {
@@ -163,7 +165,7 @@ class MobArena(
 
     fun join(player: Player) {
         if (status == MobArenaStatus.NowPlay) {
-            return player.send("&b[MobArena] &c既にゲームが始まっています /ma-debug s $id で観戦しましょう")
+            return player.send("&b[MobArena] &c既にゲームが始まっています")
         }
         val arenaPlayer = player.arenaPlayer
         if (arenaPlayer != null) {
@@ -176,7 +178,7 @@ class MobArena(
             player.inventory.clear()
         }
         if (playerLimit <= players.size) {
-            return player.send("&b[MobArena] &c制限人数に達しています /ma-debug s $id で観戦しましょう")
+            return player.send("&b[MobArena] &c制限人数に達しています")
         }
         if (players.isEmpty()) {
             firstJoin()
@@ -266,12 +268,12 @@ class MobArena(
             }
             players.clear()
         } else {
-            broadcast("&b[MobArena] &a$name&fのゲームが終わりました &a/ma-debug j $id &fで始めましょう")
+            broadcast("&b[MobArena] &a$name&fのゲームが終わりました")
             updateAllBoard()
         }
         wave = 0
         firstMemberSize = 0
-        publicChest = inventory("&0&l共有チェスト", 2) {}
+        publicChest = initChest()
         status = MobArenaStatus.StandBy
         reloadProgress()
     }
