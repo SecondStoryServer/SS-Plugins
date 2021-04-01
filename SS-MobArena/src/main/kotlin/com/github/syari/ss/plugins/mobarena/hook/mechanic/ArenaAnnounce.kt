@@ -15,6 +15,7 @@ class ArenaAnnounce(skill: String, mlc: MythicLineConfig) : SkillMechanic(skill,
     }
 
     private val message = mlc.getString(arrayOf("message", "msg", "m"))
+    private val prefix = mlc.getString(arrayOf("prefix", "pre", "p"), "&b[MobArena] ")
 
     override fun castAtEntity(data: SkillMetadata, target: AbstractEntity): Boolean {
         val entity = target.bukkitEntity
@@ -22,7 +23,7 @@ class ArenaAnnounce(skill: String, mlc: MythicLineConfig) : SkillMechanic(skill,
             entity.arenaPlayer?.arena
         } else {
             MobArenaManager.getArena(entity) ?: MobArenaManager.getArenaInPlay(entity.location)
-        }?.announce(message)
+        }?.announce(prefix + message)
         return true
     }
 }
