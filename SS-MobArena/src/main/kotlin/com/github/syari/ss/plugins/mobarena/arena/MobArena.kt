@@ -282,6 +282,7 @@ class MobArena(
     }
 
     fun onDeath(player: Player) {
+        announce("&b[MobArena] &a${player.displayName} &fが死んでしまいました")
         plugin.runTaskLater(3) {
             leave(player)
         }
