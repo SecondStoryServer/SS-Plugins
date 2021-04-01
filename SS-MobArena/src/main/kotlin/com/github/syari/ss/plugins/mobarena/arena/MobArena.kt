@@ -1,7 +1,6 @@
 package com.github.syari.ss.plugins.mobarena.arena
 
 import com.github.syari.spigot.api.scheduler.runTaskLater
-import com.github.syari.spigot.api.scheduler.runTaskTimer
 import com.github.syari.spigot.api.string.toColor
 import com.github.syari.spigot.api.uuid.UUIDEntity
 import com.github.syari.ss.plugins.core.bossBar.CustomBossBar
@@ -132,21 +131,17 @@ class MobArena(
         }
     }
 
-    private fun checkReady(): Int {
-        return players.count { it.play && it.ready.not() }.also {
-            if (it == 0 && allowStart) {
-                start()
-            }
+    fun checkReady(player: Player) {
+        val count = players.count { it.play && it.ready.not() }
+        if (count == 0) {
+            start()
+        } else {
+            announce("&b[MobArena] &a${player.displayName}&fが準備完了しました &f残り${count}人です")
         }
     }
 
-    fun checkReady(player: Player) {
-        announce("&b[MobArena] &a${player.displayName}&fが準備完了しました &f残り${checkReady()}人です")
-    }
-
+    var nextWaveTask: BukkitTask? = null
     var bar: CustomBossBar? = null
-    var mainTask: BukkitTask? = null
-    var allowStart = false
     var publicChest = inventory("&0&l共有チェスト", 2) {
         onClick = {
             val player = it.whoClicked as? Player
@@ -161,22 +156,9 @@ class MobArena(
     }
 
     private fun firstJoin() {
-        broadcast("もぶありーなはじまるよ！！！！！！！！！！！")
-        allowStart = false
+        broadcast("&b[MobArena] &a$$name &fが始まります")
         status = MobArenaStatus.WaitReady
-        bar = bossBar("&a&l$name &f&lが始まります", BarColor.GREEN, BarStyle.SOLID, true)
-        var progress = 0
-        mainTask = plugin.runTaskTimer(90) {
-            bar?.progress = progress / 90.0
-            progress ++
-            if (progress == 90) {
-                cancel()
-                allowStart = true
-                if (checkReady() != 0) {
-                    announce("&b[MobArena] &f全員が準備完了をしたらゲームを開始します")
-                }
-            }
-        }
+        bar = bossBar("&f&l全員が準備完了をしたらゲームを開始します", BarColor.GREEN, BarStyle.SOLID)
     }
 
     fun join(player: Player) {
@@ -202,6 +184,7 @@ class MobArena(
         players.add(MobArenaPlayer(this, player, true))
         player.closeInventory()
         player.teleport(lobbyArea.spawn)
+        bar?.addPlayer(player)
         board.addPlayer(player)
         setChatChannel(player)
         updateAllBoard()
@@ -237,6 +220,7 @@ class MobArena(
         player.closeInventory()
         LobbyInventory.applyToPlayer(player)
         player.teleport(player.world.spawnLocation)
+        bar?.removePlayer(player)
         board.removePlayer(player)
         unsetChatChannel(player)
         updateAllBoard()
@@ -246,7 +230,6 @@ class MobArena(
         bar?.delete()
         bar = bossBar("&e&lWave", BarColor.BLUE, BarStyle.SOLID)
         status = MobArenaStatus.NowPlay
-        mainTask?.cancel()
         players.forEach {
             if (it.play) {
                 val player = it.player
@@ -258,21 +241,20 @@ class MobArena(
             }
         }
         reloadProgress()
-        mainTask = null
         checkEntityCount()
     }
 
     fun end(force: Boolean) {
         when (status) {
             MobArenaStatus.NowPlay -> {
-                mainTask?.cancel()
+                nextWaveTask?.cancel()
                 mobs.toList().forEach {
                     it.entity?.remove()
                 }
                 mobs.clear()
             }
             MobArenaStatus.WaitReady -> {
-                mainTask?.cancel()
+                nextWaveTask?.cancel()
                 bar?.delete()
             }
             MobArenaStatus.StandBy -> return
@@ -343,7 +325,7 @@ class MobArena(
         }
         reloadProgress()
         updateAllBoard()
-        mainTask = null
+        nextWaveTask = null
     }
 
     var checkEntityTask: BukkitTask? = null
@@ -352,8 +334,8 @@ class MobArena(
     private fun checkEntityCount() {
         if (status != MobArenaStatus.NowPlay) return
         if (mobs.size < entityLimit) {
-            if (mainTask == null) {
-                mainTask = plugin.runTaskLater(waveInterval) {
+            if (nextWaveTask == null) {
+                nextWaveTask = plugin.runTaskLater(waveInterval) {
                     nextWave()
                     checkEntityTask?.cancel()
                     checkEntityTask = plugin.runTaskLater(waveInterval) {
@@ -363,7 +345,7 @@ class MobArena(
             }
         }
         checkDeadEntityTask?.cancel()
-        checkDeadEntityTask = plugin.runTaskLater(40 * 20) {
+        checkDeadEntityTask = plugin.runTaskLater(5 * 20) {
             mobs.removeIf { it.entity?.isDead != false }
             checkEntityCount()
         }

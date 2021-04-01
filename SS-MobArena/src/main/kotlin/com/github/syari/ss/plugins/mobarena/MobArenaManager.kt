@@ -23,10 +23,10 @@ object MobArenaManager : OnDisable {
                     arena.status = it.status
                     arena.mobs = it.mobs
                     arena.wave = it.wave
-                    arena.mainTask = it.mainTask
+                    arena.nextWaveTask = it.nextWaveTask
+                    arena.checkEntityTask = it.checkEntityTask
                     arena.checkDeadEntityTask = it.checkDeadEntityTask
                     arena.bar = it.bar
-                    arena.allowStart = it.allowStart
                     arena.entityLimit = it.entityLimit
                     arena.publicChest = it.publicChest
                 }
