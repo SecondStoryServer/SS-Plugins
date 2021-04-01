@@ -16,8 +16,6 @@ import org.bukkit.entity.Player
 import org.bukkit.entity.Projectile
 import org.bukkit.event.block.Action
 import org.bukkit.event.block.SignChangeEvent
-import org.bukkit.event.entity.EntityCombustByBlockEvent
-import org.bukkit.event.entity.EntityCombustEvent
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.entity.EntityDeathEvent
 import org.bukkit.event.entity.EntityTargetEvent
@@ -81,14 +79,6 @@ object ArenaEventListener : EventRegister {
             val entity = it.entity
             val arena = getArena(entity) ?: return@event
             if (it.target !is Player) it.target = arena.livingPlayers.random().player
-        }
-        event<EntityCombustEvent>(ignoreCancelled = true) {
-            val entity = it.entity
-            if (getArena(entity) == null) return@event
-            if (it is EntityCombustByBlockEvent || it is EntityDamageByEntityEvent) {
-                return@event
-            }
-            it.isCancelled = true
         }
         event<SignChangeEvent> {
             val player = it.player
