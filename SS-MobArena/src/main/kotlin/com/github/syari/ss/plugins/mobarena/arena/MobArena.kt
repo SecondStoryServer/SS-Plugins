@@ -158,7 +158,7 @@ class MobArena(
     }
 
     private fun firstJoin() {
-        broadcast("&b[MobArena] &a$$name &fが始まります")
+        broadcast("&b[MobArena] &a$name &fが始まります")
         status = MobArenaStatus.WaitReady
         bar = bossBar("&f&l全員が準備完了をしたらゲームを開始します", BarColor.GREEN, BarStyle.SOLID)
     }
