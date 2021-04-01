@@ -2,6 +2,7 @@ package com.github.syari.ss.plugins.mobarena.arena
 
 import com.github.syari.spigot.api.scheduler.runTaskLater
 import com.github.syari.spigot.api.scheduler.runTaskTimer
+import com.github.syari.spigot.api.string.toColor
 import com.github.syari.spigot.api.uuid.UUIDEntity
 import com.github.syari.ss.plugins.core.bossBar.CustomBossBar
 import com.github.syari.ss.plugins.core.bossBar.CustomBossBar.Companion.bossBar
@@ -13,6 +14,7 @@ import com.github.syari.ss.plugins.core.pluginMessage.PluginMessage
 import com.github.syari.ss.plugins.core.scoreboard.CreateScoreBoard.board
 import com.github.syari.ss.plugins.mobarena.Main.Companion.plugin
 import com.github.syari.ss.plugins.mobarena.MobArenaManager.arenaPlayer
+import com.github.syari.ss.plugins.mobarena.insertItem
 import com.github.syari.ss.plugins.mobarena.kit.MobArenaKit
 import com.github.syari.ss.plugins.mobarena.lobby.LobbyInventory
 import com.github.syari.ss.plugins.mobarena.wave.MobArenaWave
@@ -145,7 +147,18 @@ class MobArena(
     var bar: CustomBossBar? = null
     var mainTask: BukkitTask? = null
     var allowStart = false
-    var publicChest = inventory("&0&l共有チェスト", 2) {}
+    var publicChest = inventory("&0&l共有チェスト", 2) {
+        onClick = {
+            val player = it.whoClicked as? Player
+            if (player != null) {
+                val lore = it.insertItem?.lore
+                if (lore != null && lore.contains("&c受け渡し不可".toColor())) {
+                    it.isCancelled = true
+                }
+            }
+        }
+        cancel = false
+    }
 
     private fun firstJoin() {
         broadcast("もぶありーなはじまるよ！！！！！！！！！！！")

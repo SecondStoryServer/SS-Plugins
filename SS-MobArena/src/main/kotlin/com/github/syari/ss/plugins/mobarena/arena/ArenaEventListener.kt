@@ -23,37 +23,11 @@ import org.bukkit.event.entity.EntityDeathEvent
 import org.bukkit.event.entity.EntityTargetEvent
 import org.bukkit.event.entity.ItemSpawnEvent
 import org.bukkit.event.entity.PlayerDeathEvent
-import org.bukkit.event.inventory.ClickType
-import org.bukkit.event.inventory.InventoryClickEvent
-import org.bukkit.event.inventory.InventoryType
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerQuitEvent
-import org.bukkit.inventory.ItemStack
 
 object ArenaEventListener : EventRegister {
-    private inline val InventoryClickEvent.insertItem
-        get(): ItemStack? {
-            val player = whoClicked as? Player ?: return null
-            return if (player.openInventory.topInventory.type != InventoryType.CRAFTING) {
-                when {
-                    clickedInventory == player.inventory -> currentItem
-                    click == ClickType.NUMBER_KEY -> player.inventory.getItem(hotbarButton)
-                    else -> cursor
-                }
-            } else {
-                null
-            }
-        }
-
     override fun Events.register() {
-        event<InventoryClickEvent>(ignoreCancelled = true) {
-            val player = it.whoClicked as? Player ?: return@event
-            if (player.inMobArena.not()) return@event
-            val lore = it.insertItem?.lore ?: return@event
-            if (lore.contains("&c受け渡し不可".toColor())) {
-                it.isCancelled = true
-            }
-        }
         event<PlayerQuitEvent> {
             val player = it.player
             val arena = player.arena ?: return@event
