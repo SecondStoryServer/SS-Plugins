@@ -13,6 +13,5 @@ class Main : SSPlugin() {
         plugin = this
     }
 
-    override val onEnables = listOf(ConfigLoader, CommandCreator)
-    override val events = listOf(EventListener, DoubleJump.EventListener)
+    override val onEnables = listOf(ConfigLoader, CommandCreator, EventListener, DoubleJump.EventListener)
 }

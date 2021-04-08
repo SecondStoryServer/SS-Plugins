@@ -1,6 +1,6 @@
 package com.github.syari.ss.plugins.lobby.item
 
-import com.github.syari.ss.plugins.core.inventory.CreateInventory.inventory
+import com.github.syari.spigot.api.inventory.inventory
 import com.github.syari.ss.plugins.core.item.itemStack
 import com.github.syari.ss.plugins.core.pluginMessage.PluginMessage
 import org.bukkit.Material
@@ -17,11 +17,13 @@ object ServerSelector : ClickableLobbyItem {
         inventory("&9&lサーバー選択", 1) {
             servers.forEach { (index, server) ->
                 if (server.hidden.not() || player.isOp) {
-                    item(index, server.material, server.displayName, server.description).event {
-                        if (server.name.isNotBlank()) {
-                            PluginMessage.sendBungee(player) {
-                                writeUTF("Connect")
-                                writeUTF(server.name)
+                    item(index, server.material, server.displayName, server.description) {
+                        onClick {
+                            if (server.name.isNotBlank()) {
+                                PluginMessage.sendBungee(player) {
+                                    writeUTF("Connect")
+                                    writeUTF(server.name)
+                                }
                             }
                         }
                     }

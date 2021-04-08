@@ -4,8 +4,9 @@ import com.github.syari.spigot.api.command.command
 import com.github.syari.spigot.api.command.tab.CommandTabArgument.Companion.argument
 import com.github.syari.spigot.api.config.config
 import com.github.syari.spigot.api.config.type.ConfigDataType
+import com.github.syari.spigot.api.inventory.inventory
 import com.github.syari.ss.plugins.core.code.IConfigLoader
-import com.github.syari.ss.plugins.core.inventory.CreateInventory.inventory
+import com.github.syari.ss.plugins.core.item.itemStack
 import com.github.syari.ss.plugins.core.message.template.ConstantMessage.OnlyPlayer
 import com.github.syari.ss.plugins.core.message.template.ConstantMessage.ReloadConfig
 import com.github.syari.ss.plugins.core.message.template.templateMessage
@@ -70,8 +71,10 @@ object TextureChecker : IConfigLoader {
     private fun openMaterialList(player: Player) {
         inventory("&9&l親アイテム", 6) {
             parentMaterials.forEachIndexed { index, material ->
-                item(index, material, "&6&l${material.name}").event {
-                    openMaterial(player, material)
+                item(index, material, "&6&l${material.name}") {
+                    onClick {
+                        openMaterial(player, material)
+                    }
                 }
             }
         }.open(player)
@@ -83,17 +86,28 @@ object TextureChecker : IConfigLoader {
             else -> inventory("&9&l${material.name}", 6) {
                 val modelDataOffset = (page * 45)
                 for (i in 0 until 45) {
-                    item(i, material, "&6&l${i + modelDataOffset}", customModelData = i + modelDataOffset)
+                    item(
+                        i,
+                        itemStack(material, "&6&l${i + modelDataOffset}").apply {
+                            setCustomModelData(i + modelDataOffset)
+                        }
+                    )
                 }
                 item(45..53, Material.BLACK_STAINED_GLASS_PANE)
-                item(47, Material.ORANGE_STAINED_GLASS_PANE, "&d<<").event {
-                    openMaterial(player, material, page - 1)
+                item(47, Material.ORANGE_STAINED_GLASS_PANE, "&d<<") {
+                    onClick {
+                        openMaterial(player, material, page - 1)
+                    }
                 }
-                item(49, Material.RED_STAINED_GLASS_PANE, "&c戻る").event {
-                    openMaterialList(player)
+                item(49, Material.RED_STAINED_GLASS_PANE, "&c戻る") {
+                    onClick {
+                        openMaterialList(player)
+                    }
                 }
-                item(51, Material.ORANGE_STAINED_GLASS_PANE, "&d>>").event {
-                    openMaterial(player, material, page + 1)
+                item(51, Material.ORANGE_STAINED_GLASS_PANE, "&d>>") {
+                    onClick {
+                        openMaterial(player, material, page + 1)
+                    }
                 }
             }.open(player)
         }

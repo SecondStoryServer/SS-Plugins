@@ -1,10 +1,10 @@
 package com.github.syari.ss.plugins.event.acrobatsniper
 
-import com.github.syari.spigot.api.event.EventRegister
-import com.github.syari.spigot.api.event.Events
+import com.github.syari.spigot.api.event.events
 import com.github.syari.spigot.api.scheduler.runTaskLater
 import com.github.syari.spigot.api.scheduler.runTaskTimer
 import com.github.syari.spigot.api.sound.playSound
+import com.github.syari.ss.plugins.core.code.OnEnable
 import com.github.syari.ss.plugins.core.message.Message.broadcast
 import com.github.syari.ss.plugins.core.message.Message.title
 import com.github.syari.ss.plugins.event.acrobatsniper.Main.Companion.plugin
@@ -74,45 +74,47 @@ class Match(private val player1: MatchPlayer, private val player2: MatchPlayer) 
         }
     }
 
-    object EventListener : EventRegister {
-        override fun Events.register() {
-            event<EntityDeathEvent> {
-                val player = it.entity as? Player ?: return@event
-                val matchPlayer = MatchPlayer.get(player) ?: return@event
-                it.isCancelled = true
-                val enemyPlayer = matchPlayer.enemy
-                val enemyName = enemyPlayer.displayName
-                val playerName = player.displayName
-                if (matchPlayer.life == 1) {
-                    broadcast("&b[AcrobatSniper] &6$enemyName &fが &6$playerName &fに勝ちました")
-                    MatchPlayer.remove(player)
-                    val spawnLocation = player.world.spawnLocation
-                    matchPlayer.match.addPotionEffect(PotionEffectType.WEAKNESS, 10 * 20)
-                    var index = 0
-                    plugin.runTaskTimer(10) {
-                        if (14 < index) {
-                            cancel()
-                            player.teleport(spawnLocation)
-                            enemyPlayer.teleport(spawnLocation)
-                        } else {
-                            val location = enemyPlayer.location.add(0.0, 2.0, 0.0)
-                            location.world.spawn(location, Firework::class.java)
-                            index ++
+    object EventListener : OnEnable {
+        override fun onEnable() {
+            plugin.events {
+                event<EntityDeathEvent> {
+                    val player = it.entity as? Player ?: return@event
+                    val matchPlayer = MatchPlayer.get(player) ?: return@event
+                    it.isCancelled = true
+                    val enemyPlayer = matchPlayer.enemy
+                    val enemyName = enemyPlayer.displayName
+                    val playerName = player.displayName
+                    if (matchPlayer.life == 1) {
+                        broadcast("&b[AcrobatSniper] &6$enemyName &fが &6$playerName &fに勝ちました")
+                        MatchPlayer.remove(player)
+                        val spawnLocation = player.world.spawnLocation
+                        matchPlayer.match.addPotionEffect(PotionEffectType.WEAKNESS, 10 * 20)
+                        var index = 0
+                        Main.plugin.runTaskTimer(10) {
+                            if (14 < index) {
+                                cancel()
+                                player.teleport(spawnLocation)
+                                enemyPlayer.teleport(spawnLocation)
+                            } else {
+                                val location = enemyPlayer.location.add(0.0, 2.0, 0.0)
+                                location.world.spawn(location, Firework::class.java)
+                                index ++
+                            }
+                        }
+                    } else {
+                        matchPlayer.life --
+                        broadcast("&b[AcrobatSniper] &6$enemyName &fが &6$playerName &fの残機を減らし、残り &6${matchPlayer.life} &fになりました")
+                        Main.plugin.runTaskLater(3) {
+                            matchPlayer.match.start()
                         }
                     }
-                } else {
-                    matchPlayer.life --
-                    broadcast("&b[AcrobatSniper] &6$enemyName &fが &6$playerName &fの残機を減らし、残り &6${matchPlayer.life} &fになりました")
-                    plugin.runTaskLater(3) {
-                        matchPlayer.match.start()
-                    }
                 }
-            }
-            cancelEventIf<EntityShootBowEvent> {
-                it.entity.hasPotionEffect(PotionEffectType.WEAKNESS)
-            }
-            cancelEventIf<PlayerMoveEvent> {
-                it.player.hasPotionEffect(PotionEffectType.SLOW)
+                cancelEventIf<EntityShootBowEvent> {
+                    it.entity.hasPotionEffect(PotionEffectType.WEAKNESS)
+                }
+                cancelEventIf<PlayerMoveEvent> {
+                    it.player.hasPotionEffect(PotionEffectType.SLOW)
+                }
             }
         }
     }

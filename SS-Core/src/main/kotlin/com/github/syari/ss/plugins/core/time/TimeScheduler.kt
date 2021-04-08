@@ -2,8 +2,7 @@
 
 package com.github.syari.ss.plugins.core.time
 
-import com.github.syari.spigot.api.event.EventRegister
-import com.github.syari.spigot.api.event.Events
+import com.github.syari.spigot.api.event.events
 import com.github.syari.spigot.api.scheduler.runTaskLater
 import com.github.syari.ss.plugins.core.Main.Companion.plugin
 import com.github.syari.ss.plugins.core.code.OnEnable
@@ -14,7 +13,7 @@ import org.bukkit.plugin.java.JavaPlugin
 import java.time.DayOfWeek
 import java.time.LocalDateTime
 
-object TimeScheduler : OnEnable, EventRegister {
+object TimeScheduler : OnEnable {
     class TimeSchedules {
         val everyWeekScheduler = mutableMapOf<ScheduleTimeEveryWeek, MutableSet<() -> Unit>>()
         val everyDayScheduler = mutableMapOf<ScheduleTimeEveryDay, MutableSet<() -> Unit>>()
@@ -95,6 +94,18 @@ object TimeScheduler : OnEnable, EventRegister {
         plugin.runTaskLater(60 - now.second.toLong()) {
             nextMinute(ScheduleTimeEveryWeek.create(now.dayOfWeek, now.hour, now.minute + 1))
         }
+        plugin.events {
+            event<NextMinuteEvent> {
+                schedules.values.forEach { list ->
+                    val everyWeek = it.scheduleTime
+                    list.everyWeekScheduler[everyWeek]?.forEach { it() }
+                    val everyDay = everyWeek.everyDay
+                    list.everyDayScheduler[everyDay]?.forEach { it() }
+                    val everyHour = everyDay.everyHour
+                    list.everyHourScheduler[everyHour]?.forEach { it() }
+                }
+            }
+        }
     }
 
     private fun nextMinute(time: ScheduleTimeEveryWeek) {
@@ -109,19 +120,6 @@ object TimeScheduler : OnEnable, EventRegister {
         }.callEvent()
         plugin.runTaskLater(60 * 20) {
             nextMinute(time.getNextMinute())
-        }
-    }
-
-    override fun Events.register() {
-        event<NextMinuteEvent> {
-            schedules.values.forEach { list ->
-                val everyWeek = it.scheduleTime
-                list.everyWeekScheduler[everyWeek]?.forEach { it() }
-                val everyDay = everyWeek.everyDay
-                list.everyDayScheduler[everyDay]?.forEach { it() }
-                val everyHour = everyDay.everyHour
-                list.everyHourScheduler[everyHour]?.forEach { it() }
-            }
         }
     }
 }

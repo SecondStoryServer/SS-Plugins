@@ -1,7 +1,7 @@
 package com.github.syari.ss.plugins.mobarena.shop
 
+import com.github.syari.spigot.api.inventory.inventory
 import com.github.syari.spigot.api.item.editLore
-import com.github.syari.ss.plugins.core.inventory.CreateInventory.inventory
 import org.bukkit.entity.Player
 
 data class Shop(
@@ -41,15 +41,17 @@ data class Shop(
                         add((if (canBuy) "&a" else "&c") + action.target.targetText)
                     }
                 }
-                item(index, item).event {
-                    var isReopen = true
-                    if (canBuy) {
-                        isReopen = action.buy(player)
-                        (action as? ShopAction.Paid)?.needs?.forEach {
-                            it.remove(player)
+                item(index, item) {
+                    onClick {
+                        var isReopen = true
+                        if (canBuy) {
+                            isReopen = action.buy(player)
+                            (action as? ShopAction.Paid)?.needs?.forEach {
+                                it.remove(player)
+                            }
                         }
+                        if (isReopen) openShop(player)
                     }
-                    if (isReopen) openShop(player)
                 }
             }
         }.open(player)

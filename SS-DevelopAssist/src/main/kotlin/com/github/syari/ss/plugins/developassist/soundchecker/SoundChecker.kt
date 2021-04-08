@@ -1,8 +1,8 @@
 package com.github.syari.ss.plugins.developassist.soundchecker
 
 import com.github.syari.spigot.api.command.command
+import com.github.syari.spigot.api.inventory.inventory
 import com.github.syari.ss.plugins.core.code.OnEnable
-import com.github.syari.ss.plugins.core.inventory.CreateInventory.inventory
 import com.github.syari.ss.plugins.core.message.template.ConstantMessage.OnlyPlayer
 import com.github.syari.ss.plugins.core.message.template.sendTemplateError
 import com.github.syari.ss.plugins.developassist.Main.Companion.plugin
@@ -55,33 +55,45 @@ object SoundChecker : OnEnable {
                                 "&6SL: -0.1",
                                 "&6SR: +0.1",
                                 "&6R: +0.5"
-                            ).event(ClickType.LEFT) {
-                                updatePitch(pitch - 0.5F)
-                            }.event(ClickType.SHIFT_LEFT) {
-                                updatePitch(pitch - 0.1F)
-                            }.event(ClickType.SHIFT_RIGHT) {
-                                updatePitch(pitch + 0.1F)
-                            }.event(ClickType.RIGHT) {
-                                updatePitch(pitch + 0.5F)
-                            }.event {
-                                playSound()
+                            ) {
+                                onClick(ClickType.LEFT) {
+                                    updatePitch(pitch - 0.5F)
+                                }
+                                onClick(ClickType.SHIFT_LEFT) {
+                                    updatePitch(pitch - 0.1F)
+                                }
+                                onClick(ClickType.SHIFT_RIGHT) {
+                                    updatePitch(pitch + 0.1F)
+                                }
+                                onClick(ClickType.RIGHT) {
+                                    updatePitch(pitch + 0.5F)
+                                }
+                                onClick {
+                                    playSound()
+                                }
                             }
                         }
                     }
                 }
 
                 soundList[config.page].forEachIndexed { i, sound ->
-                    item(i, soundToMaterial(sound), "&6${sound.name} &7${sound.key.key}").event {
-                        config.sound = sound
-                        playSound()
+                    item(i, soundToMaterial(sound), "&6${sound.name} &7${sound.key.key}") {
+                        onClick {
+                            config.sound = sound
+                            playSound()
+                        }
                     }
                 }
                 item(45..53, Material.BLACK_STAINED_GLASS_PANE, "")
-                item(47, Material.ORANGE_STAINED_GLASS_PANE, "&d<<").event {
-                    openSoundList(config.copy(page = config.page - 1))
+                item(47, Material.ORANGE_STAINED_GLASS_PANE, "&d<<") {
+                    onClick {
+                        openSoundList(config.copy(page = config.page - 1))
+                    }
                 }
-                item(51, Material.ORANGE_STAINED_GLASS_PANE, "&d>>").event {
-                    openSoundList(config.copy(page = config.page + 1))
+                item(51, Material.ORANGE_STAINED_GLASS_PANE, "&d>>") {
+                    onClick {
+                        openSoundList(config.copy(page = config.page + 1))
+                    }
                 }
                 updatePitch(config.pitch)
             }.open(this)

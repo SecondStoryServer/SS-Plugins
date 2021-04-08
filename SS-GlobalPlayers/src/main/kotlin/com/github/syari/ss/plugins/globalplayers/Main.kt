@@ -12,5 +12,5 @@ class Main : SSPlugin() {
         plugin = this
     }
 
-    override val events = listOf(TabUpdater, SilentJoinMessage)
+    override val onEnables = listOf(TabUpdater, SilentJoinMessage)
 }

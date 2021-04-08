@@ -1,9 +1,9 @@
 package com.github.syari.ss.plugins.globalplayers
 
-import com.github.syari.spigot.api.event.EventRegister
-import com.github.syari.spigot.api.event.Events
+import com.github.syari.spigot.api.event.events
 import com.github.syari.spigot.api.scheduler.runTaskLater
 import com.github.syari.spigot.api.string.toColor
+import com.github.syari.ss.plugins.core.code.OnEnable
 import com.github.syari.ss.plugins.core.pluginMessage.SSPluginMessageEvent
 import com.github.syari.ss.plugins.globalplayers.Main.Companion.plugin
 import com.github.syari.ss.template.message.PluginMessageTemplateTabList
@@ -17,16 +17,18 @@ import org.bukkit.craftbukkit.v1_16_R3.CraftWorld
 import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer
 import org.bukkit.craftbukkit.v1_16_R3.util.CraftChatMessage
 
-object TabUpdater : EventRegister {
+object TabUpdater : OnEnable {
     private var lastPlayerList = listOf<String>()
 
-    override fun Events.register() {
-        event<SSPluginMessageEvent> {
-            val template = it.template as? PluginMessageTemplateTabList ?: return@event
-            val playerList = template.playerNameList
-            updateTabPlayers(EnumPlayerInfoAction.ADD_PLAYER, playerList)
-            updateTabPlayers(EnumPlayerInfoAction.REMOVE_PLAYER, lastPlayerList.filterNot { playerList.contains(it) })
-            lastPlayerList = playerList
+    override fun onEnable() {
+        plugin.events {
+            event<SSPluginMessageEvent> {
+                val template = it.template as? PluginMessageTemplateTabList ?: return@event
+                val playerList = template.playerNameList
+                updateTabPlayers(EnumPlayerInfoAction.ADD_PLAYER, playerList)
+                updateTabPlayers(EnumPlayerInfoAction.REMOVE_PLAYER, lastPlayerList.filterNot { playerList.contains(it) })
+                lastPlayerList = playerList
+            }
         }
     }
 

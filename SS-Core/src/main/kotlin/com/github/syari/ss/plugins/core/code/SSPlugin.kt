@@ -2,17 +2,13 @@
 
 package com.github.syari.ss.plugins.core.code
 
-import com.github.syari.spigot.api.event.EventRegister
-import com.github.syari.spigot.api.event.EventRegister.Companion.registerEvents
 import org.bukkit.plugin.java.JavaPlugin
 
 open class SSPlugin : JavaPlugin() {
-    open val events = listOf<EventRegister>()
     open val onEnables = listOf<OnEnable>()
     open val onDisables = listOf<OnDisable>()
 
     override fun onEnable() {
-        registerEvents(*events.toTypedArray())
         onEnables.forEach(OnEnable::onEnable)
     }
 

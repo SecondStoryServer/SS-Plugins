@@ -1,7 +1,7 @@
 package com.github.syari.ss.plugins.demonkill.craft
 
-import com.github.syari.ss.plugins.core.inventory.CreateInventory.inventory
-import com.github.syari.ss.plugins.core.inventory.CustomInventory
+import com.github.syari.spigot.api.inventory.CustomInventory
+import com.github.syari.spigot.api.inventory.inventory
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
@@ -10,14 +10,20 @@ object CraftInterface {
     fun openRoot(player: Player) {
         inventory("&9&lクラフト", 3) {
             item(0..26, Material.GRAY_STAINED_GLASS_PANE)
-            item(10, Material.IRON_SWORD, "&6武器").event {
-                openWeapon(player)
+            item(10, Material.IRON_SWORD, "&6武器") {
+                onClick {
+                    openWeapon(player)
+                }
             }
-            item(13, Material.IRON_CHESTPLATE, "&6防具").event {
-                openArmor(player)
+            item(13, Material.IRON_CHESTPLATE, "&6防具") {
+                onClick {
+                    openArmor(player)
+                }
             }
-            item(16, Material.APPLE, "&6その他").event {
-                openOther(player)
+            item(16, Material.APPLE, "&6その他") {
+                onClick {
+                    openOther(player)
+                }
             }
         }.open(player)
     }
@@ -26,8 +32,10 @@ object CraftInterface {
         inventory("&9&l武器", 3) {
             item((0..9) + (17..26), Material.GRAY_STAINED_GLASS_PANE)
             setUpgradeItems(player, Weapon.getFromInventory(player), ::openWeapon)
-            item(22, Material.BARRIER, "&c閉じる").event {
-                openRoot(player)
+            item(22, Material.BARRIER, "&c閉じる") {
+                onClick {
+                    openRoot(player)
+                }
             }
         }.open(player)
     }
@@ -36,8 +44,10 @@ object CraftInterface {
         inventory("&9&l防具", 3) {
             item((0..9) + (17..26), Material.GRAY_STAINED_GLASS_PANE)
             setUpgradeItems(player, Armor.getFromInventory(player), ::openArmor)
-            item(22, Material.BARRIER, "&c閉じる").event {
-                openRoot(player)
+            item(22, Material.BARRIER, "&c閉じる") {
+                onClick {
+                    openRoot(player)
+                }
             }
         }.open(player)
     }
@@ -64,8 +74,10 @@ object CraftInterface {
         }
         var index = 0
         upgrade.forEach { (upgradeItem, request) ->
-            item(indexList[index], upgradeItem).event {
-                openUpgrade(player, baseItem, upgradeItem, request, onClose)
+            item(indexList[index], upgradeItem) {
+                onClick {
+                    openUpgrade(player, baseItem, upgradeItem, request, onClose)
+                }
             }
             index ++
         }
@@ -86,8 +98,10 @@ object CraftInterface {
             }
             item(16, upgradeItem)
             item(25, Material.ANVIL, "&6作成")
-            item(31, Material.BARRIER, "&c閉じる").event {
-                onClose(player)
+            item(31, Material.BARRIER, "&c閉じる") {
+                onClick {
+                    onClose(player)
+                }
             }
         }.open(player)
     }
@@ -97,28 +111,34 @@ object CraftInterface {
             item((0..9) + (17..18) + (26..27) + (35..36) + (44..54), Material.GRAY_STAINED_GLASS_PANE)
             val itemList = Other.getFromInventory(player)?.list
             itemList?.forEach { index, (item, request) ->
-                item(index, item).event {
-                    inventory("&9&lアイテム作成", 4) {
-                        item((0..9) + (17..18) + (26..35), Material.GRAY_STAINED_GLASS_PANE)
-                        item(listOf(15, 24), Material.GRAY_STAINED_GLASS_PANE)
-                        request.subList(0, 5.coerceAtMost(request.size)).forEachIndexed { index, requestItem ->
-                            item(10 + index, requestItem)
-                        }
-                        if (4 < request.size) {
-                            request.subList(5, 10.coerceAtMost(request.size)).forEachIndexed { index, requestItem ->
-                                item(19 + index, requestItem)
+                item(index, item) {
+                    onClick {
+                        inventory("&9&lアイテム作成", 4) {
+                            item((0..9) + (17..18) + (26..35), Material.GRAY_STAINED_GLASS_PANE)
+                            item(listOf(15, 24), Material.GRAY_STAINED_GLASS_PANE)
+                            request.subList(0, 5.coerceAtMost(request.size)).forEachIndexed { index, requestItem ->
+                                item(10 + index, requestItem)
                             }
-                        }
-                        item(16, item)
-                        item(25, Material.CRAFTING_TABLE, "&6作成")
-                        item(31, Material.BARRIER, "&c閉じる").event {
-                            openOther(player)
-                        }
-                    }.open(player)
+                            if (4 < request.size) {
+                                request.subList(5, 10.coerceAtMost(request.size)).forEachIndexed { index, requestItem ->
+                                    item(19 + index, requestItem)
+                                }
+                            }
+                            item(16, item)
+                            item(25, Material.CRAFTING_TABLE, "&6作成")
+                            item(31, Material.BARRIER, "&c閉じる") {
+                                onClick {
+                                    openOther(player)
+                                }
+                            }
+                        }.open(player)
+                    }
                 }
             }
-            item(49, Material.BARRIER, "&c閉じる").event {
-                openRoot(player)
+            item(49, Material.BARRIER, "&c閉じる") {
+                onClick {
+                    openRoot(player)
+                }
             }
         }.open(player)
     }

@@ -1,11 +1,11 @@
 package com.github.syari.ss.plugins.mobarena.arena
 
+import com.github.syari.spigot.api.inventory.inventory
 import com.github.syari.spigot.api.scheduler.runTaskLater
 import com.github.syari.spigot.api.string.toColor
 import com.github.syari.spigot.api.uuid.UUIDEntity
 import com.github.syari.ss.plugins.core.bossBar.CustomBossBar
 import com.github.syari.ss.plugins.core.bossBar.CustomBossBar.Companion.bossBar
-import com.github.syari.ss.plugins.core.inventory.CreateInventory.inventory
 import com.github.syari.ss.plugins.core.item.ItemStackPlus.give
 import com.github.syari.ss.plugins.core.message.Message.broadcast
 import com.github.syari.ss.plugins.core.message.Message.send
@@ -156,7 +156,7 @@ class MobArena(
                 }
             }
         }
-        cancel = false
+        isCancel = false
     }
 
     private fun firstJoin() {

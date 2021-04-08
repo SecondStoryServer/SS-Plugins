@@ -1,8 +1,8 @@
 package com.github.syari.ss.plugins.mobarena.kit
 
+import com.github.syari.spigot.api.inventory.inventory
 import com.github.syari.spigot.api.item.editLore
 import com.github.syari.spigot.api.string.toUncolor
-import com.github.syari.ss.plugins.core.inventory.CreateInventory.inventory
 import com.github.syari.ss.plugins.mobarena.MobArenaManager
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -44,25 +44,33 @@ class MobArenaKit(
                                     addAll(MobArenaManager.arenas.filter { it.kits.contains(kit.id) }.map { " &7- ${it.id}" })
                                 }
                             }
-                        ).event {
-                            kit.openPreview(
-                                player,
-                                onClose = {
-                                    openPreviewList(player, page)
-                                },
-                                onSelect = {}
-                            )
+                        ) {
+                            onClick {
+                                kit.openPreview(
+                                    player,
+                                    onClose = {
+                                        openPreviewList(player, page)
+                                    },
+                                    onSelect = {}
+                                )
+                            }
                         }
                     }
                     item(45..53, Material.GRAY_STAINED_GLASS_PANE)
-                    item(47, Material.ORANGE_STAINED_GLASS_PANE, "&d<<").event {
-                        openPreviewList(player, page - 1)
+                    item(47, Material.ORANGE_STAINED_GLASS_PANE, "&d<<") {
+                        onClick {
+                            openPreviewList(player, page - 1)
+                        }
                     }
-                    item(51, Material.ORANGE_STAINED_GLASS_PANE, "&d>>").event {
-                        openPreviewList(player, page + 1)
+                    item(51, Material.ORANGE_STAINED_GLASS_PANE, "&d>>") {
+                        onClick {
+                            openPreviewList(player, page + 1)
+                        }
                     }
-                    item(49, Material.RED_STAINED_GLASS_PANE, "&c&l閉じる").event {
-                        player.closeInventory()
+                    item(49, Material.RED_STAINED_GLASS_PANE, "&c&l閉じる") {
+                        onClick {
+                            player.closeInventory()
+                        }
                     }
                 }.open(player)
             }
@@ -103,8 +111,12 @@ class MobArenaKit(
                 slot ++
             }
             item((36..37) + (43..48) + (50..53), Material.GRAY_STAINED_GLASS_PANE)
-            item(49, Material.RED_STAINED_GLASS_PANE, "&c&l閉じる").event(onClose)
-            item(51, Material.LIME_STAINED_GLASS_PANE, "&6&lこのキットを使う").event(onSelect)
+            item(49, Material.RED_STAINED_GLASS_PANE, "&c&l閉じる") {
+                onClick(onClose)
+            }
+            item(51, Material.LIME_STAINED_GLASS_PANE, "&6&lこのキットを使う") {
+                onClick(onSelect)
+            }
         }.open(player)
     }
 }

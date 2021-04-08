@@ -1,6 +1,6 @@
 package com.github.syari.ss.plugins.mobarena.lobby
 
-import com.github.syari.ss.plugins.core.inventory.CreateInventory.inventory
+import com.github.syari.spigot.api.inventory.inventory
 import com.github.syari.ss.plugins.core.item.itemStack
 import com.github.syari.ss.plugins.mobarena.MobArenaManager
 import com.github.syari.ss.plugins.mobarena.MobArenaManager.inMobArena
@@ -20,17 +20,18 @@ object ArenaSelector : LobbyItem {
                     MobArenaStatus.WaitReady -> Material.LIME_DYE to "&a"
                     MobArenaStatus.NowPlay -> Material.PINK_DYE to "&c"
                 }
-                item(index, material, color + arena.name, "&6&l◀ &a左クリックで参加", "&6&l▶ &a右クリックで観戦")
-                    .event(ClickType.LEFT) {
+                item(index, material, color + arena.name, "&6&l◀ &a左クリックで参加", "&6&l▶ &a右クリックで観戦") {
+                    onClick(ClickType.LEFT) {
                         if (player.inMobArena.not()) {
                             arena.join(player)
                         }
                     }
-                    .event(ClickType.RIGHT) {
+                    onClick(ClickType.RIGHT) {
                         if (player.inMobArena.not()) {
                             arena.spec(player)
                         }
                     }
+                }
             }
         }.open(player)
     }

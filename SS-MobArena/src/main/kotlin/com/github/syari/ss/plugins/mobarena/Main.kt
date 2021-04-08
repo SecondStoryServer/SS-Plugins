@@ -14,7 +14,6 @@ class Main : SSPlugin() {
         plugin = this
     }
 
-    override val events = listOf(EventListener, ArenaEventListener, MythicMobsRegister)
-    override val onEnables = listOf(ConfigLoader, CommandCreator)
+    override val onEnables = listOf(ConfigLoader, CommandCreator, EventListener, ArenaEventListener, MythicMobsRegister)
     override val onDisables = listOf(MobArenaManager)
 }
