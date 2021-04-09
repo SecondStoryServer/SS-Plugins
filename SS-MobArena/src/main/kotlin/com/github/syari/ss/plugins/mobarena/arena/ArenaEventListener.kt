@@ -1,14 +1,17 @@
 package com.github.syari.ss.plugins.mobarena.arena
 
 import com.github.syari.spigot.api.event.events
+import com.github.syari.spigot.api.message.sendActionMessage
 import com.github.syari.spigot.api.string.toColor
 import com.github.syari.spigot.api.string.toUncolor
 import com.github.syari.ss.plugins.core.code.OnEnable
 import com.github.syari.ss.plugins.mobarena.Main.Companion.plugin
 import com.github.syari.ss.plugins.mobarena.MobArenaManager.arena
+import com.github.syari.ss.plugins.mobarena.MobArenaManager.arenaPlayer
 import com.github.syari.ss.plugins.mobarena.MobArenaManager.getArena
 import com.github.syari.ss.plugins.mobarena.MobArenaManager.getArenaInPlay
 import com.github.syari.ss.plugins.mobarena.MobArenaManager.inMobArena
+import com.github.syari.ss.plugins.mobarena.kit.MobArenaKit
 import com.github.syari.ss.plugins.mobarena.shop.Shop
 import org.bukkit.Material
 import org.bukkit.block.Sign
@@ -82,24 +85,47 @@ object ArenaEventListener : OnEnable {
                 val arena = getArena(entity) ?: return@event
                 if (it.target !is Player) it.target = arena.livingPlayers.random().player
             }
+            val shopLine = "[Shop]"
+            val kitLine = "[Kit]"
+            val readyLine = "[Ready]"
             event<SignChangeEvent> {
                 val player = it.player
-                val lines = it.lines.map(String::toUncolor)
-                if (lines[0].equals("[MA_Shop]", true)) {
-                    if (player.isOp) {
-                        it.lines.forEachIndexed { index, line ->
-                            it.setLine(index, line.toColor())
+                val lines = it.lines
+                when (lines[0].toColor().toUncolor()) {
+                    shopLine, kitLine, readyLine -> {
+                        if (player.isOp) {
+                            it.lines.forEachIndexed { index, line ->
+                                it.setLine(index, line.toColor())
+                            }
+                        } else {
+                            it.isCancelled = true
                         }
-                    } else {
-                        it.isCancelled = true
                     }
                 }
             }
             event<PlayerInteractEvent> {
                 val sign = it.clickedBlock?.state as? Sign ?: return@event
                 val lines = sign.lines.map(String::toUncolor)
-                if (lines[0].equals("[MA_Shop]", true)) {
-                    Shop.get(lines[1])?.openShop(it.player)
+                val player = it.player
+                when (lines[0]) {
+                    shopLine -> Shop.get(lines[1])?.openShop(player)
+                    kitLine -> {
+                        val arenaPlayer = player.arenaPlayer
+                        arenaPlayer?.openKitList() ?: MobArenaKit.openPreviewList(player)
+                    }
+                    readyLine -> {
+                        val arenaPlayer = player.arenaPlayer
+                        if (arenaPlayer != null && arenaPlayer.play) {
+                            if (player.isSneaking) {
+                                if (arenaPlayer.ready.not()) return@event player.sendActionMessage("&c&lまだ準備完了していません")
+                                arenaPlayer.ready = false
+                            } else {
+                                if (arenaPlayer.kit == null) return@event player.sendActionMessage("&c&lキットを選択していません")
+                                if (arenaPlayer.ready) return@event player.sendActionMessage("&c&l既に準備完了しています")
+                                arenaPlayer.ready = true
+                            }
+                        }
+                    }
                 }
             }
         }
