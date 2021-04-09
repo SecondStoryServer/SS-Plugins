@@ -190,7 +190,7 @@ class MobArena(
         player.teleport(lobbyArea.spawn)
         bar?.addPlayer(player)
         board.addPlayer(player)
-        setChatChannel(player)
+        // setChatChannel(player) TODO: チャンネルチャットが表示されない場合がある問題
         updateAllBoard()
     }
 
@@ -226,7 +226,7 @@ class MobArena(
         player.teleport(player.world.spawnLocation)
         bar?.removePlayer(player)
         board.removePlayer(player)
-        unsetChatChannel(player)
+        // unsetChatChannel(player)
         updateAllBoard()
     }
 
