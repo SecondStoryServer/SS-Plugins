@@ -23,7 +23,7 @@ class MobArenaPlayer(val arena: MobArena, val player: Player, var play: Boolean)
     }
 
     fun openKitList() {
-        val kits = MobArenaKit.kits.filter { it.key in arena.kits }.values
+        val kits = arena.kits.mapNotNull(MobArenaKit::getKit)
         inventory("&9&lキット選択", 6) {
             kits.forEachIndexed { i, kit ->
                 item(i, kit.icon.clone()) {
