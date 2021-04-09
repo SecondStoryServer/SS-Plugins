@@ -2,9 +2,11 @@ package com.github.syari.ss.plugins.mobarena.arena
 
 import com.github.syari.spigot.api.event.events
 import com.github.syari.spigot.api.message.sendActionMessage
+import com.github.syari.spigot.api.scheduler.runTaskTimer
 import com.github.syari.spigot.api.string.toColor
 import com.github.syari.spigot.api.string.toUncolor
 import com.github.syari.ss.plugins.core.code.OnEnable
+import com.github.syari.ss.plugins.core.item.itemStack
 import com.github.syari.ss.plugins.mobarena.Main.Companion.plugin
 import com.github.syari.ss.plugins.mobarena.MobArenaManager.arena
 import com.github.syari.ss.plugins.mobarena.MobArenaManager.arenaPlayer
@@ -25,8 +27,10 @@ import org.bukkit.event.entity.EntityDeathEvent
 import org.bukkit.event.entity.EntityTargetEvent
 import org.bukkit.event.entity.ItemSpawnEvent
 import org.bukkit.event.entity.PlayerDeathEvent
+import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerQuitEvent
+import org.bukkit.inventory.CraftingInventory
 
 object ArenaEventListener : OnEnable {
     override fun onEnable() {
@@ -126,6 +130,27 @@ object ArenaEventListener : OnEnable {
                             }
                         }
                     }
+                }
+            }
+            val exitItem = itemStack(Material.BARRIER, "&cアリーナを抜ける")
+            plugin.runTaskTimer(30) {
+                plugin.server.onlinePlayers.forEach { player ->
+                    if (player.inMobArena.not()) return@forEach
+                    val inventory = player.openInventory.topInventory as? CraftingInventory ?: return@forEach
+                    if (inventory.result == null) {
+                        inventory.result = exitItem
+                        player.updateInventory()
+                    }
+                }
+            }
+            event<InventoryClickEvent> {
+                val player = it.whoClicked as? Player ?: return@event
+                if (player.inMobArena.not()) return@event
+                val currentItem = it.currentItem ?: return@event
+                if (currentItem.isSimilar(exitItem)) {
+                    it.isCancelled = true
+                    val arena = player.arena ?: return@event
+                    arena.leave(player)
                 }
             }
         }
