@@ -15,22 +15,7 @@ object MobArenaManager : OnDisable {
 
     var arenas = listOf<MobArena>()
         set(value) {
-            val lastArenas = arenas.toMutableList()
-            value.forEach { arena ->
-                lastArenas.firstOrNull { it.id == arena.id }?.let {
-                    lastArenas.remove(it)
-                    arena.players = it.players
-                    arena.status = it.status
-                    arena.mobs = it.mobs
-                    arena.wave = it.wave
-                    arena.nextWaveTask = it.nextWaveTask
-                    arena.checkEntityTask = it.checkEntityTask
-                    arena.checkDeadEntityTask = it.checkDeadEntityTask
-                    arena.bar = it.bar
-                    arena.entityLimit = it.entityLimit
-                    arena.publicChest = it.publicChest
-                }
-            }
+            arenas.forEach { it.end(true) }
             field = value
         }
 

@@ -42,9 +42,9 @@ class MobArena(
     private val kitLimit: Int,
     private val defaultEntityLimit: Int
 ) {
-    var players = mutableListOf<MobArenaPlayer>()
+    val players = mutableListOf<MobArenaPlayer>()
     var status = MobArenaStatus.StandBy
-    var mobs = ConcurrentHashMap<UUIDEntity, MobArenaEntity>()
+    val mobs = ConcurrentHashMap<UUIDEntity, MobArenaEntity>()
     var wave = 0
     var firstMemberSize = 0
 
