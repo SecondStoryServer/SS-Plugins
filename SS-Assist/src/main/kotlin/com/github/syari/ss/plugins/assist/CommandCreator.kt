@@ -20,6 +20,7 @@ object CommandCreator : OnEnable {
                         sender.sendTemplate("Assist", "コンフィグを再読み込みします")
                         ConfigLoader.load(sender)
                         AutoCommand.load(sender)
+                        Permission.load(sender)
                     }
                 }
             }

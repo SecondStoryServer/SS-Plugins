@@ -12,5 +12,5 @@ class Main : SSPlugin() {
         plugin = this
     }
 
-    override val onEnables = listOf(AutoCommand, CommandCreator, ConfigLoader, SpawnOverride)
+    override val onEnables = listOf(AutoCommand, CommandCreator, ConfigLoader, SpawnOverride, Permission)
 }
