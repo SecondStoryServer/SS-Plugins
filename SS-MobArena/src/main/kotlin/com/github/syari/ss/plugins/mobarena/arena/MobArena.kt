@@ -176,8 +176,6 @@ class MobArena(
             } else {
                 arenaPlayer.arena.leave(player)
             }
-        } else {
-            player.inventory.clear()
         }
         if (playerLimit <= players.size) {
             return player.send("&b[MobArena] &c制限人数に達しています")
@@ -185,6 +183,7 @@ class MobArena(
         if (players.isEmpty()) {
             firstJoin()
         }
+        player.inventory.clear()
         players.add(MobArenaPlayer(this, player, true))
         player.closeInventory()
         player.teleport(lobbyArea.spawn)
