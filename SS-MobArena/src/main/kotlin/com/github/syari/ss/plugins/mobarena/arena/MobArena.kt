@@ -177,7 +177,7 @@ class MobArena(
                 arenaPlayer.arena.leave(player)
             }
         }
-        if (playerLimit <= players.size) {
+        if (playerLimit <= livingPlayers.size) {
             return player.send("&b[MobArena] &c制限人数に達しています")
         }
         if (players.isEmpty()) {
