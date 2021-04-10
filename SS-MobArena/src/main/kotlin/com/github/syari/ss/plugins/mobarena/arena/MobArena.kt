@@ -21,6 +21,7 @@ import com.github.syari.ss.plugins.mobarena.wave.MobArenaWave
 import com.github.syari.ss.plugins.mobarena.wave.boss.MobArenaBoss
 import com.github.syari.ss.template.message.PluginMessageTemplateChatChannel
 import org.bukkit.Location
+import org.bukkit.Material
 import org.bukkit.attribute.Attribute
 import org.bukkit.boss.BarColor
 import org.bukkit.boss.BarStyle
@@ -221,6 +222,16 @@ class MobArena(
             end(false)
         }
         player.closeInventory()
+        var diamondCount = 0
+        player.inventory.contents.forEach {
+            if (it != null && it.type == Material.DIAMOND) {
+                publicChest.inventory.addItem(it)
+                diamondCount += it.amount
+            }
+        }
+        if (0 < diamondCount) {
+            announce("&b[MobArena] &a$diamondCount 個&fのダイアモンドがチェストに格納されました")
+        }
         LobbyInventory.applyToPlayer(player)
         player.teleport(player.world.spawnLocation)
         bar?.removePlayer(player)
@@ -281,7 +292,6 @@ class MobArena(
     }
 
     fun onDeath(player: Player) {
-        announce("&b[MobArena] &a${player.displayName} &fが死んでしまいました")
         plugin.runTaskLater(3) {
             leave(player)
         }
