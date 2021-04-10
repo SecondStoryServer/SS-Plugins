@@ -214,6 +214,7 @@ class MobArena(
     fun leave(player: Player) {
         val arenaPlayer = getPlayer(player)
         if (arenaPlayer != null) {
+            announce("&b[MobArena] &a${player.displayName}&a(${arenaPlayer.kit?.name}) &fが死んでしまいました")
             players.remove(arenaPlayer)
         } else {
             return player.send("&b[MobArena] &cモブアリーナに参加していません")
