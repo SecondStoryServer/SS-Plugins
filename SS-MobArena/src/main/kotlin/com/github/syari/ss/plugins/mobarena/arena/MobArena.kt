@@ -219,19 +219,20 @@ class MobArena(
         } else {
             return player.send("&b[MobArena] &cモブアリーナに参加していません")
         }
+        player.closeInventory()
         if (livingPlayers.isEmpty() && status != MobArenaStatus.StandBy) {
             end(false)
-        }
-        player.closeInventory()
-        var diamondCount = 0
-        player.inventory.contents.forEach {
-            if (it != null && it.type == Material.DIAMOND) {
-                publicChest.inventory.addItem(it)
-                diamondCount += it.amount
+        } else {
+            var diamondCount = 0
+            player.inventory.contents.forEach {
+                if (it != null && it.type == Material.DIAMOND) {
+                    publicChest.inventory.addItem(it)
+                    diamondCount += it.amount
+                }
             }
-        }
-        if (0 < diamondCount) {
-            announce("&b[MobArena] &a$diamondCount 個&fのダイアモンドがチェストに格納されました")
+            if (0 < diamondCount) {
+                announce("&b[MobArena] &a$diamondCount 個&fのダイアモンドがチェストに格納されました")
+            }
         }
         LobbyInventory.applyToPlayer(player)
         player.teleport(player.world.spawnLocation)
