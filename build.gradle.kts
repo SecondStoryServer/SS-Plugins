@@ -1,4 +1,5 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import groovy.lang.Closure
 import net.minecrell.pluginyml.bukkit.BukkitPluginDescription
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jlleitschuh.gradle.ktlint.KtlintExtension
@@ -8,7 +9,10 @@ plugins {
     id("com.github.johnrengelman.shadow") version "6.1.0" apply false
     id("net.minecrell.plugin-yml.bukkit") version "0.3.0" apply false
     id("org.jlleitschuh.gradle.ktlint") version "10.0.0"
+    id("com.palantir.git-version") version "0.12.3"
 }
+
+val gitVersion: Closure<String> by extra
 
 allprojects {
     apply(plugin = "org.jlleitschuh.gradle.ktlint")
@@ -68,7 +72,7 @@ subprojects {
 
     configure<BukkitPluginDescription> {
         name = project.name
-        version = project.version
+        version = gitVersion()
         main = project.main
         author = project.author
         apiVersion = project.apiVersion
@@ -80,40 +84,5 @@ subprojects {
         configurations = listOf(shadowImplementation, shadowApi)
         archiveClassifier.set("")
         destinationDirectory.set(file("../jars"))
-    }
-}
-
-task("updateVersions") {
-    doLast {
-        val outputBlockComment = "<!-- Generate Versions -->"
-        val escapedOutputBlockComment = Regex.escape(outputBlockComment)
-        val mdFile = file("README.md")
-        val fileContent = mdFile.bufferedReader().use { it.readText() }
-        mdFile.writeText(
-            fileContent.replace(
-                "$escapedOutputBlockComment[\\s\\S]*$escapedOutputBlockComment".toRegex(),
-                buildString {
-                    appendln(outputBlockComment)
-                    appendln(
-                        """
-                    | Name | Version | Dependency |
-                    |:-----|--------:|-----------:|
-                        """.trimIndent()
-                    )
-                    Project.list.sortedBy { it.name }.forEach {
-                        val (buildVersion, dependencyVersion) = if (it.version.contains('(')) {
-                            val separateIndex = it.version.indexOf('(')
-                            val buildVersion = it.version.substring(0, separateIndex)
-                            val dependencyVersion = it.version.substring(separateIndex + 1, it.version.length - 1)
-                            buildVersion to dependencyVersion
-                        } else {
-                            it.version to ""
-                        }
-                        appendln("| ${it.name} | $buildVersion | $dependencyVersion |")
-                    }
-                    append(outputBlockComment)
-                }
-            )
-        )
     }
 }

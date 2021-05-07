@@ -1,6 +1,6 @@
 @file:Suppress("unused", "MemberVisibilityCanBePrivate")
 
-open class Project(val version: String, groupName: String = "") {
+open class Project(groupName: String = "") {
     companion object {
         val list = listOf(
             Assist,
@@ -20,9 +20,6 @@ open class Project(val version: String, groupName: String = "") {
         fun get(name: String) = list.firstOrNull { it.name == name }
     }
 
-    constructor(buildVersion: Int, groupName: String = "") : this(buildVersion.toString(), groupName)
-    constructor(buildVersion: Int, dependencyVersion: String, groupName: String = "") : this("$buildVersion($dependencyVersion)", groupName)
-
     private val simpleName = javaClass.simpleName
     val name by lazy { "SS-${if (groupName.isEmpty()) "" else "$groupName-"}$simpleName" }
     val group by lazy { "com.github.syari.ss.plugins.${if (groupName.isEmpty()) "" else "${groupName.toLowerCase()}."}${simpleName.toLowerCase()}" }
@@ -40,59 +37,59 @@ open class Project(val version: String, groupName: String = "") {
     val allSoftDependPlugin by lazy { softDependProjectName + softDependPlugin }
     val implementationProjects by lazy { dependProjectName + softDependProjectName }
 
-    object Assist : Project(7) {
+    object Assist : Project() {
         override val dependProject = listOf(Core)
     }
 
-    object Backup : Project(17) {
+    object Backup : Project() {
         override val dependProject = listOf(Core)
     }
 
-    object CommandBlocker : Project(7) {
+    object CommandBlocker : Project() {
         override val dependProject = listOf(Core)
     }
 
-    object Core : Project(40) {
+    object Core : Project() {
         override val dependJarFile = listOf("1.16.5-patched")
     }
 
-    object DemonKill : Project(4) {
+    object DemonKill : Project() {
         override val dependProject = listOf(Core, Dependency.CrackShotPlus, Dependency.MythicMobs)
     }
 
-    open class Dependency(buildVersion: Int, version: String) : Project(buildVersion, version, "Dependency") {
-        object CrackShotPlus : Dependency(4, "1.97") {
+    open class Dependency : Project("Dependency") {
+        object CrackShotPlus : Dependency() {
             override val dependProject = listOf(Core)
             override val dependPlugin = listOf("CrackShotPlus")
             override val dependJarFile = listOf("CrackShot", "CrackShotPlus")
         }
 
-        object MythicMobs : Dependency(3, "4.11.0-build-3560") {
+        object MythicMobs : Dependency() {
             override val dependProject = listOf(Core)
             override val dependPlugin = listOf("MythicMobs")
             override val dependJarFile = listOf("MythicMobs-4.11.0-build-3560")
         }
     }
 
-    object DevelopAssist : Project(5) {
+    object DevelopAssist : Project() {
         override val dependProject = listOf(Core)
     }
 
-    open class Event(buildVersion: Int) : Project(buildVersion, "Event") {
-        object AcrobatSniper : Event(2) {
+    open class Event : Project("Event") {
+        object AcrobatSniper : Event() {
             override val dependProject = listOf(Core)
         }
     }
 
-    object GlobalPlayers : Project(7) {
+    object GlobalPlayers : Project() {
         override val dependProject = listOf(Core)
     }
 
-    object Lobby : Project(8) {
+    object Lobby : Project() {
         override val dependProject = listOf(Core)
     }
 
-    object MobArena : Project(27) {
+    object MobArena : Project() {
         override val dependProject = listOf(Core, Dependency.CrackShotPlus, Dependency.MythicMobs)
     }
 }
