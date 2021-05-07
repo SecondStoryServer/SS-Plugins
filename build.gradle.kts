@@ -5,9 +5,9 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jlleitschuh.gradle.ktlint.KtlintExtension
 
 plugins {
-    kotlin("jvm") version "1.4.31"
-    id("com.github.johnrengelman.shadow") version "6.1.0" apply false
-    id("net.minecrell.plugin-yml.bukkit") version "0.3.0" apply false
+    kotlin("jvm") version "1.5.0"
+    id("com.github.johnrengelman.shadow") version "7.0.0" apply false
+    id("net.minecrell.plugin-yml.bukkit") version "0.4.0" apply false
     id("org.jlleitschuh.gradle.ktlint") version "10.0.0"
     id("com.palantir.git-version") version "0.12.3"
 }
