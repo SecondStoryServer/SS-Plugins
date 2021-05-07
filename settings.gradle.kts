@@ -12,5 +12,6 @@ include(
     "SS-Event-AcrobatSniper",
     "SS-GlobalPlayers",
     "SS-Lobby",
-    "SS-MobArena"
+    "SS-MobArena",
+    "SS-RPG-Core"
 )

@@ -14,7 +14,8 @@ open class Project(groupName: String = "") {
             Event.AcrobatSniper,
             GlobalPlayers,
             Lobby,
-            MobArena
+            MobArena,
+            RPG.Core
         )
 
         fun get(name: String) = list.firstOrNull { it.name == name }
@@ -91,5 +92,11 @@ open class Project(groupName: String = "") {
 
     object MobArena : Project() {
         override val dependProject = listOf(Core, Dependency.CrackShotPlus, Dependency.MythicMobs)
+    }
+
+    open class RPG : Project("RPG") {
+        object Core : RPG() {
+            override val dependProject = listOf(Project.Core)
+        }
     }
 }
