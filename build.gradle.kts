@@ -3,28 +3,23 @@ import groovy.lang.Closure
 import net.minecrell.pluginyml.bukkit.BukkitPluginDescription
 import net.minecrell.pluginyml.bungee.BungeePluginDescription
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.jlleitschuh.gradle.ktlint.KtlintExtension
 
 plugins {
     kotlin("jvm") version "1.5.0"
     id("com.github.johnrengelman.shadow") version "7.0.0" apply false
     id("net.minecrell.plugin-yml.bukkit") version "0.4.0" apply false
     id("net.minecrell.plugin-yml.bungee") version "0.4.0" apply false
-    id("org.jlleitschuh.gradle.ktlint") version "10.0.0"
+    id("org.jmailen.kotlinter") version "3.4.4"
     id("com.palantir.git-version") version "0.12.3"
 }
 
 val gitVersion: Closure<String> by extra
 
 allprojects {
-    apply(plugin = "org.jlleitschuh.gradle.ktlint")
+    apply(plugin = "org.jmailen.kotlinter")
 
     repositories {
         mavenCentral()
-    }
-
-    configure<KtlintExtension> {
-        version.set("0.40.0")
     }
 }
 
