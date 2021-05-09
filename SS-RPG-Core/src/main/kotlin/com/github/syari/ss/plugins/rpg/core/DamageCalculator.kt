@@ -1,6 +1,15 @@
 package com.github.syari.ss.plugins.rpg.core
 
+/**
+ * ダメージ計算
+ */
 object DamageCalculator {
+    /**
+     * ダメージを計算する。
+     * @param attacks 属性毎の攻撃力
+     * @param defences 属性毎の防御力
+     * @return 属性毎のダメージ
+     */
     @OptIn(ExperimentalStdlibApi::class)
     fun get(attacks: Map<ElementType, Double>, defences: Map<ElementType, Double>): Map<ElementType, Double> {
         return buildMap {
