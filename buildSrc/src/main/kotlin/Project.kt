@@ -16,7 +16,13 @@ open class Project(groupName: String = "", val isProxyPlugin: Boolean = false) {
             Lobby,
             MobArena,
             RPG.Core,
-            WCore
+            WAccessBlocker,
+            WChat,
+            WCore,
+            WDiscord,
+            WGlobalPlayers,
+            WPluginManager,
+            WVotifier
         )
 
         fun get(name: String) = list.firstOrNull { it.name == name }
@@ -97,5 +103,29 @@ open class Project(groupName: String = "", val isProxyPlugin: Boolean = false) {
         }
     }
 
+    object WAccessBlocker : Project(isProxyPlugin = true) {
+        override val dependProject = listOf(WCore)
+    }
+
+    object WChat : Project(isProxyPlugin = true) {
+        override val dependProject = listOf(WCore, WDiscord)
+    }
+
     object WCore : Project(isProxyPlugin = true)
+
+    object WDiscord : Project(isProxyPlugin = true) {
+        override val dependProject = listOf(WCore)
+    }
+
+    object WGlobalPlayers : Project(isProxyPlugin = true) {
+        override val dependProject = listOf(WCore)
+    }
+
+    object WPluginManager : Project(isProxyPlugin = true) {
+        override val dependProject = listOf(WCore)
+    }
+
+    object WVotifier : Project(isProxyPlugin = true) {
+        override val dependProject = listOf(WCore)
+    }
 }

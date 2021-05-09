@@ -66,6 +66,14 @@ subprojects {
                     shadowApi(project(":common"))
                     api("io.github.waterfallmc:waterfall-api:1.16-R0.4-SNAPSHOT")
                 }
+                Project.WDiscord -> {
+                    implementation("com.google.code.gson:gson:2.8.6")
+                    testImplementation("org.slf4j:slf4j-simple:1.7.30")
+                }
+                Project.WVotifier -> {
+                    implementation("io.netty:netty-handler:4.1.53.Final")
+                    implementation("io.netty", "netty-transport-native-epoll", "4.1.53.Final", classifier = "linux-x86_64")
+                }
                 else -> {
                     implementation(kotlin("stdlib-jdk8"))
                 }

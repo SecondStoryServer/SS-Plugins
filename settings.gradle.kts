@@ -14,5 +14,12 @@ include(
     "SS-GlobalPlayers",
     "SS-Lobby",
     "SS-MobArena",
-    "SS-RPG-Core"
+    "SS-RPG-Core",
+    "SS-W-AccessBlocker",
+    "SS-W-Chat",
+    "SS-W-Core",
+    "SS-W-Discord",
+    "SS-W-GlobalPlayers",
+    "SS-W-PluginManager",
+    "SS-W-Votifier"
 )
