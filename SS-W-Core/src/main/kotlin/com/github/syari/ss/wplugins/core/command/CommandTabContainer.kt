@@ -34,9 +34,9 @@ class CommandTabContainer {
                                 } else {
                                     arg
                                 }
-                                val joinArg = args.joinToString(" ").toLowerCase()
+                                val joinArg = args.joinToString(" ").lowercase()
                                 element.filter {
-                                    "$completed $it".toLowerCase().startsWith(joinArg)
+                                    "$completed $it".lowercase().startsWith(joinArg)
                                 }
                             } else {
                                 listOf()
@@ -58,16 +58,16 @@ class CommandTabContainer {
                     if ((args.lastIndex - splitArg.size) % 2 == 0) {
                         val element = tab.flag.keys.toMutableSet()
                         for (index in splitArg.size until args.lastIndex step 2) {
-                            element.remove(args[index].toLowerCase())
+                            element.remove(args[index].lowercase())
                         }
                         elementList.addAll(element)
                     } else {
-                        tab.flag[args.getOrNull(args.size - 2)?.toLowerCase()]?.let {
+                        tab.flag[args.getOrNull(args.size - 2)?.lowercase()]?.let {
                             elementList.addAll(it)
                         }
                     }
                     elementList.filter {
-                        it.toLowerCase().startsWith(enterText)
+                        it.lowercase().startsWith(enterText)
                     }
                 }
             }

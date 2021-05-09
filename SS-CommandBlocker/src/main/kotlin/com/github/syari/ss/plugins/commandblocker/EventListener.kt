@@ -20,7 +20,7 @@ object EventListener : OnEnable {
             event<PlayerCommandPreprocessEvent> {
                 val player = it.player
                 if (player.isOp) return@event
-                val label = it.message.split(Regex("\\s+"), 2)[0].substring(1).toLowerCase()
+                val label = it.message.split(Regex("\\s+"), 2)[0].substring(1).lowercase()
                 if (player.availableCommands.contains(label)) return@event
                 it.isCancelled = true
                 player.action("&c&l&n実行できないコマンドです")

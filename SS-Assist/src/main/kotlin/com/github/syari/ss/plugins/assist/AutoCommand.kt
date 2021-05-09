@@ -28,7 +28,7 @@ object AutoCommand : IConfigLoader {
                 sender.send("&7- &a${getFormatTime(hour, minute)} &7×${commandList.size}")
             }
             DayOfWeek.values().forEach { day ->
-                val dayName = day.name.toLowerCase()
+                val dayName = day.name.lowercase()
                 section(dayName, ConfigTimeSectionType, false)?.forEach nextTime@{ (hour, minute, key) ->
                     val commandList = get("$dayName.$key", ConfigDataType.StringList) ?: return@nextTime
                     plugin.scheduleEveryWeekAt(day, hour, minute) {

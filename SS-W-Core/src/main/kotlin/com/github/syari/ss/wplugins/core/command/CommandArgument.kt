@@ -31,17 +31,17 @@ open class CommandArgument internal constructor(
      * @param index 取得する位置
      * @return String?
      */
-    fun whenIndex(index: Int) = getOrNull(index)?.toLowerCase()
+    fun whenIndex(index: Int) = getOrNull(index)?.lowercase()
 
     /**
      * 指定したオプションフラグの値を取得します
      * @return [String]?
      */
     fun getFlag(target: String): String? {
-        val lowerTarget = target.toLowerCase()
+        val lowerTarget = target.lowercase()
         array.forEachIndexed { index, element ->
-            if (lowerTarget == element.toLowerCase()) {
-                return getOrNull(index + 1)?.toLowerCase()
+            if (lowerTarget == element.lowercase()) {
+                return getOrNull(index + 1)?.lowercase()
             }
         }
         return null

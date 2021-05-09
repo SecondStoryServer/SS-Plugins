@@ -12,13 +12,13 @@ object MythicMobsRegister : OnEnable {
     override fun onEnable() {
         plugin.events {
             event<MythicConditionLoadEvent> {
-                when (it.conditionName.toLowerCase()) {
+                when (it.conditionName.lowercase()) {
                     InArenaCondition.NAME -> InArenaCondition(it.config.line)
                     else -> return@event
                 }.run { it.register(this) }
             }
             event<MythicMechanicLoadEvent> {
-                when (it.mechanicName.toLowerCase()) {
+                when (it.mechanicName.lowercase()) {
                     ArenaAnnounce.NAME -> ArenaAnnounce(it.container.configLine, it.config)
                     else -> return@event
                 }.run { it.register(this) }

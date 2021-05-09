@@ -78,7 +78,7 @@ sealed class ShopElement {
         override fun get(config: CustomConfig, path: String, notFoundError: Boolean): List<ShopElement>? {
             return config.get(path, IConfigDataType.StringList)?.map { line ->
                 val split = line.split("\\s+".toRegex())
-                when (val elementType = split[0].toLowerCase()) {
+                when (val elementType = split[0].lowercase()) {
                     "jump" -> {
                         split.getOrNull(1)?.let { id ->
                             val (type, model) = split.getOrNull(2)?.let {

@@ -8,7 +8,7 @@ interface PluginMessageTemplate {
         const val ChannelName = "ss:pipe"
 
         fun readFrom(dataInput: ByteArrayDataInput): PluginMessageTemplate? {
-            return when (dataInput.readUTF().toLowerCase()) {
+            return when (dataInput.readUTF().lowercase()) {
                 PluginMessageTemplateTabList.SubChannelName -> PluginMessageTemplateTabList.readFrom(dataInput)
                 PluginMessageTemplateChatChannel.SubChannelName -> PluginMessageTemplateChatChannel.readFrom(dataInput)
                 else -> null

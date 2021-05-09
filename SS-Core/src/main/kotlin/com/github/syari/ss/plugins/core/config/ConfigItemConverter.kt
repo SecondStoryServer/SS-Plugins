@@ -22,7 +22,7 @@ object ConfigItemConverter {
 
         override fun stringToItem(config: CustomConfig, path: String, line: String): ItemStack? {
             val split = line.split("\\s+".toRegex())
-            val type = split[0].toLowerCase()
+            val type = split[0].lowercase()
             val nameToItem = typeMap[type] ?: return config.sendError(path, "$type というアイテムソースは存在しません (${types.joinToString()})").run { null }
             val name = split.getOrNull(1) ?: return config.formatMismatchError(path).run { null }
             val amount = split.getOrNull(2)?.toIntOrNull() ?: 1

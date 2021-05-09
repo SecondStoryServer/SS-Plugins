@@ -120,7 +120,7 @@ object CommandCreator : OnEnable {
                     }
                     "end" -> {
                         val id = args.getOrNull(1) ?: return@execute template.sendError(NotEnterId)
-                        if (id.toLowerCase() == "all") {
+                        if (id.lowercase() == "all") {
                             endAllArena()
                             template.send("全てのアリーナを強制終了しました")
                         } else {
