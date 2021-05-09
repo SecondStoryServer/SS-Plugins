@@ -110,5 +110,9 @@ subprojects {
             archiveClassifier.set("")
             destinationDirectory.set(file("../jars"))
         }
+    } else {
+        dependencies {
+            implementation("com.google.guava:guava:21.0")
+        }
     }
 }
