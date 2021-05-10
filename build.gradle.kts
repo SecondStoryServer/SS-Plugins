@@ -114,7 +114,7 @@ subprojects {
         }
     } else {
         dependencies {
-            implementation("com.google.guava:guava:21.0")
+            implementation("com.google.guava:guava:23.0")
         }
     }
 }
