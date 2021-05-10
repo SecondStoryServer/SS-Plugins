@@ -66,7 +66,7 @@ subprojects {
                     testImplementation("org.slf4j:slf4j-simple:1.7.30")
                 }
                 Project.WVotifier -> {
-                    implementation("io.netty:netty-handler:4.1.53.Final")
+                    implementation("io.netty:netty-handler:4.1.63.Final")
                     implementation("io.netty", "netty-transport-native-epoll", "4.1.53.Final", classifier = "linux-x86_64")
                 }
                 else -> {
