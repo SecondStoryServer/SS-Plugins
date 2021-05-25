@@ -5,7 +5,7 @@ import net.minecrell.pluginyml.bungee.BungeePluginDescription
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.5.0"
+    kotlin("jvm") version "1.5.10"
     id("com.github.johnrengelman.shadow") version "7.0.0" apply false
     id("net.minecrell.plugin-yml.bukkit") version "0.4.0" apply false
     id("net.minecrell.plugin-yml.bungee") version "0.4.0" apply false
