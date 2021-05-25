@@ -62,7 +62,7 @@ subprojects {
                     api("io.github.waterfallmc:waterfall-api:1.16-R0.4-SNAPSHOT")
                 }
                 Project.WDiscord -> {
-                    implementation("com.google.code.gson:gson:2.8.6")
+                    implementation("com.google.code.gson:gson:2.8.7")
                     testImplementation("org.slf4j:slf4j-simple:1.7.30")
                 }
                 Project.WVotifier -> {
