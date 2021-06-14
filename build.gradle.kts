@@ -9,7 +9,7 @@ plugins {
     id("com.github.johnrengelman.shadow") version "7.0.0" apply false
     id("net.minecrell.plugin-yml.bukkit") version "0.4.0" apply false
     id("net.minecrell.plugin-yml.bungee") version "0.4.0" apply false
-    id("org.jmailen.kotlinter") version "3.4.4"
+    id("org.jmailen.kotlinter") version "3.4.5"
     id("com.palantir.git-version") version "0.12.3"
 }
 
